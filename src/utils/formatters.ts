@@ -49,6 +49,27 @@ export function formatDate(date: Date | string): string {
 }
 
 /**
+ * Định dạng ngày giờ theo định dạng "dd/mm/yyyy HH:mm:ss".
+ * @param dateTime - Ngày giờ cần định dạng (có thể là đối tượng Date hoặc chuỗi ngày).
+ * @returns Chuỗi ngày giờ đã được định dạng.
+ *
+ * @example
+ * formatDateTime("2024-03-15T14:30:00") => "15/03/2024 14:30:00"
+ * formatDateTime(new Date(2024, 2, 15, 14, 30, 0)) => "15/03/2024 14:30:00"
+ */
+export function formatDateTime(dateTime: Date | string): string {
+  const d = typeof dateTime === "string" ? new Date(dateTime) : dateTime
+  const day = String(d.getDate()).padStart(2, "0")
+  const month = String(d.getMonth() + 1).padStart(2, "0")
+  const year = d.getFullYear()
+  const hours = String(d.getHours()).padStart(2, "0")
+  const minutes = String(d.getMinutes()).padStart(2, "0")
+  const seconds = String(d.getSeconds()).padStart(2, "0")
+
+  return `${hours}:${minutes}:${seconds}, ${day}/${month}/${year}`
+}
+
+/**
  * Định dạng số điện thoại Việt Nam theo chuẩn "XXXX XXX XXX".
  * @param phone - Chuỗi số điện thoại (có thể chứa ký tự không phải số).
  * @returns Chuỗi số điện thoại đã được định dạng.
@@ -65,17 +86,4 @@ export function formatPhoneNumber(phone: string): string {
     return `${phone.slice(0, 4)} ${phone.slice(4, 7)} ${phone.slice(7)}`
   }
   return phone
-}
-
-/**
- * Chuyển đổi chuỗi thành dạng viết hoa chữ cái đầu mỗi từ (Title Case).
- * @param str - Chuỗi cần chuyển đổi.
- * @returns Chuỗi với mỗi từ có chữ cái đầu viết hoa.
- *
- * @example
- * toTitleCase("nguyễn văn a") => "Nguyễn Văn A"
- * toTitleCase("hà nội thủ đô") => "Hà Nội Thủ Đô"
- */
-export function toTitleCase(str: string): string {
-  return str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
 }
