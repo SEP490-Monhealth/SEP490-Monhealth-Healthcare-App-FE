@@ -122,7 +122,7 @@ export const sampleUserData: UserType[] = [
     avatarUrl: null,
 
     role: "User",
-    status: true,
+    status: false,
 
     createdAt: "2025-01-06T00:00:00",
     updatedAt: "2025-01-06T00:00:00",
