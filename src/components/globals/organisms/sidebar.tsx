@@ -100,7 +100,7 @@ const SidebarItemComponent = ({
       >
         {Icon && (
           <div className={isCollapsed ? "" : "mr-2"}>
-            {title === "Collapse" ? (
+            {title === "Thu gọn" ? (
               <motion.div
                 animate={
                   animationsEnabled ? { rotate: isCollapsed ? 0 : 180 } : {}
@@ -120,7 +120,6 @@ const SidebarItemComponent = ({
     )
   }
 
-  // Handle regular navigation links
   return (
     <Link href={path}>
       <Button
@@ -199,13 +198,13 @@ const SidebarFooter = ({
 }) => {
   const footerItems: SidebarItem[] = [
     {
-      title: "Collapse",
+      title: "Thu gọn",
       path: "#",
       icon: ChevronRight,
       onClick: toggleCollapse
     },
     {
-      title: "Logout",
+      title: "Đăng xuất",
       path: "#",
       icon: LogOut,
       onClick: () => console.log("Logout clicked")
@@ -227,7 +226,11 @@ const SidebarFooter = ({
   )
 }
 
-function Sidebar() {
+interface SidebarProps {
+  onToggleCollapse?: (isCollapsed: boolean) => void
+}
+
+function Sidebar({ onToggleCollapse }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [animationsEnabled, setAnimationsEnabled] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
@@ -242,7 +245,17 @@ function Sidebar() {
   }, [])
 
   const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed)
+    const newCollapsedState = !isCollapsed
+    setIsCollapsed(newCollapsedState)
+
+    if (onToggleCollapse) {
+      onToggleCollapse(newCollapsedState)
+    }
+
+    const event = new CustomEvent("sidebarToggle", {
+      detail: { isCollapsed: newCollapsedState }
+    })
+    window.dispatchEvent(event)
   }
 
   const initialWidth = isCollapsed ? "5rem" : "18rem"
