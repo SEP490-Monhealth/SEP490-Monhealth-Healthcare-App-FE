@@ -6,7 +6,6 @@ import { MoreHorizontal } from "lucide-react"
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
-import { DataTableColumnHeader } from "@/components/globals/atoms/data-table"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
+import { DataTableColumnHeader } from "@/components/globals/molecules/data-table"
 
 import { UserType } from "@/schemas/userSchema"
 
@@ -130,10 +130,9 @@ export const columns: ColumnDef<UserType>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(user.userId)}
             >
-              Sao chép mã người dùng
+              Sao chép mã
             </DropdownMenuItem>
-            <DropdownMenuItem>Xem chi tiết người dùng</DropdownMenuItem>
-            <DropdownMenuItem>Xem thống kê người dùng</DropdownMenuItem>
+            <DropdownMenuItem>Xem chi tiết</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

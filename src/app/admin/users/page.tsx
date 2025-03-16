@@ -1,30 +1,77 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
+import { useDebounce } from "@/hooks/useDebounce"
 import { useUsers } from "@/hooks/useUser"
 
+import { DataTable } from "../../../components/globals/atoms/data-table"
 import LoadingPage from "../loading"
 import { columns } from "./columns"
-import { DataTable } from "./data-table"
+
+const defaultVisibility = {
+  userId: false,
+  createdBy: false,
+  updatedBy: false
+}
 
 function UserPage() {
-  // const data = sampleUserData
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
-  const [page, setPage] = useState(0)
-  const [search, setSearch] = useState("")
+  const page = Number(searchParams.get("page")) || 1
+  const search = searchParams.get("search") || ""
+  const limit = Number(searchParams.get("limit")) || 10
 
-  const limit = 10
+  const [searchTerm, setSearchTerm] = useState(search)
+  const debouncedSearch = useDebounce(searchTerm, 500)
 
-  const { data, isLoading, error } = useUsers(page, limit, search)
+  const {
+    data: usersData,
+    isLoading,
+    error
+  } = useUsers(page, limit, debouncedSearch)
+
+  const totalPages = Math.ceil((usersData?.totalItems || 1) / limit)
+
+  const updateParams = (key: string, value: string | number) => {
+    const params = new URLSearchParams(searchParams.toString())
+
+    if (value) {
+      params.set(key, String(value))
+    } else {
+      params.delete(key)
+    }
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+  }
+
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
+    }
+  }, [debouncedSearch])
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <div className="">
-      <DataTable columns={columns} data={data?.users || []} />
-    </div>
+    <DataTable
+      data={usersData?.users || []}
+      columns={columns}
+      visibility={defaultVisibility}
+      search={searchTerm}
+      setSearch={setSearchTerm}
+      placeholder="Tìm kiếm người dùng..."
+      page={page}
+      setPage={(newPage) => updateParams("page", newPage)}
+      totalPages={totalPages}
+      limit={limit}
+      setLimit={(newLimit) => updateParams("limit", newLimit)}
+    />
   )
 }
 

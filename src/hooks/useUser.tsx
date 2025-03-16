@@ -4,15 +4,9 @@ import { CreateUpdateUserType, UserType } from "@/schemas/userSchema"
 
 import { addUser, fetchUserById, fetchUsers } from "@/services/userService"
 
-interface UsersResponse {
-  totalPages: number
-  totalItems: number
-  users: UserType[]
-}
-
 export const useUsers = (
   page: number,
-  limit: number = 10,
+  limit: number,
   search?: string,
   role?: string,
   status?: boolean
