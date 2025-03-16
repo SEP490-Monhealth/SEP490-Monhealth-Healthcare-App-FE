@@ -12,17 +12,12 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
 import { UserType } from "@/schemas/userSchema"
 
-import {
-  formatDateTime,
-  formatPhoneNumber,
-  toTitleCase
-} from "@/utils/formatters"
+import { formatDateTime, formatPhoneNumber } from "@/utils/formatters"
 
 export const columns: ColumnDef<UserType>[] = [
   {
@@ -137,7 +132,6 @@ export const columns: ColumnDef<UserType>[] = [
             >
               Sao chép mã người dùng
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem>Xem chi tiết người dùng</DropdownMenuItem>
             <DropdownMenuItem>Xem thống kê người dùng</DropdownMenuItem>
           </DropdownMenuContent>

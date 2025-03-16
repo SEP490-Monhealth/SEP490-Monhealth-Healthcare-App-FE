@@ -2,8 +2,6 @@
 
 import React, { useState } from "react"
 
-import { sampleUserData } from "@/constants/data/users"
-
 import { useUsers } from "@/hooks/useUser"
 
 import LoadingPage from "../loading"
@@ -24,7 +22,7 @@ function UserPage() {
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="">
       <DataTable columns={columns} data={data?.users || []} />
     </div>
   )
