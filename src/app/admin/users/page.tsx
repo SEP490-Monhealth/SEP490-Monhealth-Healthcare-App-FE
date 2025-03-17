@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import Breadcrumbs from "@/components/globals/molecules/breadcumb"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import { useDebounce } from "@/hooks/useDebounce"
@@ -13,7 +14,7 @@ import { DataTable } from "../../../components/globals/atoms/data-table"
 import LoadingPage from "../loading"
 import { columns } from "./columns"
 
-const defaultVisibility = {
+const DEFAULT_VISIBILITY = {
   userId: false,
   createdBy: false,
   updatedBy: false
@@ -50,26 +51,11 @@ function UserPage() {
 
   const totalPages = Math.ceil((usersData?.totalItems || 1) / limit)
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  useEffect(() => {
-    if (debouncedSearch !== search) {
-      updateParams("search", debouncedSearch)
-    }
-  }, [debouncedSearch])
+  const breadcrumbItems = [
+    { label: "Bảng điều khiển", href: "#" },
+    { label: "Người dùng", href: "#" },
+    { label: "Danh sách người dùng", isCurrentPage: true }
+  ]
 
   const filters: DataTableFilterProps[] = [
     {
@@ -95,6 +81,27 @@ function UserPage() {
     }
   ]
 
+  const updateParams = (
+    key: string,
+    value: string | number | boolean | null
+  ) => {
+    const params = new URLSearchParams(searchParams.toString())
+
+    if (value) {
+      params.set(key, String(value))
+    } else {
+      params.delete(key)
+    }
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+  }
+
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
+    }
+  }, [debouncedSearch])
+
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
@@ -112,23 +119,27 @@ function UserPage() {
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <DataTable
-      data={usersData?.users || []}
-      columns={columns}
-      visibility={defaultVisibility}
-      search={searchTerm}
-      setSearch={setSearchTerm}
-      placeholder="Tìm kiếm người dùng..."
-      page={page}
-      setPage={(newPage) => updateParams("page", newPage)}
-      totalPages={totalPages}
-      limit={limit}
-      setLimit={(newLimit) => updateParams("limit", newLimit)}
-      filters={filters}
-      onClearAllFilters={clearAllFilters}
-      addNewButton
-      onAddNew={handleAddNewUser}
-    />
+    <div className="space-y-10">
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <DataTable
+        data={usersData?.users || []}
+        columns={columns}
+        visibility={DEFAULT_VISIBILITY}
+        search={searchTerm}
+        setSearch={setSearchTerm}
+        placeholder="Tìm kiếm người dùng..."
+        page={page}
+        setPage={(newPage) => updateParams("page", newPage)}
+        totalPages={totalPages}
+        limit={limit}
+        setLimit={(newLimit) => updateParams("limit", newLimit)}
+        filters={filters}
+        onClearAllFilters={clearAllFilters}
+        addNewButton
+        onAddNew={handleAddNewUser}
+      />
+    </div>
   )
 }
 

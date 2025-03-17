@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import Breadcrumbs from "@/components/globals/molecules/breadcumb"
+
 import { useDebounce } from "@/hooks/useDebounce"
 import { useFoods } from "@/hooks/useFood"
 
@@ -11,7 +13,7 @@ import { DataTable } from "../../../components/globals/atoms/data-table"
 import LoadingPage from "../loading"
 import { columns } from "./columns"
 
-const defaultVisibility = {
+const DEFAULT_VISIBILITY = {
   foodId: false,
   description: false,
   createdBy: false,
@@ -36,12 +38,13 @@ function FoodPage() {
     error
   } = useFoods(page, limit, "", debouncedSearch)
 
-  useEffect(() => {
-    console.log("Fetching data with limit:", limit)
-    console.log("Foods Data:", foodsData)
-  }, [foodsData, limit])
-
   const totalPages = Math.ceil((foodsData?.totalItems || 1) / limit)
+
+  const breadcrumbItems = [
+    { label: "Bảng điều khiển", href: "#" },
+    { label: "Món ăn", href: "#" },
+    { label: "Danh sách Món ăn", isCurrentPage: true }
+  ]
 
   const updateParams = (key: string, value: string | number) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -69,21 +72,25 @@ function FoodPage() {
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <DataTable
-      data={foodsData?.foods || []}
-      columns={columns}
-      visibility={defaultVisibility}
-      search={searchTerm}
-      setSearch={setSearchTerm}
-      placeholder="Tìm kiếm món ăn..."
-      page={page}
-      setPage={(newPage) => updateParams("page", newPage)}
-      totalPages={totalPages}
-      limit={limit}
-      setLimit={(newLimit) => updateParams("limit", newLimit)}
-      addNewButton
-      onAddNew={handleAddNewFood}
-    />
+    <div className="space-y-10">
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <DataTable
+        data={foodsData?.foods || []}
+        columns={columns}
+        visibility={DEFAULT_VISIBILITY}
+        search={searchTerm}
+        setSearch={setSearchTerm}
+        placeholder="Tìm kiếm món ăn..."
+        page={page}
+        setPage={(newPage) => updateParams("page", newPage)}
+        totalPages={totalPages}
+        limit={limit}
+        setLimit={(newLimit) => updateParams("limit", newLimit)}
+        addNewButton
+        onAddNew={handleAddNewFood}
+      />
+    </div>
   )
 }
 
