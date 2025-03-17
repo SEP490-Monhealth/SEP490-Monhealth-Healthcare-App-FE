@@ -61,6 +61,10 @@ function FoodPage() {
     }
   }, [debouncedSearch])
 
+  const handleAddNewFood = () => {
+    console.log("halo anh em")
+  }
+
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
 
@@ -77,6 +81,8 @@ function FoodPage() {
       totalPages={totalPages}
       limit={limit}
       setLimit={(newLimit) => updateParams("limit", newLimit)}
+      addNewButton
+      onAddNew={handleAddNewFood}
     />
   )
 }

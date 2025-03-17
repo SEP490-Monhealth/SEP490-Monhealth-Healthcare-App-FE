@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
+
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUsers } from "@/hooks/useUser"
 
@@ -23,21 +25,35 @@ function UserPage() {
   const pathname = usePathname()
 
   const page = Number(searchParams.get("page")) || 1
-  const search = searchParams.get("search") || ""
   const limit = Number(searchParams.get("limit")) || 10
+  const search = searchParams.get("search") || ""
+  const role = searchParams.get("role") || ""
+  const status = searchParams.get("status") || ""
 
-  const [searchTerm, setSearchTerm] = useState(search)
+  const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
+
+  const statusForApi =
+    status === ""
+      ? undefined
+      : status === "true"
+        ? true
+        : status === "false"
+          ? false
+          : undefined
 
   const {
     data: usersData,
     isLoading,
     error
-  } = useUsers(page, limit, debouncedSearch)
+  } = useUsers(page, limit, debouncedSearch, role, statusForApi)
 
   const totalPages = Math.ceil((usersData?.totalItems || 1) / limit)
 
-  const updateParams = (key: string, value: string | number) => {
+  const updateParams = (
+    key: string,
+    value: string | number | boolean | null
+  ) => {
     const params = new URLSearchParams(searchParams.toString())
 
     if (value) {
@@ -55,6 +71,43 @@ function UserPage() {
     }
   }, [debouncedSearch])
 
+  const filters: DataTableFilterProps[] = [
+    {
+      name: "role",
+      label: "Vai trò",
+      options: [
+        { value: "user", label: "Người dùng" },
+        { value: "moderator", label: "Người kiểm duyệt" },
+        { value: "admin", label: "Quản trị viên" }
+      ],
+      value: role,
+      onChange: (value: string) => updateParams("role", value)
+    },
+    {
+      name: "status",
+      label: "Trạng thái",
+      options: [
+        { value: "true", label: "Hoạt động" },
+        { value: "false", label: "Ngừng hoạt động" }
+      ],
+      value: status,
+      onChange: (value: string) => updateParams("status", value)
+    }
+  ]
+
+  const clearAllFilters = () => {
+    const params = new URLSearchParams(searchParams.toString())
+
+    params.delete("role")
+    params.delete("status")
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+  }
+
+  const handleAddNewUser = () => {
+    console.log("halo anh em")
+  }
+
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
 
@@ -71,6 +124,10 @@ function UserPage() {
       totalPages={totalPages}
       limit={limit}
       setLimit={(newLimit) => updateParams("limit", newLimit)}
+      filters={filters}
+      onClearAllFilters={clearAllFilters}
+      addNewButton
+      onAddNew={handleAddNewUser}
     />
   )
 }

@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
-import { DataTableColumnHeader } from "@/components/globals/molecules/data-table"
+import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
 
 import { UserType } from "@/schemas/userSchema"
 

@@ -14,6 +14,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table"
+import { Plus } from "lucide-react"
 
 import { Input } from "@/components/globals/atoms/input"
 import {
@@ -24,10 +25,14 @@ import {
   TableHeader,
   TableRow
 } from "@/components/globals/atoms/table"
+import { DataTableViewOptions } from "@/components/globals/molecules/data-table-view-options"
+
 import {
-  DataTablePagination,
-  DataTableViewOptions
-} from "@/components/globals/molecules/data-table"
+  DataTableFilterProps,
+  DataTableFilters
+} from "../molecules/data-table-filter"
+import { DataTablePagination } from "../molecules/data-table-pagination"
+import { Button } from "./button"
 
 interface DataTableProps<TData, TValue> {
   data: TData[]
@@ -41,6 +46,10 @@ interface DataTableProps<TData, TValue> {
   totalPages: number
   limit: number
   setLimit: (limit: number) => void
+  filters?: DataTableFilterProps[]
+  onClearAllFilters?: () => void
+  addNewButton?: boolean
+  onAddNew?: () => void
 }
 
 export function DataTable<TData, TValue>({
@@ -49,12 +58,16 @@ export function DataTable<TData, TValue>({
   visibility = {},
   search,
   setSearch,
-  placeholder,
-  page,
+  placeholder = "Tìm kiếm...",
+  page = 1,
   setPage,
   totalPages,
-  limit,
-  setLimit
+  limit = 10,
+  setLimit,
+  filters = [],
+  onClearAllFilters,
+  addNewButton,
+  onAddNew
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -84,14 +97,32 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="mb-2 flex items-center py-4">
-        <Input
-          placeholder={placeholder}
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          className="max-w-md"
-        />
+        <div className="flex gap-4">
+          <Input
+            placeholder={placeholder}
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            className="w-md"
+          />
 
-        <DataTableViewOptions table={table} />
+          {filters && filters.length > 0 && (
+            <DataTableFilters
+              filters={filters}
+              onClearAll={onClearAllFilters}
+            />
+          )}
+        </div>
+
+        <div className="ml-auto flex gap-4">
+          {addNewButton && (
+            <Button onClick={onAddNew}>
+              <Plus className="h-4 w-4" />
+              Thêm mới
+            </Button>
+          )}
+
+          <DataTableViewOptions table={table} />
+        </div>
       </div>
 
       <div className="rounded-md border">
