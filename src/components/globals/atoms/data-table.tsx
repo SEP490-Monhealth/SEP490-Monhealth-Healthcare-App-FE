@@ -28,6 +28,7 @@ import {
 import { DataTableViewOptions } from "@/components/globals/molecules/data-table-view-options"
 
 import {
+  DataTableFilter,
   DataTableFilterProps,
   DataTableFilters
 } from "../molecules/data-table-filter"
@@ -105,11 +106,21 @@ export function DataTable<TData, TValue>({
             className="w-md"
           />
 
-          {filters && filters.length > 0 && (
-            <DataTableFilters
-              filters={filters}
-              onClearAll={onClearAllFilters}
+          {filters.length === 1 ? (
+            <DataTableFilter
+              name={filters[0].name}
+              label={filters[0].label}
+              options={filters[0].options}
+              value={filters[0].value}
+              onChange={filters[0].onChange}
             />
+          ) : (
+            filters.length > 1 && (
+              <DataTableFilters
+                filters={filters}
+                onClearAll={onClearAllFilters}
+              />
+            )
           )}
         </div>
 

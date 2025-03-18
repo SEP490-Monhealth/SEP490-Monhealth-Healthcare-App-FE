@@ -42,8 +42,8 @@ const subscriptionSchema = z.object({
     .int({ message: "Giá phải là số nguyên" })
     .nonnegative({ message: "Giá phải lớn hơn hoặc bằng 0" }),
   durationDays: z
-    .number()
-    .int()
+    .number({ message: "Thời gian hiệu lực phải là số" })
+    .int({ message: "Thời gian hiệu lực phải là số nguyên" })
     .min(1, { message: "Thời gian hiệu lực phải là số ngày lớn hơn 0" }),
   features: z.array(
     z.string().nonempty({ message: "Tính năng không được để trống" })
@@ -60,6 +60,19 @@ const subscriptionSchema = z.object({
   ...auditFields
 })
 
+const createUpdateSubscriptionSchema = subscriptionSchema.pick({
+  name: true,
+  description: true,
+  price: true,
+  durationDays: true,
+  features: true,
+  bookingAllowance: true,
+  status: true
+})
+
 export type UserSubscriptionType = z.infer<typeof userSubscription>
 
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
+export type CreateUpdateSubscriptionType = z.infer<
+  typeof createUpdateSubscriptionSchema
+>

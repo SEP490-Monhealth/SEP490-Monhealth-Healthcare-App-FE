@@ -29,7 +29,7 @@ export const columns: ColumnDef<UserType>[] = [
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Chọn tất cả"
+        aria-label="Select all"
         className="mb-2"
       />
     ),
@@ -37,7 +37,7 @@ export const columns: ColumnDef<UserType>[] = [
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Chọn dòng"
+        aria-label="Select row"
         className="mb-2"
       />
     ),
@@ -53,7 +53,10 @@ export const columns: ColumnDef<UserType>[] = [
   },
   {
     accessorKey: "fullName",
-    header: "Họ tên",
+    meta: { title: "Họ tên" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Họ tên" />
+    ),
     cell: ({ row }) => {
       const fullName = row.original.fullName
       return <span className="capitalize">{fullName}</span>
@@ -61,11 +64,17 @@ export const columns: ColumnDef<UserType>[] = [
   },
   {
     accessorKey: "email",
-    header: "Email"
+    meta: { title: "Email" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Email" />
+    )
   },
   {
     accessorKey: "phoneNumber",
-    header: "Số điện thoại",
+    meta: { title: "Số điện thoại" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Số điện thoại" />
+    ),
     cell: ({ row }) => {
       const phoneNumber = row.original.phoneNumber
       return <span>{formatPhoneNumber(phoneNumber)}</span>
@@ -73,11 +82,17 @@ export const columns: ColumnDef<UserType>[] = [
   },
   {
     accessorKey: "role",
-    header: "Vai trò"
+    meta: { title: "Vai trò" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Vai trò" />
+    )
   },
   {
     accessorKey: "status",
-    header: "Trạng thái",
+    meta: { title: "Trạng thái" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Trạng thái" />
+    ),
     cell: ({ row }) => {
       const status = row.original.status
       return (
@@ -89,7 +104,10 @@ export const columns: ColumnDef<UserType>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Ngày tạo",
+    meta: { title: "Ngày tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày tạo" />
+    ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
       return <span>{formatDateTime(createdAt)}</span>
@@ -97,11 +115,17 @@ export const columns: ColumnDef<UserType>[] = [
   },
   {
     accessorKey: "createdBy",
-    header: "Người tạo"
+    meta: { title: "Người tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người tạo" />
+    )
   },
   {
     accessorKey: "updatedAt",
-    header: "Ngày cập nhật",
+    meta: { title: "Ngày cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày cập nhật" />
+    ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
       return <span>{formatDateTime(updatedAt)}</span>
@@ -109,7 +133,10 @@ export const columns: ColumnDef<UserType>[] = [
   },
   {
     accessorKey: "updatedBy",
-    header: "Người cập nhật"
+    meta: { title: "Người cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người cập nhật" />
+    )
   },
   {
     id: "actions",

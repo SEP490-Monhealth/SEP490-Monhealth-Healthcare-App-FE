@@ -15,11 +15,11 @@ import {
 } from "@/components/globals/atoms/dropdown-menu"
 import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
 
-import { FoodType } from "@/schemas/foodSchema"
+import { SubscriptionType } from "@/schemas/subscriptionSchema"
 
-import { formatDateTime } from "@/utils/formatters"
+import { formatCurrency, formatDateTime } from "@/utils/formatters"
 
-export const columns: ColumnDef<FoodType>[] = [
+export const columns: ColumnDef<SubscriptionType>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -45,23 +45,43 @@ export const columns: ColumnDef<FoodType>[] = [
     enableHiding: false
   },
   {
-    accessorKey: "foodId",
-    meta: { title: "Mã món ăn" },
+    accessorKey: "subscriptionId",
+    meta: { title: "Mã gói đăng ký" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Mã món ăn" />
     )
   },
   {
     accessorKey: "name",
-    header: "Tên món ăn"
+    header: "Tên gói đăng ký",
+    cell: ({ row }) => {
+      const name = row.original.name
+      return <span className="capitalize">{name}</span>
+    }
   },
   {
     accessorKey: "description",
     header: "Mô tả"
   },
   {
-    accessorKey: "isPublic",
-    header: "Công khai"
+    accessorKey: "price",
+    header: "Giá (VND)",
+    cell: ({ row }) => {
+      const price = row.original.price
+      return <span>{formatCurrency(price)}</span>
+    }
+  },
+  {
+    accessorKey: "durationDays",
+    header: "Thời gian (Ngày)"
+  },
+  {
+    accessorKey: "features",
+    header: "Tính năng"
+  },
+  {
+    accessorKey: "bookingAllowance",
+    header: "Số lần đặt lịch"
   },
   {
     accessorKey: "status",
@@ -103,7 +123,7 @@ export const columns: ColumnDef<FoodType>[] = [
     id: "actions",
     header: "Thao tác",
     cell: ({ row }) => {
-      const food = row.original
+      const subscription = row.original
 
       return (
         <DropdownMenu>
@@ -116,7 +136,9 @@ export const columns: ColumnDef<FoodType>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(food.foodId)}
+              onClick={() =>
+                navigator.clipboard.writeText(subscription.subscriptionId)
+              }
             >
               Sao chép mã
             </DropdownMenuItem>

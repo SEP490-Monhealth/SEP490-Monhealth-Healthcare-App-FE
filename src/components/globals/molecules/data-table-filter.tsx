@@ -63,9 +63,10 @@ export function DataTableFilters({
 
         <div className="flex flex-row justify-between p-2">
           {filters.map((filter) => (
-            <div key={filter.name} className="space-y-2">
+            <div key={filter.name} className="flex flex-col gap-2">
               <Label className="mb-2 font-medium">{filter.label}</Label>
-              <div className="space-y-2">
+
+              <div className="space-y-3">
                 {filter.options.map((option) => (
                   <div
                     key={option.value}
@@ -110,7 +111,6 @@ export function DataTableFilters({
 }
 
 export function DataTableFilter({
-  name,
   label,
   options,
   value,
@@ -121,7 +121,7 @@ export function DataTableFilter({
       <PopoverTrigger asChild>
         <Button variant="outline">
           <Filter className="h-4 w-4" />
-          {name}
+          {label}
           {value && (
             <span>
               ({options.find((opt) => opt.value === value)?.label || value})
@@ -129,12 +129,14 @@ export function DataTableFilter({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-56 p-4">
-        <div className="space-y-4">
-          <h4 className="font-medium">{label}</h4>
-          <Separator />
+      <PopoverContent className="w-56 p-2">
+        <div className="">
+          <h4 className="px-2 py-1.5 text-sm font-medium select-none data-[inset]:pl-8">
+            {label}
+          </h4>
+          <Separator className="my-1" />
 
-          <div className="space-y-2">
+          <div className="space-y-3 p-2">
             {options.map((option) => (
               <div key={option.value} className="flex items-center space-x-2">
                 <Checkbox

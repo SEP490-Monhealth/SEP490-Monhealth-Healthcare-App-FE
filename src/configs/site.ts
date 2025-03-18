@@ -45,7 +45,7 @@ export const sidebarItems: SidebarItem[] = [
     icon: Users,
     children: [
       { title: "Danh sách người dùng", path: "/admin/users" },
-      { title: "Thêm người dùng", path: "/admin/users/add" }
+      { title: "Thêm người dùng", path: "/admin/users/create" }
     ]
   },
   {
@@ -76,7 +76,7 @@ export const sidebarItems: SidebarItem[] = [
     icon: Utensils,
     children: [
       { title: "Danh sách món ăn", path: "/admin/foods" },
-      { title: "Thêm món ăn", path: "/admin/foods/add" },
+      { title: "Thêm món ăn", path: "/admin/foods/create" },
       { title: "Giá trị dinh dưỡng", path: "/admin/foods/nutrition" },
       { title: "Khẩu phần ăn", path: "/admin/foods/portions" }
     ]
@@ -87,9 +87,9 @@ export const sidebarItems: SidebarItem[] = [
     icon: Dumbbell,
     children: [
       { title: "Danh sách bộ bài tập", path: "/admin/workouts" },
-      { title: "Thêm bộ bài tập", path: "/admin/workouts/add" },
+      { title: "Thêm bộ bài tập", path: "/admin/workouts/create" },
       { title: "Danh sách bài tập", path: "/admin/exercises" },
-      { title: "Thêm bài tập", path: "/admin/exercises/add" }
+      { title: "Thêm bài tập", path: "/admin/exercises/create" }
     ]
   },
   {
@@ -98,7 +98,7 @@ export const sidebarItems: SidebarItem[] = [
     icon: Droplets,
     children: [
       { title: "Nhắc nhở uống nước", path: "/admin/water-reminders" },
-      { title: "Thêm nhắc nhở", path: "/admin/water-reminders/add" }
+      { title: "Thêm nhắc nhở", path: "/admin/water-reminders/create" }
     ]
   },
   {
@@ -107,7 +107,7 @@ export const sidebarItems: SidebarItem[] = [
     icon: ShoppingCart,
     children: [
       { title: "Danh sách gói đăng ký", path: "/admin/subscriptions" },
-      { title: "Thêm gói đăng ký", path: "/admin/subscriptions/add" },
+      { title: "Thêm gói đăng ký", path: "/admin/subscriptions/create" },
       { title: "Thống kê đăng ký", path: "/admin/subscriptions/statistics" }
     ]
   },
