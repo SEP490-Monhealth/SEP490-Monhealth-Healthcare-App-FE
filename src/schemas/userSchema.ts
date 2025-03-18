@@ -4,7 +4,7 @@ import { auditFields, uuidSchema } from "./baseSchema"
 
 const roles = ["Member", "Subscription Member", "Consultant", "Admin"]
 
-const userSchema = z.object({
+export const userSchema = z.object({
   userId: uuidSchema,
 
   fullName: z

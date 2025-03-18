@@ -4,15 +4,18 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { DataTable } from "@/components/globals/atoms/data-table"
 import Breadcrumbs from "@/components/globals/molecules/breadcumb"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
+import UserDetailDialog from "@/components/globals/molecules/user-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUsers } from "@/hooks/useUser"
 
-import { DataTable } from "../../../components/globals/atoms/data-table"
+import { UserType } from "@/schemas/userSchema"
+
 import LoadingPage from "../loading"
-import { columns } from "./columns"
+import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   userId: false,
@@ -33,6 +36,9 @@ function UserPage() {
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
+
+  const [selectedUser, setSelectedUser] = useState<UserType | null>(null)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const parsedStatus =
     status === ""
@@ -62,8 +68,8 @@ function UserPage() {
       name: "role",
       label: "Vai trò",
       options: [
-        { value: "user", label: "Người dùng" },
-        { value: "moderator", label: "Người kiểm duyệt" },
+        { value: "member", label: "Thành viên" },
+        { value: "subscription member", label: "Thành viên đăng ký" },
         { value: "admin", label: "Quản trị viên" }
       ],
       value: role,
@@ -111,6 +117,20 @@ function UserPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
+  const handleViewDetails = (userData: UserType) => {
+    setSelectedUser(userData)
+    setIsDetailDialogOpen(true)
+  }
+
+  const handleCloseDetailDialog = () => {
+    setIsDetailDialogOpen(false)
+    setTimeout(() => setSelectedUser(null), 300)
+  }
+
+  const columns = createColumns({
+    onViewDetails: handleViewDetails
+  })
+
   const handleAddNewUser = () => {
     router.push("/admin/users/create")
   }
@@ -138,6 +158,12 @@ function UserPage() {
         onClearAllFilters={clearAllFilters}
         addNewButton
         onAddNew={handleAddNewUser}
+      />
+
+      <UserDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleCloseDetailDialog}
+        user={selectedUser}
       />
     </div>
   )

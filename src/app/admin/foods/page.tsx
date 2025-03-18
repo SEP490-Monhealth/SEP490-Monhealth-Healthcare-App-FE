@@ -4,12 +4,12 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { DataTable } from "@/components/globals/atoms/data-table"
 import Breadcrumbs from "@/components/globals/molecules/breadcumb"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useFoods } from "@/hooks/useFood"
 
-import { DataTable } from "../../../components/globals/atoms/data-table"
 import LoadingPage from "../loading"
 import { columns } from "./columns"
 

@@ -53,7 +53,10 @@ export const columns: ColumnDef<FoodType>[] = [
   },
   {
     accessorKey: "name",
-    header: "Tên món ăn"
+    meta: { title: "Tên món ăn" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Tên món ăn" />
+    )
   },
   {
     accessorKey: "description",
@@ -61,11 +64,17 @@ export const columns: ColumnDef<FoodType>[] = [
   },
   {
     accessorKey: "isPublic",
-    header: "Công khai"
+    meta: { title: "Công khai" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Công khai" />
+    )
   },
   {
     accessorKey: "status",
-    header: "Trạng thái",
+    meta: { title: "Trạng thái" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Trạng thái" />
+    ),
     cell: ({ row }) => {
       const status = row.original.status
       return (
@@ -77,7 +86,10 @@ export const columns: ColumnDef<FoodType>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Ngày tạo",
+    meta: { title: "Ngày tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày tạo" />
+    ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
       return <span>{formatDateTime(createdAt)}</span>
@@ -85,11 +97,17 @@ export const columns: ColumnDef<FoodType>[] = [
   },
   {
     accessorKey: "createdBy",
-    header: "Người tạo"
+    meta: { title: "Người tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người tạo" />
+    )
   },
   {
     accessorKey: "updatedAt",
-    header: "Ngày cập nhật",
+    meta: { title: "Ngày cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày cập nhật" />
+    ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
       return <span>{formatDateTime(updatedAt)}</span>
@@ -97,26 +115,29 @@ export const columns: ColumnDef<FoodType>[] = [
   },
   {
     accessorKey: "updatedBy",
-    header: "Người cập nhật"
+    meta: { title: "Người cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người cập nhật" />
+    )
   },
   {
     id: "actions",
     header: "Thao tác",
     cell: ({ row }) => {
-      const food = row.original
+      const foodData = row.original
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Mở menu</span>
+              <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(food.foodId)}
+              onClick={() => navigator.clipboard.writeText(foodData.foodId)}
             >
               Sao chép mã
             </DropdownMenuItem>

@@ -19,7 +19,13 @@ import { UserType } from "@/schemas/userSchema"
 
 import { formatDateTime, formatPhoneNumber } from "@/utils/formatters"
 
-export const columns: ColumnDef<UserType>[] = [
+export type ColumnActionsHandlers = {
+  onViewDetails: (user: UserType) => void
+}
+
+export const createColumns = (
+  handlers: ColumnActionsHandlers
+): ColumnDef<UserType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -142,24 +148,26 @@ export const columns: ColumnDef<UserType>[] = [
     id: "actions",
     header: "Thao tác",
     cell: ({ row }) => {
-      const user = row.original
+      const userData = row.original
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Mở menu</span>
+              <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.userId)}
+              onClick={() => navigator.clipboard.writeText(userData.userId)}
             >
               Sao chép mã
             </DropdownMenuItem>
-            <DropdownMenuItem>Xem chi tiết</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handlers.onViewDetails(userData)}>
+              Xem chi tiết
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

@@ -65,7 +65,10 @@ export const columns: ColumnDef<SubscriptionType>[] = [
   },
   {
     accessorKey: "price",
-    header: "Giá (VND)",
+    meta: { title: "Giá (VND)" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Giá (VND)" />
+    ),
     cell: ({ row }) => {
       const price = row.original.price
       return <span>{formatCurrency(price)}</span>
@@ -73,7 +76,10 @@ export const columns: ColumnDef<SubscriptionType>[] = [
   },
   {
     accessorKey: "durationDays",
-    header: "Thời gian (Ngày)"
+    meta: { title: "Thời gian (Ngày)" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Thời gian (Ngày)" />
+    )
   },
   {
     accessorKey: "features",
@@ -81,11 +87,17 @@ export const columns: ColumnDef<SubscriptionType>[] = [
   },
   {
     accessorKey: "bookingAllowance",
-    header: "Số lần đặt lịch"
+    meta: { title: "Số lần đặt lịch" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Số lần đặt lịch" />
+    )
   },
   {
     accessorKey: "status",
-    header: "Trạng thái",
+    meta: { title: "Trạng thái" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Trạng thái" />
+    ),
     cell: ({ row }) => {
       const status = row.original.status
       return (
@@ -97,7 +109,10 @@ export const columns: ColumnDef<SubscriptionType>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Ngày tạo",
+    meta: { title: "Ngày tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày tạo" />
+    ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
       return <span>{formatDateTime(createdAt)}</span>
@@ -105,11 +120,17 @@ export const columns: ColumnDef<SubscriptionType>[] = [
   },
   {
     accessorKey: "createdBy",
-    header: "Người tạo"
+    meta: { title: "Người tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người tạo" />
+    )
   },
   {
     accessorKey: "updatedAt",
-    header: "Ngày cập nhật",
+    meta: { title: "Ngày cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày cập nhật" />
+    ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
       return <span>{formatDateTime(updatedAt)}</span>
@@ -117,19 +138,22 @@ export const columns: ColumnDef<SubscriptionType>[] = [
   },
   {
     accessorKey: "updatedBy",
-    header: "Người cập nhật"
+    meta: { title: "Người cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người cập nhật" />
+    )
   },
   {
     id: "actions",
     header: "Thao tác",
     cell: ({ row }) => {
-      const subscription = row.original
+      const subscriptionData = row.original
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Mở menu</span>
+              <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -137,7 +161,7 @@ export const columns: ColumnDef<SubscriptionType>[] = [
             <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() =>
-                navigator.clipboard.writeText(subscription.subscriptionId)
+                navigator.clipboard.writeText(subscriptionData.subscriptionId)
               }
             >
               Sao chép mã

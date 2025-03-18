@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { DataTable } from "@/components/globals/atoms/data-table"
 import Breadcrumbs from "@/components/globals/molecules/breadcumb"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useSubscriptions } from "@/hooks/useSubscription"
 
-import { DataTable } from "../../../components/globals/atoms/data-table"
 import LoadingPage from "../loading"
 import { columns } from "./columns"
 
@@ -64,6 +64,16 @@ function SubscriptionPage() {
 
   const filters: DataTableFilterProps[] = [
     {
+      name: "sort",
+      label: "Sắp xếp",
+      options: [
+        { value: "true", label: "Tăng dần" },
+        { value: "false", label: "Giảm dần" }
+      ],
+      value: sort,
+      onChange: (value: string) => updateParams("sort", value)
+    },
+    {
       name: "status",
       label: "Trạng thái",
       options: [
@@ -99,6 +109,7 @@ function SubscriptionPage() {
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
+    params.delete("sort")
     params.delete("status")
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
