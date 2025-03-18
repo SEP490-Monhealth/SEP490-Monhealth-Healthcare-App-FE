@@ -1,10 +1,14 @@
 import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { userSchema } from "./userSchema"
 
 const consultantSchema = z.object({
   consultantId: uuidSchema,
   userId: uuidSchema,
+
+  fullName: userSchema.shape.fullName,
+  avatarUrl: userSchema.shape.avatarUrl,
 
   bio: z.string().min(10, { message: "Tiểu sử phải có ít nhất 10 ký tự" }),
   experience: z
