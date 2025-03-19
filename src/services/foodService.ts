@@ -36,12 +36,12 @@ export const fetchFoods = async (
   }
 }
 
-export const fetchFoodById = async (userId: string): Promise<FoodType> => {
+export const fetchFoodById = async (foodId: string): Promise<FoodType> => {
   try {
-    const { data } = await monAPI.get(`/foods/${userId}`)
+    const { data } = await monAPI.get(`/foods/${foodId}`)
     return data
   } catch (error) {
-    console.error("Error fetching user by ID:", error)
-    throw new Error("Failed to fetch user")
+    console.error("Error fetching food by ID:", error)
+    throw new Error("Failed to fetch food")
   }
 }

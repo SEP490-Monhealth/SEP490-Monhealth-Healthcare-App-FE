@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
-import Breadcrumbs from "@/components/globals/molecules/breadcumb"
+import Breadcrumbs from "@/components/globals/molecules/breadcrumb"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import { useDebounce } from "@/hooks/useDebounce"

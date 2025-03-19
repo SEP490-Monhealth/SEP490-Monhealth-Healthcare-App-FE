@@ -7,23 +7,22 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { DataTable } from "@/components/globals/atoms/data-table"
 import Breadcrumbs from "@/components/globals/molecules/breadcrumb"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
-import UserDetailDialog from "@/components/globals/molecules/user-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
-import { useUsers } from "@/hooks/useUser"
+import { useWaterReminders } from "@/hooks/useWaterReminder"
 
-import { UserType } from "@/schemas/userSchema"
+import { WaterReminderType } from "@/schemas/waterReminderSchema"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
+import { columns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
-  userId: false,
+  waterReminderId: false,
   createdBy: false,
   updatedBy: false
 }
 
-function UserPage() {
+function WaterReminderPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -31,14 +30,24 @@ function UserPage() {
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
-  const role = searchParams.get("role") || ""
+  const recurring = searchParams.get("recurring") || ""
   const status = searchParams.get("status") || ""
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
 
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null)
+  const [selectedWaterReminder, setSelectedWaterReminder] =
+    useState<WaterReminderType | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+
+  const parsedRecurring =
+    recurring === ""
+      ? undefined
+      : status === "true"
+        ? true
+        : status === "false"
+          ? false
+          : undefined
 
   const parsedStatus =
     status === ""
@@ -50,31 +59,36 @@ function UserPage() {
           : undefined
 
   const {
-    data: usersData,
+    data: waterRemindersData,
     isLoading,
     error
-  } = useUsers(page, limit, debouncedSearch, role, parsedStatus)
+  } = useWaterReminders(
+    page,
+    limit,
+    debouncedSearch,
+    parsedRecurring,
+    parsedStatus
+  )
 
-  const totalPages = Math.ceil((usersData?.totalItems || 1) / limit)
+  const totalPages = Math.ceil((waterRemindersData?.totalItems || 1) / limit)
 
   const breadcrumbItems = [
     { label: "Bảng điều khiển", href: "#" },
-    { label: "Người dùng", href: "#" },
-    { label: "Danh sách người dùng", isCurrentPage: true }
+    { label: "Nhắc nhở", href: "#" },
+    { label: "Danh sách nhắc nhở", isCurrentPage: true }
   ]
 
   const filters: DataTableFilterProps[] = [
-    {
-      name: "role",
-      label: "Vai trò",
-      options: [
-        { value: "member", label: "Thành viên" },
-        { value: "subscription member", label: "Thành viên đăng ký" },
-        { value: "admin", label: "Quản trị viên" }
-      ],
-      value: role,
-      onChange: (value: string) => updateParams("role", value)
-    },
+    // {
+    //   name: "recurring",
+    //   label: "",
+    //   options: [
+    //     { value: "true", label: "" },
+    //     { value: "false", label: "" }
+    //   ],
+    //   value: recurring,
+    //   onChange: (value: string) => updateParams("recurring", value)
+    // },
     {
       name: "status",
       label: "Trạng thái",
@@ -111,28 +125,14 @@ function UserPage() {
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
-    params.delete("role")
+    params.delete("recurring")
     params.delete("status")
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const handleViewDetails = (userData: UserType) => {
-    setSelectedUser(userData)
-    setIsDetailDialogOpen(true)
-  }
-
-  const handleCloseDetailDialog = () => {
-    setIsDetailDialogOpen(false)
-    setTimeout(() => setSelectedUser(null), 300)
-  }
-
-  const columns = createColumns({
-    onViewDetails: handleViewDetails
-  })
-
-  const handleAddNewUser = () => {
-    router.push("/admin/users/create")
+  const handleAddNewWaterReminder = () => {
+    router.push("/admin/water-reminders/create")
   }
 
   if (isLoading) return <LoadingPage />
@@ -143,12 +143,12 @@ function UserPage() {
       <Breadcrumbs items={breadcrumbItems} />
 
       <DataTable
-        data={usersData?.users || []}
+        data={waterRemindersData?.waterReminders || []}
         columns={columns}
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm người dùng..."
+        placeholder="Tìm kiếm tên nhắc nhở..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}
@@ -157,16 +157,10 @@ function UserPage() {
         filters={filters}
         onClearAllFilters={clearAllFilters}
         addNewButton
-        onAddNew={handleAddNewUser}
-      />
-
-      <UserDetailDialog
-        isOpen={isDetailDialogOpen}
-        onClose={handleCloseDetailDialog}
-        user={selectedUser}
+        onAddNew={handleAddNewWaterReminder}
       />
     </div>
   )
 }
 
-export default UserPage
+export default WaterReminderPage

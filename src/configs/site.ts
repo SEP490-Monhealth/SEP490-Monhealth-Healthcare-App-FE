@@ -77,7 +77,6 @@ export const sidebarItems: SidebarItem[] = [
     children: [
       { title: "Danh sách món ăn", path: "/admin/foods" },
       { title: "Thêm món ăn", path: "/admin/foods/create" },
-      { title: "Giá trị dinh dưỡng", path: "/admin/foods/nutrition" },
       { title: "Khẩu phần ăn", path: "/admin/foods/portions" }
     ]
   },
