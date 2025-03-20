@@ -67,6 +67,27 @@ export const columns: ColumnDef<WaterReminderType>[] = [
     }
   },
   {
+    accessorKey: "time",
+    meta: { title: "Thời gian" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Thời gian" />
+    )
+  },
+  {
+    accessorKey: "volume",
+    meta: { title: "Dung tích" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Dung tích" />
+    )
+  },
+  {
+    accessorKey: "isRecurring",
+    meta: { title: "Lặp lại" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Lặp lại" />
+    )
+  },
+  {
     accessorKey: "status",
     meta: { title: "Trạng thái" },
     header: ({ column }) => (
