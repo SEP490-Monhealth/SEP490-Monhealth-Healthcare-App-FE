@@ -85,7 +85,6 @@ function UserCreatePage() {
                       type="text"
                       placeholder="Nguyễn Văn A"
                       {...register("fullName")}
-                      className="w-full border p-2"
                     />
                   </div>
                   {errors.fullName && (
@@ -103,7 +102,6 @@ function UserCreatePage() {
                       type="email"
                       placeholder="nguyenvana@gmail.com"
                       {...register("email")}
-                      className="w-full border p-2"
                     />
                   </div>
                   {errors.email && (
@@ -121,7 +119,6 @@ function UserCreatePage() {
                       type="text"
                       placeholder="0123456789"
                       {...register("phoneNumber")}
-                      className="w-full border p-2"
                     />
                   </div>
                   {errors.phoneNumber && (
@@ -139,7 +136,6 @@ function UserCreatePage() {
                       type="text"
                       placeholder="https://example.com/avatar.png"
                       {...register("avatarUrl")}
-                      className="w-full border p-2"
                     />
                   </div>
                   {errors.avatarUrl && (

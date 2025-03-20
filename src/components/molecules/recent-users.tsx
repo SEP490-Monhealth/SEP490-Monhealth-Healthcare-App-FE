@@ -67,7 +67,7 @@ function RecentUsers() {
         <CardDescription>Latest user registrations</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-8">
+        <div className="flex flex-col gap-8">
           {users.map((user) => (
             <div key={user.id} className="flex items-center">
               <Avatar className="h-9 w-9">

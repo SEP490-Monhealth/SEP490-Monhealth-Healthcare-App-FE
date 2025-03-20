@@ -6,7 +6,7 @@ import { ClipLoader } from "react-spinners"
 
 function LoadingPage() {
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex min-h-screen w-full items-center justify-center pb-52">
       <ClipLoader color="var(--primary)" size={70} />
     </div>
   )

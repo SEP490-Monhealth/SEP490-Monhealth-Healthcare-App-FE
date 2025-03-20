@@ -31,15 +31,13 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
       <Sidebar onToggleCollapse={setIsCollapsed} />
 
       <div
-        className={`flex flex-1 flex-col transition-all duration-300 ${
+        className={`w-full overflow-hidden transition-all duration-300 ${
           isCollapsed ? "ml-20" : "ml-72"
         }`}
       >
         <Topbar />
 
-        <div className="min-h-[calc(100%-64px)] flex-1 overflow-y-auto p-6">
-          {children}
-        </div>
+        <div className="min-h-[calc(100%-64px)] p-6">{children}</div>
       </div>
     </div>
   )

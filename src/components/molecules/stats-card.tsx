@@ -13,9 +13,9 @@ interface StatsCardProps {
 
 function StatsCard({ title, icon, value, description }: StatsCardProps) {
   return (
-    <Card>
+    <Card className="gap-0">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-base font-medium">{title}</CardTitle>
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
         <div className="text-muted-foreground h-4 w-4">{icon}</div>
       </CardHeader>
       <CardContent className="flex flex-col gap-1">
