@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { DataTable } from "@/components/globals/atoms/data-table"
-import Breadcrumbs from "@/components/globals/molecules/breadcrumb"
-import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
+import { DataTable } from "@/components/atoms/data-table"
+import Breadcrumbs from "@/components/molecules/breadcrumb"
+import { DataTableFilterProps } from "@/components/molecules/data-table-filter"
 
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"

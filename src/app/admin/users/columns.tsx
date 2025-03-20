@@ -1,19 +1,25 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal, Trash2 } from "lucide-react"
 
-import { Badge } from "@/components/globals/atoms/badge"
-import { Button } from "@/components/globals/atoms/button"
-import { Checkbox } from "@/components/globals/atoms/checkbox"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "@/components/atoms/avatar"
+import { Badge } from "@/components/atoms/badge"
+import { Button } from "@/components/atoms/button"
+import { Checkbox } from "@/components/atoms/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger
-} from "@/components/globals/atoms/dropdown-menu"
-import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
+} from "@/components/atoms/dropdown-menu"
+import { Separator } from "@/components/atoms/separator"
+import { DataTableColumnHeader } from "@/components/molecules/data-table-column-header"
 
 import { UserType } from "@/schemas/userSchema"
 
@@ -65,7 +71,17 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const fullName = row.original.fullName
-      return <span className="capitalize">{fullName}</span>
+      const avatarUrl = row.original.avatarUrl
+
+      return (
+        <div className="flex items-center gap-2">
+          <Avatar>
+            <AvatarImage src={avatarUrl || ""} alt={fullName} />
+            <AvatarFallback>{fullName}</AvatarFallback>
+          </Avatar>
+          <span className="capitalize">{fullName}</span>
+        </div>
+      )
     }
   },
   {
@@ -149,6 +165,7 @@ export const createColumns = (
     header: "Thao tác",
     cell: ({ row }) => {
       const userData = row.original
+      const isActive = userData.status
 
       return (
         <DropdownMenu>
@@ -163,12 +180,30 @@ export const createColumns = (
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(userData.userId)}
             >
+              <Copy className="h-4 w-4" />
               Sao chép mã
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handlers.onViewDetails(userData.userId)}
             >
+              <Eye className="h-4 w-4" />
               Xem chi tiết
+            </DropdownMenuItem>
+
+            <Separator />
+
+            <DropdownMenuItem variant="destructive">
+              {isActive ? (
+                <>
+                  <Ban className="h-4 w-4" />
+                  Ngừng hoạt động
+                </>
+              ) : (
+                <>
+                  <Circle className="h-4 w-4" />
+                  Kích hoạt
+                </>
+              )}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

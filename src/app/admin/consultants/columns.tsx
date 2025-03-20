@@ -3,17 +3,17 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
-import { Badge } from "@/components/globals/atoms/badge"
-import { Button } from "@/components/globals/atoms/button"
-import { Checkbox } from "@/components/globals/atoms/checkbox"
+import { Badge } from "@/components/atoms/badge"
+import { Button } from "@/components/atoms/button"
+import { Checkbox } from "@/components/atoms/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger
-} from "@/components/globals/atoms/dropdown-menu"
-import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
+} from "@/components/atoms/dropdown-menu"
+import { DataTableColumnHeader } from "@/components/molecules/data-table-column-header"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 

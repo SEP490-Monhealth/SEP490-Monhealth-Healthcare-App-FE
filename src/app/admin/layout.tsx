@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-import Sidebar from "@/components/globals/organisms/sidebar"
+import Sidebar from "@/components/organisms/sidebar"
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false)

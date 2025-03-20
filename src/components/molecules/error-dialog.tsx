@@ -9,7 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/globals/atoms/dialog"
+} from "@/components/atoms/dialog"
 
 import { Button } from "../atoms/button"
 

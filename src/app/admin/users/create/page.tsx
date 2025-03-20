@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
-import { Button } from "@/components/globals/atoms/button"
+import { Button } from "@/components/atoms/button"
 import {
   Card,
   CardContent,
@@ -15,10 +15,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from "@/components/globals/atoms/card"
-import { Input } from "@/components/globals/atoms/input"
-import { Label } from "@/components/globals/atoms/label"
-import { Switch } from "@/components/globals/atoms/switch"
+} from "@/components/atoms/card"
+import { Input } from "@/components/atoms/input"
+import { Label } from "@/components/atoms/label"
+import { Switch } from "@/components/atoms/switch"
+import Breadcrumbs from "@/components/molecules/breadcrumb"
 
 import {
   CreateUpdateUserType,
@@ -46,6 +47,12 @@ function UserCreatePage() {
     // }
   })
 
+  const breadcrumbItems = [
+    { label: "Bảng điều khiển", href: "#" },
+    { label: "Người dùng", href: "#" },
+    { label: "Tạo người dùng", isCurrentPage: true }
+  ]
+
   const onSubmit = (data: CreateUpdateUserType) => {
     const finalData = { ...data, status: isActive }
 
@@ -55,120 +62,124 @@ function UserCreatePage() {
   console.log(errors)
 
   return (
-    <div className="mt-10 flex items-center justify-center">
-      <Card className="w-4xl space-y-4">
-        <CardHeader>
-          <CardTitle>Tạo tài khoản người dùng</CardTitle>
-          <CardDescription>
-            Vui lòng điền đầy đủ thông tin để tạo tài khoản người dùng mới.
-          </CardDescription>
-        </CardHeader>
+    <div className="space-y-10">
+      <Breadcrumbs items={breadcrumbItems} />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-          <CardContent className="space-y-8">
-            <div className="space-y-4">
-              <div>
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Họ tên</Label>
-                  <Input
-                    id="fullName"
-                    type="text"
-                    placeholder="Nguyễn Văn A"
-                    {...register("fullName")}
-                    className="w-full border p-2"
-                  />
+      <div className="flex items-center justify-center">
+        <Card className="w-4xl space-y-4">
+          <CardHeader>
+            <CardTitle>Tạo tài khoản người dùng</CardTitle>
+            <CardDescription>
+              Vui lòng điền đầy đủ thông tin để tạo tài khoản người dùng mới.
+            </CardDescription>
+          </CardHeader>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+            <CardContent className="space-y-8">
+              <div className="space-y-4">
+                <div>
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName">Họ tên</Label>
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="Nguyễn Văn A"
+                      {...register("fullName")}
+                      className="w-full border p-2"
+                    />
+                  </div>
+                  {errors.fullName && (
+                    <p className="mt-1 ml-1 text-sm text-red-600">
+                      {errors.fullName.message}
+                    </p>
+                  )}
                 </div>
-                {errors.fullName && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.fullName.message}
-                  </p>
-                )}
+
+                <div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="nguyenvana@gmail.com"
+                      {...register("email")}
+                      className="w-full border p-2"
+                    />
+                  </div>
+                  {errors.email && (
+                    <p className="mt-1 ml-1 text-sm text-red-600">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phoneNumber">Số điện thoại</Label>
+                    <Input
+                      id="phoneNumber"
+                      type="text"
+                      placeholder="0123456789"
+                      {...register("phoneNumber")}
+                      className="w-full border p-2"
+                    />
+                  </div>
+                  {errors.phoneNumber && (
+                    <p className="mt-1 ml-1 text-sm text-red-600">
+                      {errors.phoneNumber.message}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <div className="space-y-2">
+                    <Label htmlFor="avatarUrl">Avatar (Tùy chọn)</Label>
+                    <Input
+                      id="avatarUrl"
+                      type="text"
+                      placeholder="https://example.com/avatar.png"
+                      {...register("avatarUrl")}
+                      className="w-full border p-2"
+                    />
+                  </div>
+                  {errors.avatarUrl && (
+                    <p className="mt-1 ml-1 text-sm text-red-600">
+                      {errors.avatarUrl.message}
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="nguyenvana@gmail.com"
-                    {...register("email")}
-                    className="w-full border p-2"
-                  />
-                </div>
-                {errors.email && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.email.message}
+              <Card className="gap-0">
+                <CardHeader>
+                  <CardTitle>Trạng thái</CardTitle>
+                </CardHeader>
+                <CardContent className="flex items-center justify-between">
+                  <p className="text-muted-foreground text-sm">
+                    Người dùng có thể đăng nhập nếu được kích hoạt
                   </p>
-                )}
-              </div>
 
-              <div>
-                <div className="space-y-2">
-                  <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                  <Input
-                    id="phoneNumber"
-                    type="text"
-                    placeholder="0123456789"
-                    {...register("phoneNumber")}
-                    className="w-full border p-2"
+                  <Switch
+                    id="isActive"
+                    checked={isActive}
+                    onCheckedChange={(checked) => setIsActive(checked)}
                   />
-                </div>
-                {errors.phoneNumber && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.phoneNumber.message}
-                  </p>
-                )}
-              </div>
+                </CardContent>
+              </Card>
+            </CardContent>
 
-              <div>
-                <div className="space-y-2">
-                  <Label htmlFor="avatarUrl">Avatar (Tùy chọn)</Label>
-                  <Input
-                    id="avatarUrl"
-                    type="text"
-                    placeholder="https://example.com/avatar.png"
-                    {...register("avatarUrl")}
-                    className="w-full border p-2"
-                  />
-                </div>
-                {errors.avatarUrl && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.avatarUrl.message}
-                  </p>
-                )}
-              </div>
-            </div>
+            <CardFooter className="flex justify-between">
+              <Button variant="secondary" size="lg">
+                Hủy
+              </Button>
 
-            <Card className="gap-0">
-              <CardHeader>
-                <CardTitle>Trạng thái</CardTitle>
-              </CardHeader>
-              <CardContent className="flex items-center justify-between">
-                <p className="text-muted-foreground text-sm">
-                  Người dùng có thể đăng nhập nếu được kích hoạt
-                </p>
-
-                <Switch
-                  id="isActive"
-                  checked={isActive}
-                  onCheckedChange={(checked) => setIsActive(checked)}
-                />
-              </CardContent>
-            </Card>
-          </CardContent>
-
-          <CardFooter className="flex justify-between">
-            <Button variant="secondary" size="lg">
-              Hủy
-            </Button>
-
-            <Button type="submit" disabled={isLoading} size="lg">
-              {isLoading ? "Đang tạo..." : "Tạo tài khoản"}
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
+              <Button type="submit" disabled={isLoading} size="lg">
+                {isLoading ? "Đang tạo..." : "Tạo tài khoản"}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
     </div>
   )
 }

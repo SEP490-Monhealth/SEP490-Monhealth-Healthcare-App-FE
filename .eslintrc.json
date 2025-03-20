@@ -1,0 +1,12 @@
+{
+  "extends": ["next/core-web-vitals"],
+  "rules": {
+    "react/react-in-jsx-scope": "off", // Không cần import React trong Next.js
+    "no-console": "warn", // Cảnh báo khi sử dụng console.log
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }], // Cảnh báo biến không sử dụng
+    "semi": ["error", "always"], // Bắt buộc sử dụng dấu chấm phẩy
+    "quotes": ["error", "double"], // Sử dụng dấu nháy kép
+    "indent": ["error", 2], // Thụt lề 2 khoảng trắng
+    "jsx-a11y/anchor-is-valid": "off" // Tắt cảnh báo liên quan đến thẻ <a> trong Next.js
+  }
+}

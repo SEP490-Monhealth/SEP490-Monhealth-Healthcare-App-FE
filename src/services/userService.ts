@@ -36,7 +36,14 @@ export const fetchUsers = async (
 
 export const fetchUserById = async (userId: string): Promise<UserType> => {
   try {
-    const { data } = await monAPI.get(`/users/${userId}`)
+    const response = await monAPI.get(`/users/${userId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch user")
+    }
+
     return data
   } catch (error) {
     console.error("Error fetching user by ID:", error)
@@ -48,8 +55,15 @@ export const addUser = async (
   newUserData: CreateUpdateUserType
 ): Promise<UserType> => {
   try {
-    const { data } = await monAPI.post("/users", newUserData)
-    return data
+    const response = await monAPI.post("/users", newUserData)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to add user")
+    }
+
+    return message
   } catch (error) {
     console.error("Error adding user:", error)
     throw new Error("Failed to add user")

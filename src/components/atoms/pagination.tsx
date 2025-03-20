@@ -8,7 +8,7 @@ import {
   MoreHorizontalIcon
 } from "lucide-react"
 
-import { Button, buttonVariants } from "@/components/globals/atoms/button"
+import { Button, buttonVariants } from "@/components/atoms/button"
 
 import { cn } from "@/lib/utils"
 

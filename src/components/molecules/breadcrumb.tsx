@@ -9,7 +9,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator
-} from "@/components/globals/atoms/breadcrumb"
+} from "@/components/atoms/breadcrumb"
 
 interface BreadcrumbItemProps {
   label: string

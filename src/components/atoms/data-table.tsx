@@ -15,7 +15,7 @@ import {
 } from "@tanstack/react-table"
 import { Plus } from "lucide-react"
 
-import { Input } from "@/components/globals/atoms/input"
+import { Input } from "@/components/atoms/input"
 import {
   Table,
   TableBody,
@@ -23,8 +23,8 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from "@/components/globals/atoms/table"
-import { DataTableViewOptions } from "@/components/globals/molecules/data-table-view-options"
+} from "@/components/atoms/table"
+import { DataTableViewOptions } from "@/components/molecules/data-table-view-options"
 
 import {
   DataTableFilter,
