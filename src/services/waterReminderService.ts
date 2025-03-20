@@ -38,7 +38,14 @@ export const fetchWaterReminderById = async (
   waterReminderId: string
 ): Promise<WaterReminderType> => {
   try {
-    const { data } = await monAPI.get(`/water-reminders/${waterReminderId}`)
+    const response = await monAPI.get(`/water-reminders/${waterReminderId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch water reminder")
+    }
+
     return data
   } catch (error) {
     console.error("Error fetching water reminder by ID:", error)

@@ -37,7 +37,14 @@ export const fetchConsultantById = async (
   consultantId: string
 ): Promise<ConsultantType> => {
   try {
-    const { data } = await monAPI.get(`/consultants/${consultantId}`)
+    const response = await monAPI.get(`/consultants/${consultantId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch consultant")
+    }
+
     return data
   } catch (error) {
     console.error("Error fetching consultant by ID:", error)
