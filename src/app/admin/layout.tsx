@@ -37,7 +37,9 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
       >
         <Topbar />
 
-        <div className="flex-1 overflow-y-auto p-6">{children}</div>
+        <div className="min-h-[calc(100%-64px)] flex-1 overflow-y-auto p-6">
+          {children}
+        </div>
       </div>
     </div>
   )

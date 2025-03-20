@@ -2,6 +2,8 @@ import React from "react"
 
 import { LogOut, MoreHorizontal, Settings, User } from "lucide-react"
 
+import { getInitials } from "@/utils/helpers"
+
 import { Avatar, AvatarFallback, AvatarImage } from "../atoms/avatar"
 import { Button } from "../atoms/button"
 import {
@@ -23,9 +25,9 @@ function Topbar() {
               src={
                 "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2Fangrycat.jpg?alt=media&token=542becf5-173f-47c2-951b-b9f79578fa60"
               }
-              alt="Van Huu Toan"
+              alt={getInitials("Van Huu Toan")}
             />
-            <AvatarFallback>Van Huu Toan</AvatarFallback>
+            <AvatarFallback>{getInitials("Van Huu Toan")}</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">

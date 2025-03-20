@@ -43,7 +43,7 @@ export function formatCurrency(value: number): string {
 export function formatDate(date: Date | string): string {
   const d = typeof date === "string" ? new Date(date) : date
   const day = String(d.getDate()).padStart(2, "0")
-  const month = String(d.getMonth() + 1).padStart(2, "0") // Tháng tính từ 0
+  const month = String(d.getMonth() + 1).padStart(2, "0")
   const year = d.getFullYear()
   return `${day}/${month}/${year}`
 }
@@ -79,7 +79,7 @@ export function formatDateTime(dateTime: Date | string): string {
  * formatPhoneNumber("+84 907123456") => "0907 123 456"
  */
 export function formatPhoneNumber(phone: string): string {
-  phone = phone.replace(/\D/g, "") // Loại bỏ tất cả ký tự không phải số
+  phone = phone.replace(/\D/g, "")
   if (phone.length === 10) {
     return `${phone.slice(0, 4)} ${phone.slice(4, 7)} ${phone.slice(7)}`
   } else if (phone.length === 11) {

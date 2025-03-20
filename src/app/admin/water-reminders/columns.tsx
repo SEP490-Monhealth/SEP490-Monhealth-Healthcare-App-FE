@@ -77,7 +77,7 @@ export const columns: ColumnDef<WaterReminderType>[] = [
     accessorKey: "volume",
     meta: { title: "Dung tích" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Dung tích" />
+      <DataTableColumnHeader column={column} title="Dung tích (ml)" />
     )
   },
   {

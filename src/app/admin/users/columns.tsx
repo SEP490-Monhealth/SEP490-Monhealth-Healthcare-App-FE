@@ -20,6 +20,7 @@ import { DataTableColumnHeader } from "@/components/molecules/data-table-column-
 import { UserType } from "@/schemas/userSchema"
 
 import { formatDateTime, formatPhoneNumber } from "@/utils/formatters"
+import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
   onViewDetails: (userId: string) => void
@@ -67,15 +68,19 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const fullName = row.original.fullName
+      const email = row.original.email
       const avatarUrl = row.original.avatarUrl
 
       return (
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={fullName} />
-            <AvatarFallback>{fullName}</AvatarFallback>
+            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
+            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
           </Avatar>
-          <span className="capitalize">{fullName}</span>
+          <div className="flex flex-col">
+            <span className="capitalize">{fullName}</span>
+            <span className="text-muted-foreground text-sm">{email}</span>
+          </div>
         </div>
       )
     }

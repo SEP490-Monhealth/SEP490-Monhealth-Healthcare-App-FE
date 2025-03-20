@@ -2,42 +2,15 @@
 
 import React from "react"
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from "@/components/atoms/dialog"
-
-import { Button } from "../atoms/button"
-
 interface ErrorDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  title: string
-  description: string
+  message: string
 }
 
-function ErrorDialog({
-  isOpen,
-  onClose,
-  title,
-  description
-}: ErrorDialogProps) {
+function ErrorDialog({ message }: ErrorDialogProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <div className="flex h-full items-center justify-center">
+      <p className="text-sm text-red-600">{message}</p>
+    </div>
   )
 }
 
