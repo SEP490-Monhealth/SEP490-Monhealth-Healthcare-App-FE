@@ -12,8 +12,6 @@ import UserDetailDialog from "@/components/globals/molecules/user-detail-dialog"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUsers } from "@/hooks/useUser"
 
-import { UserType } from "@/schemas/userSchema"
-
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -37,7 +35,7 @@ function UserPage() {
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
 
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null)
+  const [selectedUser, setSelectedUser] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const parsedStatus =
@@ -117,8 +115,8 @@ function UserPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const handleViewDetails = (userData: UserType) => {
-    setSelectedUser(userData)
+  const handleViewDetails = (userId: string) => {
+    setSelectedUser(userId)
     setIsDetailDialogOpen(true)
   }
 
@@ -163,7 +161,7 @@ function UserPage() {
       <UserDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        user={selectedUser}
+        userId={selectedUser}
       />
     </div>
   )

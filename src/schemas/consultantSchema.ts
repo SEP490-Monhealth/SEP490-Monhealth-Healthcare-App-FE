@@ -1,13 +1,16 @@
 import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { expertiseSchema } from "./expertiseSchema"
 import { userSchema } from "./userSchema"
 
 const consultantSchema = z.object({
   consultantId: uuidSchema,
   userId: uuidSchema,
+  expertiseId: uuidSchema,
 
   fullName: userSchema.shape.fullName,
+  phoneNumber: userSchema.shape.phoneNumber,
   avatarUrl: userSchema.shape.avatarUrl,
 
   bio: z.string().min(10, { message: "Tiểu sử phải có ít nhất 10 ký tự" }),
@@ -16,8 +19,9 @@ const consultantSchema = z.object({
     .int()
     .min(0, { message: "Kinh nghiệm phải là số nguyên không âm" }),
 
-  ratingCount: z.number().default(0),
+  expertise: expertiseSchema.shape.name,
 
+  ratingCount: z.number().default(0),
   averageRating: z.number().min(0).max(5).default(0),
 
   views: z.number().default(0),

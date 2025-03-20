@@ -8,6 +8,7 @@ const foodSchema = z.object({
 
   name: z
     .string()
+    .nonempty({ message: "Tên món ăn không được để trống" })
     .min(3, { message: "Tên món ăn phải có ít nhất 3 ký tự" })
     .max(255, { message: "Tên món ăn không được quá 255 ký tự" }),
   description: z
@@ -18,7 +19,7 @@ const foodSchema = z.object({
 
   isPublic: z.boolean().default(false),
 
-  status: z.boolean().default(true),
+  status: z.boolean(),
 
   ...auditFields
 })

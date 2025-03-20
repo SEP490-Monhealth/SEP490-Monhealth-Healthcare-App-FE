@@ -63,6 +63,17 @@ export const columns: ColumnDef<ConsultantType>[] = [
     }
   },
   {
+    accessorKey: "phoneNumber",
+    meta: { title: "Số điện thoại" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Số điện thoại" />
+    ),
+    cell: ({ row }) => {
+      const phoneNumber = row.original.phoneNumber
+      return <span>{formatPhoneNumber(phoneNumber)}</span>
+    }
+  },
+  {
     accessorKey: "bio",
     meta: { title: "Mô tả" },
     header: ({ column }) => (

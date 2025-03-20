@@ -8,6 +8,7 @@ const waterReminderSchema = z.object({
 
   name: z
     .string()
+    .nonempty({ message: "Tên nhắc nhở không được để trống" })
     .min(3, { message: "Tên nhắc nhở phải có ít nhất 3 ký tự" })
     .max(255, { message: "Tên nhắc nhở không được quá 255 ký tự" }),
   volume: z
@@ -18,7 +19,7 @@ const waterReminderSchema = z.object({
   isRecurring: z.boolean().default(false),
   isDrunk: z.boolean().default(false),
 
-  status: z.boolean().default(true),
+  status: z.boolean(),
 
   ...auditFields
 })

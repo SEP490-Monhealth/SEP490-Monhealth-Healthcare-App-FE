@@ -20,7 +20,7 @@ import { UserType } from "@/schemas/userSchema"
 import { formatDateTime, formatPhoneNumber } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
-  onViewDetails: (user: UserType) => void
+  onViewDetails: (userId: string) => void
 }
 
 export const createColumns = (
@@ -165,7 +165,9 @@ export const createColumns = (
             >
               Sao chép mã
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handlers.onViewDetails(userData)}>
+            <DropdownMenuItem
+              onClick={() => handlers.onViewDetails(userData.userId)}
+            >
               Xem chi tiết
             </DropdownMenuItem>
           </DropdownMenuContent>
