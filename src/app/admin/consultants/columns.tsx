@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { BadgeCheck, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/atoms/badge"
 import { Button } from "@/components/atoms/button"
@@ -62,17 +62,17 @@ export const columns: ColumnDef<ConsultantType>[] = [
       return <span className="capitalize">{fullName}</span>
     }
   },
-  {
-    accessorKey: "phoneNumber",
-    meta: { title: "Số điện thoại" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số điện thoại" />
-    ),
-    cell: ({ row }) => {
-      const phoneNumber = row.original.phoneNumber
-      return <span>{formatPhoneNumber(phoneNumber)}</span>
-    }
-  },
+  // {
+  //   accessorKey: "phoneNumber",
+  //   meta: { title: "Số điện thoại" },
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Số điện thoại" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const phoneNumber = row.original.phoneNumber
+  //     return <span>{formatPhoneNumber(phoneNumber)}</span>
+  //   }
+  // },
   {
     accessorKey: "bio",
     meta: { title: "Mô tả" },
@@ -84,29 +84,37 @@ export const columns: ColumnDef<ConsultantType>[] = [
     accessorKey: "experience",
     meta: { title: "Kinh nghiệm (Năm)" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kinh nghiệm (Năm)" />
-    )
+      <DataTableColumnHeader column={column} title="Kinh nghiệm (Năm)" center />
+    ),
+    cell: ({ row }) => {
+      const experience = row.original.experience
+      return <span className="flex justify-center pr-4">{experience}</span>
+    }
   },
   {
     accessorKey: "ratingCount",
     meta: { title: "Số đánh giá" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số đánh giá" />
+      <DataTableColumnHeader column={column} title="Số đánh giá" center />
     ),
     cell: ({ row }) => {
       const ratingCount = row.original.ratingCount
-      return <span>{ratingCount}</span>
+      return <span className="flex justify-center pr-4">{ratingCount}</span>
     }
   },
   {
     accessorKey: "averageRating",
-    meta: { title: "Đánh giá trung bình" },
+    meta: { title: "Đánh giá" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Đánh giá trung bình" />
+      <DataTableColumnHeader column={column} title="Đánh giá" center />
     ),
     cell: ({ row }) => {
       const averageRating = row.original.averageRating
-      return <span>{averageRating.toFixed(1)}</span>
+      return (
+        <span className="flex justify-center pr-4">
+          {averageRating.toFixed(1)}
+        </span>
+      )
     }
   },
   {
@@ -118,9 +126,9 @@ export const columns: ColumnDef<ConsultantType>[] = [
     cell: ({ row }) => {
       const isVerified = row.original.isVerified
       return (
-        <Badge variant={isVerified ? "default" : "destructive"}>
-          {isVerified ? "Đã xác thực" : "Chưa xác thực"}
-        </Badge>
+        <span className="flex justify-center pr-4">
+          {isVerified ? <BadgeCheck fill="#16a34a" color="white" /> : null}
+        </span>
       )
     }
   },
@@ -128,14 +136,16 @@ export const columns: ColumnDef<ConsultantType>[] = [
     accessorKey: "status",
     meta: { title: "Trạng thái" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Trạng thái" />
+      <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
       const status = row.original.status
       return (
-        <Badge variant={status ? "default" : "destructive"}>
-          {status ? "Hoạt động" : "Ngừng hoạt động"}
-        </Badge>
+        <div className="flex justify-center pr-4">
+          <Badge variant={status ? "default" : "destructive"}>
+            {status ? "Hoạt động" : "Ngừng hoạt động"}
+          </Badge>
+        </div>
       )
     }
   },
@@ -196,9 +206,13 @@ export const columns: ColumnDef<ConsultantType>[] = [
                 navigator.clipboard.writeText(consultantData.consultantId)
               }
             >
+              <Copy className="h-4 w-4" />
               Sao chép mã
             </DropdownMenuItem>
-            <DropdownMenuItem>Xem chi tiết</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Eye className="h-4 w-4" />
+              Xem chi tiết
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

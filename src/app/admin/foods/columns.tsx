@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { BadgeCheck, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/atoms/badge"
 import { Button } from "@/components/atoms/button"
@@ -67,7 +67,15 @@ export const columns: ColumnDef<FoodType>[] = [
     meta: { title: "Công khai" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Công khai" />
-    )
+    ),
+    cell: ({ row }) => {
+      const isPublic = row.original.isPublic
+      return (
+        <span>
+          {isPublic ? <BadgeCheck fill="#16a34a" color="white" /> : null}
+        </span>
+      )
+    }
   },
   {
     accessorKey: "status",
@@ -139,9 +147,13 @@ export const columns: ColumnDef<FoodType>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(foodData.foodId)}
             >
+              <Copy className="h-4 w-4" />
               Sao chép mã
             </DropdownMenuItem>
-            <DropdownMenuItem>Xem chi tiết</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Eye className="h-4 w-4" />
+              Xem chi tiết
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

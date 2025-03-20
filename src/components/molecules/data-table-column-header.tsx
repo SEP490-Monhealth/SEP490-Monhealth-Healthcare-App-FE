@@ -17,12 +17,14 @@ import {
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>
+  center?: boolean
   title: string
 }
 
 export function DataTableColumnHeader<TData, TValue>({
   column,
   title,
+  center,
   className
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
@@ -30,7 +32,13 @@ export function DataTableColumnHeader<TData, TValue>({
   }
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
+    <div
+      className={cn(
+        "flex items-center space-x-2",
+        center && "justify-center",
+        className
+      )}
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button

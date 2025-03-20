@@ -114,14 +114,16 @@ export const createColumns = (
     accessorKey: "status",
     meta: { title: "Trạng thái" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Trạng thái" />
+      <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
       const status = row.original.status
       return (
-        <Badge variant={status ? "default" : "destructive"}>
-          {status ? "Hoạt động" : "Ngừng hoạt động"}
-        </Badge>
+        <div className="flex justify-center pr-4">
+          <Badge variant={status ? "default" : "destructive"}>
+            {status ? "Hoạt động" : "Ngừng hoạt động"}
+          </Badge>
+        </div>
       )
     }
   },

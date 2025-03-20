@@ -10,7 +10,7 @@ function DashboardPage() {
     <div className="space-y-8">
       <DashboardStatsCard />
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
         <div className="col-span-3">
           <DashboardOverview />
         </div>
