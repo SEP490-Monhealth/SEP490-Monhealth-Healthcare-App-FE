@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react"
 
 import Sidebar from "@/components/organisms/sidebar"
+import Topbar from "@/components/organisms/topbar"
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true)
-
     const handleSidebarToggle = (e: CustomEvent) => {
       setIsCollapsed(e.detail.isCollapsed)
     }
@@ -31,12 +29,15 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex min-h-screen">
       <Sidebar onToggleCollapse={setIsCollapsed} />
+
       <div
-        className={`flex flex-1 flex-col overflow-hidden p-6 transition-all duration-300 ${
+        className={`flex flex-1 flex-col transition-all duration-300 ${
           isCollapsed ? "ml-20" : "ml-72"
         }`}
       >
-        {children}
+        <Topbar />
+
+        <div className="flex-1 overflow-y-auto p-6">{children}</div>
       </div>
     </div>
   )

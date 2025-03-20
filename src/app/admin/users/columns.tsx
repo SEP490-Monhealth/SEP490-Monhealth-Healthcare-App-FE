@@ -1,13 +1,9 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal, Trash2 } from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/atoms/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/atoms/avatar"
 import { Badge } from "@/components/atoms/badge"
 import { Button } from "@/components/atoms/button"
 import { Checkbox } from "@/components/atoms/checkbox"
@@ -177,6 +173,7 @@ export const createColumns = (
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
+
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(userData.userId)}
             >

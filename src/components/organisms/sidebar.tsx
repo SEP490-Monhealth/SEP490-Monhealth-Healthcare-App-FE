@@ -262,7 +262,7 @@ function Sidebar({ onToggleCollapse }: SidebarProps) {
 
   return (
     <div
-      className="transition-width fixed flex h-screen flex-col overflow-scroll px-4 py-6 shadow-xl duration-300"
+      className="transition-width fixed flex h-screen flex-col overflow-scroll px-4 py-6 shadow-md duration-300"
       style={{
         width: initialWidth,
         transitionProperty: animationsEnabled ? "width" : "none"
