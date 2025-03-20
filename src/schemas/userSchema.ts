@@ -9,6 +9,7 @@ export const userSchema = z.object({
 
   fullName: z
     .string()
+    .nonempty({ message: "Tên không được để trống" })
     .min(3, { message: "Tên phải có ít nhất 3 ký tự" })
     .max(255, { message: "Tên không được quá 255 ký tự" })
     .regex(/^[\p{L} ]+$/u, {
