@@ -41,7 +41,14 @@ export const fetchSubscriptionById = async (
   subscriptionId: string
 ): Promise<SubscriptionType> => {
   try {
-    const { data } = await monAPI.get(`/subscriptions/${subscriptionId}`)
+    const response = await monAPI.get(`/subscriptions/${subscriptionId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch subscription")
+    }
+
     return data
   } catch (error) {
     console.error("Error fetching subscription by ID:", error)
@@ -53,8 +60,15 @@ export const addSubscription = async (
   newSubscriptionData: CreateUpdateSubscriptionType
 ): Promise<SubscriptionType> => {
   try {
-    const { data } = await monAPI.post("/subscriptions", newSubscriptionData)
-    return data
+    const response = await monAPI.post("/subscriptions", newSubscriptionData)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to add subscription")
+    }
+
+    return message
   } catch (error) {
     console.error("Error adding subscription:", error)
     throw new Error("Failed to add subscription")

@@ -38,7 +38,14 @@ export const fetchFoods = async (
 
 export const fetchFoodById = async (foodId: string): Promise<FoodType> => {
   try {
-    const { data } = await monAPI.get(`/foods/${foodId}`)
+    const response = await monAPI.get(`/foods/${foodId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch food")
+    }
+
     return data
   } catch (error) {
     console.error("Error fetching food by ID:", error)
