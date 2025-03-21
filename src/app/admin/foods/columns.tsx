@@ -68,7 +68,15 @@ export const columns: ColumnDef<FoodType>[] = [
   },
   {
     accessorKey: "description",
-    header: "Mô tả"
+    header: "Mô tả",
+    cell: ({ row }) => {
+      const description = row.original.description
+      return (
+        <span title={description} className="block max-w-[320px] truncate">
+          {description}
+        </span>
+      )
+    }
   },
   {
     accessorKey: "isPublic",
@@ -156,7 +164,7 @@ export const columns: ColumnDef<FoodType>[] = [
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center">
+            <DropdownMenuContent align="end">
               <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(foodData.foodId)}

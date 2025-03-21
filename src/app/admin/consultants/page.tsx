@@ -16,9 +16,7 @@ import { columns } from "./columns"
 const DEFAULT_VISIBILITY = {
   consultantId: false,
   bio: false,
-  createdAt: false,
   createdBy: false,
-  updatedAt: false,
   updatedBy: false
 }
 

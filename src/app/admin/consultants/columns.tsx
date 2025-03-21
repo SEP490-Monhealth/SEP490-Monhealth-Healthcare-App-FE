@@ -1,7 +1,14 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { BadgeCheck, Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
+import {
+  BadgeCheck,
+  Ban,
+  Circle,
+  Copy,
+  Eye,
+  MoreHorizontal
+} from "lucide-react"
 
 import { Badge } from "@/components/atoms/badge"
 import { Button } from "@/components/atoms/button"
@@ -13,12 +20,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/atoms/dropdown-menu"
+import { Separator } from "@/components/atoms/separator"
 import { DataTableColumnHeader } from "@/components/molecules/data-table-column-header"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
 import { formatDate, formatPhoneNumber } from "@/utils/formatters"
-import { Separator } from "@/components/atoms/separator"
 
 export const columns: ColumnDef<ConsultantType>[] = [
   {
@@ -204,7 +211,7 @@ export const columns: ColumnDef<ConsultantType>[] = [
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="center">
+            <DropdownMenuContent align="end">
               <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
               <DropdownMenuItem
                 onClick={() =>

@@ -18,9 +18,7 @@ import { createColumns } from "./columns"
 const DEFAULT_VISIBILITY = {
   userId: false,
   email: false,
-  createdAt: false,
   createdBy: false,
-  updatedAt: false,
   updatedBy: false
 }
 

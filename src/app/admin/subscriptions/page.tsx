@@ -17,9 +17,7 @@ const DEFAULT_VISIBILITY = {
   subscriptionId: false,
   description: false,
   features: false,
-  createdAt: false,
   createdBy: false,
-  updatedAt: false,
   updatedBy: false
 }
 
