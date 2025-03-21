@@ -1,6 +1,9 @@
 import monAPI from "@/lib/monAPI"
 
-import { WaterReminderType } from "@/schemas/waterReminderSchema"
+import {
+  CreateUpdateWaterReminderType,
+  WaterReminderType
+} from "@/schemas/waterReminderSchema"
 
 interface WaterRemindersResponse {
   totalPages: number
@@ -50,5 +53,24 @@ export const fetchWaterReminderById = async (
   } catch (error) {
     console.error("Error fetching water reminder by ID:", error)
     throw new Error("Failed to fetch water reminder")
+  }
+}
+
+export const addWaterReminder = async (
+  newWaterReminderData: CreateUpdateWaterReminderType
+): Promise<WaterReminderType> => {
+  try {
+    const response = await monAPI.post("/water-reminders", newWaterReminderData)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to add water reminder")
+    }
+
+    return message
+  } catch (error) {
+    console.error("Error adding water reminder:", error)
+    throw new Error("Failed to add water reminder")
   }
 }

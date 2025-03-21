@@ -1,8 +1,12 @@
-import { useQuery } from "@tanstack/react-query"
-
-import { WaterReminderType } from "@/schemas/waterReminderSchema"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import {
+  CreateUpdateWaterReminderType,
+  WaterReminderType
+} from "@/schemas/waterReminderSchema"
+
+import {
+  addWaterReminder,
   fetchWaterReminderById,
   fetchWaterReminders
 } from "@/services/waterReminderService"
@@ -26,3 +30,14 @@ export const useWaterReminderById = (waterReminderId: string) =>
     queryFn: () => fetchWaterReminderById(waterReminderId),
     enabled: !!waterReminderId
   })
+
+export const useAddWaterReminder = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<WaterReminderType, Error, CreateUpdateWaterReminderType>({
+    mutationFn: addWaterReminder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["WaterReminders"] })
+    }
+  })
+}
