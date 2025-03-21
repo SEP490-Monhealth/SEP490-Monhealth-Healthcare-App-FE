@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import Sidebar from "@/components/organisms/sidebar"
 import Topbar from "@/components/organisms/topbar"
@@ -37,7 +37,9 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
       >
         <Topbar />
 
-        <div className="min-h-[calc(100%-64px)] p-6">{children}</div>
+        <div className="bg-background min-h-[calc(100%-64px)] p-6">
+          {children}
+        </div>
       </div>
     </div>
   )
