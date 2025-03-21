@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { DataTable } from "@/components/atoms/data-table"
-import AddUserDialog from "@/components/molecules/add-user-dialog"
-import { DataTableFilterProps } from "@/components/molecules/data-table-filter"
-import UserDetailDialog from "@/components/molecules/user-detail-dialog"
+import { DataTable } from "@/components/globals/atoms/data-table"
+import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
+
+import AddUserDialog from "@/components/locals/admin/users/add-user-dialog"
+import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUsers } from "@/hooks/useUser"

@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { DataTable } from "@/components/atoms/data-table"
-import AddExpertiseDialog from "@/components/molecules/add-expertise-dialog"
-import ExpertiseDetailDialog from "@/components/molecules/expertise-detail-dialog"
+import { DataTable } from "@/components/globals/atoms/data-table"
+
+import AddExpertiseDialog from "@/components/locals/admin/expertise/add-expertise-dialog"
+import ExpertiseDetailDialog from "@/components/locals/admin/expertise/expertise-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"

@@ -10,13 +10,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from "../atoms/card"
+} from "@/components/globals/atoms/card"
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent
-} from "../atoms/chart"
+} from "@/components/globals/atoms/chart"
 
 const chartData = [
   { month: "January", desktop: 186 },

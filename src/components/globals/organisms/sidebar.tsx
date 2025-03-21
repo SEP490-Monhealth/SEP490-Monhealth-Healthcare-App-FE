@@ -5,7 +5,7 @@ import Link from "next/link"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChevronDown, ChevronRight, LogOut } from "lucide-react"
 
-import { Button } from "@/components/atoms/button"
+import { Button } from "@/components/globals/atoms/button"
 
 import { sidebarItems } from "@/configs/site"
 

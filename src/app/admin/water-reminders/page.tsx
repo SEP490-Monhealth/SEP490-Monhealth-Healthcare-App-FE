@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { DataTable } from "@/components/atoms/data-table"
-import AddWaterReminderDialog from "@/components/molecules/add-water-reminder-dialog"
-import { DataTableFilterProps } from "@/components/molecules/data-table-filter"
-import WaterReminderDetailDialog from "@/components/molecules/water-reminder-detail-dialog"
+import { DataTable } from "@/components/globals/atoms/data-table"
+import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
+
+import AddWaterReminderDialog from "@/components/locals/admin/water-reminders/add-water-reminder-dialog"
+import WaterReminderDetailDialog from "@/components/locals/admin/water-reminders/water-reminder-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useWaterReminders } from "@/hooks/useWaterReminder"

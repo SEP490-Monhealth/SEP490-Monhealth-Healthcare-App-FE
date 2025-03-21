@@ -2,6 +2,7 @@
 
 import React from "react"
 
+import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
   DialogContent,
@@ -9,17 +10,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/atoms/dialog"
+} from "@/components/globals/atoms/dialog"
+import { Input } from "@/components/globals/atoms/input"
+import { Label } from "@/components/globals/atoms/label"
+import ErrorDialog from "@/components/globals/molecules/error-dialog"
+import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import { useUserById } from "@/hooks/useUser"
 
 import { formatDate, formatPhoneNumber } from "@/utils/formatters"
-
-import { Button } from "../atoms/button"
-import { Input } from "../atoms/input"
-import { Label } from "../atoms/label"
-import ErrorDialog from "./error-dialog"
-import LoadingDialog from "./loading-dialog"
 
 interface UserDetailDialogProps {
   isOpen: boolean

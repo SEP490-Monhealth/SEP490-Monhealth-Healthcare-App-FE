@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff } from "lucide-react"
 import { useForm } from "react-hook-form"
 
-import { Button } from "@/components/atoms/button"
+import { Button } from "@/components/globals/atoms/button"
 import {
   Card,
   CardContent,
@@ -14,9 +14,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from "@/components/atoms/card"
-import { Input } from "@/components/atoms/input"
-import { Label } from "@/components/atoms/label"
+} from "@/components/globals/atoms/card"
+import { Input } from "@/components/globals/atoms/input"
+import { Label } from "@/components/globals/atoms/label"
 
 import { LoginUserType, loginUserSchema } from "@/schemas/userSchema"
 

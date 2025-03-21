@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
+import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
   DialogContent,
@@ -12,19 +13,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/atoms/dialog"
-
-import { useAddUser } from "@/hooks/useUser"
-
-import {
-  CreateUpdateUserType,
-  createUpdateUserSchema,
-  roles
-} from "@/schemas/userSchema"
-
-import { Button } from "../atoms/button"
-import { Input } from "../atoms/input"
-import { Label } from "../atoms/label"
+} from "@/components/globals/atoms/dialog"
+import { Input } from "@/components/globals/atoms/input"
+import { Label } from "@/components/globals/atoms/label"
 import {
   Select,
   SelectContent,
@@ -33,8 +24,16 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue
-} from "../atoms/select"
-import { Switch } from "../atoms/switch"
+} from "@/components/globals/atoms/select"
+import { Switch } from "@/components/globals/atoms/switch"
+
+import { useAddUser } from "@/hooks/useUser"
+
+import {
+  CreateUpdateUserType,
+  createUpdateUserSchema,
+  roles
+} from "@/schemas/userSchema"
 
 interface AddUserDialogProps {
   isOpen: boolean

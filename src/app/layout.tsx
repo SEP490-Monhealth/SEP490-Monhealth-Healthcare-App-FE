@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 
-import { Toaster } from "@/components/atoms/sonner"
+import { Toaster } from "@/components/globals/atoms/sonner"
 
 import { QueryProvider } from "@/providers/QueryProvider"
 

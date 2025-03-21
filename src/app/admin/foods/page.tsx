@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react"
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-import { DataTable } from "@/components/atoms/data-table"
+import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useFoods } from "@/hooks/useFood"

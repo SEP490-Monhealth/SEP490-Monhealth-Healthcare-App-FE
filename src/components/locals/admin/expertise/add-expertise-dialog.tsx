@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
+import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
   DialogContent,
@@ -12,7 +13,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/atoms/dialog"
+} from "@/components/globals/atoms/dialog"
+import { Input } from "@/components/globals/atoms/input"
+import { Label } from "@/components/globals/atoms/label"
 
 import { useAddExpertise } from "@/hooks/useExpertise"
 
@@ -20,10 +23,6 @@ import {
   CreateUpdateExpertiseType,
   createUpdateExpertiseSchema
 } from "@/schemas/expertiseSchema"
-
-import { Button } from "../atoms/button"
-import { Input } from "../atoms/input"
-import { Label } from "../atoms/label"
 
 interface AddExpertiseDialogProps {
   isOpen: boolean
@@ -33,12 +32,10 @@ interface AddExpertiseDialogProps {
 function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
   const { mutate: addExpertise } = useAddExpertise()
 
-  const [isActive, setIsActive] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const {
     register,
-    setValue,
     handleSubmit,
     formState: { errors }
   } = useForm<CreateUpdateExpertiseType>({

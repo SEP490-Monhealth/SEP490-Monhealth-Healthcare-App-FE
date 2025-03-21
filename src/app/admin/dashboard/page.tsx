@@ -1,9 +1,9 @@
 import React from "react"
 
-import DashboardOverview from "@/components/molecules/dashboard-overview"
-import DashboardStatsCard from "@/components/molecules/dashboard-stats-card"
-import RecentSubscriptions from "@/components/molecules/recent-subscriptions"
-import RecentUsers from "@/components/molecules/recent-users"
+import DashboardOverview from "@/components/locals/admin/dashboard/dashboard-overview"
+import DashboardStatsCard from "@/components/locals/admin/dashboard/dashboard-stats-card"
+import RecentSubscriptions from "@/components/locals/admin/dashboard/recent-subscriptions"
+import RecentUsers from "@/components/locals/admin/dashboard/recent-users"
 
 function DashboardPage() {
   return (

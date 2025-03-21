@@ -1,5 +1,16 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/atoms/avatar"
-import { Badge } from "@/components/atoms/badge"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "@/components/globals/atoms/avatar"
+import { Badge } from "@/components/globals/atoms/badge"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/globals/atoms/card"
 import {
   Table,
   TableBody,
@@ -7,18 +18,10 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from "@/components/atoms/table"
+} from "@/components/globals/atoms/table"
 
 import { formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from "../atoms/card"
 
 const subscriptions = [
   {

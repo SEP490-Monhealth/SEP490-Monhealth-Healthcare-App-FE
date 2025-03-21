@@ -1,15 +1,18 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/atoms/avatar"
-import { Badge } from "@/components/atoms/badge"
-
-import { getInitials } from "@/utils/helpers"
-
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "@/components/globals/atoms/avatar"
+import { Badge } from "@/components/globals/atoms/badge"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
-} from "../atoms/card"
+} from "@/components/globals/atoms/card"
+
+import { getInitials } from "@/utils/helpers"
 
 const users = [
   {

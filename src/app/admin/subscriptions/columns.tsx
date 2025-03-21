@@ -3,18 +3,18 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import { Badge } from "@/components/atoms/badge"
-import { Button } from "@/components/atoms/button"
-import { Checkbox } from "@/components/atoms/checkbox"
+import { Badge } from "@/components/globals/atoms/badge"
+import { Button } from "@/components/globals/atoms/button"
+import { Checkbox } from "@/components/globals/atoms/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger
-} from "@/components/atoms/dropdown-menu"
-import { Separator } from "@/components/atoms/separator"
-import { DataTableColumnHeader } from "@/components/molecules/data-table-column-header"
+} from "@/components/globals/atoms/dropdown-menu"
+import { Separator } from "@/components/globals/atoms/separator"
+import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
 
 import { SubscriptionType } from "@/schemas/subscriptionSchema"
 

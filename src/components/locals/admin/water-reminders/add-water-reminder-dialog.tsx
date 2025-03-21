@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
+import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
   DialogContent,
@@ -12,18 +13,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle
-} from "@/components/atoms/dialog"
-
-import { useAddWaterReminder } from "@/hooks/useWaterReminder"
-
-import {
-  CreateUpdateWaterReminderType,
-  createUpdateWaterReminderSchema
-} from "@/schemas/waterReminderSchema"
-
-import { Button } from "../atoms/button"
-import { Input } from "../atoms/input"
-import { Label } from "../atoms/label"
+} from "@/components/globals/atoms/dialog"
+import { Input } from "@/components/globals/atoms/input"
+import { Label } from "@/components/globals/atoms/label"
 import {
   Select,
   SelectContent,
@@ -32,7 +24,14 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue
-} from "../atoms/select"
+} from "@/components/globals/atoms/select"
+
+import { useAddWaterReminder } from "@/hooks/useWaterReminder"
+
+import {
+  CreateUpdateWaterReminderType,
+  createUpdateWaterReminderSchema
+} from "@/schemas/waterReminderSchema"
 
 interface AddWaterReminderDialogProps {
   isOpen: boolean

@@ -2,7 +2,12 @@
 
 import React from "react"
 
-import { Card, CardContent, CardHeader, CardTitle } from "../atoms/card"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from "@/components/globals/atoms/card"
 
 interface StatsCardProps {
   title: string
