@@ -22,9 +22,9 @@ const DEFAULT_VISIBILITY = {
 }
 
 function SubscriptionPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -108,7 +108,7 @@ function SubscriptionPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const handleAddNewUser = () => {
+  const handleAddNewSubscription = () => {
     console.log("halo anh em")
   }
 
@@ -132,7 +132,7 @@ function SubscriptionPage() {
         filters={filters}
         onClearAllFilters={clearAllFilters}
         addNewButton
-        onAddNew={handleAddNewUser}
+        onAddNew={handleAddNewSubscription}
       />
     </div>
   )

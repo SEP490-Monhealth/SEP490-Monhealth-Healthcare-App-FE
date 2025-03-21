@@ -1,14 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import {
-  BadgeCheck,
-  Ban,
-  Circle,
-  Copy,
-  Eye,
-  MoreHorizontal
-} from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
@@ -86,11 +79,19 @@ export const columns: ColumnDef<ConsultantType>[] = [
     meta: { title: "Mô tả" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Mô tả" />
-    )
+    ),
+    cell: ({ row }) => {
+      const bio = row.original.bio
+      return (
+        <span title={bio} className="block max-w-[320px] truncate">
+          {bio}
+        </span>
+      )
+    }
   },
   {
     accessorKey: "experience",
-    meta: { title: "Kinh nghiệm (Năm)" },
+    meta: { title: "Kinh nghiệm (năm)" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Kinh nghiệm (Năm)" center />
     ),
@@ -121,21 +122,6 @@ export const columns: ColumnDef<ConsultantType>[] = [
       return (
         <span className="flex justify-center pr-4">
           {averageRating.toFixed(1)}
-        </span>
-      )
-    }
-  },
-  {
-    accessorKey: "isVerified",
-    meta: { title: "Đã xác thực" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Đã xác thực" center />
-    ),
-    cell: ({ row }) => {
-      const isVerified = row.original.isVerified
-      return (
-        <span className="flex justify-center pr-4">
-          {isVerified ? <BadgeCheck fill="#16a34a" color="white" /> : null}
         </span>
       )
     }

@@ -26,7 +26,6 @@ function SignInPage() {
 
   const {
     register,
-    setValue,
     handleSubmit,
     formState: { errors }
   } = useForm<LoginUserType>({

@@ -20,9 +20,9 @@ const DEFAULT_VISIBILITY = {
 }
 
 function FoodPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const page = Number(searchParams.get("page")) || 1
   const search = searchParams.get("search") || ""

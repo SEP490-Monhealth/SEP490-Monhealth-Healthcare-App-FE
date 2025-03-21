@@ -13,7 +13,7 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
 
 import LoadingPage from "../../loading"
-import { createColumns } from "./colums"
+import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   expertiseId: false,

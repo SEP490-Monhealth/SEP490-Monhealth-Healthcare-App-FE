@@ -21,9 +21,9 @@ const DEFAULT_VISIBILITY = {
 }
 
 function ConsultantPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
