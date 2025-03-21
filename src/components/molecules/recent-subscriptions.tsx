@@ -9,7 +9,7 @@ import {
   TableRow
 } from "@/components/atoms/table"
 
-import { formatDateTime } from "@/utils/formatters"
+import { formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 import {
@@ -171,8 +171,8 @@ function RecentSubscriptions() {
                   </div>
                 </TableCell>
                 <TableCell>{subscription.subscription}</TableCell>
-                <TableCell>{formatDateTime(subscription.startedAt)}</TableCell>
-                <TableCell>{formatDateTime(subscription.expiresAt)}</TableCell>
+                <TableCell>{formatDate(subscription.startedAt)}</TableCell>
+                <TableCell>{formatDate(subscription.expiresAt)}</TableCell>
                 <TableCell className="text-right">
                   <Badge
                     variant={

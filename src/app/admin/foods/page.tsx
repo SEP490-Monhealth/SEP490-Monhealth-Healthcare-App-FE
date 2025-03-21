@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/atoms/data-table"
-import Breadcrumbs from "@/components/molecules/breadcrumb"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useFoods } from "@/hooks/useFood"
@@ -16,7 +15,9 @@ import { columns } from "./columns"
 const DEFAULT_VISIBILITY = {
   foodId: false,
   description: false,
+  createdAt: false,
   createdBy: false,
+  updatedAt: false,
   updatedBy: false
 }
 
@@ -39,12 +40,6 @@ function FoodPage() {
   } = useFoods(page, limit, "", debouncedSearch)
 
   const totalPages = Math.ceil((foodsData?.totalItems || 1) / limit)
-
-  const breadcrumbItems = [
-    { label: "Bảng điều khiển", href: "#" },
-    { label: "Món ăn", href: "#" },
-    { label: "Danh sách Món ăn", isCurrentPage: true }
-  ]
 
   const updateParams = (key: string, value: string | number) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -72,9 +67,7 @@ function FoodPage() {
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <div className="space-y-10">
-      <Breadcrumbs items={breadcrumbItems} />
-
+    <div>
       <DataTable
         data={foodsData?.foods || []}
         columns={columns}

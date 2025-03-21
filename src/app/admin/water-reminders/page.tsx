@@ -5,27 +5,28 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/atoms/data-table"
-import Breadcrumbs from "@/components/molecules/breadcrumb"
+import AddWaterReminderDialog from "@/components/molecules/add-water-reminder-dialog"
 import { DataTableFilterProps } from "@/components/molecules/data-table-filter"
+import WaterReminderDetailDialog from "@/components/molecules/water-reminder-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useWaterReminders } from "@/hooks/useWaterReminder"
 
-import { WaterReminderType } from "@/schemas/waterReminderSchema"
-
 import LoadingPage from "../loading"
-import { columns } from "./columns"
+import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   waterReminderId: false,
+  createdAt: false,
   createdBy: false,
+  updatedAt: false,
   updatedBy: false
 }
 
 function WaterReminderPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -36,9 +37,11 @@ function WaterReminderPage() {
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
 
-  const [selectedWaterReminder, setSelectedWaterReminder] =
-    useState<WaterReminderType | null>(null)
+  const [selectedWaterReminder, setSelectedWaterReminder] = useState<
+    string | null
+  >(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedRecurring =
     recurring === ""
@@ -72,23 +75,17 @@ function WaterReminderPage() {
 
   const totalPages = Math.ceil((waterRemindersData?.totalItems || 1) / limit)
 
-  const breadcrumbItems = [
-    { label: "Bảng điều khiển", href: "#" },
-    { label: "Nhắc nhở", href: "#" },
-    { label: "Danh sách nhắc nhở", isCurrentPage: true }
-  ]
-
   const filters: DataTableFilterProps[] = [
-    // {
-    //   name: "recurring",
-    //   label: "",
-    //   options: [
-    //     { value: "true", label: "" },
-    //     { value: "false", label: "" }
-    //   ],
-    //   value: recurring,
-    //   onChange: (value: string) => updateParams("recurring", value)
-    // },
+    {
+      name: "recurring",
+      label: "Tần suất lặp lại",
+      options: [
+        { value: "true", label: "Lặp lại hàng ngày" },
+        { value: "false", label: "Không lặp lại" }
+      ],
+      value: recurring,
+      onChange: (value: string) => updateParams("recurring", value)
+    },
     {
       name: "status",
       label: "Trạng thái",
@@ -116,12 +113,6 @@ function WaterReminderPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  useEffect(() => {
-    if (debouncedSearch !== search) {
-      updateParams("search", debouncedSearch)
-    }
-  }, [debouncedSearch])
-
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
@@ -131,17 +122,40 @@ function WaterReminderPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const handleAddNewWaterReminder = () => {
-    router.push("/admin/water-reminders/create")
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
+    }
+  }, [debouncedSearch])
+
+  const handleViewDetail = (waterReminderId: string) => {
+    setSelectedWaterReminder(waterReminderId)
+    setIsDetailDialogOpen(true)
   }
+
+  const handleCloseDetailDialog = () => {
+    setIsDetailDialogOpen(false)
+    setTimeout(() => setSelectedWaterReminder(null), 300)
+  }
+
+  const handleAddWaterReminder = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedWaterReminder(null), 300)
+  }
+
+  const columns = createColumns({
+    onViewDetail: handleViewDetail
+  })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <div className="space-y-10">
-      <Breadcrumbs items={breadcrumbItems} />
-
+    <div>
       <DataTable
         data={waterRemindersData?.waterReminders || []}
         columns={columns}
@@ -157,7 +171,18 @@ function WaterReminderPage() {
         filters={filters}
         onClearAllFilters={clearAllFilters}
         addNewButton
-        onAddNew={handleAddNewWaterReminder}
+        onAddNew={handleAddWaterReminder}
+      />
+
+      <WaterReminderDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleCloseDetailDialog}
+        waterReminderId={selectedWaterReminder}
+      />
+
+      <AddWaterReminderDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
       />
     </div>
   )

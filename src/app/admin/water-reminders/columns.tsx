@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/atoms/badge"
 import { Button } from "@/components/atoms/button"
@@ -13,17 +13,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/atoms/dropdown-menu"
+import { Separator } from "@/components/atoms/separator"
 import { DataTableColumnHeader } from "@/components/molecules/data-table-column-header"
 
 import { WaterReminderType } from "@/schemas/waterReminderSchema"
 
-import { formatDateTime } from "@/utils/formatters"
+import { formatDate } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
-  onViewDetails?: (waterReminder: WaterReminderType) => void
+  onViewDetail: (waterReminder: string) => void
 }
 
-export const columns: ColumnDef<WaterReminderType>[] = [
+export const createColumns = (
+  handlers: ColumnActionsHandlers
+): ColumnDef<WaterReminderType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -70,35 +73,53 @@ export const columns: ColumnDef<WaterReminderType>[] = [
     accessorKey: "time",
     meta: { title: "Thời gian" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Thời gian" />
-    )
+      <DataTableColumnHeader column={column} title="Thời gian" center />
+    ),
+    cell: ({ row }) => {
+      const time = row.original.time
+      return <span className="flex justify-center pr-4">{time}</span>
+    }
   },
   {
     accessorKey: "volume",
     meta: { title: "Dung tích" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Dung tích (ml)" />
-    )
+      <DataTableColumnHeader column={column} title="Dung tích (ml)" center />
+    ),
+    cell: ({ row }) => {
+      const volume = row.original.volume
+      return <span className="flex justify-center pr-4">{volume}</span>
+    }
   },
   {
     accessorKey: "isRecurring",
-    meta: { title: "Lặp lại" },
+    meta: { title: "Tần suất" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Lặp lại" />
-    )
+      <DataTableColumnHeader column={column} title="Tần suất" center />
+    ),
+    cell: ({ row }) => {
+      const isRecurring = row.original.isRecurring
+      return (
+        <span className="flex justify-center pr-4">
+          {isRecurring === true ? "Lặp lại hàng ngày" : "Không lặp lại"}
+        </span>
+      )
+    }
   },
   {
     accessorKey: "status",
     meta: { title: "Trạng thái" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Trạng thái" />
+      <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
       const status = row.original.status
       return (
-        <Badge variant={status ? "default" : "destructive"}>
-          {status ? "Hoạt động" : "Ngừng hoạt động"}
-        </Badge>
+        <div className="flex justify-center pr-4">
+          <Badge variant={status ? "default" : "destructive"}>
+            {status ? "Hoạt động" : "Ngừng hoạt động"}
+          </Badge>
+        </div>
       )
     }
   },
@@ -110,7 +131,7 @@ export const columns: ColumnDef<WaterReminderType>[] = [
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDateTime(createdAt)}</span>
+      return <span>{formatDate(createdAt)}</span>
     }
   },
   {
@@ -128,7 +149,7 @@ export const columns: ColumnDef<WaterReminderType>[] = [
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDateTime(updatedAt)}</span>
+      return <span>{formatDate(updatedAt)}</span>
     }
   },
   {
@@ -140,32 +161,61 @@ export const columns: ColumnDef<WaterReminderType>[] = [
   },
   {
     id: "actions",
-    header: "Thao tác",
+    header: () => (
+      <span className="flex items-center justify-center">Thao tác</span>
+    ),
     cell: ({ row }) => {
-      const userData = row.original
+      const waterReminderData = row.original
+      const isActive = waterReminderData.status
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(userData.waterReminderId)
-              }
-            >
-              Sao chép mã
-            </DropdownMenuItem>
-            {/* <DropdownMenuItem onClick={() => handlers.onViewDetails(userData)}>
-              Xem chi tiết
-            </DropdownMenuItem> */}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center">
+              <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    waterReminderData.waterReminderId
+                  )
+                }
+              >
+                <Copy className="h-4 w-4" />
+                Sao chép mã
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  handlers.onViewDetail(waterReminderData.waterReminderId)
+                }
+              >
+                <Eye className="h-4 w-4" />
+                Xem chi tiết
+              </DropdownMenuItem>
+
+              <Separator />
+
+              <DropdownMenuItem variant="destructive">
+                {isActive ? (
+                  <>
+                    <Ban className="h-4 w-4" />
+                    Ngừng hoạt động
+                  </>
+                ) : (
+                  <>
+                    <Circle className="h-4 w-4" />
+                    Kích hoạt
+                  </>
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       )
     },
     enableSorting: false,

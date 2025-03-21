@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const roles = ["Member", "Subscription Member", "Consultant", "Admin"]
+export const roles = ["Member", "Subscription Member", "Consultant", "Admin"]
 
 export const userSchema = z.object({
   userId: uuidSchema,
@@ -29,7 +29,7 @@ export const userSchema = z.object({
     .regex(/[\W_]/, {
       message: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt"
     }),
-  avatarUrl: z.string().nullable(),
+  avatarUrl: z.string().optional(),
 
   role: z.string().refine((val) => roles.includes(val), {
     message: `Vai trò không hợp lệ. Chỉ chấp nhận: ${roles.join(", ")}`
@@ -45,6 +45,7 @@ export const createUpdateUserSchema = userSchema.pick({
   email: true,
   phoneNumber: true,
   avatarUrl: true,
+  role: true,
   status: true
 })
 

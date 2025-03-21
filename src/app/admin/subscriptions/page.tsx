@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/atoms/data-table"
-import Breadcrumbs from "@/components/molecules/breadcrumb"
 import { DataTableFilterProps } from "@/components/molecules/data-table-filter"
 
 import { useDebounce } from "@/hooks/useDebounce"
@@ -18,7 +17,9 @@ const DEFAULT_VISIBILITY = {
   subscriptionId: false,
   description: false,
   features: false,
+  createdAt: false,
   createdBy: false,
+  updatedAt: false,
   updatedBy: false
 }
 
@@ -55,12 +56,6 @@ function SubscriptionPage() {
   } = useSubscriptions(page, limit, debouncedSearch, parsedSort, parsedStatus)
 
   const totalPages = Math.ceil((subscriptionsData?.totalItems || 1) / limit)
-
-  const breadcrumbItems = [
-    { label: "Bảng điều khiển", href: "#" },
-    { label: "Gói đăng ký", href: "#" },
-    { label: "Danh sách gói đăng ký", isCurrentPage: true }
-  ]
 
   const filters: DataTableFilterProps[] = [
     {
@@ -123,9 +118,7 @@ function SubscriptionPage() {
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <div className="space-y-10">
-      <Breadcrumbs items={breadcrumbItems} />
-
+    <div>
       <DataTable
         data={subscriptionsData?.subscriptions || []}
         columns={columns}

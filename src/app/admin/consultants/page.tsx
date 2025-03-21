@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/atoms/data-table"
-import Breadcrumbs from "@/components/molecules/breadcrumb"
 import { DataTableFilterProps } from "@/components/molecules/data-table-filter"
 
 import { useConsultants } from "@/hooks/useConsultant"
@@ -17,7 +16,9 @@ import { columns } from "./columns"
 const DEFAULT_VISIBILITY = {
   consultantId: false,
   bio: false,
+  createdAt: false,
   createdBy: false,
+  updatedAt: false,
   updatedBy: false
 }
 
@@ -50,12 +51,6 @@ function ConsultantPage() {
   } = useConsultants(page, limit, debouncedSearch, parsedStatus)
 
   const totalPages = Math.ceil((consultantsData?.totalItems || 1) / limit)
-
-  const breadcrumbItems = [
-    { label: "Bảng điều khiển", href: "#" },
-    { label: "Người dùng", href: "#" },
-    { label: "Danh sách người dùng", isCurrentPage: true }
-  ]
 
   const filters: DataTableFilterProps[] = [
     {
@@ -107,9 +102,7 @@ function ConsultantPage() {
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <div className="space-y-10">
-      <Breadcrumbs items={breadcrumbItems} />
-
+    <div>
       <DataTable
         data={consultantsData?.consultants || []}
         columns={columns}

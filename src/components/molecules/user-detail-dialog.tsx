@@ -13,7 +13,7 @@ import {
 
 import { useUserById } from "@/hooks/useUser"
 
-import { formatDateTime, formatPhoneNumber } from "@/utils/formatters"
+import { formatDate, formatPhoneNumber } from "@/utils/formatters"
 
 import { Button } from "../atoms/button"
 import { Input } from "../atoms/input"
@@ -102,7 +102,7 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
               <Input
                 id="createdAt"
                 type="text"
-                value={formatDateTime(userData.createdAt)}
+                value={formatDate(userData.createdAt)}
                 disabled
               />
             </div>
@@ -122,7 +122,7 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
               <Input
                 id="updatedAt"
                 type="text"
-                value={formatDateTime(userData.updatedAt)}
+                value={formatDate(userData.updatedAt)}
                 disabled
               />
             </div>

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/atoms/data-table"
-import Breadcrumbs from "@/components/molecules/breadcrumb"
+import AddUserDialog from "@/components/molecules/add-user-dialog"
 import { DataTableFilterProps } from "@/components/molecules/data-table-filter"
 import UserDetailDialog from "@/components/molecules/user-detail-dialog"
 
@@ -18,14 +18,16 @@ import { createColumns } from "./columns"
 const DEFAULT_VISIBILITY = {
   userId: false,
   email: false,
+  createdAt: false,
   createdBy: false,
+  updatedAt: false,
   updatedBy: false
 }
 
 function UserPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -38,6 +40,7 @@ function UserPage() {
 
   const [selectedUser, setSelectedUser] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedStatus =
     status === ""
@@ -55,12 +58,6 @@ function UserPage() {
   } = useUsers(page, limit, debouncedSearch, role, parsedStatus)
 
   const totalPages = Math.ceil((usersData?.totalItems || 1) / limit)
-
-  const breadcrumbItems = [
-    { label: "Bảng điều khiển", href: "#" },
-    { label: "Người dùng", href: "#" },
-    { label: "Danh sách người dùng", isCurrentPage: true }
-  ]
 
   const filters: DataTableFilterProps[] = [
     {
@@ -101,12 +98,6 @@ function UserPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  useEffect(() => {
-    if (debouncedSearch !== search) {
-      updateParams("search", debouncedSearch)
-    }
-  }, [debouncedSearch])
-
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
@@ -116,7 +107,13 @@ function UserPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const handleViewDetails = (userId: string) => {
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
+    }
+  }, [debouncedSearch])
+
+  const handleViewDetail = (userId: string) => {
     setSelectedUser(userId)
     setIsDetailDialogOpen(true)
   }
@@ -126,21 +123,24 @@ function UserPage() {
     setTimeout(() => setSelectedUser(null), 300)
   }
 
-  const columns = createColumns({
-    onViewDetails: handleViewDetails
-  })
-
-  const handleAddNewUser = () => {
-    router.push("/admin/users/create")
+  const handleAddUser = () => {
+    setIsAddDialogOpen(true)
   }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedUser(null), 300)
+  }
+
+  const columns = createColumns({
+    onViewDetail: handleViewDetail
+  })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
 
   return (
-    <div className="space-y-10">
-      <Breadcrumbs items={breadcrumbItems} />
-
+    <div>
       <DataTable
         data={usersData?.users || []}
         columns={columns}
@@ -156,7 +156,7 @@ function UserPage() {
         filters={filters}
         onClearAllFilters={clearAllFilters}
         addNewButton
-        onAddNew={handleAddNewUser}
+        onAddNew={handleAddUser}
       />
 
       <UserDetailDialog
@@ -164,6 +164,8 @@ function UserPage() {
         onClose={handleCloseDetailDialog}
         userId={selectedUser}
       />
+
+      <AddUserDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />
     </div>
   )
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { Table } from "@tanstack/react-table"
-import { Settings2 } from "lucide-react"
+import { SlidersHorizontal } from "lucide-react"
 
 import { Button } from "../atoms/button"
 import {
@@ -24,7 +24,7 @@ export function DataTableViewOptions<TData>({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          <Settings2 />
+          <SlidersHorizontal />
           Cột hiển thị
         </Button>
       </DropdownMenuTrigger>

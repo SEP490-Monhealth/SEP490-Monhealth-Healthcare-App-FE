@@ -19,11 +19,11 @@ import { DataTableColumnHeader } from "@/components/molecules/data-table-column-
 
 import { UserType } from "@/schemas/userSchema"
 
-import { formatDateTime, formatPhoneNumber } from "@/utils/formatters"
+import { formatDate, formatPhoneNumber } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
-  onViewDetails: (userId: string) => void
+  onViewDetail: (userId: string) => void
 }
 
 export const createColumns = (
@@ -135,7 +135,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDateTime(createdAt)}</span>
+      return <span>{formatDate(createdAt)}</span>
     }
   },
   {
@@ -153,7 +153,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDateTime(updatedAt)}</span>
+      return <span>{formatDate(updatedAt)}</span>
     }
   },
   {
@@ -165,52 +165,56 @@ export const createColumns = (
   },
   {
     id: "actions",
-    header: "Thao tác",
+    header: () => (
+      <span className="flex items-center justify-center">Thao tác</span>
+    ),
     cell: ({ row }) => {
       const userData = row.original
       const isActive = userData.status
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
+        <div className="flex justify-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center">
+              <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
 
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(userData.userId)}
-            >
-              <Copy className="h-4 w-4" />
-              Sao chép mã
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => handlers.onViewDetails(userData.userId)}
-            >
-              <Eye className="h-4 w-4" />
-              Xem chi tiết
-            </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => navigator.clipboard.writeText(userData.userId)}
+              >
+                <Copy className="h-4 w-4" />
+                Sao chép mã
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlers.onViewDetail(userData.userId)}
+              >
+                <Eye className="h-4 w-4" />
+                Xem chi tiết
+              </DropdownMenuItem>
 
-            <Separator />
+              <Separator />
 
-            <DropdownMenuItem variant="destructive">
-              {isActive ? (
-                <>
-                  <Ban className="h-4 w-4" />
-                  Ngừng hoạt động
-                </>
-              ) : (
-                <>
-                  <Circle className="h-4 w-4" />
-                  Kích hoạt
-                </>
-              )}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <DropdownMenuItem variant="destructive">
+                {isActive ? (
+                  <>
+                    <Ban className="h-4 w-4" />
+                    Ngừng hoạt động
+                  </>
+                ) : (
+                  <>
+                    <Circle className="h-4 w-4" />
+                    Kích hoạt
+                  </>
+                )}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       )
     },
     enableSorting: false,
