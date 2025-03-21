@@ -76,7 +76,7 @@ function SignInPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="nguyenvana@gmail.com"
+                  placeholder="Nhập email"
                   {...register("email")}
                 />
               </div>
@@ -94,7 +94,7 @@ function SignInPage() {
                   <Input
                     id="password"
                     type={isVisible ? "text" : "password"}
-                    placeholder="nguyenvana@gmail.com"
+                    placeholder="Nhập mật khẩu"
                     {...register("password")}
                   />
                   <button

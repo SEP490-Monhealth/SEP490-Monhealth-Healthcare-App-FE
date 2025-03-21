@@ -26,7 +26,7 @@ const userSubscription = z.object({
   ...timestampFields
 })
 
-const subscriptionSchema = z.object({
+export const subscriptionSchema = z.object({
   subscriptionId: uuidSchema,
 
   name: z
@@ -60,7 +60,7 @@ const subscriptionSchema = z.object({
   ...auditFields
 })
 
-const createUpdateSubscriptionSchema = subscriptionSchema.pick({
+export const createUpdateSubscriptionSchema = subscriptionSchema.pick({
   name: true,
   description: true,
   price: true,

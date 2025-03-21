@@ -49,7 +49,7 @@ export const createUpdateUserSchema = userSchema.pick({
   status: true
 })
 
-const loginUserSchema = userSchema.pick({
+export const loginUserSchema = userSchema.pick({
   email: true,
   password: true
 })

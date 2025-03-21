@@ -34,7 +34,7 @@ export const useSubscriptionById = (subscriptionId: string) =>
 export const useAddSubscription = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<SubscriptionType, Error, CreateUpdateSubscriptionType>({
+  return useMutation<string, Error, CreateUpdateSubscriptionType>({
     mutationFn: addSubscription,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] })

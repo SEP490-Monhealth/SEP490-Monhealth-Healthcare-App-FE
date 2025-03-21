@@ -11,7 +11,7 @@ import {
   DialogTitle
 } from "@/components/atoms/dialog"
 
-import { useWaterReminderById } from "@/hooks/useWaterReminder"
+import { useExpertiseById } from "@/hooks/useExpertise"
 
 import { formatDate } from "@/utils/formatters"
 
@@ -21,93 +21,71 @@ import { Label } from "../atoms/label"
 import ErrorDialog from "./error-dialog"
 import LoadingDialog from "./loading-dialog"
 
-interface WaterReminderDetailDialogProps {
+interface ExpertiseDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  waterReminderId: string | null
+  expertiseId: string | null
 }
 
-function WaterReminderDetailDialog({
+function ExpertiseDetailDialog({
   isOpen,
   onClose,
-  waterReminderId
-}: WaterReminderDetailDialogProps) {
+  expertiseId
+}: ExpertiseDetailDialogProps) {
   const {
-    data: waterReminderData,
+    data: expertiseData,
     isLoading,
     error
-  } = useWaterReminderById(waterReminderId || "")
+  } = useExpertiseById(expertiseId || "")
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-h-[520px] min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết nhắc nhở</DialogTitle>
+          <DialogTitle>Chi tiết chuyên môn</DialogTitle>
           <DialogDescription>
-            Xem và quản lý thông tin chi tiết của nhắc nhở.
+            Xem và quản lý thông tin chi tiết của chuyên môn.
           </DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !waterReminderData ? (
+        ) : error || !expertiseData ? (
           <ErrorDialog
             message={
               error
                 ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu nhắc nhở."
+                : "Không có dữ liệu chuyên môn."
             }
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <div className="space-y-2">
-              <Label htmlFor="waterReminderId">Mã nhắc nhở</Label>
+              <Label htmlFor="expertiseId">Mã chuyên môn</Label>
               <Input
-                id="waterReminderId"
+                id="expertiseId"
                 type="text"
-                value={waterReminderData.waterReminderId}
+                value={expertiseData.expertiseId}
                 disabled
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="name">Tên nhắc nhở</Label>
+              <Label htmlFor="name">Tên chuyên môn</Label>
               <Input
                 id="name"
                 type="text"
-                value={waterReminderData.name}
+                value={expertiseData.name}
                 disabled
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="volume">Dung tích</Label>
+              <Label htmlFor="description">Mô tả</Label>
               <Input
-                id="volume"
-                type="number"
-                value={waterReminderData.volume}
-                disabled
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="isRecurring">Lặp lại</Label>
-              <Input
-                id="isRecurring"
+                id="description"
                 type="text"
-                value={waterReminderData.isRecurring ? "Có" : "Không"}
-                disabled
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="status">Trạng thái</Label>
-              <Input
-                id="status"
-                type="text"
-                value={
-                  waterReminderData.status ? "Hoạt động" : "Ngừng hoạt động"
-                }
+                value={expertiseData.description}
                 disabled
               />
             </div>
@@ -117,7 +95,7 @@ function WaterReminderDetailDialog({
               <Input
                 id="createdAt"
                 type="text"
-                value={formatDate(waterReminderData.createdAt)}
+                value={formatDate(expertiseData.createdAt)}
                 disabled
               />
             </div>
@@ -127,7 +105,7 @@ function WaterReminderDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={waterReminderData.createdBy}
+                value={expertiseData.createdBy}
                 disabled
               />
             </div>
@@ -137,7 +115,7 @@ function WaterReminderDetailDialog({
               <Input
                 id="updatedAt"
                 type="text"
-                value={formatDate(waterReminderData.updatedAt)}
+                value={formatDate(expertiseData.updatedAt)}
                 disabled
               />
             </div>
@@ -147,7 +125,7 @@ function WaterReminderDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={waterReminderData.updatedBy}
+                value={expertiseData.updatedBy}
                 disabled
               />
             </div>
@@ -162,4 +140,4 @@ function WaterReminderDetailDialog({
   )
 }
 
-export default WaterReminderDetailDialog
+export default ExpertiseDetailDialog

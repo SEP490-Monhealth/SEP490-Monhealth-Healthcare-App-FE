@@ -58,7 +58,7 @@ export const fetchSubscriptionById = async (
 
 export const addSubscription = async (
   newSubscriptionData: CreateUpdateSubscriptionType
-): Promise<SubscriptionType> => {
+): Promise<string> => {
   try {
     const response = await monAPI.post("/subscriptions", newSubscriptionData)
 

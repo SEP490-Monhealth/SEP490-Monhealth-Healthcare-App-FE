@@ -41,6 +41,8 @@ export function formatCurrency(value: number): string {
  * formatDate(new Date(2024, 2, 15)) => "15/03/2024"
  */
 export function formatDate(date: Date | string): string {
+  if (!date) return ""
+
   const d = typeof date === "string" ? new Date(date) : date
   const day = String(d.getDate()).padStart(2, "0")
   const month = String(d.getMonth() + 1).padStart(2, "0")
@@ -58,6 +60,8 @@ export function formatDate(date: Date | string): string {
  * formatDateTime(new Date(2024, 2, 15, 14, 30, 0)) => "15/03/2024 14:30:00"
  */
 export function formatDateTime(dateTime: Date | string): string {
+  if (!dateTime) return ""
+
   const d = typeof dateTime === "string" ? new Date(dateTime) : dateTime
   const day = String(d.getDate()).padStart(2, "0")
   const month = String(d.getMonth() + 1).padStart(2, "0")
@@ -79,6 +83,8 @@ export function formatDateTime(dateTime: Date | string): string {
  * formatPhoneNumber("+84 907123456") => "0907 123 456"
  */
 export function formatPhoneNumber(phone: string): string {
+  if (!phone) return ""
+
   phone = phone.replace(/\D/g, "")
   if (phone.length === 10) {
     return `${phone.slice(0, 4)} ${phone.slice(4, 7)} ${phone.slice(7)}`

@@ -1,8 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 import { CreateUpdateUserType, UserType } from "@/schemas/userSchema"
 
-import { addUser, fetchUserById, fetchUsers } from "@/services/userService"
+import {
+  addUser,
+  fetchUserById,
+  fetchUsers,
+  updateUserStatus
+} from "@/services/userService"
 
 export const useUsers = (
   page: number,
@@ -27,10 +33,28 @@ export const useUserById = (userId: string) =>
 export const useAddUser = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<UserType, Error, CreateUpdateUserType>({
+  return useMutation<string, Error, CreateUpdateUserType>({
     mutationFn: addUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to add user")
+    }
+  })
+}
+
+export const useUserStatus = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { userId: string }>({
+    mutationFn: ({ userId }) => updateUserStatus(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] })
+      queryClient.invalidateQueries({ queryKey: ["user"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update user status")
     }
   })
 }

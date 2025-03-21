@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { timestampFields } from "./baseSchema"
+import { auditFields } from "./baseSchema"
 
 export const expertiseSchema = z.object({
   expertiseId: z.string().uuid(),
@@ -12,7 +12,15 @@ export const expertiseSchema = z.object({
     .max(255, { message: "Tên chuyên môn không được quá 255 ký tự" }),
   description: z.string().optional(),
 
-  ...timestampFields
+  ...auditFields
+})
+
+export const createUpdateExpertiseSchema = expertiseSchema.pick({
+  name: true,
+  description: true
 })
 
 export type ExpertiseType = z.infer<typeof expertiseSchema>
+export type CreateUpdateExpertiseType = z.infer<
+  typeof createUpdateExpertiseSchema
+>

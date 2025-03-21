@@ -1,10 +1,8 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
+import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/atoms/avatar"
-import { Badge } from "@/components/atoms/badge"
 import { Button } from "@/components/atoms/button"
 import { Checkbox } from "@/components/atoms/checkbox"
 import {
@@ -14,23 +12,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/atoms/dropdown-menu"
-import { Separator } from "@/components/atoms/separator"
 import { DataTableColumnHeader } from "@/components/molecules/data-table-column-header"
 
-import { useUserStatus } from "@/hooks/useUser"
+import { ExpertiseType } from "@/schemas/expertiseSchema"
 
-import { UserType } from "@/schemas/userSchema"
-
-import { formatDate, formatPhoneNumber } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
+import { formatDate } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
-  onViewDetail: (userId: string) => void
+  onViewDetail: (expertiseId: string) => void
 }
 
 export const createColumns = (
   handlers: ColumnActionsHandlers
-): ColumnDef<UserType>[] => [
+): ColumnDef<ExpertiseType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -56,76 +50,28 @@ export const createColumns = (
     enableHiding: false
   },
   {
-    accessorKey: "userId",
+    accessorKey: "expertiseId",
     meta: { title: "Mã người dùng" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Mã người dùng" />
     )
   },
   {
-    accessorKey: "fullName",
-    meta: { title: "Họ tên" },
+    accessorKey: "name",
+    meta: { title: "Tên món ăn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Họ tên" />
-    ),
-    cell: ({ row }) => {
-      const fullName = row.original.fullName
-      const email = row.original.email
-      const avatarUrl = row.original.avatarUrl
-
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "email",
-    meta: { title: "Email" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
+      <DataTableColumnHeader column={column} title="Tên món ăn" />
     )
   },
   {
-    accessorKey: "phoneNumber",
-    meta: { title: "Số điện thoại" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số điện thoại" />
-    ),
+    accessorKey: "description",
+    header: "Mô tả",
     cell: ({ row }) => {
-      const phoneNumber = row.original.phoneNumber
-      return <span>{formatPhoneNumber(phoneNumber)}</span>
-    }
-  },
-  {
-    accessorKey: "role",
-    meta: { title: "Vai trò" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Vai trò" />
-    )
-  },
-  {
-    accessorKey: "status",
-    meta: { title: "Trạng thái" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Trạng thái" center />
-    ),
-    cell: ({ row }) => {
-      const status = row.original.status
+      const description = row.original.description
       return (
-        <div className="flex justify-center pr-4">
-          <Badge variant={status ? "default" : "destructive"}>
-            {status ? "Hoạt động" : "Ngừng hoạt động"}
-          </Badge>
-        </div>
+        <span title={description} className="block max-w-[320px] truncate">
+          {description}
+        </span>
       )
     }
   },
@@ -171,10 +117,7 @@ export const createColumns = (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const { mutate: updateUserStatus } = useUserStatus()
-
-      const userData = row.original
-      const isActive = userData.status
+      const expertiseData = row.original
 
       return (
         <div className="flex justify-center">
@@ -189,35 +132,18 @@ export const createColumns = (
               <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
 
               <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(userData.userId)}
+                onClick={() =>
+                  navigator.clipboard.writeText(expertiseData.expertiseId)
+                }
               >
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handlers.onViewDetail(userData.userId)}
+                onClick={() => handlers.onViewDetail(expertiseData.expertiseId)}
               >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
-              </DropdownMenuItem>
-
-              <Separator />
-
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={() => updateUserStatus({ userId: userData.userId })}
-              >
-                {isActive ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng hoạt động
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Kích hoạt
-                  </>
-                )}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

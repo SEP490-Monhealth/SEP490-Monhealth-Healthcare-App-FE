@@ -71,7 +71,6 @@ function AddWaterReminderDialog({
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
       console.log("Tạo nhắc nhở thành công!")
-      // onClose()
     } catch (error) {
       console.error("Lỗi khi tạo nhắc nhở:", error)
     } finally {
@@ -85,87 +84,90 @@ function AddWaterReminderDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Tạo nhắc nhở nhắc nhở</DialogTitle>
+          <DialogTitle>Tạo nhắc nhở</DialogTitle>
           <DialogDescription>
-            Vui lòng điền đầy đủ thông tin để tạo nhắc nhở nhắc nhở mới.
+            Vui lòng điền đầy đủ thông tin để tạo nhắc nhở mới.
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
-            <div>
-              <div className="space-y-2">
-                <Label htmlFor="name">Tên nhắc nhở</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Nhắc nhở uống nước"
-                  {...register("name")}
-                />
-              </div>
-              {errors.name && (
-                <p className="mt-1 ml-1 text-sm text-red-600">
-                  {errors.name.message}
-                </p>
-              )}
+        <div className="space-y-4">
+          <div>
+            <div className="space-y-2">
+              <Label htmlFor="name">Tên nhắc nhở</Label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Nhập tên nhắc nhở"
+                {...register("name")}
+              />
             </div>
-
-            <div>
-              <div className="space-y-2">
-                <Label htmlFor="volume">Dung tích (ml)</Label>
-                <Input
-                  id="volume"
-                  type="text"
-                  placeholder="250"
-                  {...register("volume", { valueAsNumber: true })}
-                />
-              </div>
-              {errors.volume && (
-                <p className="mt-1 ml-1 text-sm text-red-600">
-                  {errors.volume.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <div className="space-y-2">
-                <Label htmlFor="isRecurring">Tần suất</Label>
-                <Select
-                  onValueChange={(value) =>
-                    setValue("isRecurring", value === "true")
-                  }
-                  defaultValue="false"
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Tần suất" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Tần suất</SelectLabel>
-                      <SelectItem value="false">Không lặp lại</SelectItem>
-                      <SelectItem value="true">Lặp lại hàng ngày</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              {errors.isRecurring && (
-                <p className="mt-1 ml-1 text-sm text-red-600">
-                  {errors.isRecurring.message}
-                </p>
-              )}
-            </div>
+            {errors.name && (
+              <p className="mt-1 ml-1 text-sm text-red-600">
+                {errors.name.message}
+              </p>
+            )}
           </div>
 
-          <DialogFooter className="mt-6 gap-4">
-            <Button variant="secondary" size="lg" onClick={onClose}>
-              Hủy
-            </Button>
+          <div>
+            <div className="space-y-2">
+              <Label htmlFor="volume">Dung tích (ml)</Label>
+              <Input
+                id="volume"
+                type="text"
+                placeholder="Nhập dung tích"
+                {...register("volume", { valueAsNumber: true })}
+              />
+            </div>
+            {errors.volume && (
+              <p className="mt-1 ml-1 text-sm text-red-600">
+                {errors.volume.message}
+              </p>
+            )}
+          </div>
 
-            <Button type="submit" disabled={isLoading} size="lg">
-              {isLoading ? "Đang tạo..." : "Tạo nhắc nhở"}
-            </Button>
-          </DialogFooter>
-        </form>
+          <div>
+            <div className="space-y-2">
+              <Label htmlFor="isRecurring">Tần suất</Label>
+              <Select
+                onValueChange={(value) =>
+                  setValue("isRecurring", value === "true")
+                }
+                defaultValue="false"
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Chọn tần suất" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Tần suất</SelectLabel>
+                    <SelectItem value="false">Không lặp lại</SelectItem>
+                    <SelectItem value="true">Lặp lại hàng ngày</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            {errors.isRecurring && (
+              <p className="mt-1 ml-1 text-sm text-red-600">
+                {errors.isRecurring.message}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <DialogFooter className="mt-6 gap-4">
+          <Button variant="secondary" size="lg" onClick={onClose}>
+            Hủy
+          </Button>
+
+          <Button
+            type="submit"
+            disabled={isLoading}
+            size="lg"
+            onClick={handleSubmit(onSubmit)}
+          >
+            {isLoading ? "Đang tạo..." : "Tạo nhắc nhở"}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

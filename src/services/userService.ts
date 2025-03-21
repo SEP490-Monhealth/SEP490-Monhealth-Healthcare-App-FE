@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import { CreateUpdateUserType, UserType } from "@/schemas/userSchema"
@@ -53,7 +55,7 @@ export const fetchUserById = async (userId: string): Promise<UserType> => {
 
 export const addUser = async (
   newUserData: CreateUpdateUserType
-): Promise<UserType> => {
+): Promise<string> => {
   try {
     const response = await monAPI.post("/users", newUserData)
 
@@ -63,9 +65,28 @@ export const addUser = async (
       throw new Error(message || "Failed to add user")
     }
 
+    toast.success(message)
     return message
   } catch (error) {
     console.error("Error adding user:", error)
     throw new Error("Failed to add user")
+  }
+}
+
+export const updateUserStatus = async (userId: string): Promise<void> => {
+  try {
+    const response = await monAPI.patch(`/users/${userId}/status`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update user status")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating user status:", error)
+    throw new Error("Failed to update user status")
   }
 }
