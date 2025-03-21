@@ -63,7 +63,7 @@ export const sidebarItems: SidebarItem[] = [
     children: [
       { title: "Danh sách lịch hẹn", path: "/admin/bookings" },
       { title: "Lịch làm việc", path: "/admin/schedules" },
-      { title: "Khung giờ", path: "/admin/time-slots" },
+      { title: "Khung giờ", path: "/admin/schedules/time-slots" },
       { title: "Ngoại lệ lịch", path: "/admin/schedules/exceptions" }
     ]
   },

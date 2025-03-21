@@ -19,12 +19,12 @@ interface StatsCardProps {
 function StatsCard({ title, icon, value, description }: StatsCardProps) {
   return (
     <Card className="gap-0">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <div className="text-muted-foreground h-4 w-4">{icon}</div>
+        <span className="text-muted-foreground h-4 w-4">{icon}</span>
       </CardHeader>
-      <CardContent className="flex flex-col gap-1">
-        <div className="text-2xl font-bold">{value}</div>
+      <CardContent className="space-y-1">
+        <h4 className="text-2xl font-bold">{value}</h4>
         <p className="text-muted-foreground text-sm">{description}</p>
       </CardContent>
     </Card>

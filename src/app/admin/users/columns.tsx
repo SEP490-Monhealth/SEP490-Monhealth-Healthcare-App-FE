@@ -113,8 +113,16 @@ export const createColumns = (
     accessorKey: "role",
     meta: { title: "Vai trò" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Vai trò" />
-    )
+      <DataTableColumnHeader column={column} title="Vai trò" center />
+    ),
+    cell: ({ row }) => {
+      const role = row.original.role
+      return (
+        <div className="flex justify-center pr-4">
+          <Badge variant="outline">{role}</Badge>
+        </div>
+      )
+    }
   },
   {
     accessorKey: "status",
