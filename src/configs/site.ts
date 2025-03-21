@@ -41,12 +41,9 @@ export const sidebarItems: SidebarItem[] = [
   },
   {
     title: "Người dùng",
-    path: "#",
+    path: "/admin/users",
     icon: Users,
-    children: [
-      { title: "Danh sách người dùng", path: "/admin/users" },
-      { title: "Thêm người dùng", path: "/admin/users/create" }
-    ]
+    children: []
   },
   {
     title: "Chuyên viên",
@@ -76,7 +73,6 @@ export const sidebarItems: SidebarItem[] = [
     icon: Utensils,
     children: [
       { title: "Danh sách món ăn", path: "/admin/foods" },
-      { title: "Thêm món ăn", path: "/admin/foods/create" },
       { title: "Khẩu phần ăn", path: "/admin/foods/portions" }
     ]
   },
@@ -86,19 +82,14 @@ export const sidebarItems: SidebarItem[] = [
     icon: Dumbbell,
     children: [
       { title: "Danh sách bộ bài tập", path: "/admin/workouts" },
-      { title: "Thêm bộ bài tập", path: "/admin/workouts/create" },
-      { title: "Danh sách bài tập", path: "/admin/exercises" },
-      { title: "Thêm bài tập", path: "/admin/exercises/create" }
+      { title: "Danh sách bài tập", path: "/admin/exercises" }
     ]
   },
   {
     title: "Nước uống",
-    path: "#",
+    path: "/admin/water-reminders",
     icon: Droplets,
-    children: [
-      { title: "Nhắc nhở uống nước", path: "/admin/water-reminders" },
-      { title: "Thêm nhắc nhở", path: "/admin/water-reminders/create" }
-    ]
+    children: []
   },
   {
     title: "Gói đăng ký",
@@ -106,7 +97,6 @@ export const sidebarItems: SidebarItem[] = [
     icon: ShoppingCart,
     children: [
       { title: "Danh sách gói đăng ký", path: "/admin/subscriptions" },
-      { title: "Thêm gói đăng ký", path: "/admin/subscriptions/create" },
       { title: "Thống kê đăng ký", path: "/admin/subscriptions/statistics" }
     ]
   },
@@ -129,12 +119,9 @@ export const sidebarItems: SidebarItem[] = [
   },
   {
     title: "Thông báo",
-    path: "#",
+    path: "/admin/notifications",
     icon: Bell,
-    children: [
-      { title: "Danh sách thông báo", path: "/admin/notifications" },
-      { title: "Tạo thông báo", path: "/admin/notifications/create" }
-    ]
+    children: []
   },
   {
     title: "Danh mục & Tiêu chí",
