@@ -61,10 +61,10 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Calendar,
     children: [
-      { title: "Danh sách lịch hẹn", path: "/admin/bookings" },
+      { title: "Danh sách lịch hẹn", path: "/admin/bookings" }, // khi
       { title: "Lịch làm việc", path: "/admin/schedules" },
       { title: "Khung giờ", path: "/admin/schedules/time-slots" },
-      { title: "Ngoại lệ lịch", path: "/admin/schedules/exceptions" }
+      { title: "Ngoại lệ lịch", path: "/admin/schedules/exceptions" } // khi
     ]
   },
   {
@@ -73,7 +73,7 @@ export const sidebarItems: SidebarItem[] = [
     icon: Utensils,
     children: [
       { title: "Danh sách món ăn", path: "/admin/foods" },
-      { title: "Khẩu phần ăn", path: "/admin/foods/portions" }
+      { title: "Khẩu phần ăn", path: "/admin/foods/portions" } // khi
     ]
   },
   {
@@ -81,8 +81,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Dumbbell,
     children: [
-      { title: "Danh sách bộ bài tập", path: "/admin/workouts" },
-      { title: "Danh sách bài tập", path: "/admin/exercises" }
+      { title: "Danh sách bộ bài tập", path: "/admin/workouts" }, // khi
+      { title: "Danh sách bài tập", path: "/admin/exercises" } // khi
     ]
   },
   {
@@ -105,20 +105,20 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: CreditCard,
     children: [
-      { title: "Danh sách giao dịch", path: "/admin/payments" },
-      { title: "Ví chuyên viên", path: "/admin/wallets" },
-      { title: "Lịch sử giao dịch", path: "/admin/transactions" },
+      { title: "Danh sách giao dịch", path: "/admin/payments" }, // khi
+      { title: "Ví chuyên viên", path: "/admin/wallets" }, // khi
+      { title: "Lịch sử giao dịch", path: "/admin/transactions" }, // khi
       { title: "Thống kê doanh thu", path: "/admin/payments/statistics" }
     ]
   },
   {
-    title: "Đánh giá & Phản hồi",
+    title: "Đánh giá & Phản hồi", // khi
     path: "/admin/reviews",
     icon: PieChart,
     children: []
   },
   {
-    title: "Thông báo",
+    title: "Thông báo", // khi
     path: "/admin/notifications",
     icon: Bell,
     children: []
@@ -128,8 +128,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Tag,
     children: [
-      { title: "Danh sách danh mục", path: "/admin/categories" },
-      { title: "Danh sách dị ứng", path: "/admin/allergies" }
+      { title: "Danh sách danh mục", path: "/admin/categories" }, // khi
+      { title: "Danh sách dị ứng", path: "/admin/allergies" } // khi
     ]
   }
 ]
