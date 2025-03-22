@@ -16,13 +16,11 @@ interface ExpertiseResponse {
 export const fetchExpertise = async (
   page: number,
   limit?: number,
-  search?: string,
-  role?: string,
-  status?: boolean
+  search?: string
 ): Promise<ExpertiseResponse> => {
   try {
     const response = await monAPI.get(`/expertise`, {
-      params: { page, limit, search, role, status }
+      params: { page, limit, search }
     })
 
     const { success, message, data } = response.data

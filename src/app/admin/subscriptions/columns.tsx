@@ -203,7 +203,7 @@ export const columns: ColumnDef<SubscriptionType>[] = [
 
               <Separator />
 
-              <DropdownMenuItem variant="destructive">
+              <DropdownMenuItem variant={isActive ? "destructive" : "default"}>
                 {isActive ? (
                   <>
                     <Ban className="h-4 w-4" />

@@ -12,16 +12,10 @@ import {
   fetchExpertiseById
 } from "@/services/expertiseService"
 
-export const useExpertise = (
-  page: number,
-  limit: number,
-  search?: string,
-  role?: string,
-  status?: boolean
-) =>
+export const useExpertise = (page: number, limit: number, search?: string) =>
   useQuery({
-    queryKey: ["expertise-all", page, limit, search, role, status],
-    queryFn: () => fetchExpertise(page, limit, search, role, status),
+    queryKey: ["expertise-all", page, limit, search],
+    queryFn: () => fetchExpertise(page, limit, search),
     staleTime: 1000 * 60 * 5
   })
 

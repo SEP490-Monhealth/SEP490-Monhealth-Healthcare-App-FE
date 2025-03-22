@@ -216,7 +216,7 @@ export const createColumns = (
               <Separator />
 
               <DropdownMenuItem
-                variant="destructive"
+                variant={isActive ? "destructive" : "default"}
                 onClick={() => updateUserStatus({ userId: userData.userId })}
               >
                 {isActive ? (
