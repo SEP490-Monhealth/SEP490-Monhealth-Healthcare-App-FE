@@ -1,21 +1,30 @@
 import { z } from "zod"
 
+import { ExerciseTypeSchemaEnum } from "@/constants/enum/Workout"
+
 import { auditFields, uuidSchema } from "./baseSchema"
 
 const exerciseSchema = z.object({
   exerciseId: uuidSchema,
   userId: uuidSchema,
 
+  type: ExerciseTypeSchemaEnum,
+
   name: z
     .string()
     .nonempty({ message: "Tên bài tập không được để trống" })
-    .max(50, { message: "Tên bài tập không được dài hơn 50 ký tự" }),
+    .min(3, { message: "Tên bài tập phải có ít nhất 3 ký tự" })
+    .max(255, { message: "Tên bài tập không được dài hơn 255 ký tự" })
+    .regex(/^[\p{L} ]+$/u, {
+      message: "Tên bài tập chỉ được chứa chữ cái và khoảng trắng"
+    }),
   instructions: z
     .string()
-    .nonempty({ message: "Hướng dẫn không được để trống" }),
+    .nonempty({ message: "Hướng dẫn không được để trống" })
+    .min(1, { message: "Hướng dẫn không được để trống" }),
   caloriesPerMinute: z
     .number()
-    .min(1, { message: "Số lượng bài tập phải lớn hơn hoặc bằng 1" }),
+    .min(1, { message: "Số calories đốt phải lớn hơn hoặc bằng 0" }),
 
   status: z.boolean(),
 
@@ -29,5 +38,10 @@ export const createExerciseSchema = exerciseSchema.pick({
   caloriesPerMinute: true
 })
 
+export const updateExerciseSchema = createExerciseSchema.omit({
+  userId: true
+})
+
 export type ExerciseType = z.infer<typeof exerciseSchema>
 export type CreateExerciseType = z.infer<typeof createExerciseSchema>
+export type UpdateExerciseType = z.infer<typeof updateExerciseSchema>

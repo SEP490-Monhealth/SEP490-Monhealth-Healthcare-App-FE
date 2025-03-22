@@ -22,7 +22,7 @@ const DEFAULT_VISIBILITY = {
   updatedBy: false
 }
 
-function UserPage() {
+function PortionPage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -30,7 +30,6 @@ function UserPage() {
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
-
   const sort = searchParams.get("sort") || ""
   const order = searchParams.get("order") || ""
 
@@ -162,4 +161,4 @@ function UserPage() {
   )
 }
 
-export default UserPage
+export default PortionPage

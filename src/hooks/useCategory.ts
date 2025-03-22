@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
+import { CategoryTypeEnum } from "@/constants/enum/Category"
+
 import {
   CategoryType,
   CreateUpdateCategoryType
@@ -15,13 +17,13 @@ import {
 
 export const useCategories = (
   page: number,
-  limit?: number,
-  search?: string,
-  type?: number
+  limit: number,
+  type?: CategoryTypeEnum,
+  search?: string
 ) =>
   useQuery({
-    queryKey: ["categories", page, limit, search, type],
-    queryFn: () => fetchCategories(page, limit, search, type),
+    queryKey: ["categories", page, limit, type, search],
+    queryFn: () => fetchCategories(page, limit, type, search),
     staleTime: 1000 * 60 * 5
   })
 
@@ -58,7 +60,6 @@ export const useUpdateCategory = () => {
       updateCategory(categoryId, updatedData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] })
-      toast.success("Cập nhật danh mục thành công.")
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update category")

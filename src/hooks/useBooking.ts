@@ -1,17 +1,24 @@
 import { useQuery } from "@tanstack/react-query"
 
+import { BookingStatusEnum } from "@/constants/enum/Booking"
+
 import { BookingType } from "@/schemas/bookingSchema"
 
 import { fetchBookingById, fetchBookings } from "@/services/bookingService"
 
-export const useUsers = (page: number, limit?: number, search?: string) =>
+export const useBookings = (
+  page: number,
+  limit: number,
+  search?: string,
+  status?: BookingStatusEnum
+) =>
   useQuery({
-    queryKey: ["bookings", page, limit, search],
-    queryFn: () => fetchBookings(page, limit, search),
+    queryKey: ["bookings", page, limit, search, status],
+    queryFn: () => fetchBookings(page, limit, search, status),
     staleTime: 1000 * 60 * 5
   })
 
-export const useUserById = (bookingId: string) =>
+export const useBookingById = (bookingId: string) =>
   useQuery<BookingType, Error>({
     queryKey: ["booking", bookingId],
     queryFn: () => fetchBookingById(bookingId),

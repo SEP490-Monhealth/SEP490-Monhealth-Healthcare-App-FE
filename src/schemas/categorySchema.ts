@@ -2,35 +2,36 @@ import { z } from "zod"
 
 import { CategoryTypeSchemaEnum } from "@/constants/enum/Category"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
 const categorySchema = z.object({
   categoryId: uuidSchema,
 
+  type: CategoryTypeSchemaEnum,
+
   name: z
     .string()
     .nonempty({ message: "Tên danh mục không được để trống" })
-    .max(50, { message: "Tên danh mục không được dài hơn 50 ký tự" })
-    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên danh mục chỉ được chứa chữ cái, số và khoảng trắng"
+    .min(3, { message: "Tên danh mục phải có ít nhất 3 ký tự" })
+    .max(255, { message: "Tên danh mục không được dài hơn 255 ký tự" })
+    .regex(/^[\p{L} ]+$/u, {
+      message: "Tên danh mục chỉ được chứa chữ cái và khoảng trắng"
     }),
   description: z
     .string()
-    .max(200, {
-      message: "Mô tả danh mục không được dài hơn 200 ký tự"
-    })
-    .optional(),
+    .nonempty({ message: "Mô tả danh mục không được để trống" })
+    .min(10, { message: "Mô tả danh mục phải có ít nhất 10 ký tự" }),
 
   imageUrl: z.string().optional(),
 
-  ...timestampFields
+  ...auditFields
 })
 
-export const createUpdateCategorySchema = z.object({
-  name: categorySchema.shape.name,
-  description: categorySchema.shape.description,
-  imageUrl: categorySchema.shape.imageUrl,
-  type: CategoryTypeSchemaEnum
+export const createUpdateCategorySchema = categorySchema.pick({
+  type: true,
+  name: true,
+  description: true,
+  imageUrl: true
 })
 
 export type CategoryType = z.infer<typeof categorySchema>

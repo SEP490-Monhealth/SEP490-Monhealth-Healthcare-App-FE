@@ -10,7 +10,7 @@ interface ConsultantsResponse {
 
 export const fetchConsultants = async (
   page: number,
-  limit?: number,
+  limit: number,
   search?: string,
   status?: boolean
 ): Promise<ConsultantsResponse> => {

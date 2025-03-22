@@ -2,7 +2,11 @@ import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
 
-import { CreateExerciseType, ExerciseType } from "@/schemas/exerciseSchema"
+import {
+  CreateExerciseType,
+  ExerciseType,
+  UpdateExerciseType
+} from "@/schemas/exerciseSchema"
 
 interface ExercisesResponse {
   totalPages: number
@@ -12,14 +16,14 @@ interface ExercisesResponse {
 
 export const fetchExercises = async (
   page: number,
-  limit?: number,
-  search?: string,
+  limit: number,
   type?: number,
+  search?: string,
   status?: boolean
 ): Promise<ExercisesResponse> => {
   try {
     const response = await monAPI.get(`/exercises`, {
-      params: { page, limit, search, type, status }
+      params: { page, limit, type, search, status }
     })
 
     const { success, message, data } = response.data
@@ -72,6 +76,27 @@ export const addExercise = async (
   } catch (error) {
     console.error("Error adding exercise:", error)
     throw new Error("Failed to add exercise")
+  }
+}
+
+export const updateExercise = async (
+  exerciseId: string,
+  updatedData: UpdateExerciseType
+): Promise<string> => {
+  try {
+    const response = await monAPI.put(`/exercises/${exerciseId}`, updatedData)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update exercise")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating exercise:", error)
+    throw new Error("Failed to update exercise")
   }
 }
 

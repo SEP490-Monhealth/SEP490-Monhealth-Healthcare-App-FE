@@ -12,7 +12,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
-import { Separator } from "@/components/globals/atoms/separator"
 import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
 
 import { PortionType } from "@/schemas/portionSchema"
@@ -148,25 +147,6 @@ export const createColumns = (
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>
-
-              <Separator />
-
-              {/* <DropdownMenuItem
-                variant="destructive"
-                onClick={() => updateUserStatus({ portionId: portionData.portionId })}
-              >
-                {isActive ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng hoạt động
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Kích hoạt
-                  </>
-                )}
-              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

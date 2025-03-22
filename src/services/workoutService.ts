@@ -1,8 +1,14 @@
 import { toast } from "sonner"
 
+import { DifficultyLevelEnum } from "@/constants/enum/Workout"
+
 import monAPI from "@/lib/monAPI"
 
-import { CreateWorkoutType, WorkoutType } from "@/schemas/workoutSchema"
+import {
+  CreateWorkoutType,
+  UpdateWorkoutType,
+  WorkoutType
+} from "@/schemas/workoutSchema"
 
 interface WorkoutsResponse {
   totalPages: number
@@ -12,10 +18,10 @@ interface WorkoutsResponse {
 
 export const fetchWorkouts = async (
   page: number,
-  limit?: number,
+  limit: number,
   category?: string,
   search?: string,
-  difficulty?: number,
+  difficulty?: DifficultyLevelEnum,
   popular?: boolean,
   status?: boolean
 ): Promise<WorkoutsResponse> => {
@@ -74,6 +80,27 @@ export const addWorkout = async (
   } catch (error) {
     console.error("Error adding workout:", error)
     throw new Error("Failed to add workout")
+  }
+}
+
+export const updateWorkout = async (
+  workoutId: string,
+  updatedData: UpdateWorkoutType
+): Promise<string> => {
+  try {
+    const response = await monAPI.patch(`/workouts/${workoutId}`, updatedData)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update workout")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating workout:", error)
+    throw new Error("Failed to update workout")
   }
 }
 

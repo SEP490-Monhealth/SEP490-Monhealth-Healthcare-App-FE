@@ -13,7 +13,7 @@ interface SubscriptionsResponse {
 
 export const fetchSubscriptions = async (
   page: number,
-  limit?: number,
+  limit: number,
   search?: string,
   sort?: boolean,
   status?: boolean

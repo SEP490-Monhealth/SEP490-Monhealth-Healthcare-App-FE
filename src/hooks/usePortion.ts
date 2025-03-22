@@ -11,7 +11,7 @@ import {
 
 export const usePortions = (
   page: number,
-  limit?: number,
+  limit: number,
   search?: string,
   sort?: string,
   order?: string

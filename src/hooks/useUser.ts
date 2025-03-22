@@ -51,7 +51,6 @@ export const useUserStatus = () => {
     mutationFn: ({ userId }) => updateUserStatus(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })
-      queryClient.invalidateQueries({ queryKey: ["user"] })
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update user status")

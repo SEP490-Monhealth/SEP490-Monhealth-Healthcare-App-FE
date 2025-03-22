@@ -15,13 +15,13 @@ interface CategoriesResponse {
 
 export const fetchCategories = async (
   page: number,
-  limit?: number,
-  search?: string,
-  type?: number
+  limit: number,
+  type?: number,
+  search?: string
 ): Promise<CategoriesResponse> => {
   try {
     const response = await monAPI.get(`/categories`, {
-      params: { page, limit, search, type }
+      params: { page, limit, type, search }
     })
 
     const { success, message, data } = response.data
@@ -58,10 +58,10 @@ export const fetchCategoryById = async (
 }
 
 export const addCategory = async (
-  newCategoryData: CreateUpdateCategoryType
+  newData: CreateUpdateCategoryType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post("/categories", newCategoryData)
+    const response = await monAPI.post("/categories", newData)
 
     const { success, message } = response.data
 
@@ -79,13 +79,10 @@ export const addCategory = async (
 
 export const updateCategory = async (
   categoryId: string,
-  updatedCategoryData: CreateUpdateCategoryType
+  updatedData: CreateUpdateCategoryType
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(
-      `/categories/${categoryId}`,
-      updatedCategoryData
-    )
+    const response = await monAPI.put(`/categories/${categoryId}`, updatedData)
 
     const { success, message } = response.data
 

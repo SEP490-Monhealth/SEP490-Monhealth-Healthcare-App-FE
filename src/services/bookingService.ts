@@ -1,3 +1,5 @@
+import { BookingStatusEnum } from "@/constants/enum/Booking"
+
 import monAPI from "@/lib/monAPI"
 
 import { BookingType } from "@/schemas/bookingSchema"
@@ -10,12 +12,13 @@ interface BookingsResponse {
 
 export const fetchBookings = async (
   page: number,
-  limit?: number,
-  search?: string
+  limit: number,
+  search?: string,
+  status?: BookingStatusEnum
 ): Promise<BookingsResponse> => {
   try {
     const response = await monAPI.get(`/bookings`, {
-      params: { page, limit, search }
+      params: { page, limit, search, status }
     })
 
     const { success, message, data } = response.data

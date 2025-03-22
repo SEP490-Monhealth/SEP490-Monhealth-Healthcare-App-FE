@@ -1,25 +1,30 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-import { CreateExerciseType, ExerciseType } from "@/schemas/exerciseSchema"
+import {
+  CreateExerciseType,
+  ExerciseType,
+  UpdateExerciseType
+} from "@/schemas/exerciseSchema"
 
 import {
   addExercise,
   fetchExerciseById,
   fetchExercises,
+  updateExercise,
   updateExerciseStatus
 } from "@/services/exerciseService"
 
 export const useUsers = (
   page: number,
-  limit?: number,
-  search?: string,
+  limit: number,
   type?: number,
+  search?: string,
   status?: boolean
 ) =>
   useQuery({
-    queryKey: ["exercises", page, limit, search, type, status],
-    queryFn: () => fetchExercises(page, limit, search, type, status),
+    queryKey: ["exercises", page, limit, type, search, status],
+    queryFn: () => fetchExercises(page, limit, type, search, status),
     staleTime: 1000 * 60 * 5
   })
 
@@ -44,6 +49,26 @@ export const useAddExercise = () => {
   })
 }
 
+export const useUpdateExercise = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<
+    string,
+    Error,
+    { exerciseId: string; updatedData: UpdateExerciseType }
+  >({
+    mutationFn: ({ exerciseId, updatedData }) =>
+      updateExercise(exerciseId, updatedData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["exercises"] })
+      queryClient.invalidateQueries({ queryKey: ["exercise"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update exercise")
+    }
+  })
+}
+
 export const useExerciseStatus = () => {
   const queryClient = useQueryClient()
 
@@ -51,7 +76,6 @@ export const useExerciseStatus = () => {
     mutationFn: ({ exerciseId }) => updateExerciseStatus(exerciseId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["exercises"] })
-      queryClient.invalidateQueries({ queryKey: ["exercise"] })
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update exercise status")

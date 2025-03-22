@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { CategoryTypeSchemaEnum } from "@/constants/enum/Category"
-
 import { timestampFields, uuidSchema } from "./baseSchema"
 
 const allergySchema = z.object({
@@ -10,13 +8,15 @@ const allergySchema = z.object({
   name: z
     .string()
     .nonempty({ message: "Tên dị ứng không được để trống" })
-    .max(50, { message: "Tên dị ứng không được dài hơn 50 ký tự" })
-    .regex(/^[a-zA-Z0-9\s\u00C0-\u024F\u1E00-\u1EFF]*$/, {
-      message: "Tên dị ứng chỉ được chứa chữ cái, số và khoảng trắng"
+    .min(3, { message: "Tên dị ứng phải có ít nhất 3 ký tự" })
+    .max(255, { message: "Tên dị ứng không được dài hơn 255 ký tự" })
+    .regex(/^[\p{L} ]+$/u, {
+      message: "Tên dị ứng chỉ được chứa chữ cái và khoảng trắng"
     }),
-  description: z.string().max(200, {
-    message: "Mô tả dị ứng không được dài hơn 200 ký tự"
-  }),
+  description: z
+    .string()
+    .nonempty({ message: "Mô tả dị ứng không được để trống" })
+    .min(10, { message: "Mô tả dị ứng phải có ít nhất 10 ký tự" }),
 
   ...timestampFields
 })

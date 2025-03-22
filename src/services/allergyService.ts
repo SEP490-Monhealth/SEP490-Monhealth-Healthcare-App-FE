@@ -12,7 +12,7 @@ interface AllergiesResponse {
 
 export const fetchAllergies = async (
   page: number,
-  limit?: number,
+  limit: number,
   search?: string
 ): Promise<AllergiesResponse> => {
   try {
@@ -54,10 +54,10 @@ export const fetchAllergyById = async (
 }
 
 export const addAllergy = async (
-  newAllergyData: CreateUpdateAllergyType
+  newData: CreateUpdateAllergyType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post("/allergies", newAllergyData)
+    const response = await monAPI.post("/allergies", newData)
 
     const { success, message } = response.data
 
@@ -75,13 +75,10 @@ export const addAllergy = async (
 
 export const updateAllergy = async (
   allergyId: string,
-  updatedAllergyData: CreateUpdateAllergyType
+  updatedData: CreateUpdateAllergyType
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(
-      `/allergies/${allergyId}`,
-      updatedAllergyData
-    )
+    const response = await monAPI.put(`/allergies/${allergyId}`, updatedData)
 
     const { success, message } = response.data
 

@@ -1,21 +1,28 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
-import { CreateWorkoutType, WorkoutType } from "@/schemas/workoutSchema"
+import {
+  CreateWorkoutType,
+  UpdateWorkoutType,
+  WorkoutType
+} from "@/schemas/workoutSchema"
 
 import {
   addWorkout,
   fetchWorkoutById,
   fetchWorkouts,
+  updateWorkout,
   updateWorkoutStatus
 } from "@/services/workoutService"
 
+import { DifficultyLevelEnum } from "./../constants/enum/Workout"
+
 export const useWorkout = (
   page: number,
-  limit?: number,
+  limit: number,
   category?: string,
   search?: string,
-  difficulty?: number,
+  difficulty?: DifficultyLevelEnum,
   popular?: boolean,
   status?: boolean
 ) =>
@@ -56,6 +63,26 @@ export const useAddWorkout = () => {
   })
 }
 
+export const useUpdateWorkout = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<
+    string,
+    Error,
+    { workoutId: string; updatedData: UpdateWorkoutType }
+  >({
+    mutationFn: ({ workoutId, updatedData }) =>
+      updateWorkout(workoutId, updatedData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workouts"] })
+      queryClient.invalidateQueries({ queryKey: ["workout"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update workout")
+    }
+  })
+}
+
 export const useWorkoutStatus = () => {
   const queryClient = useQueryClient()
 
@@ -63,7 +90,6 @@ export const useWorkoutStatus = () => {
     mutationFn: ({ workoutId }) => updateWorkoutStatus(workoutId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workouts"] })
-      queryClient.invalidateQueries({ queryKey: ["workout"] })
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update workout status")

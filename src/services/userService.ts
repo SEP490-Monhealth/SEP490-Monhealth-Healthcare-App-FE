@@ -12,7 +12,7 @@ interface UsersResponse {
 
 export const fetchUsers = async (
   page: number,
-  limit?: number,
+  limit: number,
   search?: string,
   role?: string,
   status?: boolean
@@ -54,10 +54,10 @@ export const fetchUserById = async (userId: string): Promise<UserType> => {
 }
 
 export const addUser = async (
-  newUserData: CreateUpdateUserType
+  newData: CreateUpdateUserType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post("/users", newUserData)
+    const response = await monAPI.post("/users", newData)
 
     const { success, message } = response.data
 

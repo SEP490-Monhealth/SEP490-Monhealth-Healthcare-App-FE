@@ -1,10 +1,8 @@
-import { toast } from "sonner"
-
 import monAPI from "@/lib/monAPI"
 
 import { ReviewType } from "@/schemas/reviewSchema"
 
-interface RatingsResponse {
+interface ReviewsResponse {
   totalPages: number
   totalItems: number
   reviews: ReviewType[]
@@ -12,9 +10,9 @@ interface RatingsResponse {
 
 export const fetchReviews = async (
   page: number,
-  limit?: number,
+  limit: number,
   rating?: number
-): Promise<RatingsResponse> => {
+): Promise<ReviewsResponse> => {
   try {
     const response = await monAPI.get(`/reviews`, {
       params: { page, limit, rating }

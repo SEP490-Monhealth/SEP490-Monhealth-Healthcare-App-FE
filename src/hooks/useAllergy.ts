@@ -10,7 +10,7 @@ import {
   updateAllergy
 } from "@/services/allergyService"
 
-export const useAllergies = (page: number, limit?: number, search?: string) =>
+export const useAllergies = (page: number, limit: number, search?: string) =>
   useQuery({
     queryKey: ["allergies", page, limit, search],
     queryFn: () => fetchAllergies(page, limit, search),
@@ -50,7 +50,6 @@ export const useUpdateAllergy = () => {
       updateAllergy(allergyId, updatedData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allergies"] })
-      toast.success("Cập nhật danh mục dị ứng.")
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update allergy")
