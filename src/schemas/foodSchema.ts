@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const foodSchema = z.object({
+export const foodSchema = z.object({
   foodId: uuidSchema,
   userId: uuidSchema,
 
