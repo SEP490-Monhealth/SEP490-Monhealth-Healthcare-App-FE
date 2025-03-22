@@ -63,8 +63,8 @@ function PortionPage() {
       name: "order",
       label: "Thứ tự",
       options: [
-        { value: "asc", label: "Giảm dần" },
-        { value: "dcs", label: "Tăng dần" }
+        { value: "asc", label: "Tăng dần" },
+        { value: "desc", label: "Giảm dần" }
       ],
       value: order,
       onChange: (value: string) => updateParams("order", value)
