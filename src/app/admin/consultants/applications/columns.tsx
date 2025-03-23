@@ -181,18 +181,6 @@ export const columns: ColumnDef<ConsultantType>[] = [
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>
-
-              <Separator />
-
-              <DropdownMenuItem variant="destructive">
-                <X className="h-4 w-4" />
-                Từ chối
-              </DropdownMenuItem>
-
-              <DropdownMenuItem>
-                <Check className="h-4 w-4" />
-                Chấp nhận
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

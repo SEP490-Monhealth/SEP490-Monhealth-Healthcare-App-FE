@@ -5,12 +5,11 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
+
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddUserDialog from "@/components/locals/admin/users/add-user-dialog"
 import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
 
-import { DATA } from "@/constants/data/enumUtils"
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useBookings } from "@/hooks/useBooking"
@@ -34,29 +33,22 @@ function BookingPage() {
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
-  const statusParam = searchParams.get("status") || ""
+  const status = searchParams.get("status")
+
+  const statusParam =
+    status && !isNaN(Number(status)) ? Number(status) : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
 
   const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
-
-  let status: BookingStatusEnum | undefined = undefined
-
-  if (
-    statusParam &&
-    Object.values(BookingStatusEnum).includes(statusParam as any)
-  ) {
-    status = statusParam as unknown as BookingStatusEnum
-  }
 
   const {
     data: bookingsData,
     isLoading,
     error
-  } = useBookings(page, limit, debouncedSearch, status)
+  } = useBookings(page, limit, debouncedSearch, statusParam)
 
   const totalPages = Math.ceil((bookingsData?.totalItems || 1) / limit)
 
@@ -64,11 +56,13 @@ function BookingPage() {
     {
       name: "status",
       label: "Trạng thái",
-      options: DATA.BOOKINGS.map((item) => ({
-        value: String(item.value),
-        label: item.label
-      })),
-      value: status ? String(status) : undefined,
+      options: [
+        { value: String(BookingStatusEnum.Pending), label: "Chờ xác nhận" },
+        { value: String(BookingStatusEnum.Confirmed), label: "Đã xác nhận" },
+        { value: String(BookingStatusEnum.Completed), label: "Hoàn thành" },
+        { value: String(BookingStatusEnum.Cancelled), label: "Đã hủy" }
+      ],
+      value: status !== undefined ? String(status) : undefined,
       onChange: (value: string) => updateParams("status", value)
     }
   ]
@@ -78,7 +72,7 @@ function BookingPage() {
     value: string | number | boolean | null
   ) => {
     const params = new URLSearchParams(searchParams.toString())
-    if (value) {
+    if (value !== null && value !== undefined && value !== "") {
       params.set(key, String(value))
     } else {
       params.delete(key)
@@ -96,7 +90,7 @@ function BookingPage() {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
     }
-  }, [debouncedSearch])
+  }, [debouncedSearch, search])
 
   const handleViewDetail = (bookingId: string) => {
     setSelectedBooking(bookingId)
@@ -105,15 +99,6 @@ function BookingPage() {
 
   const handleCloseDetailDialog = () => {
     setIsDetailDialogOpen(false)
-    setTimeout(() => setSelectedBooking(null), 300)
-  }
-
-  const handleAddUser = () => {
-    setIsAddDialogOpen(true)
-  }
-
-  const handleCloseAddDialog = () => {
-    setIsAddDialogOpen(false)
     setTimeout(() => setSelectedBooking(null), 300)
   }
 
@@ -130,7 +115,7 @@ function BookingPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm tư vấn viên hoặc khách hàng..."
+        placeholder="Tìm kiếm người dùng hoặc chuyên viên..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}
@@ -138,18 +123,13 @@ function BookingPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
-        addNewButton
-        onAddNew={handleAddUser}
       />
 
       <UserDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        // userId={selectedBooking || ""}
-        userId={"3b1a8845-765f-4d91-984a-4e8a9d7d376e"}
+        userId={selectedBooking || ""}
       />
-
-      <AddUserDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />
     </div>
   )
 }

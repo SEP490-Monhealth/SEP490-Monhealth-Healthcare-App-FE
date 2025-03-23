@@ -21,11 +21,14 @@ import {
 
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
-import { DATA } from "@/constants/data/enumUtils"
+import {
+  BookingStatusEnum,
+  getBookingStatusMeta
+} from "@/constants/enum/Booking"
 
 import { BookingType } from "@/schemas/bookingSchema"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, formatDateTime } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
@@ -68,9 +71,9 @@ export const createColumns = (
   },
   {
     accessorKey: "memberName",
-    meta: { title: "Khách hàng" },
+    meta: { title: "Người dùng" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Khách hàng" />
+      <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
       const memberName = row.original.memberName
@@ -90,9 +93,9 @@ export const createColumns = (
   },
   {
     accessorKey: "consultantName",
-    meta: { title: "Tư vấn viên" },
+    meta: { title: "Chuyên viên" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tư vấn viên" />
+      <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
       const consultantName = row.original.consultantName
@@ -120,35 +123,29 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
-      const status = row.original.status
-      const statusData = DATA.BOOKINGS.find((item) => item.value === status)
-      if (!statusData) {
-        return <></>
-      }
+      const status = row.original.status as BookingStatusEnum
+      const { label, color } = getBookingStatusMeta(status)
 
       return (
         <div className="flex justify-center pr-4">
-          <Badge
-            style={{ backgroundColor: statusData.color, color: "#fff" }}
-            variant="default"
-          >
-            {statusData.label}
+          <Badge className="text-white" style={{ backgroundColor: color }}>
+            {label}
           </Badge>
         </div>
       )
     }
   },
-  //   {
-  //     accessorKey: "date",
-  //     meta: { title: "Lịch hẹn" },
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Lịch hẹn" />
-  //     ),
-  //     cell: ({ row }) => {
-  //       const date = row.original.date
-  //       return <span>{formatDateTime(date)}</span>
-  //     }
-  //   },
+  {
+    accessorKey: "date",
+    meta: { title: "Lịch hẹn" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Lịch hẹn" />
+    ),
+    cell: ({ row }) => {
+      const date = row.original.date
+      return <span>{formatDateTime(date)}</span>
+    }
+  },
   {
     accessorKey: "notes",
     header: "Ghi chú",
@@ -156,7 +153,7 @@ export const createColumns = (
       const notes = row.original.notes
       return (
         <span className="block max-w-[320px] truncate">
-          {notes ? notes : "Không có"}
+          {notes ? notes : "--"}
         </span>
       )
     }
@@ -168,7 +165,7 @@ export const createColumns = (
       const cancellationReason = row.original.cancellationReason
       return (
         <span className="block max-w-[320px] truncate">
-          {cancellationReason ? cancellationReason : "Không có"}
+          {cancellationReason ? cancellationReason : "--"}
         </span>
       )
     }
