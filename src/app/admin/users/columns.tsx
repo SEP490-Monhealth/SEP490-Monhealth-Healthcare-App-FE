@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+
 import { ColumnDef } from "@tanstack/react-table"
 import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
@@ -19,7 +21,9 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 import { Separator } from "@/components/globals/atoms/separator"
-import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
+
+import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
+import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
 import { useUserStatus } from "@/hooks/useUser"
 
@@ -188,6 +192,22 @@ export const createColumns = (
       const userData = row.original
       const isActive = userData.status
 
+      const [openAlert, setOpenAlert] = useState<boolean>(false)
+
+      const handleOpenAlert = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setOpenAlert(true)
+      }
+
+      const handleCloseAlert = () => {
+        setOpenAlert(false)
+      }
+
+      const handleConfirm = () => {
+        updateUserStatus({ userId: userData.userId })
+        setOpenAlert(false)
+      }
+
       return (
         <div className="flex justify-center">
           <DropdownMenu>
@@ -199,7 +219,6 @@ export const createColumns = (
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-
               <DropdownMenuItem
                 onClick={() => navigator.clipboard.writeText(userData.userId)}
               >
@@ -212,12 +231,10 @@ export const createColumns = (
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>
-
               <Separator />
-
               <DropdownMenuItem
                 variant={isActive ? "destructive" : "default"}
-                onClick={() => updateUserStatus({ userId: userData.userId })}
+                onClick={handleOpenAlert}
               >
                 {isActive ? (
                   <>
@@ -233,6 +250,16 @@ export const createColumns = (
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <ConfirmAlertDialog
+            open={openAlert}
+            onOpenChange={handleCloseAlert}
+            onConfirm={handleConfirm}
+            title="Xác nhận thay đổi trạng thái"
+            description={`Bạn có chắc muốn ${
+              isActive ? "ngừng hoạt động" : "kích hoạt"
+            } người dùng này?`}
+          />
         </div>
       )
     },
