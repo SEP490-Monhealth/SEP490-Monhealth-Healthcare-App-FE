@@ -12,7 +12,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
-import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
+
+import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
 import { ExpertiseType } from "@/schemas/expertiseSchema"
 

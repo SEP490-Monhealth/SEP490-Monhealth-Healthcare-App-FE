@@ -21,7 +21,8 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 import { Separator } from "@/components/globals/atoms/separator"
-import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
+
+import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
 import { FoodType } from "@/schemas/foodSchema"
 

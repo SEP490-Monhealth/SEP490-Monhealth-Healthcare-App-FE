@@ -3,6 +3,11 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "@/components/globals/atoms/avatar"
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
@@ -13,12 +18,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger
+} from "@/components/globals/atoms/hover-card"
 import { Separator } from "@/components/globals/atoms/separator"
-import { DataTableColumnHeader } from "@/components/globals/molecules/data-table-column-header"
+
+import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, formatPhoneNumber } from "@/utils/formatters"
+import { getInitials } from "@/utils/helpers"
 
 export const columns: ColumnDef<ConsultantType>[] = [
   {
@@ -60,20 +72,34 @@ export const columns: ColumnDef<ConsultantType>[] = [
     ),
     cell: ({ row }) => {
       const fullName = row.original.fullName
-      return <span className="capitalize">{fullName}</span>
+      // const email = row.original.email
+      const avatarUrl = row.original.avatarUrl
+
+      return (
+        <div className="flex items-center gap-2">
+          <Avatar>
+            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
+            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="capitalize">{fullName}</span>
+            {/* <span className="text-muted-foreground text-sm">{email}</span> */}
+          </div>
+        </div>
+      )
     }
   },
-  // {
-  //   accessorKey: "phoneNumber",
-  //   meta: { title: "Số điện thoại" },
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Số điện thoại" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const phoneNumber = row.original.phoneNumber
-  //     return <span>{formatPhoneNumber(phoneNumber)}</span>
-  //   }
-  // },
+  {
+    accessorKey: "phoneNumber",
+    meta: { title: "Số điện thoại" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Số điện thoại" />
+    ),
+    cell: ({ row }) => {
+      const phoneNumber = row.original.phoneNumber
+      return <span>{formatPhoneNumber(phoneNumber)}</span>
+    }
+  },
   {
     accessorKey: "bio",
     meta: { title: "Mô tả" },
@@ -83,9 +109,12 @@ export const columns: ColumnDef<ConsultantType>[] = [
     cell: ({ row }) => {
       const bio = row.original.bio
       return (
-        <span title={bio} className="block max-w-[320px] truncate">
-          {bio}
-        </span>
+        <HoverCard>
+          <HoverCardTrigger className="block max-w-[320px] cursor-pointer truncate hover:underline">
+            {bio}
+          </HoverCardTrigger>
+          <HoverCardContent className="w-96">{bio}</HoverCardContent>
+        </HoverCard>
       )
     }
   },

@@ -24,14 +24,15 @@ import {
   TableHeader,
   TableRow
 } from "@/components/globals/atoms/table"
-import { DataTableViewOptions } from "@/components/globals/molecules/data-table-view-options"
+
+import DataTableViewOptions from "@/components/globals/molecules/data-table-view-options"
 
 import {
   DataTableFilter,
   DataTableFilterProps,
   DataTableFilters
 } from "../molecules/data-table-filter"
-import { DataTablePagination } from "../molecules/data-table-pagination"
+import DataTablePagination from "../molecules/data-table-pagination"
 import { Button } from "./button"
 
 interface DataTableProps<TData, TValue> {

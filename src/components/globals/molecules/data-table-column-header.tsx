@@ -21,7 +21,7 @@ interface DataTableColumnHeaderProps<TData, TValue>
   title: string
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+function DataTableColumnHeader<TData, TValue>({
   column,
   title,
   center,
@@ -75,3 +75,5 @@ export function DataTableColumnHeader<TData, TValue>({
     </div>
   )
 }
+
+export default DataTableColumnHeader

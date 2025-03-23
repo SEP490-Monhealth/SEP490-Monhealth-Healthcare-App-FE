@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
+
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import { useConsultants } from "@/hooks/useConsultant"
@@ -27,6 +28,7 @@ function ConsultantPage() {
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
+  const expertise = searchParams.get("expertise") || ""
   const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
 
@@ -46,11 +48,28 @@ function ConsultantPage() {
     data: consultantsData,
     isLoading,
     error
-  } = useConsultants(page, limit, debouncedSearch, parsedStatus)
+  } = useConsultants(
+    page,
+    limit,
+    expertise,
+    debouncedSearch,
+    true,
+    parsedStatus
+  )
 
   const totalPages = Math.ceil((consultantsData?.totalItems || 1) / limit)
 
   const filters: DataTableFilterProps[] = [
+    {
+      name: "expertise",
+      label: "Chuyên môn",
+      options: [
+        { value: "expertise1", label: "Chuyên môn 1" },
+        { value: "expertise2", label: "Chuyên môn 2" }
+      ],
+      value: expertise,
+      onChange: (value: string) => updateParams("expertise", value)
+    },
     {
       name: "status",
       label: "Trạng thái",
@@ -87,13 +106,10 @@ function ConsultantPage() {
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
+    params.delete("expertise")
     params.delete("status")
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const handleAddNewConsultant = () => {
-    router.push("/admin/consultants/create")
   }
 
   if (isLoading) return <LoadingPage />
@@ -115,8 +131,6 @@ function ConsultantPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
-        addNewButton
-        onAddNew={handleAddNewConsultant}
       />
     </div>
   )

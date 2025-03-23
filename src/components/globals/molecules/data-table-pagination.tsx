@@ -25,7 +25,7 @@ interface DataTablePaginationProps {
   setLimit: (limit: number) => void
 }
 
-export function DataTablePagination({
+function DataTablePagination({
   page,
   setPage,
   totalPages,
@@ -152,3 +152,5 @@ export function DataTablePagination({
     </div>
   )
 }
+
+export default DataTablePagination

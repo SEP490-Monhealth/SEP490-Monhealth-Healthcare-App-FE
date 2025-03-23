@@ -10,12 +10,15 @@ import {
 export const useConsultants = (
   page: number,
   limit: number,
+  expertise?: string,
   search?: string,
+  verified?: boolean,
   status?: boolean
 ) =>
   useQuery({
-    queryKey: ["consultants", page, limit, search, status],
-    queryFn: () => fetchConsultants(page, limit, search, status),
+    queryKey: ["consultants", page, limit, expertise, search, verified, status],
+    queryFn: () =>
+      fetchConsultants(page, limit, expertise, search, verified, status),
     staleTime: 1000 * 60 * 5
   })
 

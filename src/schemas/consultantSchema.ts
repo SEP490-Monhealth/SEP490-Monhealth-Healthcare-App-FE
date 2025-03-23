@@ -10,6 +10,7 @@ const consultantSchema = z.object({
   expertiseId: uuidSchema,
 
   fullName: userSchema.shape.fullName,
+  email: userSchema.shape.email,
   phoneNumber: userSchema.shape.phoneNumber,
   avatarUrl: userSchema.shape.avatarUrl,
 

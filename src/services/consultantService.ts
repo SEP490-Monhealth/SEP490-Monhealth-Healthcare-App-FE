@@ -11,12 +11,14 @@ interface ConsultantsResponse {
 export const fetchConsultants = async (
   page: number,
   limit: number,
+  expertise?: string,
   search?: string,
+  verified?: boolean,
   status?: boolean
 ): Promise<ConsultantsResponse> => {
   try {
     const response = await monAPI.get(`/consultants`, {
-      params: { page, limit, search, status }
+      params: { page, limit, expertise, search, verified, status }
     })
 
     const { success, message, data } = response.data

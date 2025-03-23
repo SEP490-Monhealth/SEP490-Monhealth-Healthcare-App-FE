@@ -17,7 +17,7 @@ interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
 }
 
-export function DataTableViewOptions<TData>({
+function DataTableViewOptions<TData>({
   table
 }: DataTableViewOptionsProps<TData>) {
   return (
@@ -53,3 +53,5 @@ export function DataTableViewOptions<TData>({
     </DropdownMenu>
   )
 }
+
+export default DataTableViewOptions
