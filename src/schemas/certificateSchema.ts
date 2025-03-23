@@ -30,3 +30,5 @@ const certificateSchema = z.object({
 
   ...timestampFields
 })
+
+export type CertificateType = z.infer<typeof certificateSchema>

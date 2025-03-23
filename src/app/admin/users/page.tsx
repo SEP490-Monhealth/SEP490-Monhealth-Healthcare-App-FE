@@ -65,7 +65,7 @@ function UserPage() {
       label: "Vai trò",
       options: [
         { value: "member", label: "Thành viên" },
-        { value: "subscription member", label: "Thành viên đăng ký" },
+        { value: "subscription member", label: "Thành viên trả phí" },
         { value: "admin", label: "Quản trị viên" }
       ],
       value: role,

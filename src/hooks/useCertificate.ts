@@ -1,0 +1,27 @@
+import { useQuery } from "@tanstack/react-query"
+
+import { CertificateType } from "@/schemas/certificateSchema"
+
+import {
+  fetchCertificateById,
+  fetchCertificates
+} from "@/services/certificateService"
+
+export const useCertificates = (
+  page: number,
+  limit: number,
+  search?: string,
+  verified?: boolean
+) =>
+  useQuery({
+    queryKey: ["certificates", page, limit, search, verified],
+    queryFn: () => fetchCertificates(page, limit, search, verified),
+    staleTime: 1000 * 60 * 5
+  })
+
+export const useCertificateById = (certificateId: string) =>
+  useQuery<CertificateType, Error>({
+    queryKey: ["certificate", certificateId],
+    queryFn: () => fetchCertificateById(certificateId),
+    enabled: !!certificateId
+  })
