@@ -9,6 +9,11 @@ const bookingSchema = z.object({
   userId: uuidSchema,
   consultantId: uuidSchema,
 
+  memberName: z.string(),
+  memberAvatar: z.string(),
+  consultantName: z.string(),
+  consultantAvatar: z.string(),
+
   date: z.string().nonempty({ message: "Ngày không được để trống" }),
 
   notes: z.string().optional(),
