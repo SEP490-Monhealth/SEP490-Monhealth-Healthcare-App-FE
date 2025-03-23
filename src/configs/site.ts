@@ -104,7 +104,6 @@ export const sidebarItems: SidebarItem[] = [
     icon: CreditCard,
     children: [
       { title: "Danh sách giao dịch", path: "/admin/payments" }, // khi
-      { title: "Ví chuyên viên", path: "/admin/wallets" }, // khi
       { title: "Lịch sử giao dịch", path: "/admin/transactions" }, // khi
       { title: "Thống kê doanh thu", path: "/admin/payments/statistics" }
     ]

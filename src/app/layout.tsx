@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 
+import TopLoader from "nextjs-toploader"
+
 import { Toaster } from "@/components/globals/atoms/sonner"
 
 import { QueryProvider } from "@/providers/QueryProvider"
@@ -26,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
+        <TopLoader color="var(--primary)" height={4} showSpinner={false} />
         <QueryProvider>
           <main>{children}</main>
         </QueryProvider>
