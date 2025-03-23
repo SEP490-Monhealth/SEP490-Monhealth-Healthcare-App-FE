@@ -68,6 +68,13 @@ export const columns: ColumnDef<FoodType>[] = [
     )
   },
   {
+    accessorKey: "category",
+    meta: { title: "Danh mục" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Danh mục" />
+    )
+  },
+  {
     accessorKey: "description",
     header: "Mô tả",
     cell: ({ row }) => {

@@ -1,10 +1,12 @@
 import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
+import { categorySchema } from "./categorySchema"
 
 export const foodSchema = z.object({
   foodId: uuidSchema,
   userId: uuidSchema,
+  category: categorySchema.shape.name,
 
   name: z
     .string()

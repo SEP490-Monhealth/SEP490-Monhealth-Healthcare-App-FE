@@ -4,7 +4,7 @@ import { CategoryTypeSchemaEnum } from "@/constants/enum/Category"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const categorySchema = z.object({
+export const categorySchema = z.object({
   categoryId: uuidSchema,
 
   type: CategoryTypeSchemaEnum,
