@@ -1,4 +1,5 @@
 import { BookingStatusEnum } from "../enum/Booking"
+import { DifficultyLevelEnum, WorkoutTypeEnum } from "../enum/Workout"
 
 export const DATA = {
   BOOKINGS: [
@@ -22,5 +23,18 @@ export const DATA = {
       value: BookingStatusEnum.Cancelled,
       color: "#ef4444"
     }
+  ],
+  DIFFICULTY_LEVELS: [
+    { label: "Mức dễ", value: DifficultyLevelEnum.Easy, color: "#A8E6CF" },
+    {
+      label: "Mức trung bình",
+      value: DifficultyLevelEnum.Medium,
+      color: "#FFD54F"
+    },
+    { label: "Mức khó", value: DifficultyLevelEnum.Hard, color: "#FFD54F" }
+  ],
+  WORKOUT_TYPE: [
+    { label: "Khởi động", value: WorkoutTypeEnum.Warmup },
+    { label: "Bài tập", value: WorkoutTypeEnum.Workout }
   ]
 }
