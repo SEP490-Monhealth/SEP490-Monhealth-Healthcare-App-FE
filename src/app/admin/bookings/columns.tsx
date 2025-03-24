@@ -126,11 +126,11 @@ export const createColumns = (
       const status = row.original.status as BookingStatusEnum
       const { label, color } = getBookingStatusMeta(status)
 
+      const badgeBackground = `bg-[${color}]`
+
       return (
         <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
+          <Badge className={`text-white ${badgeBackground}`}>{label}</Badge>
         </div>
       )
     }

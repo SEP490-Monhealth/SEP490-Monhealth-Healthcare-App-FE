@@ -184,8 +184,8 @@ function WorkoutPage() {
     }
   }, [debouncedSearch])
 
-  const handleViewDetail = (userId: string) => {
-    setSelectedWorkout(userId)
+  const handleViewDetail = (workoutId: string) => {
+    setSelectedWorkout(workoutId)
     setIsDetailDialogOpen(true)
   }
 
@@ -234,7 +234,7 @@ function WorkoutPage() {
       <UserDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        userId={"3b1a8845-765f-4d91-984a-4e8a9d7d376e"}
+        workoutId={"3b1a8845-765f-4d91-984a-4e8a9d7d376e"}
       />
 
       <AddUserDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />

@@ -1,4 +1,4 @@
 export type EnumMeta = {
   label: string
-  color: string
+  color?: string
 }

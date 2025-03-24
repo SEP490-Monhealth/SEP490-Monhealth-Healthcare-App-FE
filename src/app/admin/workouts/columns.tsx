@@ -20,11 +20,16 @@ import { Separator } from "@/components/globals/atoms/separator"
 import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
-import { DATA } from "@/constants/data/enumUtils"
+import {
+  getDifficultyLevelMeta,
+  getWorkoutTypeMeta
+} from "@/constants/enum/Workout"
 
 import { useWorkoutStatus } from "@/hooks/useWorkout"
 
 import { WorkoutType } from "@/schemas/workoutSchema"
+
+import { formatDate } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (workoutId: string) => void
@@ -91,12 +96,13 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const type = row.original.type
-      const typeData = DATA.WORKOUT_TYPE.find((item) => item.value === type)
-      if (!typeData) {
-        return <></>
-      }
+      const { label } = getWorkoutTypeMeta(type)
 
-      return <div className="flex pl-4">{typeData.label}</div>
+      return (
+        <div className="flex justify-center pr-4">
+          <Badge variant="outline">{label}</Badge>
+        </div>
+      )
     }
   },
   {
@@ -107,20 +113,13 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const difficultyLevel = row.original.difficultyLevel
-      const difficultyData = DATA.DIFFICULTY_LEVELS.find(
-        (item) => item.value === difficultyLevel
-      )
-      if (!difficultyData) {
-        return <></>
-      }
+      const { label, color } = getDifficultyLevelMeta(difficultyLevel)
+
+      const badgeBackground = `bg-[${color}]`
 
       return (
         <div className="flex justify-center pr-4">
-          <Badge
-            style={{ backgroundColor: difficultyData.color, color: "#fff" }}
-          >
-            {difficultyData.label}
-          </Badge>
+          <Badge className={`text-white ${badgeBackground}`}>{label}</Badge>
         </div>
       )
     }
@@ -129,7 +128,7 @@ export const createColumns = (
     accessorKey: "exercises",
     meta: { title: "Số lượng bài tập" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số lượng bài tập" center/>
+      <DataTableColumnHeader column={column} title="Số lượng bài tập" center />
     ),
     cell: ({ row }) => {
       const exercises = row.original.exercises
@@ -140,7 +139,7 @@ export const createColumns = (
     accessorKey: "durationMinutes",
     meta: { title: "Thời gian" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Thời gian (phút)" center/>
+      <DataTableColumnHeader column={column} title="Thời gian (phút)" center />
     ),
     cell: ({ row }) => {
       const durationMinutes = row.original.durationMinutes
@@ -151,66 +150,70 @@ export const createColumns = (
     accessorKey: "caloriesBurned",
     meta: { title: "Năng lượng đốt (kcal)" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Năng lượng đốt (kcal)" center/>
+      <DataTableColumnHeader
+        column={column}
+        title="Năng lượng đốt (kcal)"
+        center
+      />
     ),
     cell: ({ row }) => {
       const caloriesBurned = row.original.caloriesBurned
       return <span className="flex justify-center pr-4">{caloriesBurned}</span>
     }
   },
-  //   {
-  //     accessorKey: "status",
-  //     meta: { title: "Trạng thái" },
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Trạng thái" center />
-  //     ),
-  //     cell: ({ row }) => {
-  //       const status = row.original.status
-  //       return (
-  //         <div className="flex justify-center pr-4">
-  //           <Badge variant={status ? "default" : "destructive"}>
-  //             {status ? "Hoạt động" : "Ngừng hoạt động"}
-  //           </Badge>
-  //         </div>
-  //       )
-  //     }
-  //   },
-  //   {
-  //     accessorKey: "createdAt",
-  //     meta: { title: "Ngày tạo" },
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Ngày tạo" />
-  //     ),
-  //     cell: ({ row }) => {
-  //       const createdAt = row.original.createdAt
-  //       return <span>{formatDate(createdAt)}</span>
-  //     }
-  //   },
-  //   {
-  //     accessorKey: "createdBy",
-  //     meta: { title: "Người tạo" },
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Người tạo" />
-  //     )
-  //   },
-  //   {
-  //     accessorKey: "updatedAt",
-  //     meta: { title: "Ngày cập nhật" },
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Ngày cập nhật" />
-  //     ),
-  //     cell: ({ row }) => {
-  //       const updatedAt = row.original.updatedAt
-  //       return <span>{formatDate(updatedAt)}</span>
-  //     }
-  //   },
-  //   {
-  //     accessorKey: "updatedBy",
-  //     meta: { title: "Người cập nhật" },
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Người cập nhật" />
-  //     )
-  //   },
+  {
+    accessorKey: "status",
+    meta: { title: "Trạng thái" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Trạng thái" center />
+    ),
+    cell: ({ row }) => {
+      const status = row.original.status
+      return (
+        <div className="flex justify-center pr-4">
+          <Badge variant={status ? "default" : "destructive"}>
+            {status ? "Hoạt động" : "Ngừng hoạt động"}
+          </Badge>
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: "createdAt",
+    meta: { title: "Ngày tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày tạo" />
+    ),
+    cell: ({ row }) => {
+      const createdAt = row.original.createdAt
+      return <span>{formatDate(createdAt)}</span>
+    }
+  },
+  {
+    accessorKey: "createdBy",
+    meta: { title: "Người tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người tạo" />
+    )
+  },
+  {
+    accessorKey: "updatedAt",
+    meta: { title: "Ngày cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày cập nhật" />
+    ),
+    cell: ({ row }) => {
+      const updatedAt = row.original.updatedAt
+      return <span>{formatDate(updatedAt)}</span>
+    }
+  },
+  {
+    accessorKey: "updatedBy",
+    meta: { title: "Người cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người cập nhật" />
+    )
+  },
   {
     id: "actions",
     header: () => (
