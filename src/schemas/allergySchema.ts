@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
 const allergySchema = z.object({
   allergyId: uuidSchema,
@@ -18,7 +18,7 @@ const allergySchema = z.object({
     .nonempty({ message: "Mô tả dị ứng không được để trống" })
     .min(10, { message: "Mô tả dị ứng phải có ít nhất 10 ký tự" }),
 
-  ...timestampFields
+  ...auditFields
 })
 
 export const createUpdateAllergySchema = allergySchema.pick({
