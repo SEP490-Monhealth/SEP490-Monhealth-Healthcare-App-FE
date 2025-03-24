@@ -21,10 +21,7 @@ import {
 
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
-import {
-  BookingStatusEnum,
-  getBookingStatusMeta
-} from "@/constants/enum/Booking"
+import { getBookingStatusMeta } from "@/constants/enum/Booking"
 
 import { BookingType } from "@/schemas/bookingSchema"
 
@@ -99,7 +96,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const consultantName = row.original.consultantName
-      const avatarUrl = row.original.memberAvatar
+      const avatarUrl = row.original.consultantAvatar
 
       return (
         <div className="flex items-center gap-2">
@@ -123,14 +120,14 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
-      const status = row.original.status as BookingStatusEnum
+      const status = row.original.status
       const { label, color } = getBookingStatusMeta(status)
-
-      const badgeBackground = `bg-[${color}]`
 
       return (
         <div className="flex justify-center pr-4">
-          <Badge className={`text-white ${badgeBackground}`}>{label}</Badge>
+          <Badge className="text-white" style={{ backgroundColor: color }}>
+            {label}
+          </Badge>
         </div>
       )
     }
