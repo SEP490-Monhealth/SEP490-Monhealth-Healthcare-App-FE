@@ -1,6 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
+import { ExerciseTypeEnum } from "@/constants/enum/Workout"
+
 import {
   CreateExerciseType,
   ExerciseType,
@@ -15,16 +17,16 @@ import {
   updateExerciseStatus
 } from "@/services/exerciseService"
 
-export const useUsers = (
+export const useExercises = (
   page: number,
   limit: number,
-  type?: number,
   search?: string,
+  type?: ExerciseTypeEnum,
   status?: boolean
 ) =>
   useQuery({
-    queryKey: ["exercises", page, limit, type, search, status],
-    queryFn: () => fetchExercises(page, limit, type, search, status),
+    queryKey: ["exercises", page, limit, search, type, status],
+    queryFn: () => fetchExercises(page, limit, search, type, status),
     staleTime: 1000 * 60 * 5
   })
 
