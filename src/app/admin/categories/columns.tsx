@@ -15,6 +15,8 @@ import {
 
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
+import { getCategoryMeta } from "@/constants/enum/Category"
+
 import { CategoryType } from "@/schemas/categorySchema"
 
 import { formatDate } from "@/utils/formatters"
@@ -65,11 +67,28 @@ export const createColumns = (
     )
   },
   {
+    accessorKey: "type",
+    meta: { title: "Phân loại" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phân loại" />
+    ),
+    cell: ({ row }) => {
+      const type = row.original.type
+      const { label } = getCategoryMeta(type)
+
+      return <span>{label}</span>
+    }
+  },
+  {
     accessorKey: "description",
     header: "Mô tả",
     cell: ({ row }) => {
       const description = row.original.description
-      return <span className="block max-w-[320px] truncate">{description}</span>
+      return (
+        <span title={description} className="block max-w-[320px] truncate">
+          {description}
+        </span>
+      )
     }
   },
   {

@@ -84,6 +84,19 @@ export const createColumns = (
     )
   },
   {
+    accessorKey: "type",
+    meta: { title: "Phân loại" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Phân loại" />
+    ),
+    cell: ({ row }) => {
+      const type = row.original.type
+      const { label } = getWorkoutTypeMeta(type)
+
+      return <span>{label}</span>
+    }
+  },
+  {
     accessorKey: "description",
     header: "Mô tả",
     cell: ({ row }) => {
@@ -92,23 +105,6 @@ export const createColumns = (
         <span title={description} className="block max-w-[320px] truncate">
           {description}
         </span>
-      )
-    }
-  },
-  {
-    accessorKey: "type",
-    meta: { title: "Loại bài tập" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loại bài tập" center />
-    ),
-    cell: ({ row }) => {
-      const type = row.original.type
-      const { label } = getWorkoutTypeMeta(type)
-
-      return (
-        <div className="flex justify-center pr-4">
-          <Badge variant="outline">{label}</Badge>
-        </div>
       )
     }
   },

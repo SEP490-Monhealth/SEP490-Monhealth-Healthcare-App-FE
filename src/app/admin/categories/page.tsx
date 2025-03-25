@@ -31,18 +31,10 @@ function CategoryPage() {
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
+  const type = searchParams.get("type") || ""
   const search = searchParams.get("search") || ""
-  const typeParam = searchParams.get("type") || ""
 
-  let type: CategoryTypeEnum | undefined = undefined
-
-  if (typeParam) {
-    const typeNumber = parseInt(typeParam, 10)
-
-    if (!isNaN(typeNumber) && typeNumber >= 0 && typeNumber <= 3) {
-      type = typeNumber as CategoryTypeEnum
-    }
-  }
+  const typeParam = type && !isNaN(Number(type)) ? Number(type) : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
@@ -54,19 +46,19 @@ function CategoryPage() {
     data: categoriesData,
     isLoading,
     error
-  } = useCategories(page, limit, type, debouncedSearch)
+  } = useCategories(page, limit, typeParam, debouncedSearch)
 
   const totalPages = Math.ceil((categoriesData?.totalItems || 1) / limit)
 
   const filters: DataTableFilterProps[] = [
     {
       name: "type",
-      label: "Loại danh mục",
+      label: "Phân loại",
       options: [
         { value: String(CategoryTypeEnum.Food), label: "Thực phẩm" },
-        { value: String(CategoryTypeEnum.Workout), label: "Bài tập" }
+        { value: String(CategoryTypeEnum.Workout), label: "Luyện tập" }
       ],
-      value: type !== undefined ? String(type) : undefined,
+      value: type !== undefined ? String(type) : "",
       onChange: (value: string) => updateParams("type", value)
     }
   ]

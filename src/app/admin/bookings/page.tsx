@@ -33,17 +33,10 @@ function BookingPage() {
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
-  const statusParam = searchParams.get("status") || ""
+  const status = searchParams.get("status") || ""
 
-  let status: BookingStatusEnum | undefined = undefined
-
-  if (statusParam) {
-    const statusNumber = parseInt(statusParam, 10)
-
-    if (!isNaN(statusNumber) && statusNumber >= 0 && statusNumber <= 3) {
-      status = statusNumber as BookingStatusEnum
-    }
-  }
+  const statusParam =
+    status && !isNaN(Number(status)) ? Number(status) : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
@@ -55,7 +48,7 @@ function BookingPage() {
     data: bookingsData,
     isLoading,
     error
-  } = useBookings(page, limit, debouncedSearch, status)
+  } = useBookings(page, limit, debouncedSearch, statusParam)
 
   const totalPages = Math.ceil((bookingsData?.totalItems || 1) / limit)
 
@@ -69,7 +62,7 @@ function BookingPage() {
         { value: String(BookingStatusEnum.Completed), label: "Hoàn thành" },
         { value: String(BookingStatusEnum.Cancelled), label: "Đã hủy" }
       ],
-      value: status !== undefined ? String(status) : undefined,
+      value: status !== undefined ? String(status) : "",
       onChange: (value: string) => updateParams("status", value)
     }
   ]
