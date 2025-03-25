@@ -28,7 +28,7 @@ import {
 
 import { BookingType } from "@/schemas/bookingSchema"
 
-import { formatDate, formatDateTime } from "@/utils/formatters"
+import { formatDate, formatDateAndHour } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
@@ -70,14 +70,14 @@ export const createColumns = (
     )
   },
   {
-    accessorKey: "memberName",
+    accessorKey: "member.memberName",
     meta: { title: "Người dùng" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.memberName
-      const avatarUrl = row.original.memberAvatar
+      const fullName = row.original.member.memberName
+      const avatarUrl = row.original.member.memberAvatar
 
       return (
         <div className="flex items-center gap-2">
@@ -92,14 +92,14 @@ export const createColumns = (
     }
   },
   {
-    accessorKey: "consultantName",
+    accessorKey: "consultant.consultantName",
     meta: { title: "Chuyên viên" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.consultantName
-      const avatarUrl = row.original.consultantAvatar
+      const fullName = row.original.consultant.consultantName
+      const avatarUrl = row.original.consultant.consultantAvatar
 
       return (
         <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const date = row.original.date
-      return <span>{formatDateTime(date)}</span>
+      return <span>{formatDateAndHour(date)}</span>
     }
   },
   {

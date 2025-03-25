@@ -52,16 +52,16 @@ export const createColumns = (
   },
   {
     accessorKey: "expertiseId",
-    meta: { title: "Mã người dùng" },
+    meta: { title: "Mã chuyên môn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã người dùng" />
+      <DataTableColumnHeader column={column} title="Mã chuyên môn" />
     )
   },
   {
     accessorKey: "name",
-    meta: { title: "Tên món ăn" },
+    meta: { title: "Tên chuyên môn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tên món ăn" />
+      <DataTableColumnHeader column={column} title="Tên chuyên môn" />
     )
   },
   {
