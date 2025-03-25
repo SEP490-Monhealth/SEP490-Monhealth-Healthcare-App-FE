@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { GenderSchemaEnum } from "@/constants/enum/Gender"
+import { GenderSchemaEnum } from "@/constants/enum/Metric"
 
 import { timestampFields, uuidSchema } from "@/schemas/baseSchema"
 

@@ -11,8 +11,6 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/globals/atoms/dialog"
-import { Input } from "@/components/globals/atoms/input"
-import { Label } from "@/components/globals/atoms/label"
 import {
   Tabs,
   TabsContent,
@@ -27,7 +25,9 @@ import { useGoalsByUserId } from "@/hooks/useGoal"
 import { useMetricsByUserId } from "@/hooks/useMetric"
 import { useUserById } from "@/hooks/useUser"
 
-import { formatDate, formatPhoneNumber } from "@/utils/formatters"
+import UserDetailTabDialog from "./user-detail-tab-dialog"
+import UserGoalTabDialog from "./user-goal-tab-dialog"
+import UserMetricTabDialog from "./user-metric-tab-dialog"
 
 interface UserDetailDialogProps {
   isOpen: boolean
@@ -54,14 +54,8 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
     error: goalsError
   } = useGoalsByUserId(userId || "")
 
-  console.log("metricsData", JSON.stringify(metricsData, null, 2))
-  console.log("goalsData", JSON.stringify(goalsData, null, 2))
-
   const currentMetric = metricsData?.[0]
   const currentGoal = goalsData?.[0]
-
-  console.log("currentMetric", JSON.stringify(currentMetric, null, 2))
-  console.log("currentGoal", JSON.stringify(currentMetric, null, 2))
 
   const isLoading = isUserLoading || isMetricLoading || isGoalsLoading
   const hasError = userError || metricError || goalsError
@@ -72,7 +66,7 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
         <DialogHeader>
           <DialogTitle>Chi tiết người dùng</DialogTitle>
           <DialogDescription>
-            Xem và quản lý thông tin chi tiết của người dùng.
+            Xem thông tin chi tiết của người dùng.
           </DialogDescription>
         </DialogHeader>
 
@@ -86,10 +80,10 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
             }
           />
         ) : (
-          <Tabs defaultValue="user-information">
+          <Tabs defaultValue="user-detail">
             <TabsList className="h-auto w-full rounded-none border-b bg-transparent p-0">
               <TabsTrigger
-                value="user-information"
+                value="user-detail"
                 className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
               >
                 Thông tin
@@ -107,129 +101,16 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
                 Mục tiêu
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="user-information" className="w-full">
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="userId">Mã người dùng</Label>
-                  <Input
-                    id="userId"
-                    type="text"
-                    value={userData.userId}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Họ và tên</Label>
-                  <Input
-                    id="fullName"
-                    type="text"
-                    value={userData.fullName}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={userData.email}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                  <Input
-                    id="phoneNumber"
-                    type="text"
-                    value={formatPhoneNumber(userData.phoneNumber)}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="role">Vai trò</Label>
-                  <Input id="role" type="text" value={userData.role} disabled />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="status">Trạng thái</Label>
-                  <Input
-                    id="status"
-                    type="text"
-                    value={userData.status ? "Hoạt động" : "Ngừng hoạt động"}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="createdAt">Ngày tạo</Label>
-                  <Input
-                    id="createdAt"
-                    type="text"
-                    value={formatDate(userData.createdAt)}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="createdBy">Người tạo</Label>
-                  <Input
-                    id="createdBy"
-                    type="text"
-                    value={userData.createdBy}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-                  <Input
-                    id="updatedAt"
-                    type="text"
-                    value={formatDate(userData.updatedAt)}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="updatedBy">Người cập nhật</Label>
-                  <Input
-                    id="updatedBy"
-                    type="text"
-                    value={userData.updatedBy}
-                    disabled
-                  />
-                </div>
-              </div>
+            <TabsContent value="user-detail" className="w-full">
+              <UserDetailTabDialog userData={userData} />
             </TabsContent>
             <TabsContent value="user-metric" className="w-full">
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="metricId">Mã sức khỏe</Label>
-                  <Input
-                    id="metricId"
-                    type="text"
-                    value={currentMetric?.metricId}
-                    disabled
-                  />
-                </div>
-              </div>
+              {currentMetric && (
+                <UserMetricTabDialog metricData={currentMetric} />
+              )}
             </TabsContent>
             <TabsContent value="user-goal" className="w-full">
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="goalId">Mã mục tiêu</Label>
-                  <Input
-                    id="goalId"
-                    type="text"
-                    value={currentGoal?.goalId}
-                    disabled
-                  />
-                </div>
-              </div>
+              {currentGoal && <UserGoalTabDialog goalData={currentGoal} />}
             </TabsContent>
           </Tabs>
         )}

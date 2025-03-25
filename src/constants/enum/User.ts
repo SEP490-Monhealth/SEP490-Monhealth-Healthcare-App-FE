@@ -9,7 +9,7 @@ export enum RoleEnum {
   Admin
 }
 
-export const BookingStatusSchemaEnum = z.nativeEnum(RoleEnum)
+export const RoleSchemaEnum = z.nativeEnum(RoleEnum)
 
 export type RoleType = "Member" | "Subscription Member" | "Consultant" | "Admin"
 
