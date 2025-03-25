@@ -121,7 +121,7 @@ export const columns: ColumnDef<ConsultantType>[] = [
     accessorKey: "experience",
     meta: { title: "Kinh nghiệm" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kinh nghiệm (Năm)" center />
+      <DataTableColumnHeader column={column} title="Kinh nghiệm (năm)" center />
     ),
     cell: ({ row }) => {
       const experience = row.original.experience

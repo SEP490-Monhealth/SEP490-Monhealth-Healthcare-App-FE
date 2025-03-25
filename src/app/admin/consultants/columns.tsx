@@ -32,7 +32,13 @@ import { ConsultantType } from "@/schemas/consultantSchema"
 import { formatDate, formatPhoneNumber } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
-export const columns: ColumnDef<ConsultantType>[] = [
+export type ColumnActionsHandlers = {
+  onViewDetail: (consultantId: string) => void
+}
+
+export const createColumns = (
+  handlers: ColumnActionsHandlers
+): ColumnDef<ConsultantType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -72,7 +78,7 @@ export const columns: ColumnDef<ConsultantType>[] = [
     ),
     cell: ({ row }) => {
       const fullName = row.original.fullName
-      // const email = row.original.email
+      const email = row.original.email
       const avatarUrl = row.original.avatarUrl
 
       return (
@@ -83,7 +89,7 @@ export const columns: ColumnDef<ConsultantType>[] = [
           </Avatar>
           <div className="flex flex-col">
             <span className="capitalize">{fullName}</span>
-            {/* <span className="text-muted-foreground text-sm">{email}</span> */}
+            <span className="text-muted-foreground text-sm">{email}</span>
           </div>
         </div>
       )
@@ -99,6 +105,13 @@ export const columns: ColumnDef<ConsultantType>[] = [
       const phoneNumber = row.original.phoneNumber
       return <span>{formatPhoneNumber(phoneNumber)}</span>
     }
+  },
+  {
+    accessorKey: "expertise",
+    meta: { title: "Chuyên môn" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Chuyên môn" />
+    )
   },
   {
     accessorKey: "bio",
@@ -122,7 +135,7 @@ export const columns: ColumnDef<ConsultantType>[] = [
     accessorKey: "experience",
     meta: { title: "Kinh nghiệm" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kinh nghiệm (Năm)" center />
+      <DataTableColumnHeader column={column} title="Kinh nghiệm (năm)" center />
     ),
     cell: ({ row }) => {
       const experience = row.original.experience
@@ -131,9 +144,9 @@ export const columns: ColumnDef<ConsultantType>[] = [
   },
   {
     accessorKey: "ratingCount",
-    meta: { title: "Số đánh giá" },
+    meta: { title: "Số lượt đánh giá" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số đánh giá" center />
+      <DataTableColumnHeader column={column} title="Số lượt đánh giá" center />
     ),
     cell: ({ row }) => {
       const ratingCount = row.original.ratingCount
@@ -142,9 +155,13 @@ export const columns: ColumnDef<ConsultantType>[] = [
   },
   {
     accessorKey: "averageRating",
-    meta: { title: "Đánh giá" },
+    meta: { title: "Đánh giá trung bình" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Đánh giá" center />
+      <DataTableColumnHeader
+        column={column}
+        title="Đánh giá trung bình"
+        center
+      />
     ),
     cell: ({ row }) => {
       const averageRating = row.original.averageRating
@@ -184,13 +201,6 @@ export const columns: ColumnDef<ConsultantType>[] = [
     }
   },
   {
-    accessorKey: "createdBy",
-    meta: { title: "Người tạo" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người tạo" />
-    )
-  },
-  {
     accessorKey: "updatedAt",
     meta: { title: "Ngày cập nhật" },
     header: ({ column }) => (
@@ -200,13 +210,6 @@ export const columns: ColumnDef<ConsultantType>[] = [
       const updatedAt = row.original.updatedAt
       return <span>{formatDate(updatedAt)}</span>
     }
-  },
-  {
-    accessorKey: "updatedBy",
-    meta: { title: "Người cập nhật" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người cập nhật" />
-    )
   },
   {
     id: "actions",
@@ -236,7 +239,11 @@ export const columns: ColumnDef<ConsultantType>[] = [
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  handlers.onViewDetail(consultantData.consultantId)
+                }
+              >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>

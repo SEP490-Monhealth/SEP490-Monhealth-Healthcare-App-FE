@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const waterReminderSchema = z.object({
+export const waterReminderSchema = z.object({
   waterReminderId: uuidSchema,
   userId: uuidSchema,
 

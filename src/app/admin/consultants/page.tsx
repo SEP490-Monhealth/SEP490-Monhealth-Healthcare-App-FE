@@ -8,11 +8,13 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import ConsultantDetailDialog from "@/components/locals/admin/consultants/consultant-detail-dialog"
+
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 
 import LoadingPage from "../loading"
-import { columns } from "./columns"
+import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   consultantId: false,
@@ -34,6 +36,11 @@ function ConsultantPage() {
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
+
+  const [selectedConsultant, setSelectedConsultant] = useState<string | null>(
+    null
+  )
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const parsedStatus =
     status === ""
@@ -97,12 +104,6 @@ function ConsultantPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  useEffect(() => {
-    if (debouncedSearch !== search) {
-      updateParams("search", debouncedSearch)
-    }
-  }, [debouncedSearch])
-
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
@@ -111,6 +112,26 @@ function ConsultantPage() {
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
+
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
+    }
+  }, [debouncedSearch])
+
+  const handleViewDetail = (consultantId: string) => {
+    setSelectedConsultant(consultantId)
+    setIsDetailDialogOpen(true)
+  }
+
+  const handleCloseDetailDialog = () => {
+    setIsDetailDialogOpen(false)
+    setTimeout(() => setSelectedConsultant(null), 300)
+  }
+
+  const columns = createColumns({
+    onViewDetail: handleViewDetail
+  })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
@@ -131,6 +152,12 @@ function ConsultantPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
+      />
+
+      <ConsultantDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleCloseDetailDialog}
+        consultantId={selectedConsultant}
       />
     </div>
   )
