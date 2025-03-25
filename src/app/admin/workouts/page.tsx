@@ -11,7 +11,6 @@ import { DataTableFilterProps } from "@/components/globals/molecules/data-table-
 import AddUserDialog from "@/components/locals/admin/users/add-user-dialog"
 import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
 
-import { DATA } from "@/constants/data/enumUtils"
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 import { useCategories } from "@/hooks/useCategory"
@@ -123,10 +122,11 @@ function WorkoutPage() {
     {
       name: "difficulty",
       label: "Độ khó",
-      options: DATA.DIFFICULTY_LEVELS.map((item) => ({
-        value: String(item.value),
-        label: item.label
-      })),
+      options: [
+        { value: String(DifficultyLevelEnum.Easy), label: "Mức dễ" },
+        { value: String(DifficultyLevelEnum.Medium), label: "Mức trung bình" },
+        { value: String(DifficultyLevelEnum.Hard), label: "Mức khó" }
+      ],
       value: difficulty !== undefined ? String(difficulty) : undefined,
       onChange: (value: string) => updateParams("difficulty", value)
     },
@@ -234,7 +234,7 @@ function WorkoutPage() {
       <UserDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        workoutId={"3b1a8845-765f-4d91-984a-4e8a9d7d376e"}
+        userId={"3b1a8845-765f-4d91-984a-4e8a9d7d376e"}
       />
 
       <AddUserDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />

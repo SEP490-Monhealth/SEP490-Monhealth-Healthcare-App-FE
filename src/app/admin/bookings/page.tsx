@@ -33,10 +33,17 @@ function BookingPage() {
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
-  const status = searchParams.get("status")
+  const statusParam = searchParams.get("status") || ""
 
-  const statusParam =
-    status && !isNaN(Number(status)) ? Number(status) : undefined
+  let status: BookingStatusEnum | undefined = undefined
+
+  if (statusParam) {
+    const statusNumber = parseInt(statusParam, 10)
+
+    if (!isNaN(statusNumber) && statusNumber >= 0 && statusNumber <= 3) {
+      status = statusNumber as BookingStatusEnum
+    }
+  }
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
@@ -48,7 +55,7 @@ function BookingPage() {
     data: bookingsData,
     isLoading,
     error
-  } = useBookings(page, limit, debouncedSearch, statusParam)
+  } = useBookings(page, limit, debouncedSearch, status)
 
   const totalPages = Math.ceil((bookingsData?.totalItems || 1) / limit)
 
