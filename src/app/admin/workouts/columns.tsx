@@ -122,11 +122,11 @@ export const createColumns = (
       const difficultyLevel = row.original.difficultyLevel
       const { label, color } = getDifficultyLevelMeta(difficultyLevel)
 
-      const badgeBackground = `bg-[${color}]`
-
       return (
         <div className="flex justify-center pr-4">
-          <Badge className={`text-white ${badgeBackground}`}>{label}</Badge>
+          <Badge className="text-white" style={{ backgroundColor: color }}>
+            {label}
+          </Badge>
         </div>
       )
     }

@@ -8,7 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
+import BookingDetailDialog from "@/components/locals/admin/bookings/booking-detail-dialog"
 
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
@@ -132,10 +132,10 @@ function BookingPage() {
         onClearAllFilters={clearAllFilters}
       />
 
-      <UserDetailDialog
+      <BookingDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        userId={selectedBooking || ""}
+        bookingId={selectedBooking}
       />
     </div>
   )

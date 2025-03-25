@@ -70,14 +70,15 @@ export const createColumns = (
     )
   },
   {
-    accessorKey: "memberName",
+    accessorKey: "member",
     meta: { title: "Người dùng" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.memberName
-      const avatarUrl = row.original.memberAvatar
+      const fullName = row.original.member.fullName
+      const email = row.original.member.email
+      const avatarUrl = row.original.member.avatarUrl
 
       return (
         <div className="flex items-center gap-2">
@@ -85,21 +86,24 @@ export const createColumns = (
             <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
             <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
           </Avatar>
-
-          <span className="capitalize">{fullName}</span>
+          <div className="flex flex-col">
+            <span className="capitalize">{fullName}</span>
+            <span className="text-muted-foreground text-sm">{email}</span>
+          </div>
         </div>
       )
     }
   },
   {
-    accessorKey: "consultantName",
+    accessorKey: "consultant",
     meta: { title: "Chuyên viên" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.consultantName
-      const avatarUrl = row.original.consultantAvatar
+      const fullName = row.original.consultant.fullName
+      const email = row.original.consultant.email
+      const avatarUrl = row.original.consultant.avatarUrl
 
       return (
         <div className="flex items-center gap-2">
@@ -107,8 +111,10 @@ export const createColumns = (
             <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
             <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
           </Avatar>
-
-          <span className="capitalize">{fullName}</span>
+          <div className="flex flex-col">
+            <span className="capitalize">{fullName}</span>
+            <span className="text-muted-foreground text-sm">{email}</span>
+          </div>
         </div>
       )
     }
@@ -123,20 +129,20 @@ export const createColumns = (
       const status = row.original.status as BookingStatusEnum
       const { label, color } = getBookingStatusMeta(status)
 
-      const badgeBackground = `bg-[${color}]`
-
       return (
         <div className="flex justify-center pr-4">
-          <Badge className={`text-white ${badgeBackground}`}>{label}</Badge>
+          <Badge className="text-white" style={{ backgroundColor: color }}>
+            {label}
+          </Badge>
         </div>
       )
     }
   },
   {
     accessorKey: "date",
-    meta: { title: "Lịch hẹn" },
+    meta: { title: "Ngày giờ" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Lịch hẹn" />
+      <DataTableColumnHeader column={column} title="Ngày giờ" />
     ),
     cell: ({ row }) => {
       const date = row.original.date
