@@ -14,14 +14,11 @@ const exerciseSchema = z.object({
     .string()
     .nonempty({ message: "Tên bài tập không được để trống" })
     .min(3, { message: "Tên bài tập phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên bài tập không được dài hơn 255 ký tự" })
-    .regex(/^[\p{L} ]+$/u, {
-      message: "Tên bài tập chỉ được chứa chữ cái và khoảng trắng"
-    }),
+    .max(255, { message: "Tên bài tập không được quá 255 ký tự" }),
   instructions: z
     .string()
-    .nonempty({ message: "Hướng dẫn không được để trống" })
-    .min(1, { message: "Hướng dẫn không được để trống" }),
+    .nonempty({ message: "Hướng dẫn món ăn không được để trống" })
+    .min(10, { message: "Hướng dẫn món ăn phải có ít nhất 10 ký tự" }),
   caloriesPerMinute: z
     .number()
     .min(1, { message: "Số calories đốt phải lớn hơn hoặc bằng 0" }),

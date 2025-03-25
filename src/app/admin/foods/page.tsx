@@ -15,6 +15,7 @@ import { columns } from "./columns"
 const DEFAULT_VISIBILITY = {
   foodId: false,
   description: false,
+  isPublic: false,
   createdBy: false,
   updatedBy: false
 }

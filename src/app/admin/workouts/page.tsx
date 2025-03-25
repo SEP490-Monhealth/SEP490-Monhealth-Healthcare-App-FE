@@ -24,6 +24,7 @@ import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   workoutId: false,
+  description: false,
   isPublic: false,
   createdAt: false,
   updatedAt: false,
