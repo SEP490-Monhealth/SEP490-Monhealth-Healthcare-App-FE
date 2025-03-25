@@ -6,11 +6,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
+import FoodDetailDialog from "@/components/locals/admin/foods/food-detail-dialog"
+
 import { useDebounce } from "@/hooks/useDebounce"
 import { useFoods } from "@/hooks/useFood"
 
 import LoadingPage from "../loading"
-import { columns } from "./columns"
+import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   foodId: false,
@@ -31,6 +33,9 @@ function FoodPage() {
 
   const [searchTerm, setSearchTerm] = useState(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
+
+  const [selectedFood, setSelectedFood] = useState<string | null>(null)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const {
     data: foodsData,
@@ -62,6 +67,18 @@ function FoodPage() {
     console.log("halo anh em")
   }
 
+  const handleViewDetail = (foodId: string) => {
+    setSelectedFood(foodId)
+    setIsDetailDialogOpen(true)
+  }
+
+  const handleCloseDetailDialog = () => {
+    setIsDetailDialogOpen(false)
+    setTimeout(() => setSelectedFood(null), 300)
+  }
+
+  const columns = createColumns({ onViewDetail: handleViewDetail })
+
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
 
@@ -81,6 +98,12 @@ function FoodPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         addNewButton
         onAddNew={handleAddNewFood}
+      />
+
+      <FoodDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleCloseDetailDialog}
+        foodId={selectedFood}
       />
     </div>
   )

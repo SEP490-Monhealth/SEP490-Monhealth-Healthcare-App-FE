@@ -1,10 +1,13 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
 import {
   fetchConsultantById,
-  fetchConsultants
+  fetchConsultants,
+  updateConsultantStatus,
+  updateConsultantVerify
 } from "@/services/consultantService"
 
 export const useConsultants = (
@@ -28,3 +31,31 @@ export const useConsultantById = (consultantId: string) =>
     queryFn: () => fetchConsultantById(consultantId),
     enabled: !!consultantId
   })
+
+export const useConsultantStatus = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { consultantId: string }>({
+    mutationFn: ({ consultantId }) => updateConsultantStatus(consultantId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["consultants"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update consultant status")
+    }
+  })
+}
+
+export const useConsultantVerify = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { consultantId: string }>({
+    mutationFn: ({ consultantId }) => updateConsultantVerify(consultantId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["consultants"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to verify consultant")
+    }
+  })
+}

@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
@@ -51,5 +53,45 @@ export const fetchConsultantById = async (
   } catch (error) {
     console.error("Error fetching consultant by ID:", error)
     throw new Error("Failed to fetch consultant")
+  }
+}
+
+export const updateConsultantStatus = async (
+  consultantId: string
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(`/consultants/${consultantId}/status`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update consultant status")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating consultant status:", error)
+    throw new Error("Failed to update consultant status")
+  }
+}
+
+export const updateConsultantVerify = async (
+  consultantId: string
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(`/consultants/${consultantId}/verify`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update consultant verify")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating consultant verify:", error)
+    throw new Error("Failed to update consultant verify")
   }
 }

@@ -11,17 +11,17 @@ const bookingSchema = z.object({
   consultantId: uuidSchema,
 
   member: z.object({
-    fullName: userSchema.shape.fullName,
+    memberName: userSchema.shape.fullName,
     email: userSchema.shape.email,
     phoneNumber: userSchema.shape.phoneNumber,
-    avatarUrl: userSchema.shape.avatarUrl
+    memberAvatar: userSchema.shape.avatarUrl
   }),
 
   consultant: z.object({
-    fullName: userSchema.shape.fullName,
+    consultantName: userSchema.shape.fullName,
     email: userSchema.shape.email,
     phoneNumber: userSchema.shape.phoneNumber,
-    avatarUrl: userSchema.shape.avatarUrl
+    consultantAvatar: userSchema.shape.avatarUrl
   }),
 
   date: z.string().nonempty({ message: "Ngày không được để trống" }),

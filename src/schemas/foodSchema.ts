@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { DishTypeSchemaEnum, MealTypeSchemaEnum } from "@/constants/enum/Food"
+
 import { auditFields, uuidSchema } from "./baseSchema"
 import { categorySchema } from "./categorySchema"
 
@@ -7,6 +9,9 @@ export const foodSchema = z.object({
   foodId: uuidSchema,
   userId: uuidSchema,
   category: categorySchema.shape.name,
+
+  mealType: z.array(MealTypeSchemaEnum),
+  dishType: z.array(DishTypeSchemaEnum),
 
   name: z
     .string()

@@ -28,7 +28,13 @@ import { FoodType } from "@/schemas/foodSchema"
 
 import { formatDate } from "@/utils/formatters"
 
-export const columns: ColumnDef<FoodType>[] = [
+export type ColumnActionsHandlers = {
+  onViewDetail: (foodId: string) => void
+}
+
+export const createColumns = (
+  handlers: ColumnActionsHandlers
+): ColumnDef<FoodType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -180,7 +186,9 @@ export const columns: ColumnDef<FoodType>[] = [
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlers.onViewDetail(foodData.foodId)}
+              >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>
