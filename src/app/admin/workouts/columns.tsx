@@ -3,7 +3,14 @@
 import { useState } from "react"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
+import {
+  BadgeCheck,
+  Ban,
+  Circle,
+  Copy,
+  Eye,
+  MoreHorizontal
+} from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
@@ -115,11 +122,11 @@ export const createColumns = (
       const difficultyLevel = row.original.difficultyLevel
       const { label, color } = getDifficultyLevelMeta(difficultyLevel)
 
+      const badgeBackground = `bg-[${color}]`
+
       return (
         <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
+          <Badge className={`text-white ${badgeBackground}`}>{label}</Badge>
         </div>
       )
     }
@@ -159,6 +166,21 @@ export const createColumns = (
     cell: ({ row }) => {
       const caloriesBurned = row.original.caloriesBurned
       return <span className="flex justify-center pr-4">{caloriesBurned}</span>
+    }
+  },
+  {
+    accessorKey: "isPublic",
+    meta: { title: "Công khai" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Công khai" center />
+    ),
+    cell: ({ row }) => {
+      const isPublic = row.original.isPublic
+      return (
+        <span className="flex justify-center pr-4">
+          {isPublic ? <BadgeCheck fill="#16a34a" color="white" /> : null}
+        </span>
+      )
     }
   },
   {

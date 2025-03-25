@@ -21,7 +21,10 @@ import {
 
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
-import { getBookingStatusMeta } from "@/constants/enum/Booking"
+import {
+  BookingStatusEnum,
+  getBookingStatusMeta
+} from "@/constants/enum/Booking"
 
 import { BookingType } from "@/schemas/bookingSchema"
 
@@ -73,17 +76,17 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
-      const memberName = row.original.memberName
+      const fullName = row.original.memberName
       const avatarUrl = row.original.memberAvatar
 
       return (
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(memberName)} />
-            <AvatarFallback>{getInitials(memberName)}</AvatarFallback>
+            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
+            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
           </Avatar>
 
-          <span className="capitalize">{memberName}</span>
+          <span className="capitalize">{fullName}</span>
         </div>
       )
     }
@@ -95,20 +98,17 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
-      const consultantName = row.original.consultantName
+      const fullName = row.original.consultantName
       const avatarUrl = row.original.consultantAvatar
 
       return (
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage
-              src={avatarUrl || ""}
-              alt={getInitials(consultantName)}
-            />
-            <AvatarFallback>{getInitials(consultantName)}</AvatarFallback>
+            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
+            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
           </Avatar>
 
-          <span className="capitalize">{consultantName}</span>
+          <span className="capitalize">{fullName}</span>
         </div>
       )
     }
@@ -120,14 +120,14 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
-      const status = row.original.status
+      const status = row.original.status as BookingStatusEnum
       const { label, color } = getBookingStatusMeta(status)
+
+      const badgeBackground = `bg-[${color}]`
 
       return (
         <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
+          <Badge className={`text-white ${badgeBackground}`}>{label}</Badge>
         </div>
       )
     }
