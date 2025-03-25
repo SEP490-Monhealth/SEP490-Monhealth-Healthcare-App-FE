@@ -1,5 +1,7 @@
 import { toast } from "sonner"
 
+import { ExerciseTypeEnum } from "@/constants/enum/Workout"
+
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -17,13 +19,13 @@ interface ExercisesResponse {
 export const fetchExercises = async (
   page: number,
   limit: number,
-  type?: number,
   search?: string,
+  type?: ExerciseTypeEnum,
   status?: boolean
 ): Promise<ExercisesResponse> => {
   try {
     const response = await monAPI.get(`/exercises`, {
-      params: { page, limit, type, search, status }
+      params: { page, limit, search, type, status }
     })
 
     const { success, message, data } = response.data
