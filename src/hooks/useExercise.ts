@@ -20,13 +20,13 @@ import {
 export const useExercises = (
   page: number,
   limit: number,
-  search?: string,
   type?: ExerciseTypeEnum,
+  search?: string,
   status?: boolean
 ) =>
   useQuery({
-    queryKey: ["exercises", page, limit, search, type, status],
-    queryFn: () => fetchExercises(page, limit, search, type, status),
+    queryKey: ["exercises", page, limit, type, search, status],
+    queryFn: () => fetchExercises(page, limit, type, search, status),
     staleTime: 1000 * 60 * 5
   })
 

@@ -19,13 +19,13 @@ interface ExercisesResponse {
 export const fetchExercises = async (
   page: number,
   limit: number,
-  search?: string,
   type?: ExerciseTypeEnum,
+  search?: string,
   status?: boolean
 ): Promise<ExercisesResponse> => {
   try {
     const response = await monAPI.get(`/exercises`, {
-      params: { page, limit, search, type, status }
+      params: { page, limit, type, search, status }
     })
 
     const { success, message, data } = response.data

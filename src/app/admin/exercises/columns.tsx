@@ -77,19 +77,17 @@ export const createColumns = (
     cell: ({ row }) => {
       const instructions = row.original.instructions
       return (
-        <span className="block max-w-[320px] truncate">
-          {instructions ? instructions : "--"}
-        </span>
+        <span className="block max-w-[320px] truncate">{instructions}</span>
       )
     }
   },
   {
     accessorKey: "caloriesPerMinute",
-    meta: { title: "Năng lượng" },
+    meta: { title: "Năng lượng đốt" },
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Năng lượng (kcal/phút)"
+        title="Năng lượng đốt (kcal/phút)"
         center
       />
     ),
@@ -117,7 +115,6 @@ export const createColumns = (
       )
     }
   },
-
   {
     accessorKey: "createdAt",
     meta: { title: "Ngày tạo" },
