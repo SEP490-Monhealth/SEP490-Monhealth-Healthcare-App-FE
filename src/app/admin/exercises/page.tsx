@@ -65,7 +65,7 @@ function ExercisePage() {
     data: exercisesData,
     isLoading,
     error
-  } = useExercises(page, limit, debouncedSearch, type, parsedStatus)
+  } = useExercises(page, limit, type, debouncedSearch, parsedStatus)
 
   const totalPages = Math.ceil((exercisesData?.totalItems || 1) / limit)
 

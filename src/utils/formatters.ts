@@ -93,3 +93,25 @@ export function formatPhoneNumber(phone: string): string {
   }
   return phone
 }
+
+/**
+ * Định dạng ngày giờ theo định dạng "HH:mm dd/mm/yyyy".
+ * @param dateTime - Ngày giờ cần định dạng (có thể là đối tượng Date hoặc chuỗi ngày).
+ * @returns Chuỗi ngày giờ đã được định dạng.
+ *
+ * @example
+ * formatDateAndHour("2024-03-15T14:30:00") => "14:30, 15/03/2024"
+ * formatDateAndHour(new Date(2024, 2, 15, 14, 30, 0)) => "14:30, 15/03/2024"
+ */
+export function formatDateAndHour(dateTime: Date | string): string {
+  if (!dateTime) return ""
+
+  const d = typeof dateTime === "string" ? new Date(dateTime) : dateTime
+  const day = String(d.getDate()).padStart(2, "0")
+  const month = String(d.getMonth() + 1).padStart(2, "0")
+  const year = d.getFullYear()
+  const hours = String(d.getHours()).padStart(2, "0")
+  const minutes = String(d.getMinutes()).padStart(2, "0")
+
+  return `${hours}:${minutes}, ${day}/${month}/${year}`
+}

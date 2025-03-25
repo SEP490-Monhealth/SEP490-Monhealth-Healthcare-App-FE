@@ -4,7 +4,7 @@ import { timestampFields, uuidSchema } from "./baseSchema"
 import { expertiseSchema } from "./expertiseSchema"
 import { userSchema } from "./userSchema"
 
-const consultantSchema = z.object({
+export const consultantSchema = z.object({
   consultantId: uuidSchema,
   userId: uuidSchema,
   expertiseId: uuidSchema,

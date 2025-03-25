@@ -28,7 +28,7 @@ import {
 
 import { BookingType } from "@/schemas/bookingSchema"
 
-import { formatDate, formatDateTime } from "@/utils/formatters"
+import { formatDate, formatDateAndHour } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
@@ -146,7 +146,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const date = row.original.date
-      return <span>{formatDateTime(date)}</span>
+      return <span>{formatDateAndHour(date)}</span>
     }
   },
   {
