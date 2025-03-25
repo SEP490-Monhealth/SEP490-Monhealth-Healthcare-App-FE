@@ -76,9 +76,9 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.member.memberName
+      const fullName = row.original.member.fullName
       const email = row.original.member.email
-      const avatarUrl = row.original.member.memberAvatar
+      const avatarUrl = row.original.member.avatarUrl
 
       return (
         <div className="flex items-center gap-2">
@@ -101,9 +101,9 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.consultant.consultantName
+      const fullName = row.original.consultant.fullName
       const email = row.original.consultant.email
-      const avatarUrl = row.original.consultant.consultantAvatar
+      const avatarUrl = row.original.consultant.avatarUrl
 
       return (
         <div className="flex items-center gap-2">

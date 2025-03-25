@@ -69,9 +69,9 @@ function ConsultantDetailDialog({
           />
         ) : (
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-3 gap-6">
-              <div>
-                <Avatar className="h-full w-full rounded-md">
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <Avatar className="h-full w-48 rounded-md">
                   <AvatarImage src={consultantData.avatarUrl} />
                   <AvatarFallback>
                     {getInitials(consultantData.fullName)}
@@ -79,7 +79,7 @@ function ConsultantDetailDialog({
                 </Avatar>
               </div>
 
-              <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="consultantId">Mã chuyên viên</Label>
                   <Input
@@ -89,27 +89,7 @@ function ConsultantDetailDialog({
                     disabled
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={consultantData.email}
-                    disabled
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="expertise">Chuyên môn</Label>
-                  <Input
-                    id="expertise"
-                    type="text"
-                    value={consultantData.expertise}
-                    disabled
-                  />
-                </div>
-              </div>
 
-              <div className="space-y-2">
                 <div className="space-y-2">
                   <Label htmlFor="name">Tên chuyên viên</Label>
                   <Input
@@ -119,6 +99,17 @@ function ConsultantDetailDialog({
                     disabled
                   />
                 </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={consultantData.email}
+                    disabled
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="phoneNumber">Số điện thoại</Label>
                   <Input
@@ -128,6 +119,17 @@ function ConsultantDetailDialog({
                     disabled
                   />
                 </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="expertise">Chuyên môn</Label>
+                  <Input
+                    id="expertise"
+                    type="text"
+                    value={consultantData.expertise}
+                    disabled
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="experience">Kinh nghiệm (năm)</Label>
                   <Input
@@ -151,62 +153,46 @@ function ConsultantDetailDialog({
                 />
               </div>
 
-              <div className="col-span-2 grid grid-cols-3 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="bookingCount">Số lần đặt lịch</Label>
-                  <Input
-                    id="bookingCount"
-                    type="number"
-                    value={consultantData.bookingCount}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="ratingCount">Số lượt đánh giá</Label>
-                  <Input
-                    id="ratingCount"
-                    type="number"
-                    value={consultantData.ratingCount}
-                    disabled
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="averageRating">Đánh giá trung bình</Label>
-                  <Input
-                    id="averageRating"
-                    type="number"
-                    value={consultantData.averageRating}
-                    disabled
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="bookingCount">Số lượt đặt lịch</Label>
+                <Input
+                  id="bookingCount"
+                  type="number"
+                  value={consultantData.bookingCount || 0}
+                  disabled
+                />
               </div>
 
-              <div className="col-span-2 grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="status">Trạng thái</Label>
-                  <Input
-                    id="status"
-                    type="text"
-                    value={
-                      consultantData.status ? "Hoạt động" : "Ngừng hoạt động"
-                    }
-                    disabled
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="ratingCount">Số lượt đánh giá</Label>
+                <Input
+                  id="ratingCount"
+                  type="number"
+                  value={consultantData.ratingCount || 0}
+                  disabled
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="isVerified">Xác thực</Label>
-                  <Input
-                    id="isVerified"
-                    type="text"
-                    value={
-                      consultantData.isVerified ? "Xác thực" : "Chưa xác thực"
-                    }
-                    disabled
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="averageRating">Đánh giá trung bình</Label>
+                <Input
+                  id="averageRating"
+                  type="number"
+                  value={consultantData.averageRating || 0}
+                  disabled
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="status">Trạng thái</Label>
+                <Input
+                  id="status"
+                  type="text"
+                  value={
+                    consultantData.status ? "Hoạt động" : "Ngừng hoạt động"
+                  }
+                  disabled
+                />
               </div>
 
               <div className="space-y-2">

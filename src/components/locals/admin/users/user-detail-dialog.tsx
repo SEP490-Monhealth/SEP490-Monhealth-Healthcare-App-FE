@@ -104,11 +104,13 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
             <TabsContent value="user-detail" className="w-full">
               <UserDetailTabDialog userData={userData} />
             </TabsContent>
+
             <TabsContent value="user-metric" className="w-full">
               {currentMetric && (
                 <UserMetricTabDialog metricData={currentMetric} />
               )}
             </TabsContent>
+
             <TabsContent value="user-goal" className="w-full">
               {currentGoal && <UserGoalTabDialog goalData={currentGoal} />}
             </TabsContent>

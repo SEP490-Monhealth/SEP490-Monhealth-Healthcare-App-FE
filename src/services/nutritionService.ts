@@ -18,7 +18,7 @@ export const fetchNutritionByFoodId = async (
 
     return data
   } catch (error) {
-    console.error("Error fetching nutrition by ID:", error)
+    console.error("Error fetching nutrition by food ID:", error)
     throw new Error("Failed to fetch nutrition")
   }
 }

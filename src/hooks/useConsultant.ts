@@ -6,8 +6,7 @@ import { ConsultantType } from "@/schemas/consultantSchema"
 import {
   fetchConsultantById,
   fetchConsultants,
-  updateConsultantStatus,
-  updateConsultantVerify
+  updateConsultantStatus
 } from "@/services/consultantService"
 
 export const useConsultants = (
@@ -42,20 +41,6 @@ export const useConsultantStatus = () => {
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update consultant status")
-    }
-  })
-}
-
-export const useConsultantVerify = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation<void, Error, { consultantId: string }>({
-    mutationFn: ({ consultantId }) => updateConsultantVerify(consultantId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["consultants"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to verify consultant")
     }
   })
 }

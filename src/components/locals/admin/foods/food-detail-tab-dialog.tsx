@@ -42,52 +42,18 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
           <Input id="foodId" type="text" value={foodData.foodId} disabled />
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <Label htmlFor="createdAt">Ngày tạo</Label>
-            <Input
-              id="createdAt"
-              type="text"
-              value={formatDate(foodData.createdAt)}
-              disabled
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-            <Input
-              id="updatedAt"
-              type="text"
-              value={formatDate(foodData.updatedAt)}
-              disabled
-            />
-          </div>
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="name">Tên món ăn</Label>
           <Input id="name" type="text" value={foodData.name} disabled />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="category">Loại món ăn</Label>
+          <Label htmlFor="category">Danh mục</Label>
           <Input id="category" type="text" value={foodData.category} disabled />
         </div>
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="description">Mô tả</Label>
-        <Textarea
-          id="description"
-          rows={2}
-          value={foodData.description || "--"}
-          disabled
-        />
-      </div>
 
-      <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="mealType">Bữa ăn</Label>
+          <Label htmlFor="mealType"></Label>
           <Input
             id="mealType"
             type="text"
@@ -97,7 +63,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="dishType">Phù hợp</Label>
+          <Label htmlFor="dishType"></Label>
           <Input
             id="dishType"
             type="text"
@@ -105,9 +71,27 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             disabled
           />
         </div>
-      </div>
 
-      <div className="grid grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <Label htmlFor="description">Mô tả</Label>
+          <Textarea
+            id="description"
+            rows={4}
+            value={foodData.description}
+            disabled
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="isPublic">Công khai</Label>
+          <Input
+            id="isPublic"
+            type="text"
+            value={foodData.isPublic ? "Công khai" : "Riêng tư"}
+            disabled
+          />
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="status">Trạng thái</Label>
           <Input
@@ -119,11 +103,41 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="isPublic">Công khai</Label>
+          <Label htmlFor="createdAt">Ngày tạo</Label>
           <Input
-            id="isPublic"
+            id="createdAt"
             type="text"
-            value={foodData.isPublic ? "Công khai" : "Riêng tư"}
+            value={formatDate(foodData.createdAt)}
+            disabled
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+          <Input
+            id="updatedAt"
+            type="text"
+            value={formatDate(foodData.updatedAt)}
+            disabled
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="createdBy">Người tạo</Label>
+          <Input
+            id="createdBy"
+            type="text"
+            value={foodData.createdBy}
+            disabled
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="updatedBy">Người cập nhật</Label>
+          <Input
+            id="updatedBy"
+            type="text"
+            value={foodData.updatedBy}
             disabled
           />
         </div>

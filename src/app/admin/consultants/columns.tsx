@@ -1,16 +1,7 @@
 "use client"
 
-import { useState } from "react"
-
 import { ColumnDef } from "@tanstack/react-table"
-import {
-  BadgeCheck,
-  Ban,
-  Circle,
-  Copy,
-  Eye,
-  MoreHorizontal
-} from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import {
   Avatar,
@@ -34,10 +25,7 @@ import {
 } from "@/components/globals/atoms/hover-card"
 import { Separator } from "@/components/globals/atoms/separator"
 
-import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
-
-import { useConsultantStatus, useConsultantVerify } from "@/hooks/useConsultant"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
@@ -155,6 +143,19 @@ export const createColumns = (
     }
   },
   {
+    accessorKey: "bookingCount",
+    meta: { title: "Số lượt đặt lịch" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Số lượt đặt lịch" center />
+    ),
+    cell: ({ row }) => {
+      const bookingCount = row.original.bookingCount
+      return (
+        <span className="flex justify-center pr-4">{bookingCount || "--"}</span>
+      )
+    }
+  },
+  {
     accessorKey: "ratingCount",
     meta: { title: "Số lượt đánh giá" },
     header: ({ column }) => (
@@ -162,7 +163,9 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const ratingCount = row.original.ratingCount
-      return <span className="flex justify-center pr-4">{ratingCount}</span>
+      return (
+        <span className="flex justify-center pr-4">{ratingCount || "--"}</span>
+      )
     }
   },
   {
@@ -179,22 +182,7 @@ export const createColumns = (
       const averageRating = row.original.averageRating
       return (
         <span className="flex justify-center pr-4">
-          {averageRating.toFixed(1)}
-        </span>
-      )
-    }
-  },
-  {
-    accessorKey: "isVerified",
-    meta: { title: "Xác thực" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Xác thực" center />
-    ),
-    cell: ({ row }) => {
-      const isVerified = row.original.isVerified
-      return (
-        <span className="flex justify-center pr-4">
-          {isVerified ? <BadgeCheck fill="#16a34a" color="white" /> : null}
+          {averageRating.toFixed(1) || "--"}
         </span>
       )
     }
@@ -244,35 +232,8 @@ export const createColumns = (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const { mutate: updateConsultantStatus } = useConsultantStatus()
-      const { mutate: updateConsultantVerify } = useConsultantVerify()
-
       const consultantData = row.original
       const isActive = consultantData.status
-      const isVerified = consultantData.isVerified
-
-      const [openAlert, setOpenAlert] = useState<boolean>(false)
-      const [alertType, setAlertType] = useState<"status" | "verify">("status")
-
-      const handleOpenAlert =
-        (type: "status" | "verify") => (e: React.MouseEvent) => {
-          e.stopPropagation()
-          setAlertType(type)
-          setOpenAlert(true)
-        }
-
-      const handleCloseAlert = () => {
-        setOpenAlert(false)
-      }
-
-      const handleConfirm = () => {
-        if (alertType === "status") {
-          updateConsultantStatus({ consultantId: consultantData.consultantId })
-        } else if (alertType === "verify") {
-          updateConsultantVerify({ consultantId: consultantData.consultantId })
-        }
-        setOpenAlert(false)
-      }
 
       return (
         <div className="flex justify-center">
@@ -304,10 +265,7 @@ export const createColumns = (
 
               <Separator />
 
-              <DropdownMenuItem
-                variant={isActive ? "destructive" : "default"}
-                onClick={handleOpenAlert("status")}
-              >
+              <DropdownMenuItem variant={isActive ? "destructive" : "default"}>
                 {isActive ? (
                   <>
                     <Ban className="h-4 w-4" />
@@ -320,40 +278,8 @@ export const createColumns = (
                   </>
                 )}
               </DropdownMenuItem>
-
-              <DropdownMenuItem
-                variant={isVerified ? "destructive" : "default"}
-                onClick={handleOpenAlert("verify")}
-              >
-                {isVerified ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Hủy xác thực
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Xác thực
-                  </>
-                )}
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <ConfirmAlertDialog
-            open={openAlert}
-            onOpenChange={handleCloseAlert}
-            onConfirm={handleConfirm}
-            title="Xác nhận thay đổi trạng thái"
-            description={
-              alertType === "status"
-                ? `Bạn có chắc muốn ${
-                    isActive ? "ngừng hoạt động" : "kích hoạt"
-                  } chuyên viên này?`
-                : `Bạn có chắc muốn ${
-                    isVerified ? "hủy xác thực" : "xác thực"
-                  } chuyên viên này?`
-            }
-          />
         </div>
       )
     },

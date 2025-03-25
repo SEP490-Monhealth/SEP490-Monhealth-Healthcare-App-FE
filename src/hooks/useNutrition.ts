@@ -26,6 +26,8 @@ export const useUpdateNutrition = () => {
     mutationFn: ({ nutritionId, updatedData }) =>
       updateNutrition(nutritionId, updatedData),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["foods"] })
+      queryClient.invalidateQueries({ queryKey: ["food"] })
       queryClient.invalidateQueries({ queryKey: ["nutrition"] })
     },
     onError: (error) => {

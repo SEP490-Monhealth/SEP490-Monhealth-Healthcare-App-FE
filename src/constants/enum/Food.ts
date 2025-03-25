@@ -23,47 +23,37 @@ export const DishTypeSchemaEnum = z.nativeEnum(DishTypeEnum)
 
 export const mealTypeMap: Record<MealTypeEnum, EnumMeta> = {
   [MealTypeEnum.Breakfast]: {
-    label: "Bữa sáng",
-    color: "#fbbf24" // Amber 400
+    label: "Bữa sáng"
   },
   [MealTypeEnum.Lunch]: {
-    label: "Bữa trưa",
-    color: "#22c55e" // Green 500
+    label: "Bữa trưa"
   },
   [MealTypeEnum.Dinner]: {
-    label: "Bữa tối",
-    color: "#2563eb" // Blue 600
+    label: "Bữa tối"
   },
   [MealTypeEnum.Snack]: {
-    label: "Bữa phụ",
-    color: "#f43f5e" // Rose 500
+    label: "Bữa phụ"
   }
 }
 
 export const dishTypeMap: Record<DishTypeEnum, EnumMeta> = {
   [DishTypeEnum.MainDish]: {
-    label: "Món chính",
-    color: "#FF6F61" // Màu đỏ cam đậm
+    label: "Món chính"
   },
   [DishTypeEnum.SideDish]: {
-    label: "Món phụ",
-    color: "#FFB74D" // Màu vàng cam
+    label: "Món phụ"
   },
   [DishTypeEnum.Soup]: {
-    label: "Món canh",
-    color: "#64B5F6" // Màu xanh dương
+    label: "Món canh"
   },
   [DishTypeEnum.Dessert]: {
-    label: "Tráng miệng",
-    color: "#F48FB1" // Màu hồng nhạt
+    label: "Tráng miệng"
   },
   [DishTypeEnum.Snack]: {
-    label: "Ăn vặt",
-    color: "#81C784" // Màu xanh lá
+    label: "Ăn vặt"
   },
   [DishTypeEnum.Drink]: {
-    label: "Nước uống",
-    color: "#4DB6AC" // Màu xanh ngọc
+    label: "Nước uống"
   }
 }
 

@@ -30,28 +30,10 @@ const nutritionSchema = z.object({
   ...timestampFields
 })
 
-const updateNutrition = nutritionSchema.pick({
-  calories: true,
-  protein: true,
-  carbs: true,
-  fat: true,
-  fiber: true,
-  sugar: true,
-
-  saturatedFat: true,
-  unsaturatedFat: true,
-  cholesterol: true,
-  sodium: true,
-  potassium: true,
-  calcium: true,
-  iron: true,
-  vitaminA: true,
-  vitaminB1: true,
-  vitaminB2: true,
-  vitaminB3: true,
-  vitaminC: true,
-  vitaminD: true,
-  vitaminE: true
+const updateNutrition = nutritionSchema.omit({
+  nutritionId: true,
+  createdAt: true,
+  updatedAt: true
 })
 
 export type NutritionType = z.infer<typeof nutritionSchema>

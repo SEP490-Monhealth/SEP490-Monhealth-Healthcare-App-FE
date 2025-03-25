@@ -22,8 +22,8 @@ export const consultantSchema = z.object({
 
   expertise: expertiseSchema.shape.name,
 
-  ratingCount: z.number().default(0),
   bookingCount: z.number().default(0),
+  ratingCount: z.number().default(0),
   averageRating: z.number().min(0).max(5).default(0),
 
   views: z.number().default(0),

@@ -75,23 +75,3 @@ export const updateConsultantStatus = async (
     throw new Error("Failed to update consultant status")
   }
 }
-
-export const updateConsultantVerify = async (
-  consultantId: string
-): Promise<void> => {
-  try {
-    const response = await monAPI.patch(`/consultants/${consultantId}/verify`)
-
-    const { success, message } = response.data
-
-    if (!success) {
-      throw new Error(message || "Failed to update consultant verify")
-    }
-
-    toast.success(message)
-    return message
-  } catch (error) {
-    console.error("Error updating consultant verify:", error)
-    throw new Error("Failed to update consultant verify")
-  }
-}
