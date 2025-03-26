@@ -151,7 +151,7 @@ export const createColumns = (
     cell: ({ row }) => {
       const bookingCount = row.original.bookingCount
       return (
-        <span className="flex justify-center pr-4">{bookingCount || "--"}</span>
+        <span className="flex justify-center pr-4">{bookingCount || 0}</span>
       )
     }
   },
@@ -164,7 +164,7 @@ export const createColumns = (
     cell: ({ row }) => {
       const ratingCount = row.original.ratingCount
       return (
-        <span className="flex justify-center pr-4">{ratingCount || "--"}</span>
+        <span className="flex justify-center pr-4">{ratingCount || 0}</span>
       )
     }
   },
@@ -182,7 +182,7 @@ export const createColumns = (
       const averageRating = row.original.averageRating
       return (
         <span className="flex justify-center pr-4">
-          {averageRating.toFixed(1) || "--"}
+          {averageRating.toFixed(1) || 0}
         </span>
       )
     }

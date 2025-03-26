@@ -50,6 +50,7 @@ function AddWaterReminderDialog({
     register,
     setValue,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<CreateUpdateWaterReminderType>({
     resolver: zodResolver(createUpdateWaterReminderSchema),
@@ -67,9 +68,13 @@ function AddWaterReminderDialog({
       const finalData = data
       console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      console.log("Tạo nhắc nhở thành công!")
+      // try {
+      //   await addWaterReminder(finalData, {
+      //     onSuccess: () => {
+      //       onClose()
+      //       reset()
+      //     }
+      //   })
     } catch (error) {
       console.error("Lỗi khi tạo nhắc nhở:", error)
     } finally {

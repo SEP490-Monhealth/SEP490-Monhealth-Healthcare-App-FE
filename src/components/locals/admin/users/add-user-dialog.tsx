@@ -50,6 +50,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
     register,
     setValue,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<CreateUpdateUserType>({
     resolver: zodResolver(createUpdateUserSchema),
@@ -70,9 +71,10 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
       const finalData = data
       console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-      addUser(finalData, {
+      await addUser(finalData, {
         onSuccess: () => {
           onClose()
+          reset()
         }
       })
     } catch (error) {
@@ -94,7 +96,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-4">
           <div>
             <div className="space-y-2">
               <Label htmlFor="fullName">Họ và tên</Label>
@@ -105,6 +107,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
                 {...register("fullName")}
               />
             </div>
+
             {errors.fullName && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.fullName.message}
@@ -122,6 +125,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
                 {...register("email")}
               />
             </div>
+
             {errors.email && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.email.message}
@@ -139,6 +143,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
                 {...register("phoneNumber")}
               />
             </div>
+
             {errors.phoneNumber && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.phoneNumber.message}
@@ -156,6 +161,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
                 {...register("avatarUrl")}
               />
             </div>
+
             {errors.avatarUrl && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.avatarUrl.message}
@@ -185,6 +191,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
                 </SelectContent>
               </Select>
             </div>
+
             {errors.role && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.role.message}
@@ -211,6 +218,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
                 />
               </div>
             </div>
+
             {errors.status && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.status.message}

@@ -13,6 +13,7 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
+import { Textarea } from "@/components/globals/atoms/textarea"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
@@ -66,7 +67,7 @@ function ExpertiseDetailDialog({
                 id="expertiseId"
                 type="text"
                 value={expertiseData.expertiseId}
-                disabled
+                readOnly
               />
             </div>
 
@@ -76,17 +77,17 @@ function ExpertiseDetailDialog({
                 id="name"
                 type="text"
                 value={expertiseData.name}
-                disabled
+                readOnly
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="description">Mô tả</Label>
-              <Input
+              <Textarea
                 id="description"
-                type="text"
+                rows={3}
                 value={expertiseData.description}
-                disabled
+                // readOnly={!isEdit}
               />
             </div>
 
@@ -96,7 +97,7 @@ function ExpertiseDetailDialog({
                 id="createdAt"
                 type="text"
                 value={formatDate(expertiseData.createdAt)}
-                disabled
+                readOnly
               />
             </div>
 
@@ -106,7 +107,7 @@ function ExpertiseDetailDialog({
                 id="createdBy"
                 type="text"
                 value={expertiseData.createdBy}
-                disabled
+                readOnly
               />
             </div>
 
@@ -116,7 +117,7 @@ function ExpertiseDetailDialog({
                 id="updatedAt"
                 type="text"
                 value={formatDate(expertiseData.updatedAt)}
-                disabled
+                readOnly
               />
             </div>
 
@@ -126,7 +127,7 @@ function ExpertiseDetailDialog({
                 id="updatedBy"
                 type="text"
                 value={expertiseData.updatedBy}
-                disabled
+                readOnly
               />
             </div>
           </div>

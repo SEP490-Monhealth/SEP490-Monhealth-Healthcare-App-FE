@@ -26,23 +26,23 @@ function UserMetricTabDialog({ metricData }: UserMetricTabDialogProps) {
           id="dateOfBirth"
           type="text"
           value={formatDate(metricData?.dateOfBirth || "")}
-          disabled
+          readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="gender">Giới tính</Label>
-        <Input id="gender" type="text" value={label} disabled />
+        <Input id="gender" type="text" value={label} readOnly />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="height">Chiều cao</Label>
-        <Input id="height" type="number" value={metricData.height} disabled />
+        <Input id="height" type="number" value={metricData.height} readOnly />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="weight">Cân nặng</Label>
-        <Input id="weight" type="number" value={metricData.weight} disabled />
+        <Input id="weight" type="number" value={metricData.weight} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -51,28 +51,28 @@ function UserMetricTabDialog({ metricData }: UserMetricTabDialogProps) {
           id="activityLevel"
           type="text"
           value={metricData.activityLevel}
-          disabled
+          readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="bmi">BMI (Chỉ số khối cơ thể)</Label>
-        <Input id="bmi" type="number" value={metricData.bmi} disabled />
+        <Input id="bmi" type="number" value={metricData.bmi} readOnly />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="bmr">BMR (Chỉ số trao đổi chất cơ bản)</Label>
-        <Input id="bmr" type="number" value={metricData.bmr} disabled />
+        <Input id="bmr" type="number" value={metricData.bmr} readOnly />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="tdee">TDEE (Tổng năng lượng tiêu thụ hàng ngày)</Label>
-        <Input id="tdee" type="number" value={metricData.tdee} disabled />
+        <Input id="tdee" type="number" value={metricData.tdee} readOnly />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="ibw">IBW (Cân nặng lý tưởng)</Label>
-        <Input id="ibw" type="number" value={metricData.ibw} disabled />
+        <Input id="ibw" type="number" value={metricData.ibw} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -81,7 +81,7 @@ function UserMetricTabDialog({ metricData }: UserMetricTabDialogProps) {
           id="updatedAt"
           type="text"
           value={formatDate(metricData.updatedAt)}
-          disabled
+          readOnly
         />
       </div>
     </div>

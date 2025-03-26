@@ -66,7 +66,7 @@ function WaterReminderDetailDialog({
                 id="waterReminderId"
                 type="text"
                 value={waterReminderData.waterReminderId}
-                disabled
+                readOnly
               />
             </div>
 
@@ -76,7 +76,7 @@ function WaterReminderDetailDialog({
                 id="name"
                 type="text"
                 value={waterReminderData.name}
-                disabled
+                readOnly
               />
             </div>
 
@@ -86,7 +86,7 @@ function WaterReminderDetailDialog({
                 id="volume"
                 type="number"
                 value={waterReminderData.volume}
-                disabled
+                readOnly
               />
             </div>
 
@@ -96,7 +96,7 @@ function WaterReminderDetailDialog({
                 id="isRecurring"
                 type="text"
                 value={waterReminderData.isRecurring ? "Có" : "Không"}
-                disabled
+                readOnly
               />
             </div>
 
@@ -108,7 +108,7 @@ function WaterReminderDetailDialog({
                 value={
                   waterReminderData.status ? "Hoạt động" : "Ngừng hoạt động"
                 }
-                disabled
+                readOnly
               />
             </div>
 
@@ -118,7 +118,7 @@ function WaterReminderDetailDialog({
                 id="createdAt"
                 type="text"
                 value={formatDate(waterReminderData.createdAt)}
-                disabled
+                readOnly
               />
             </div>
 
@@ -128,7 +128,7 @@ function WaterReminderDetailDialog({
                 id="createdBy"
                 type="text"
                 value={waterReminderData.createdBy}
-                disabled
+                readOnly
               />
             </div>
 
@@ -138,7 +138,7 @@ function WaterReminderDetailDialog({
                 id="updatedAt"
                 type="text"
                 value={formatDate(waterReminderData.updatedAt)}
-                disabled
+                readOnly
               />
             </div>
 
@@ -148,7 +148,7 @@ function WaterReminderDetailDialog({
                 id="updatedBy"
                 type="text"
                 value={waterReminderData.updatedBy}
-                disabled
+                readOnly
               />
             </div>
           </div>

@@ -18,17 +18,17 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="space-y-2">
         <Label htmlFor="userId">Mã người dùng</Label>
-        <Input id="userId" type="text" value={userData.userId} disabled />
+        <Input id="userId" type="text" value={userData.userId} readOnly />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="fullName">Họ và tên</Label>
-        <Input id="fullName" type="text" value={userData.fullName} disabled />
+        <Input id="fullName" type="text" value={userData.fullName} readOnly />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" value={userData.email} disabled />
+        <Input id="email" type="email" value={userData.email} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -37,13 +37,13 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
           id="phoneNumber"
           type="text"
           value={formatPhoneNumber(userData.phoneNumber)}
-          disabled
+          readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="role">Vai trò</Label>
-        <Input id="role" type="text" value={userData.role} disabled />
+        <Input id="role" type="text" value={userData.role} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -52,7 +52,7 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
           id="status"
           type="text"
           value={userData.status ? "Hoạt động" : "Ngừng hoạt động"}
-          disabled
+          readOnly
         />
       </div>
 
@@ -62,13 +62,13 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
           id="createdAt"
           type="text"
           value={formatDate(userData.createdAt)}
-          disabled
+          readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="createdBy">Người tạo</Label>
-        <Input id="createdBy" type="text" value={userData.createdBy} disabled />
+        <Input id="createdBy" type="text" value={userData.createdBy} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -77,13 +77,13 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
           id="updatedAt"
           type="text"
           value={formatDate(userData.updatedAt)}
-          disabled
+          readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="updatedBy">Người cập nhật</Label>
-        <Input id="updatedBy" type="text" value={userData.updatedBy} disabled />
+        <Input id="updatedBy" type="text" value={userData.updatedBy} readOnly />
       </div>
     </div>
   )

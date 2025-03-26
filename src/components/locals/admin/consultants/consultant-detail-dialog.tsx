@@ -84,7 +84,7 @@ function ConsultantDetailDialog({
                     id="consultantId"
                     type="text"
                     value={consultantData.consultantId}
-                    disabled
+                    readOnly
                   />
                 </div>
 
@@ -94,7 +94,7 @@ function ConsultantDetailDialog({
                     id="name"
                     type="text"
                     value={consultantData.fullName}
-                    disabled
+                    readOnly
                   />
                 </div>
 
@@ -104,7 +104,7 @@ function ConsultantDetailDialog({
                     id="email"
                     type="email"
                     value={consultantData.email}
-                    disabled
+                    readOnly
                   />
                 </div>
 
@@ -114,7 +114,7 @@ function ConsultantDetailDialog({
                     id="phoneNumber"
                     type="text"
                     value={consultantData.phoneNumber}
-                    disabled
+                    readOnly
                   />
                 </div>
 
@@ -124,7 +124,7 @@ function ConsultantDetailDialog({
                     id="expertise"
                     type="text"
                     value={consultantData.expertise}
-                    disabled
+                    readOnly
                   />
                 </div>
 
@@ -134,7 +134,7 @@ function ConsultantDetailDialog({
                     id="experience"
                     type="number"
                     value={consultantData.experience}
-                    disabled
+                    readOnly
                   />
                 </div>
               </div>
@@ -147,7 +147,7 @@ function ConsultantDetailDialog({
                   id="bio"
                   rows={6}
                   value={consultantData.bio}
-                  disabled
+                  readOnly
                 />
               </div>
 
@@ -157,7 +157,7 @@ function ConsultantDetailDialog({
                   id="bookingCount"
                   type="number"
                   value={consultantData.bookingCount || 0}
-                  disabled
+                  readOnly
                 />
               </div>
 
@@ -167,7 +167,7 @@ function ConsultantDetailDialog({
                   id="ratingCount"
                   type="number"
                   value={consultantData.ratingCount || 0}
-                  disabled
+                  readOnly
                 />
               </div>
 
@@ -177,7 +177,7 @@ function ConsultantDetailDialog({
                   id="averageRating"
                   type="number"
                   value={consultantData.averageRating || 0}
-                  disabled
+                  readOnly
                 />
               </div>
 
@@ -189,7 +189,7 @@ function ConsultantDetailDialog({
                   value={
                     consultantData.status ? "Hoạt động" : "Ngừng hoạt động"
                   }
-                  disabled
+                  readOnly
                 />
               </div>
 
@@ -199,7 +199,7 @@ function ConsultantDetailDialog({
                   id="createdAt"
                   type="text"
                   value={formatDate(consultantData.createdAt)}
-                  disabled
+                  readOnly
                 />
               </div>
 
@@ -209,7 +209,7 @@ function ConsultantDetailDialog({
                   id="updatedAt"
                   type="text"
                   value={formatDate(consultantData.updatedAt)}
-                  disabled
+                  readOnly
                 />
               </div>
             </div>

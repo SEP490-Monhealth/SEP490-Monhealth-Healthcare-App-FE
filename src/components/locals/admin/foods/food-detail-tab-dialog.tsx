@@ -39,17 +39,17 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
       <div className="grid grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="foodId">Mã món ăn</Label>
-          <Input id="foodId" type="text" value={foodData.foodId} disabled />
+          <Input id="foodId" type="text" value={foodData.foodId} readOnly />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="name">Tên món ăn</Label>
-          <Input id="name" type="text" value={foodData.name} disabled />
+          <Input id="name" type="text" value={foodData.name} readOnly />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="category">Danh mục</Label>
-          <Input id="category" type="text" value={foodData.category} disabled />
+          <Input id="category" type="text" value={foodData.category} readOnly />
         </div>
 
         <div className="space-y-2">
@@ -58,7 +58,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="mealType"
             type="text"
             value={getMealTypeLabels(foodData.mealType)}
-            disabled
+            readOnly
           />
         </div>
 
@@ -68,7 +68,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="dishType"
             type="text"
             value={getDishTypeLabels(foodData.dishType)}
-            disabled
+            readOnly
           />
         </div>
 
@@ -78,7 +78,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="description"
             rows={4}
             value={foodData.description}
-            disabled
+            readOnly
           />
         </div>
 
@@ -88,7 +88,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="isPublic"
             type="text"
             value={foodData.isPublic ? "Công khai" : "Riêng tư"}
-            disabled
+            readOnly
           />
         </div>
 
@@ -98,7 +98,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="status"
             type="text"
             value={foodData.status ? "Hoạt động" : "Ngừng hoạt động"}
-            disabled
+            readOnly
           />
         </div>
 
@@ -108,7 +108,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="createdAt"
             type="text"
             value={formatDate(foodData.createdAt)}
-            disabled
+            readOnly
           />
         </div>
 
@@ -118,7 +118,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="updatedAt"
             type="text"
             value={formatDate(foodData.updatedAt)}
-            disabled
+            readOnly
           />
         </div>
 
@@ -128,7 +128,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="createdBy"
             type="text"
             value={foodData.createdBy}
-            disabled
+            readOnly
           />
         </div>
 
@@ -138,7 +138,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
             id="updatedBy"
             type="text"
             value={foodData.updatedBy}
-            disabled
+            readOnly
           />
         </div>
       </div>

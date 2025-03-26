@@ -16,6 +16,7 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
+import { Textarea } from "@/components/globals/atoms/textarea"
 
 import { useAddExpertise } from "@/hooks/useExpertise"
 
@@ -37,6 +38,7 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<CreateUpdateExpertiseType>({
     resolver: zodResolver(createUpdateExpertiseSchema),
@@ -53,13 +55,14 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
       const finalData = data
       console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-      addExpertise(finalData, {
+      await addExpertise(finalData, {
         onSuccess: () => {
           onClose()
+          reset()
         }
       })
     } catch (error) {
-      console.error("Lỗi khi tạo tài khoản:", error)
+      console.error("Lỗi khi tạo chuyên môn:", error)
     } finally {
       setIsLoading(false)
     }
@@ -77,7 +80,7 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-4">
           <div>
             <div className="space-y-2">
               <Label htmlFor="name">Tên chuyên môn</Label>
@@ -88,6 +91,7 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
                 {...register("name")}
               />
             </div>
+
             {errors.name && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.name.message}
@@ -98,13 +102,14 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
           <div>
             <div className="space-y-2">
               <Label htmlFor="description">Mô tả</Label>
-              <Input
+              <Textarea
                 id="description"
-                type="text"
-                placeholder="Nhập mô tả"
+                rows={3}
+                placeholder="Nhập mô tả chuyên môn"
                 {...register("description")}
               />
             </div>
+
             {errors.description && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.description.message}
@@ -124,7 +129,7 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
             size="lg"
             onClick={handleSubmit(onSubmit)}
           >
-            {isLoading ? "Đang tạo..." : "Tạo tài khoản"}
+            {isLoading ? "Đang tạo..." : "Tạo chuyên môn"}
           </Button>
         </DialogFooter>
       </DialogContent>

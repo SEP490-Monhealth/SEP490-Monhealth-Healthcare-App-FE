@@ -23,7 +23,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="space-y-2">
         <Label htmlFor="type">Loại mục tiêu</Label>
-        <Input id="type" type="text" value={goalTypeLabel} disabled />
+        <Input id="type" type="text" value={goalTypeLabel} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -32,7 +32,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="caloriesRatio"
           type="text"
           value={goalData.caloriesRatio}
-          disabled
+          readOnly
         />
       </div>
 
@@ -42,7 +42,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="weightGoal"
           type="number"
           value={goalData.weightGoal}
-          disabled
+          readOnly
         />
       </div>
 
@@ -52,7 +52,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="caloriesGoal"
           type="number"
           value={goalData.caloriesGoal}
-          disabled
+          readOnly
         />
       </div>
 
@@ -62,7 +62,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="proteinGoal"
           type="number"
           value={goalData.proteinGoal}
-          disabled
+          readOnly
         />
       </div>
 
@@ -72,13 +72,13 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="carbsGoal"
           type="number"
           value={goalData.carbsGoal}
-          disabled
+          readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="fatGoal">Chất béo</Label>
-        <Input id="fatGoal" type="number" value={goalData.fatGoal} disabled />
+        <Input id="fatGoal" type="number" value={goalData.fatGoal} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -87,7 +87,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="fiberGoal"
           type="number"
           value={goalData.fiberGoal}
-          disabled
+          readOnly
         />
       </div>
 
@@ -97,7 +97,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="sugarGoal"
           type="number"
           value={goalData.sugarGoal}
-          disabled
+          readOnly
         />
       </div>
 
@@ -107,7 +107,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="waterIntakesGoal"
           type="number"
           value={goalData.waterIntakesGoal}
-          disabled
+          readOnly
         />
       </div>
 
@@ -117,7 +117,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="workoutDurationGoal"
           type="number"
           value={goalData.workoutDurationGoal}
-          disabled
+          readOnly
         />
       </div>
 
@@ -127,13 +127,13 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="caloriesBurnedGoal"
           type="number"
           value={goalData.caloriesBurnedGoal}
-          disabled
+          readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="status">Trạng thái</Label>
-        <Input id="status" type="text" value={goalStatusLabel} disabled />
+        <Input id="status" type="text" value={goalStatusLabel} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -142,7 +142,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
           id="updatedAt"
           type="text"
           value={formatDate(goalData.updatedAt)}
-          disabled
+          readOnly
         />
       </div>
     </div>

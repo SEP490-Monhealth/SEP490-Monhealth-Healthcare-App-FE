@@ -72,7 +72,7 @@ function BookingDetailDialog({
                 id="bookingId"
                 type="text"
                 value={bookingData.bookingId}
-                disabled
+                readOnly
               />
             </div>
 
@@ -82,7 +82,7 @@ function BookingDetailDialog({
                 id="member.fullName"
                 type="text"
                 value={bookingData.member.fullName}
-                disabled
+                readOnly
               />
             </div>
 
@@ -92,7 +92,7 @@ function BookingDetailDialog({
                 id="member.email"
                 type="email"
                 value={bookingData.member.email}
-                disabled
+                readOnly
               />
             </div>
 
@@ -104,7 +104,7 @@ function BookingDetailDialog({
                 id="member.phoneNumber"
                 type="text"
                 value={bookingData.member.phoneNumber}
-                disabled
+                readOnly
               />
             </div>
 
@@ -114,7 +114,7 @@ function BookingDetailDialog({
                 id="consultant.fullName"
                 type="text"
                 value={bookingData.consultant.fullName}
-                disabled
+                readOnly
               />
             </div>
 
@@ -124,7 +124,7 @@ function BookingDetailDialog({
                 id="consultant.email"
                 type="email"
                 value={bookingData.consultant.email}
-                disabled
+                readOnly
               />
             </div>
 
@@ -136,7 +136,7 @@ function BookingDetailDialog({
                 id="consultant.phoneNumber"
                 type="text"
                 value={bookingData.consultant.phoneNumber}
-                disabled
+                readOnly
               />
             </div>
 
@@ -146,7 +146,7 @@ function BookingDetailDialog({
                 id="date"
                 type="text"
                 value={formatDate(bookingData.date)}
-                disabled
+                readOnly
               />
             </div>
 
@@ -156,7 +156,7 @@ function BookingDetailDialog({
                 id="notes"
                 type="text"
                 value={bookingData.notes || "--"}
-                disabled
+                readOnly
               />
             </div>
 
@@ -166,13 +166,13 @@ function BookingDetailDialog({
                 id="cancellationReason"
                 type="text"
                 value={bookingData.cancellationReason || "--"}
-                disabled
+                readOnly
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="status">Trạng thái</Label>
-              <Input id="status" type="text" value={label} disabled />
+              <Input id="status" type="text" value={label} readOnly />
             </div>
 
             <div className="space-y-2">
@@ -181,7 +181,7 @@ function BookingDetailDialog({
                 id="createdAt"
                 type="text"
                 value={formatDate(bookingData.createdAt)}
-                disabled
+                readOnly
               />
             </div>
 
@@ -191,7 +191,7 @@ function BookingDetailDialog({
                 id="createdBy"
                 type="text"
                 value={bookingData.createdBy}
-                disabled
+                readOnly
               />
             </div>
 
@@ -201,7 +201,7 @@ function BookingDetailDialog({
                 id="updatedAt"
                 type="text"
                 value={formatDate(bookingData.updatedAt)}
-                disabled
+                readOnly
               />
             </div>
 
@@ -211,7 +211,7 @@ function BookingDetailDialog({
                 id="updatedBy"
                 type="text"
                 value={bookingData.updatedBy}
-                disabled
+                readOnly
               />
             </div>
           </div>
