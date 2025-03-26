@@ -8,7 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
+import AddExerciseDialog from "@/components/locals/admin/exercise/add-exercise-dialog"
+import ExerciseDetailDialog from "@/components/locals/admin/exercise/exercise-detail-dialog"
 
 import { ExerciseTypeEnum } from "@/constants/enum/Workout"
 
@@ -58,8 +59,9 @@ function ExercisePage() {
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
 
-  const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
+  const [selectedExercise, setSelectedExercise] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const {
     data: exercisesData,
@@ -121,13 +123,22 @@ function ExercisePage() {
   }, [debouncedSearch, search])
 
   const handleViewDetail = (bookingId: string) => {
-    setSelectedBooking(bookingId)
+    setSelectedExercise(bookingId)
     setIsDetailDialogOpen(true)
   }
 
   const handleCloseDetailDialog = () => {
     setIsDetailDialogOpen(false)
-    setTimeout(() => setSelectedBooking(null), 300)
+    setTimeout(() => setSelectedExercise(null), 300)
+  }
+
+  const handleAddExercise = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedExercise(null), 300)
   }
 
   const columns = createColumns({ onViewDetail: handleViewDetail })
@@ -151,12 +162,19 @@ function ExercisePage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
+        addNewButton
+        onAddNew={handleAddExercise}
       />
 
-      <UserDetailDialog
+      <ExerciseDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        userId={selectedBooking || ""}
+        exerciseId={selectedExercise}
+      />
+
+      <AddExerciseDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
       />
     </div>
   )

@@ -21,11 +21,33 @@ const exerciseSchema = z.object({
     .min(10, { message: "Hướng dẫn món ăn phải có ít nhất 10 ký tự" }),
   caloriesPerMinute: z
     .number()
-    .min(1, { message: "Số calories đốt phải lớn hơn hoặc bằng 0" }),
+    .min(1, { message: "Số calories đốt phải lớn hơn hoặc bằng 1" }),
 
   status: z.boolean(),
 
   ...auditFields
+})
+
+const exerciseItems = exerciseSchema
+  .pick({
+    exerciseId: true,
+    name: true,
+    instructions: true,
+    caloriesPerMinute: true
+  })
+  .merge(
+    z.object({
+      reps: z.number().optional(),
+      duration: z.number().optional()
+    })
+  )
+
+export const exerciseWorkoutSchema = z.object({
+  warmupDuration: z.number(),
+  workoutDuration: z.number(),
+
+  warmup: z.array(exerciseItems),
+  workout: z.array(exerciseItems)
 })
 
 export const createExerciseSchema = exerciseSchema.pick({
@@ -42,3 +64,4 @@ export const updateExerciseSchema = createExerciseSchema.omit({
 export type ExerciseType = z.infer<typeof exerciseSchema>
 export type CreateExerciseType = z.infer<typeof createExerciseSchema>
 export type UpdateExerciseType = z.infer<typeof updateExerciseSchema>
+export type ExerciseWorkoutType = z.infer<typeof exerciseWorkoutSchema>

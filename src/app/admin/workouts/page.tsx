@@ -8,8 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddUserDialog from "@/components/locals/admin/users/add-user-dialog"
-import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
+import AddWorkoutDialog from "@/components/locals/admin/workouts/add-workout-dialog"
+import WorkoutDetailDialog from "@/components/locals/admin/workouts/workout-detail-dialog"
 
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
@@ -231,13 +231,16 @@ function WorkoutPage() {
         onAddNew={handleAddWorkout}
       />
 
-      <UserDetailDialog
+      <WorkoutDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        userId={"3b1a8845-765f-4d91-984a-4e8a9d7d376e"}
+        workoutId={selectedWorkout}
       />
 
-      <AddUserDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />
+      <AddWorkoutDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
+      />
     </div>
   )
 }

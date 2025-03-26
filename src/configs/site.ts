@@ -79,7 +79,7 @@ export const sidebarItems: SidebarItem[] = [
     icon: Dumbbell,
     children: [
       { title: "Danh sách bộ bài tập", path: "/admin/workouts" }, // khi
-      { title: "Danh sách bài tập", path: "/admin/exercises" } // khi
+      { title: "Danh sách bài tập", path: "/admin/exercises" } // DONE
     ]
   },
   {
@@ -124,8 +124,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Tag,
     children: [
-      { title: "Danh sách danh mục", path: "/admin/categories" }, // khi
-      { title: "Danh sách dị ứng", path: "/admin/allergies" } // khi
+      { title: "Danh sách danh mục", path: "/admin/categories" }, // DONE
+      { title: "Danh sách dị ứng", path: "/admin/allergies" } // DONE
     ]
   }
 ]
