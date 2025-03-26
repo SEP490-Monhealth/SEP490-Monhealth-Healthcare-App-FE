@@ -50,14 +50,20 @@ function AddAllergyDialog({ isOpen, onClose }: AddAllergyDialogProps) {
     setIsLoading(true)
 
     const finalData = data
+    console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-    addAllergy(finalData, {
-      onSuccess: () => {
-        onClose()
-        reset()
-        setIsLoading(false)
-      }
-    })
+    try {
+      await addAllergy(finalData, {
+        onSuccess: () => {
+          onClose()
+          reset()
+        }
+      })
+    } catch (error) {
+      console.error("Lỗi khi tạo dị ứng:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -70,7 +76,7 @@ function AddAllergyDialog({ isOpen, onClose }: AddAllergyDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-4">
           <div>
             <div className="space-y-2">
               <Label htmlFor="name">Nhập tên dị ứng</Label>
@@ -81,6 +87,7 @@ function AddAllergyDialog({ isOpen, onClose }: AddAllergyDialogProps) {
                 {...register("name")}
               />
             </div>
+
             {errors.name && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.name.message}
@@ -88,14 +95,17 @@ function AddAllergyDialog({ isOpen, onClose }: AddAllergyDialogProps) {
             )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="avatarUrl">Mô tả</Label>
-            <Textarea
-              id="description"
-              rows={2}
-              placeholder="Nhập mô tả dị ứng"
-              {...register("description")}
-            />
+          <div>
+            <div className="space-y-2">
+              <Label htmlFor="avatarUrl">Mô tả</Label>
+              <Textarea
+                id="description"
+                rows={3}
+                placeholder="Nhập mô tả dị ứng"
+                {...register("description")}
+              />
+            </div>
+
             {errors.description && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.description.message}

@@ -66,8 +66,28 @@ function AllergyDetailDialog({
     }
   }, [allergyData, setValue])
 
-  const isLoading = isAllergyLoading
-  const hasError = allergyError
+  const onSubmit = async (data: CreateUpdateAllergyType) => {
+    setIsEdit(false)
+    setIsLoadingSave(true)
+
+    const finalData = data
+    console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+
+    try {
+      await updateAllergy(
+        { allergyId: allergyId || "", updatedData: data },
+        {
+          onSuccess: () => {
+            setIsEdit(false)
+            setIsLoadingSave(false)
+          }
+        }
+      )
+    } catch (error) {
+      console.error("Lỗi khi cập nhật dị ứng:", error)
+      setIsLoadingSave(false)
+    }
+  }
 
   const handleEdit = () => {
     setIsEdit(true)
@@ -77,22 +97,8 @@ function AllergyDetailDialog({
     setIsEdit(false)
   }
 
-  const onSubmit = (data: CreateUpdateAllergyType) => {
-    setIsEdit(false)
-    setIsLoadingSave(true)
-
-    console.log(errors)
-
-    updateAllergy(
-      { allergyId: allergyId || "", updatedData: data },
-      {
-        onSuccess: () => {
-          setIsEdit(false)
-          setIsLoadingSave(false)
-        }
-      }
-    )
-  }
+  const isLoading = isAllergyLoading
+  const hasError = allergyError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -111,115 +117,109 @@ function AllergyDetailDialog({
             message={allergyError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <div className="space-y-2">
               <Label htmlFor="allergyId">Mã dị ứng</Label>
               <Input
                 id="allergyId"
                 type="text"
                 value={allergyId || ""}
-                disabled
+                readOnly
               />
             </div>
 
-            <div className="space-y-2">
+            <div>
               <div className="space-y-2">
                 <Label htmlFor="name">Tên dị ứng</Label>
-
                 {!isEdit ? (
                   <Input
                     id="name"
                     type="text"
                     value={allergyData.name}
-                    disabled
+                    readOnly
                   />
                 ) : (
-                  <div>
-                    <Input
-                      id="name"
-                      defaultValue={allergyData.name}
-                      type="text"
-                      {...register("name")}
-                    />
-                    {errors.name && (
-                      <p className="mt-1 ml-1 text-sm text-red-600">
-                        {errors.name.message}
-                      </p>
-                    )}
-                  </div>
+                  <Input
+                    id="name"
+                    type="text"
+                    defaultValue={allergyData.name}
+                    {...register("name")}
+                  />
                 )}
               </div>
-            </div>
 
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="description">Mô tả</Label>
-
-              {!isEdit ? (
-                <Textarea
-                  id="description"
-                  rows={2}
-                  value={allergyData.description}
-                  disabled
-                />
-              ) : (
-                <div>
-                  <Textarea
-                    id="description"
-                    rows={2}
-                    defaultValue={allergyData.description}
-                    {...register("description")}
-                  />
-                  {errors.description && (
-                    <p className="mt-1 ml-1 text-sm text-red-600">
-                      {errors.description.message}
-                    </p>
-                  )}
-                </div>
+              {errors.name && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            <div className="col-span-2">
               <div className="space-y-2">
-                <Label htmlFor="createdAt">Ngày tạo</Label>
-                <Input
-                  id="createdAt"
-                  type="text"
-                  value={formatDate(allergyData.createdAt)}
-                  disabled
-                />
+                <Label htmlFor="description">Mô tả</Label>
+                {!isEdit ? (
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    value={allergyData.description}
+                    readOnly
+                  />
+                ) : (
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    defaultValue={allergyData.description}
+                    {...register("description")}
+                  />
+                )}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-                <Input
-                  id="updatedAt"
-                  type="text"
-                  value={formatDate(allergyData.updatedAt)}
-                  disabled
-                />
-              </div>
+              {errors.description && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="createdBy">Người tạo</Label>
-                <Input
-                  id="createdBy"
-                  type="text"
-                  value={allergyData.createdBy}
-                  disabled
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="createdAt">Ngày tạo</Label>
+              <Input
+                id="createdAt"
+                type="text"
+                value={formatDate(allergyData.createdAt)}
+                readOnly
+              />
+            </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="updatedBy">Người cập nhật</Label>
-                <Input
-                  id="updatedBy"
-                  type="text"
-                  value={allergyData.updatedBy}
-                  disabled
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="createdBy">Người tạo</Label>
+              <Input
+                id="createdBy"
+                type="text"
+                value={allergyData.createdBy}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+              <Input
+                id="updatedAt"
+                type="text"
+                value={formatDate(allergyData.updatedAt)}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="updatedBy">Người cập nhật</Label>
+              <Input
+                id="updatedBy"
+                type="text"
+                value={allergyData.updatedBy}
+                readOnly
+              />
             </div>
           </div>
         )}
