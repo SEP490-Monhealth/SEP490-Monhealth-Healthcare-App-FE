@@ -7,11 +7,6 @@ export enum CategoryTypeEnum {
   Workout
 }
 
-export const CATEGORY_TYPE = [
-  { label: "Thực phẩm", value: CategoryTypeEnum.Food },
-  { label: "Tập luyện", value: CategoryTypeEnum.Workout }
-]
-
 export const CategoryTypeSchemaEnum = z.nativeEnum(CategoryTypeEnum)
 
 const categoryMetaMapping: Record<CategoryTypeEnum, EnumMeta> = {

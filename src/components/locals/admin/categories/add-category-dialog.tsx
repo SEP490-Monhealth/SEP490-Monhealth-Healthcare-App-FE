@@ -25,7 +25,7 @@ import {
 } from "@/components/globals/atoms/select"
 import { Textarea } from "@/components/globals/atoms/textarea"
 
-import { CATEGORY_TYPE, CategoryTypeEnum } from "@/constants/enum/Category"
+import { CategoryTypeEnum, getCategoryMeta } from "@/constants/enum/Category"
 
 import { useAddCategory } from "@/hooks/useCategory"
 
@@ -33,6 +33,17 @@ import {
   CreateUpdateCategoryType,
   createUpdateCategorySchema
 } from "@/schemas/categorySchema"
+
+export const categoryOptions = Object.keys(CategoryTypeEnum)
+  .filter((key) => isNaN(Number(key)))
+  .map((key) => {
+    const enumKey = key as keyof typeof CategoryTypeEnum
+    const enumValue = CategoryTypeEnum[enumKey]
+    return {
+      value: enumValue,
+      label: getCategoryMeta(enumValue).label
+    }
+  })
 
 interface AddCategoryDialogProps {
   isOpen: boolean
@@ -47,6 +58,7 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
   const {
     register,
     setValue,
+    watch,
     handleSubmit,
     reset,
     formState: { errors }
@@ -63,14 +75,20 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
     setIsLoading(true)
 
     const finalData = data
+    console.log(JSON.stringify(finalData, null, 2))
 
-    addCategory(finalData, {
-      onSuccess: () => {
-        onClose()
-        reset()
-        setIsLoading(false)
-      }
-    })
+    try {
+      await addCategory(finalData, {
+        onSuccess: () => {
+          onClose()
+          reset()
+        }
+      })
+    } catch (error) {
+      console.error("Lỗi khi tạo danh mục:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -83,7 +101,39 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-4">
+          <div>
+            <div className="space-y-2">
+              <Label htmlFor="type">Loại danh mục</Label>
+              <Select
+                onValueChange={(value) => setValue("type", Number(value))}
+                value={String(watch("type"))}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Chọn loại danh mục" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Loại danh mục</SelectLabel>
+                    {categoryOptions.map((option) => (
+                      <SelectItem
+                        key={option.value}
+                        value={String(option.value)}
+                      >
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            {errors.type && (
+              <p className="mt-1 ml-1 text-sm text-red-600">
+                {errors.type.message}
+              </p>
+            )}
+          </div>
+
           <div>
             <div className="space-y-2">
               <Label htmlFor="name">Nhập tên danh mục</Label>
@@ -103,47 +153,14 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
 
           <div>
             <div className="space-y-2">
-              <Label htmlFor="type">Loại danh mục</Label>
-              <Select
-                onValueChange={(value) => {
-                  const enumValue = Number(value) as CategoryTypeEnum
-                  setValue("type", enumValue)
-                }}
-                defaultValue={CategoryTypeEnum.Food.toString()}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Chọn loại danh mục" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Loại danh mục</SelectLabel>
-                    {CATEGORY_TYPE.map((category) => (
-                      <SelectItem
-                        key={category.value}
-                        value={category.value.toString()}
-                      >
-                        {category.label}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="description">Mô tả</Label>
+              <Textarea
+                id="description"
+                rows={3}
+                placeholder="Nhập mô tả danh mục"
+                {...register("description")}
+              />
             </div>
-            {errors.type && (
-              <p className="mt-1 ml-1 text-sm text-red-600">
-                {errors.type.message}
-              </p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description">Mô tả</Label>
-            <Textarea
-              id="description"
-              rows={2}
-              placeholder="Nhập mô tả danh mục"
-              {...register("description")}
-            />
             {errors.description && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.description.message}

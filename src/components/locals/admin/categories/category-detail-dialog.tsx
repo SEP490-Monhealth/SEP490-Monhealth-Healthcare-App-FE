@@ -28,11 +28,7 @@ import { Textarea } from "@/components/globals/atoms/textarea"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import {
-  CATEGORY_TYPE,
-  CategoryTypeEnum,
-  getCategoryMeta
-} from "@/constants/enum/Category"
+import { CategoryTypeEnum, getCategoryMeta } from "@/constants/enum/Category"
 
 import { useCategoryById, useUpdateCategory } from "@/hooks/useCategory"
 
@@ -42,6 +38,8 @@ import {
 } from "@/schemas/categorySchema"
 
 import { formatDate } from "@/utils/formatters"
+
+import { categoryOptions } from "./add-category-dialog"
 
 interface CategoryDetailDialogProps {
   isOpen: boolean
@@ -68,6 +66,7 @@ function CategoryDetailDialog({
   const {
     register,
     setValue,
+    watch,
     handleSubmit,
     formState: { errors }
   } = useForm<CreateUpdateCategoryType>({
@@ -76,18 +75,38 @@ function CategoryDetailDialog({
 
   useEffect(() => {
     if (categoryData) {
+      setValue("type", categoryData.type)
       setValue("name", categoryData.name || "")
       setValue("description", categoryData.description || "")
-      setValue("type", categoryData.type)
     }
   }, [categoryData, setValue])
 
-  const labelType = categoryData
-    ? getCategoryMeta(categoryData.type)
-    : undefined
+  const { label: categoryTypeLabel } = getCategoryMeta(
+    categoryData?.type || CategoryTypeEnum.Food
+  )
 
-  const isLoading = isCategoryLoading
-  const hasError = categoryError
+  const onSubmit = async (data: CreateUpdateCategoryType) => {
+    setIsEdit(false)
+    setIsLoadingSave(true)
+
+    const finalData = data
+    console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+
+    try {
+      await updateCategory(
+        { categoryId: categoryId || "", updatedData: data },
+        {
+          onSuccess: () => {
+            setIsEdit(false)
+            setIsLoadingSave(false)
+          }
+        }
+      )
+    } catch (error) {
+      console.error("Lỗi khi cập nhật danh mục:", error)
+      setIsLoadingSave(false)
+    }
+  }
 
   const handleEdit = () => {
     setIsEdit(true)
@@ -97,22 +116,8 @@ function CategoryDetailDialog({
     setIsEdit(false)
   }
 
-  const onSubmit = (data: CreateUpdateCategoryType) => {
-    setIsEdit(false)
-    setIsLoadingSave(true)
-
-    console.log(errors)
-
-    updateCategory(
-      { categoryId: categoryId || "", updatedData: data },
-      {
-        onSuccess: () => {
-          setIsEdit(false)
-          setIsLoadingSave(false)
-        }
-      }
-    )
-  }
+  const isLoading = isCategoryLoading
+  const hasError = categoryError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -131,47 +136,18 @@ function CategoryDetailDialog({
             message={categoryError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <div className="flex flex-col gap-4">
-            <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            <div className="col-span-2 space-y-2">
               <Label htmlFor="categoryId">Mã danh mục</Label>
               <Input
                 id="categoryId"
                 type="text"
                 value={categoryId || ""}
-                disabled
+                readOnly
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-              <div className="space-y-2">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Tên danh mục</Label>
-
-                  {!isEdit ? (
-                    <Input
-                      id="name"
-                      type="text"
-                      value={categoryData.name}
-                      disabled
-                    />
-                  ) : (
-                    <div>
-                      <Input
-                        id="name"
-                        defaultValue={categoryData.name}
-                        type="text"
-                        {...register("name")}
-                      />
-                      {errors.name && (
-                        <p className="mt-1 ml-1 text-sm text-red-600">
-                          {errors.name.message}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-
+            <div>
               <div className="space-y-2">
                 <Label htmlFor="type">Loại danh mục</Label>
 
@@ -179,115 +155,135 @@ function CategoryDetailDialog({
                   <Input
                     id="type"
                     type="text"
-                    value={labelType?.label}
-                    disabled
+                    value={categoryTypeLabel}
+                    readOnly
                   />
                 ) : (
-                  <div>
-                    <Select
-                      onValueChange={(value) => {
-                        const enumValue = Number(value) as CategoryTypeEnum
-                        setValue("type", enumValue)
-                      }}
-                      defaultValue={categoryData?.type?.toString()}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Chọn vai trò" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>Loại danh mục</SelectLabel>
-                          {CATEGORY_TYPE.map((category) => (
-                            <SelectItem
-                              key={category.value}
-                              value={category.value.toString()}
-                            >
-                              {category.label}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-
-                    {errors.type && (
-                      <p className="mt-1 ml-1 text-sm text-red-600">
-                        {errors.type.message}
-                      </p>
-                    )}
-                  </div>
+                  <Select
+                    onValueChange={(value) => setValue("type", Number(value))}
+                    value={
+                      watch("type") !== undefined ? String(watch("type")) : ""
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Chọn loại danh mục" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Loại danh mục</SelectLabel>
+                        {categoryOptions.map((option) => (
+                          <SelectItem
+                            key={option.value}
+                            value={String(option.value)}
+                          >
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 )}
               </div>
-            </div>
 
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="description">Mô tả</Label>
-
-              {!isEdit ? (
-                <Textarea
-                  id="description"
-                  rows={2}
-                  value={categoryData.description}
-                  disabled
-                />
-              ) : (
-                <div>
-                  <Textarea
-                    id="description"
-                    rows={2}
-                    defaultValue={categoryData.description}
-                    {...register("description")}
-                  />
-                  {errors.description && (
-                    <p className="mt-1 ml-1 text-sm text-red-600">
-                      {errors.description.message}
-                    </p>
-                  )}
-                </div>
+              {errors.type && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.type.message}
+                </p>
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            <div>
               <div className="space-y-2">
-                <Label htmlFor="createdAt">Ngày tạo</Label>
-                <Input
-                  id="createdAt"
-                  type="text"
-                  value={formatDate(categoryData.createdAt)}
-                  disabled
-                />
+                <Label htmlFor="name">Tên danh mục</Label>
+                {!isEdit ? (
+                  <Input
+                    id="name"
+                    type="text"
+                    value={categoryData.name}
+                    readOnly
+                  />
+                ) : (
+                  <Input
+                    id="name"
+                    type="text"
+                    defaultValue={categoryData.name}
+                    {...register("name")}
+                  />
+                )}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-                <Input
-                  id="updatedAt"
-                  type="text"
-                  value={formatDate(categoryData.updatedAt)}
-                  disabled
-                />
-              </div>
+              {errors.name && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            <div className="col-span-2">
               <div className="space-y-2">
-                <Label htmlFor="createdBy">Người tạo</Label>
-                <Input
-                  id="createdBy"
-                  type="text"
-                  value={categoryData.createdBy}
-                  disabled
-                />
+                <Label htmlFor="description">Mô tả</Label>
+                {!isEdit ? (
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    value={categoryData.description}
+                    readOnly
+                  />
+                ) : (
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    defaultValue={categoryData.description}
+                    {...register("description")}
+                  />
+                )}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="updatedBy">Người cập nhật</Label>
-                <Input
-                  id="updatedBy"
-                  type="text"
-                  value={categoryData.updatedBy}
-                  disabled
-                />
-              </div>
+              {errors.description && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="createdAt">Ngày tạo</Label>
+              <Input
+                id="createdAt"
+                type="text"
+                value={formatDate(categoryData.createdAt)}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="createdBy">Người tạo</Label>
+              <Input
+                id="createdBy"
+                type="text"
+                value={categoryData.createdBy}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+              <Input
+                id="updatedAt"
+                type="text"
+                value={formatDate(categoryData.updatedAt)}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="updatedBy">Người cập nhật</Label>
+              <Input
+                id="updatedBy"
+                type="text"
+                value={categoryData.updatedBy}
+                readOnly
+              />
             </div>
           </div>
         )}
