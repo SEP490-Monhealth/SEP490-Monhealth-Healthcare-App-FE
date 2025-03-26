@@ -9,12 +9,13 @@ import {
 import {
   addExpertise,
   fetchExpertise,
-  fetchExpertiseById
+  fetchExpertiseById,
+  updateExpertise
 } from "@/services/expertiseService"
 
 export const useExpertise = (page: number, limit: number, search?: string) =>
   useQuery({
-    queryKey: ["expertise-all", page, limit, search],
+    queryKey: ["expertises", page, limit, search],
     queryFn: () => fetchExpertise(page, limit, search),
     staleTime: 1000 * 60 * 5
   })
@@ -32,10 +33,29 @@ export const useAddExpertise = () => {
   return useMutation<string, Error, CreateUpdateExpertiseType>({
     mutationFn: addExpertise,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["expertise-all"] })
+      queryClient.invalidateQueries({ queryKey: ["expertises"] })
     },
     onError: (error) => {
       toast.error(error.message || "Failed to add Expertise")
+    }
+  })
+}
+
+export const useUpdateExpertise = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<
+    string,
+    Error,
+    { expertiseId: string; updatedData: CreateUpdateExpertiseType }
+  >({
+    mutationFn: ({ expertiseId, updatedData }) =>
+      updateExpertise(expertiseId, updatedData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["expertises"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update Expertise")
     }
   })
 }

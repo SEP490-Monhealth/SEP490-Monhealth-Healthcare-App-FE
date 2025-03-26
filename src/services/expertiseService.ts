@@ -57,10 +57,10 @@ export const fetchExpertiseById = async (
 }
 
 export const addExpertise = async (
-  newExpertiseData: CreateUpdateExpertiseType
+  newData: CreateUpdateExpertiseType
 ): Promise<string> => {
   try {
-    const response = await monAPI.post("/expertise", newExpertiseData)
+    const response = await monAPI.post("/expertise", newData)
 
     const { success, message } = response.data
 
@@ -73,5 +73,26 @@ export const addExpertise = async (
   } catch (error) {
     console.error("Error adding expertise:", error)
     throw new Error("Failed to add expertise")
+  }
+}
+
+export const updateExpertise = async (
+  expertiseId: string,
+  updatedData: CreateUpdateExpertiseType
+): Promise<string> => {
+  try {
+    const response = await monAPI.put(`/expertise/${expertiseId}`, updatedData)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update expertise")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating expertise:", error)
+    throw new Error("Failed to update expertise")
   }
 }

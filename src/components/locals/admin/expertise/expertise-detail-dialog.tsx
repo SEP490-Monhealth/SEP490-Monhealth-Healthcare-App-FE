@@ -1,6 +1,9 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 
 import { Button } from "@/components/globals/atoms/button"
 import {
@@ -18,7 +21,12 @@ import { Textarea } from "@/components/globals/atoms/textarea"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import { useExpertiseById } from "@/hooks/useExpertise"
+import { useExpertiseById, useUpdateExpertise } from "@/hooks/useExpertise"
+
+import {
+  CreateUpdateExpertiseType,
+  createUpdateExpertiseSchema
+} from "@/schemas/expertiseSchema"
 
 import { formatDate } from "@/utils/formatters"
 
@@ -35,9 +43,64 @@ function ExpertiseDetailDialog({
 }: ExpertiseDetailDialogProps) {
   const {
     data: expertiseData,
-    isLoading,
-    error
+    isLoading: isExpertiseLoading,
+    error: expertiseError
   } = useExpertiseById(expertiseId || "")
+
+  const { mutate: updateExpertise } = useUpdateExpertise()
+
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [isLoadingSave, setIsLoadingSave] = useState<boolean>(false)
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<CreateUpdateExpertiseType>({
+    resolver: zodResolver(createUpdateExpertiseSchema)
+  })
+
+  useEffect(() => {
+    if (expertiseData) {
+      setValue("name", expertiseData.name || "")
+      setValue("description", expertiseData.description || "")
+    }
+  }, [expertiseData, setValue])
+
+  const onSubmit = async (data: CreateUpdateExpertiseType) => {
+    setIsEdit(false)
+    setIsLoadingSave(true)
+
+    const finalData = data
+    console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+
+    try {
+      await updateExpertise(
+        { expertiseId: expertiseId || "", updatedData: data },
+        {
+          onSuccess: () => {
+            setIsEdit(false)
+            setIsLoadingSave(false)
+          }
+        }
+      )
+    } catch (error) {
+      console.error("Lỗi khi cập nhật chuyên môn:", error)
+      setIsLoadingSave(false)
+    }
+  }
+
+  const handleEdit = () => {
+    setIsEdit(true)
+  }
+
+  const handleCancelEdit = () => {
+    setIsEdit(false)
+  }
+
+  const isLoading = isExpertiseLoading
+  const hasError = expertiseError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -51,13 +114,9 @@ function ExpertiseDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !expertiseData ? (
+        ) : hasError || !expertiseData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu chuyên môn."
-            }
+            message={expertiseError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -71,24 +130,60 @@ function ExpertiseDetailDialog({
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="name">Tên chuyên môn</Label>
-              <Input
-                id="name"
-                type="text"
-                value={expertiseData.name}
-                readOnly
-              />
+            <div>
+              <div className="space-y-2">
+                <Label htmlFor="name">Tên chuyên môn</Label>
+                {!isEdit ? (
+                  <Input
+                    id="name"
+                    type="text"
+                    value={expertiseData.name}
+                    readOnly
+                  />
+                ) : (
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Nhập tên chuyên môn"
+                    defaultValue={expertiseData.name}
+                    {...register("name")}
+                  />
+                )}
+              </div>
+
+              {errors.name && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="description">Mô tả</Label>
-              <Textarea
-                id="description"
-                rows={3}
-                value={expertiseData.description}
-                // readOnly={!isEdit}
-              />
+            <div className="col-span-2">
+              <div className="space-y-2">
+                <Label htmlFor="description">Mô tả</Label>
+                {!isEdit ? (
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    value={expertiseData.description}
+                    readOnly
+                  />
+                ) : (
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    placeholder="Nhập mô tả chuyên môn"
+                    defaultValue={expertiseData.description}
+                    {...register("description")}
+                  />
+                )}
+              </div>
+
+              {errors.description && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -134,7 +229,30 @@ function ExpertiseDetailDialog({
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
+          <div className="flex w-full justify-between">
+            {!isEdit ? (
+              <Button variant={"outline"} onClick={handleEdit}>
+                Chỉnh sửa
+              </Button>
+            ) : (
+              <div className="space-x-4">
+                <Button variant={"outline"} onClick={handleCancelEdit}>
+                  Hủy
+                </Button>
+
+                <Button
+                  type="submit"
+                  disabled={isLoadingSave}
+                  variant={"default"}
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  {isLoadingSave ? "Đang cập nhật..." : "Cập nhật"}
+                </Button>
+              </div>
+            )}
+
+            <Button onClick={onClose}>Đóng</Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

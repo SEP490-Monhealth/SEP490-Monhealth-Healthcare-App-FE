@@ -142,7 +142,7 @@ function CategoryDetailDialog({
               <Input
                 id="categoryId"
                 type="text"
-                value={categoryId || ""}
+                value={categoryData.categoryId}
                 readOnly
               />
             </div>
@@ -206,6 +206,7 @@ function CategoryDetailDialog({
                   <Input
                     id="name"
                     type="text"
+                    placeholder="Nhập tên danh mục"
                     defaultValue={categoryData.name}
                     {...register("name")}
                   />
@@ -233,6 +234,7 @@ function CategoryDetailDialog({
                   <Textarea
                     id="description"
                     rows={3}
+                    placeholder="Nhập mô tả danh mục"
                     defaultValue={categoryData.description}
                     {...register("description")}
                   />

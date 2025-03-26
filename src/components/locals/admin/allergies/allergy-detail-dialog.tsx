@@ -123,7 +123,7 @@ function AllergyDetailDialog({
               <Input
                 id="allergyId"
                 type="text"
-                value={allergyId || ""}
+                value={allergyData.allergyId}
                 readOnly
               />
             </div>
@@ -142,6 +142,7 @@ function AllergyDetailDialog({
                   <Input
                     id="name"
                     type="text"
+                    placeholder="Nhập tên dị ứng"
                     defaultValue={allergyData.name}
                     {...register("name")}
                   />
@@ -169,6 +170,7 @@ function AllergyDetailDialog({
                   <Textarea
                     id="description"
                     rows={3}
+                    placeholder="Nhập mô tả dị ứng"
                     defaultValue={allergyData.description}
                     {...register("description")}
                   />
