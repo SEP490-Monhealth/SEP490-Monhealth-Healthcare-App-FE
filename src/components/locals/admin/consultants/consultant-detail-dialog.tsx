@@ -45,8 +45,6 @@ function ConsultantDetailDialog({
     error
   } = useConsultantById(consultantId || "")
 
-  console.log(consultantData)
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-h-[520px] min-w-[700px]">

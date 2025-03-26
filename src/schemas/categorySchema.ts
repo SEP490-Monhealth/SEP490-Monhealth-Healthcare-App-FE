@@ -30,8 +30,7 @@ export const categorySchema = z.object({
 export const createUpdateCategorySchema = categorySchema.pick({
   type: true,
   name: true,
-  description: true,
-  imageUrl: true
+  description: true
 })
 
 export type CategoryType = z.infer<typeof categorySchema>

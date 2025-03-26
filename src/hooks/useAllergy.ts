@@ -50,6 +50,7 @@ export const useUpdateAllergy = () => {
       updateAllergy(allergyId, updatedData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allergies"] })
+      queryClient.invalidateQueries({ queryKey: ["allergy"] })
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update allergy")

@@ -8,7 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
+import AddCategoryDialog from "@/components/locals/admin/categories/add-category-dialog"
+import CategoryDetailDialog from "@/components/locals/admin/categories/category-detail-dialog"
 
 import { CategoryTypeEnum } from "@/constants/enum/Category"
 
@@ -41,6 +42,7 @@ function CategoryPage() {
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const {
     data: categoriesData,
@@ -100,6 +102,15 @@ function CategoryPage() {
     setTimeout(() => setSelectedCategory(null), 300)
   }
 
+  const handleAddCategory = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedCategory(null), 300)
+  }
+
   const columns = createColumns({ onViewDetail: handleViewDetail })
 
   if (isLoading) return <LoadingPage />
@@ -121,12 +132,19 @@ function CategoryPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
+        addNewButton
+        onAddNew={handleAddCategory}
       />
 
-      <UserDetailDialog
+      <CategoryDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        userId={selectedCategory || ""}
+        categoryId={selectedCategory}
+      />
+
+      <AddCategoryDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
       />
     </div>
   )

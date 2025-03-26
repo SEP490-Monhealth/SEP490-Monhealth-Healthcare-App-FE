@@ -6,14 +6,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
-import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
-
-import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
-
-import { BookingStatusEnum } from "@/constants/enum/Booking"
+import AddAllergyDialog from "@/components/locals/admin/allergies/add-allergy-dialog"
+import AllergyDetailDialog from "@/components/locals/admin/allergies/allergy-detail-dialog"
 
 import { useAllergies } from "@/hooks/useAllergy"
-import { useBookings } from "@/hooks/useBooking"
 import { useDebounce } from "@/hooks/useDebounce"
 
 import LoadingPage from "../loading"
@@ -39,6 +35,7 @@ function AllergyPage() {
 
   const [selectedAllergy, setSelectedAllergy] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const {
     data: allergiesData,
@@ -82,6 +79,15 @@ function AllergyPage() {
     setTimeout(() => setSelectedAllergy(null), 300)
   }
 
+  const handleAddAllergy = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedAllergy(null), 300)
+  }
+
   const columns = createColumns({ onViewDetail: handleViewDetail })
 
   if (isLoading) return <LoadingPage />
@@ -102,12 +108,19 @@ function AllergyPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         onClearAllFilters={clearAllFilters}
+        addNewButton
+        onAddNew={handleAddAllergy}
       />
 
-      <UserDetailDialog
+      <AllergyDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        userId={selectedAllergy || ""}
+        allergyId={selectedAllergy}
+      />
+
+      <AddAllergyDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
       />
     </div>
   )

@@ -60,6 +60,7 @@ export const useUpdateCategory = () => {
       updateCategory(categoryId, updatedData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] })
+      queryClient.invalidateQueries({ queryKey: ["category"] })
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update category")
