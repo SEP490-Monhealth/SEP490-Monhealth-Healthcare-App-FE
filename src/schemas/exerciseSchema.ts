@@ -28,28 +28,6 @@ const exerciseSchema = z.object({
   ...auditFields
 })
 
-const exerciseItems = exerciseSchema
-  .pick({
-    exerciseId: true,
-    name: true,
-    instructions: true,
-    caloriesPerMinute: true
-  })
-  .merge(
-    z.object({
-      reps: z.number().optional(),
-      duration: z.number().optional()
-    })
-  )
-
-export const exerciseWorkoutSchema = z.object({
-  warmupDuration: z.number(),
-  workoutDuration: z.number(),
-
-  warmup: z.array(exerciseItems),
-  workout: z.array(exerciseItems)
-})
-
 export const createExerciseSchema = exerciseSchema.pick({
   userId: true,
   name: true,
@@ -64,4 +42,3 @@ export const updateExerciseSchema = createExerciseSchema.omit({
 export type ExerciseType = z.infer<typeof exerciseSchema>
 export type CreateExerciseType = z.infer<typeof createExerciseSchema>
 export type UpdateExerciseType = z.infer<typeof updateExerciseSchema>
-export type ExerciseWorkoutType = z.infer<typeof exerciseWorkoutSchema>

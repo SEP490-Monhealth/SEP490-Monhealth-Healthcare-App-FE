@@ -1,13 +1,7 @@
 import React from "react"
 
-import { ExerciseWorkoutType } from "@/schemas/exerciseSchema"
-
-interface WorkoutExerciseTabDialogProps {
-  exerciseData: ExerciseWorkoutType
-}
-
 function WorkoutExerciseTabDialog({
-  exerciseData
+  exercisesData
 }: WorkoutExerciseTabDialogProps) {
   return <div>WorkoutExerciseTabDialog</div>
 }

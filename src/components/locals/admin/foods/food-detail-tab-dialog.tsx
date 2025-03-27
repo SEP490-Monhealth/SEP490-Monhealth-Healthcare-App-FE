@@ -35,112 +35,100 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <Label htmlFor="foodId">Mã món ăn</Label>
-          <Input id="foodId" type="text" value={foodData.foodId} readOnly />
-        </div>
+    <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="foodId">Mã món ăn</Label>
+        <Input id="foodId" type="text" value={foodData.foodId} readOnly />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="name">Tên món ăn</Label>
-          <Input id="name" type="text" value={foodData.name} readOnly />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="name">Tên món ăn</Label>
+        <Input id="name" type="text" value={foodData.name} readOnly />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="category">Danh mục</Label>
-          <Input id="category" type="text" value={foodData.category} readOnly />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="category">Danh mục</Label>
+        <Input id="category" type="text" value={foodData.category} readOnly />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="mealType"></Label>
-          <Input
-            id="mealType"
-            type="text"
-            value={getMealTypeLabels(foodData.mealType)}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="mealType"></Label>
+        <Input
+          id="mealType"
+          type="text"
+          value={getMealTypeLabels(foodData.mealType)}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="dishType"></Label>
-          <Input
-            id="dishType"
-            type="text"
-            value={getDishTypeLabels(foodData.dishType)}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="dishType"></Label>
+        <Input
+          id="dishType"
+          type="text"
+          value={getDishTypeLabels(foodData.dishType)}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="description">Mô tả</Label>
-          <Textarea
-            id="description"
-            rows={4}
-            value={foodData.description}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="description">Mô tả</Label>
+        <Textarea
+          id="description"
+          rows={4}
+          value={foodData.description}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="isPublic">Công khai</Label>
-          <Input
-            id="isPublic"
-            type="text"
-            value={foodData.isPublic ? "Công khai" : "Riêng tư"}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="isPublic">Công khai</Label>
+        <Input
+          id="isPublic"
+          type="text"
+          value={foodData.isPublic ? "Công khai" : "Riêng tư"}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="status">Trạng thái</Label>
-          <Input
-            id="status"
-            type="text"
-            value={foodData.status ? "Hoạt động" : "Ngừng hoạt động"}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="status">Trạng thái</Label>
+        <Input
+          id="status"
+          type="text"
+          value={foodData.status ? "Hoạt động" : "Ngừng hoạt động"}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="createdAt">Ngày tạo</Label>
-          <Input
-            id="createdAt"
-            type="text"
-            value={formatDate(foodData.createdAt)}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="createdAt">Ngày tạo</Label>
+        <Input
+          id="createdAt"
+          type="text"
+          value={formatDate(foodData.createdAt)}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-          <Input
-            id="updatedAt"
-            type="text"
-            value={formatDate(foodData.updatedAt)}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="createdBy">Người tạo</Label>
+        <Input id="createdBy" type="text" value={foodData.createdBy} readOnly />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="createdBy">Người tạo</Label>
-          <Input
-            id="createdBy"
-            type="text"
-            value={foodData.createdBy}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+        <Input
+          id="updatedAt"
+          type="text"
+          value={formatDate(foodData.updatedAt)}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="updatedBy">Người cập nhật</Label>
-          <Input
-            id="updatedBy"
-            type="text"
-            value={foodData.updatedBy}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="updatedBy">Người cập nhật</Label>
+        <Input id="updatedBy" type="text" value={foodData.updatedBy} readOnly />
       </div>
     </div>
   )

@@ -22,13 +22,13 @@ function AddWorkoutDialog({ isOpen, onClose }: AddWorkoutDialogProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Tạo bài tập</DialogTitle>
+          <DialogTitle>Tạo bộ bài tập</DialogTitle>
           <DialogDescription>
-            Vui lòng điền đầy đủ thông tin để tạo bài tập mới.
+            Vui lòng điền đầy đủ thông tin để tạo bộ bài tập mới.
           </DialogDescription>
         </DialogHeader>
 
-        <div>ahihi</div>
+        <div>ahihihaihia</div>
 
         <DialogFooter className="mt-6 gap-4">
           <Button variant="secondary" size="lg" onClick={onClose}>
@@ -36,7 +36,7 @@ function AddWorkoutDialog({ isOpen, onClose }: AddWorkoutDialogProps) {
           </Button>
 
           <Button type="submit" disabled={isLoading} size="lg">
-            {isLoading ? "Đang tạo..." : "Tạo bài tập"}
+            {isLoading ? "Đang tạo..." : "Tạo bộ bài tập"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -132,9 +132,7 @@ function UserPage() {
     setTimeout(() => setSelectedUser(null), 300)
   }
 
-  const columns = createColumns({
-    onViewDetail: handleViewDetail
-  })
+  const columns = createColumns({ onViewDetail: handleViewDetail })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>

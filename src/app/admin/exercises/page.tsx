@@ -21,7 +21,6 @@ import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   exerciseId: false,
-  instructions: false,
   createdBy: false,
   updatedBy: false
 }
@@ -34,18 +33,17 @@ function ExercisePage() {
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
-  const typeParam = searchParams.get("type") || ""
+  const type = searchParams.get("type") || ""
   const status = searchParams.get("status") || ""
 
-  let type: ExerciseTypeEnum | undefined = undefined
+  const typeParam = type && !isNaN(Number(type)) ? Number(type) : undefined
 
-  if (typeParam) {
-    const statusNumber = parseInt(typeParam, 10)
+  const [searchTerm, setSearchTerm] = useState<string>(search)
+  const debouncedSearch = useDebounce(searchTerm, 500)
 
-    if (!isNaN(statusNumber) && statusNumber >= 0 && statusNumber <= 3) {
-      type = statusNumber as ExerciseTypeEnum
-    }
-  }
+  const [selectedExercise, setSelectedExercise] = useState<string | null>(null)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedStatus =
     status === ""
@@ -56,25 +54,18 @@ function ExercisePage() {
           ? false
           : undefined
 
-  const [searchTerm, setSearchTerm] = useState<string>(search)
-  const debouncedSearch = useDebounce(searchTerm, 500)
-
-  const [selectedExercise, setSelectedExercise] = useState<string | null>(null)
-  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
-
   const {
     data: exercisesData,
     isLoading,
     error
-  } = useExercises(page, limit, type, debouncedSearch, parsedStatus)
+  } = useExercises(page, limit, typeParam, debouncedSearch, parsedStatus)
 
   const totalPages = Math.ceil((exercisesData?.totalItems || 1) / limit)
 
   const filters: DataTableFilterProps[] = [
     {
       name: "type",
-      label: "Loại bài tập",
+      label: "Phân loại",
       options: [
         { value: String(ExerciseTypeEnum.Time), label: "Thời gian" },
         { value: String(ExerciseTypeEnum.Reps), label: "Số lần" }

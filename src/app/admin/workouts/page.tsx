@@ -25,9 +25,9 @@ import { createColumns } from "./columns"
 const DEFAULT_VISIBILITY = {
   workoutId: false,
   description: false,
+  durationMinutes: false,
+  caloriesBurned: false,
   isPublic: false,
-  createdAt: false,
-  updatedAt: false,
   createdBy: false,
   updatedBy: false
 }
@@ -203,9 +203,7 @@ function WorkoutPage() {
     setTimeout(() => setSelectedWorkout(null), 300)
   }
 
-  const columns = createColumns({
-    onViewDetail: handleViewDetail
-  })
+  const columns = createColumns({ onViewDetail: handleViewDetail })
 
   if (isWorkoutsLoading || isCategoriesLoading) return <LoadingPage />
   if (errorWorkouts) return <p>Error: {errorWorkouts.message}</p>

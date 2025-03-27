@@ -133,6 +133,7 @@ function ExpertiseDetailDialog({
             <div>
               <div className="space-y-2">
                 <Label htmlFor="name">Tên chuyên môn</Label>
+
                 {!isEdit ? (
                   <Input
                     id="name"
@@ -161,6 +162,7 @@ function ExpertiseDetailDialog({
             <div className="col-span-2">
               <div className="space-y-2">
                 <Label htmlFor="description">Mô tả</Label>
+
                 {!isEdit ? (
                   <Textarea
                     id="description"

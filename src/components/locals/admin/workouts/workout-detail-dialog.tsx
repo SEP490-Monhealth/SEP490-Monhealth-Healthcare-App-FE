@@ -19,11 +19,9 @@ import {
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import { useExerciseByWorkoutId } from "@/hooks/useExercise"
 import { useWorkoutById } from "@/hooks/useWorkout"
 
 import WorkoutDetailTabDialog from "./workout-detail-tab-dialog"
-import WorkoutExerciseTabDialog from "./workout-exercise-tab-dialog"
 
 interface WorkoutDetailDialogProps {
   isOpen: boolean
@@ -42,14 +40,8 @@ function WorkoutDetailDialog({
     error: workoutError
   } = useWorkoutById(workoutId || "")
 
-  const {
-    data: exerciseData,
-    isLoading: isExerciseLoading,
-    error: exerciseError
-  } = useExerciseByWorkoutId(workoutId || "")
-
-  const isLoading = isWorkoutLoading || isExerciseLoading
-  const hasError = workoutError || exerciseError
+  const isLoading = isWorkoutLoading
+  const hasError = workoutError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -65,10 +57,7 @@ function WorkoutDetailDialog({
           <LoadingDialog />
         ) : hasError || !workoutData ? (
           <ErrorDialog
-            message={
-              (workoutError || exerciseError)?.message ||
-              "Không thể tải dữ liệu."
-            }
+            message={workoutError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <Tabs defaultValue="workout-detail">
@@ -90,11 +79,10 @@ function WorkoutDetailDialog({
               <WorkoutDetailTabDialog workoutData={workoutData} />
             </TabsContent>
 
-            <TabsContent value="workout-exercise" className="w-full">
-              {exerciseData && (
-                <WorkoutExerciseTabDialog exerciseData={exerciseData} />
-              )}
-            </TabsContent>
+            <TabsContent
+              value="workout-exercise"
+              className="w-full"
+            ></TabsContent>
           </Tabs>
         )}
 

@@ -49,27 +49,27 @@ function AddExerciseDialog({ isOpen, onClose }: AddExerciseDialogProps) {
   })
 
   const onSubmit = async (data: CreateExerciseType) => {
-    // setIsLoading(true)
+    setIsLoading(true)
 
     const finalData = data
     console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-    // try {
-    //   await addExercise(finalData, {
-    //     onSuccess: () => {
-    //       onClose()
-    //       reset()
-    //     }
-    //   })
-    // } catch (error) {
-    //   console.error("Lỗi khi tạo bài tập:", error)
-    // } finally {
-    //   setIsLoading(false)
-    // }
+    try {
+      await addExercise(finalData, {
+        onSuccess: () => {
+          onClose()
+          reset()
+        }
+      })
+    } catch (error) {
+      console.error("Lỗi khi tạo bài tập:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  console.log(errors);
-  
+  console.log(errors)
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
@@ -105,7 +105,7 @@ function AddExerciseDialog({ isOpen, onClose }: AddExerciseDialogProps) {
               <Textarea
                 id="instructions"
                 rows={5}
-                placeholder="Nhập hướng bài tập"
+                placeholder="Nhập hướng dẫn bài tập"
                 {...register("instructions")}
               />
             </div>
