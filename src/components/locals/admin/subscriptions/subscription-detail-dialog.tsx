@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -75,26 +75,26 @@ function SubscriptionDetailDialog({
   }, [subscriptionData, setValue])
 
   const onSubmit = async (data: CreateUpdateSubscriptionType) => {
-    // setIsEdit(false)
-    // setIsLoadingSave(true)
+    setIsEdit(false)
+    setIsLoadingSave(true)
 
     const finalData = data
     console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-    // try {
-    //   await updateSubscription(
-    //     { subscriptionId: subscriptionId || "", updatedData: data },
-    //     {
-    //       onSuccess: () => {
-    //         setIsEdit(false)
-    //         setIsLoadingSave(false)
-    //       }
-    //     }
-    //   )
-    // } catch (error) {
-    //   console.error("Lỗi khi cập nhật gói đăng ký:", error)
-    //   setIsLoadingSave(false)
-    // }
+    try {
+      await updateSubscription(
+        { subscriptionId: subscriptionId || "", updatedData: data },
+        {
+          onSuccess: () => {
+            setIsEdit(false)
+            setIsLoadingSave(false)
+          }
+        }
+      )
+    } catch (error) {
+      console.error("Lỗi khi cập nhật gói đăng ký:", error)
+      setIsLoadingSave(false)
+    }
   }
 
   const handleEdit = () => {
@@ -126,7 +126,7 @@ function SubscriptionDetailDialog({
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-2 space-y-2">
+            <div className="space-y-2">
               <Label htmlFor="subscriptionId">Mã gói đăng ký</Label>
               <Input
                 id="subscriptionId"
@@ -136,8 +136,8 @@ function SubscriptionDetailDialog({
               />
             </div>
 
-            <div className="col-span-2 grid grid-cols-3 gap-x-6">
-              <div className="col-span-2 space-y-2">
+            <div>
+              <div className="space-y-2">
                 <Label htmlFor="name">Tên gói đăng ký</Label>
 
                 {!isEdit ? (
@@ -156,25 +156,13 @@ function SubscriptionDetailDialog({
                     {...register("name")}
                   />
                 )}
-
-                {errors.name && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.name.message}
-                  </p>
-                )}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="status">Trạng thái</Label>
-                <Input
-                  id="status"
-                  type="text"
-                  value={
-                    subscriptionData.status ? "Hoạt động" : "Ngừng hoạt động"
-                  }
-                  readOnly
-                />
-              </div>
+              {errors.name && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
             <div className="col-span-2 space-y-2">
@@ -231,10 +219,10 @@ function SubscriptionDetailDialog({
               )}
             </div>
 
-            <div className="col-span-2 grid grid-cols-3 gap-x-6">
-              <div className="space-y-2">
-                <Label htmlFor="price">Giá (VND)</Label>
+            <div className="space-y-2">
+              <Label htmlFor="price">Giá</Label>
 
+              <div className="relative">
                 {!isEdit ? (
                   <Input
                     id="price"
@@ -251,17 +239,22 @@ function SubscriptionDetailDialog({
                     {...register("price", { valueAsNumber: true })}
                   />
                 )}
-
-                {errors.price && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.price.message}
-                  </p>
-                )}
+                <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                  VND
+                </span>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="durationDays">Thời gian hiệu lực</Label>
+              {errors.price && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.price.message}
+                </p>
+              )}
+            </div>
 
+            <div className="space-y-2">
+              <Label htmlFor="durationDays">Thời gian hiệu lực</Label>
+
+              <div className="relative">
                 {!isEdit ? (
                   <Input
                     id="durationDays"
@@ -278,39 +271,56 @@ function SubscriptionDetailDialog({
                     {...register("durationDays", { valueAsNumber: true })}
                   />
                 )}
-
-                {errors.durationDays && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.durationDays.message}
-                  </p>
-                )}
+                <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                  ngày
+                </span>
               </div>
 
+              {errors.durationDays && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.durationDays.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bookingAllowance">Số lần đặt lịch</Label>
+
+              {!isEdit ? (
+                <Input
+                  id="bookingAllowance"
+                  type="text"
+                  value={subscriptionData.bookingAllowance}
+                  readOnly
+                />
+              ) : (
+                <Input
+                  id="bookingAllowance"
+                  type="number"
+                  placeholder="Nhập số lần đặt lịch"
+                  defaultValue={subscriptionData.bookingAllowance}
+                  {...register("bookingAllowance", { valueAsNumber: true })}
+                />
+              )}
+
+              {errors.bookingAllowance && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.bookingAllowance.message}
+                </p>
+              )}
+            </div>
+
+            <div>
               <div className="space-y-2">
-                <Label htmlFor="bookingAllowance">Số lần đặt lịch</Label>
-
-                {!isEdit ? (
-                  <Input
-                    id="bookingAllowance"
-                    type="text"
-                    value={subscriptionData.bookingAllowance}
-                    readOnly
-                  />
-                ) : (
-                  <Input
-                    id="bookingAllowance"
-                    type="number"
-                    placeholder="Nhập số lần đặt lịch"
-                    defaultValue={subscriptionData.bookingAllowance}
-                    {...register("bookingAllowance", { valueAsNumber: true })}
-                  />
-                )}
-
-                {errors.bookingAllowance && (
-                  <p className="mt-1 ml-1 text-sm text-red-600">
-                    {errors.bookingAllowance.message}
-                  </p>
-                )}
+                <Label htmlFor="status">Trạng thái</Label>
+                <Input
+                  id="status"
+                  type="text"
+                  value={
+                    subscriptionData.status ? "Hoạt động" : "Ngừng hoạt động"
+                  }
+                  readOnly
+                />
               </div>
             </div>
 
