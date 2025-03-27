@@ -108,7 +108,7 @@ function ReviewPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm đánh giá hoặc người dùng..."
+        placeholder="Tìm kiếm đánh giá..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}

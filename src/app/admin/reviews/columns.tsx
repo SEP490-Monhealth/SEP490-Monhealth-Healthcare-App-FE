@@ -111,7 +111,7 @@ export const createColumns = (
       const comment = row.original.comment
       return (
         <span className="block max-w-[320px] truncate">
-          {comment ? comment : "--"}
+          {comment}
         </span>
       )
     }
