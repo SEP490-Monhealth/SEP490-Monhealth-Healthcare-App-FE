@@ -62,7 +62,7 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-h-[520px] min-w-[700px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết người dùng</DialogTitle>
           <DialogDescription>

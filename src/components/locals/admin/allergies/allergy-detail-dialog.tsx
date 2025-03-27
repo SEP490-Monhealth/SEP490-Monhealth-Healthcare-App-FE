@@ -102,7 +102,7 @@ function AllergyDetailDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-h-[520px] min-w-[700px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết dị ứng</DialogTitle>
           <DialogDescription>
@@ -162,14 +162,14 @@ function AllergyDetailDialog({
                 {!isEdit ? (
                   <Textarea
                     id="description"
-                    rows={3}
+                    rows={4}
                     value={allergyData.description}
                     readOnly
                   />
                 ) : (
                   <Textarea
                     id="description"
-                    rows={3}
+                    rows={4}
                     placeholder="Nhập mô tả dị ứng"
                     defaultValue={allergyData.description}
                     {...register("description")}

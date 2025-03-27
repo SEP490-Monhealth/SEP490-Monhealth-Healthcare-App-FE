@@ -197,14 +197,14 @@ function ExerciseDetailDialog({
                 {!isEdit ? (
                   <Textarea
                     id="instructions"
-                    rows={5}
+                    rows={6}
                     value={exerciseData.instructions}
                     readOnly
                   />
                 ) : (
                   <Textarea
                     id="instructions"
-                    rows={5}
+                    rows={6}
                     placeholder="Nhập hướng dẫn"
                     defaultValue={exerciseData.instructions}
                     {...register("instructions")}

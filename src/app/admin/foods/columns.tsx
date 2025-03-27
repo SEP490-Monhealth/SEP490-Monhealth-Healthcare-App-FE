@@ -93,6 +93,17 @@ export const createColumns = (
     }
   },
   {
+    accessorKey: "nutrition.calories",
+    meta: { title: "Năng lượng" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Năng lượng (kcal)" center />
+    ),
+    cell: ({ row }) => {
+      const calories = row.original.nutrition.calories
+      return <span className="flex justify-center pr-4">{calories}</span>
+    }
+  },
+  {
     accessorKey: "isPublic",
     meta: { title: "Công khai" },
     header: ({ column }) => (

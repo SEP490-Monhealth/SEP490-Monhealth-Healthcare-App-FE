@@ -100,7 +100,7 @@ function AddAllergyDialog({ isOpen, onClose }: AddAllergyDialogProps) {
               <Label htmlFor="avatarUrl">Mô tả</Label>
               <Textarea
                 id="description"
-                rows={3}
+                rows={4}
                 placeholder="Nhập mô tả dị ứng"
                 {...register("description")}
               />

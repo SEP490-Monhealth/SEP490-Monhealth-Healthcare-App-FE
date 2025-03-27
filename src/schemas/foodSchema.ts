@@ -4,6 +4,7 @@ import { DishTypeSchemaEnum, MealTypeSchemaEnum } from "@/constants/enum/Food"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 import { categorySchema } from "./categorySchema"
+import { nutritionSchema } from "./nutritionSchema"
 
 export const foodSchema = z.object({
   foodId: uuidSchema,
@@ -26,6 +27,10 @@ export const foodSchema = z.object({
     .string()
     .nonempty({ message: "Mô tả món ăn không được để trống" })
     .min(10, { message: "Mô tả món ăn phải có ít nhất 10 ký tự" }),
+
+  nutrition: z.object({
+    calories: nutritionSchema.shape.calories
+  }),
 
   views: z.number().default(0),
 

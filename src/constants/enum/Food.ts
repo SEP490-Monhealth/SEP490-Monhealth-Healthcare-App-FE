@@ -57,10 +57,10 @@ export const dishTypeMap: Record<DishTypeEnum, EnumMeta> = {
   }
 }
 
-export function getMealTypeMeta(status: MealTypeEnum): EnumMeta {
-  return mealTypeMap[status]
+export function getMealTypeLabels(mealTypes: MealTypeEnum[]): string[] {
+  return mealTypes.map((mealType) => mealTypeMap[mealType]?.label || "Unknown")
 }
 
-export function getDishTypeMeta(status: DishTypeEnum): EnumMeta {
-  return dishTypeMap[status]
+export function getDishTypeLabels(dishTypes: DishTypeEnum[]): string[] {
+  return dishTypes.map((dishType) => dishTypeMap[dishType]?.label || "Unknown")
 }

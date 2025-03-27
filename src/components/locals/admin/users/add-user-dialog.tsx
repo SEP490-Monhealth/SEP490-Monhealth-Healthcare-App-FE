@@ -153,7 +153,10 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
 
           <div>
             <div className="space-y-2">
-              <Label htmlFor="avatarUrl">Ảnh đại diện (Tùy chọn)</Label>
+              <div className="flex items-center justify-between gap-1">
+                <Label htmlFor="avatarUrl">Ảnh đại diện</Label>
+                <span className="text-muted-foreground text-sm">Tùy chọn</span>
+              </div>
               <Input
                 id="avatarUrl"
                 type="text"

@@ -47,7 +47,7 @@ function ConsultantDetailDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-h-[520px] min-w-[700px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết chuyên viên</DialogTitle>
           <DialogDescription>
@@ -145,7 +145,7 @@ function ConsultantDetailDialog({
                 <Label htmlFor="bio">Mô tả</Label>
                 <Textarea
                   id="bio"
-                  rows={5}
+                  rows={6}
                   value={consultantData.bio}
                   readOnly
                 />

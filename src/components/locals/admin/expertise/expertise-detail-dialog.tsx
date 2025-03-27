@@ -104,7 +104,7 @@ function ExpertiseDetailDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-h-[520px] min-w-[700px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết chuyên môn</DialogTitle>
           <DialogDescription>
@@ -166,14 +166,14 @@ function ExpertiseDetailDialog({
                 {!isEdit ? (
                   <Textarea
                     id="description"
-                    rows={3}
+                    rows={4}
                     value={expertiseData.description}
                     readOnly
                   />
                 ) : (
                   <Textarea
                     id="description"
-                    rows={3}
+                    rows={4}
                     placeholder="Nhập mô tả chuyên môn"
                     defaultValue={expertiseData.description}
                     {...register("description")}

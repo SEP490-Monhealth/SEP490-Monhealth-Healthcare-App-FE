@@ -40,7 +40,7 @@ function WaterReminderDetailDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-h-[520px] min-w-[700px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết nhắc nhở</DialogTitle>
           <DialogDescription>

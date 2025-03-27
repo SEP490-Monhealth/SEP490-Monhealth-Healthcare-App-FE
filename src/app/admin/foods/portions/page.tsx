@@ -99,6 +99,7 @@ function PortionPage() {
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
+      updateParams("page", 1)
     }
   }, [debouncedSearch])
 

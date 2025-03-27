@@ -52,11 +52,7 @@ export const sidebarItems: SidebarItem[] = [
     children: [
       { title: "Danh sách chuyên viên", path: "/admin/consultants" },
       { title: "Hồ sơ đăng ký", path: "/admin/consultants/applications" },
-      { title: "Danh sách chuyên môn", path: "/admin/consultants/expertise" },
-      {
-        title: "Chứng chỉ chuyên viên",
-        path: "/admin/consultants/certificates"
-      }
+      { title: "Danh sách chuyên môn", path: "/admin/consultants/expertise" }
     ]
   },
   {
@@ -65,12 +61,11 @@ export const sidebarItems: SidebarItem[] = [
     icon: Calendar,
     children: [
       { title: "Danh sách lịch hẹn", path: "/admin/bookings" },
-      { title: "Thời gian làm việc", path: "/admin/schedules/time-slots" },
       { title: "Lịch ngoại lệ", path: "/admin/schedules/exceptions" }
     ]
   },
   {
-    title: "Dinh dưỡng",
+    title: "Thực phẩm",
     path: "/admin/foods",
     icon: Utensils,
     children: []

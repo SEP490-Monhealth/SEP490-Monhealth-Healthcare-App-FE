@@ -104,7 +104,7 @@ function AddExerciseDialog({ isOpen, onClose }: AddExerciseDialogProps) {
               <Label htmlFor="instructions">Hướng dẫn</Label>
               <Textarea
                 id="instructions"
-                rows={5}
+                rows={6}
                 placeholder="Nhập hướng dẫn bài tập"
                 {...register("instructions")}
               />

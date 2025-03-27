@@ -1,8 +1,12 @@
+"use client"
+
 import React from "react"
 
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 import { Textarea } from "@/components/globals/atoms/textarea"
+
+import { getDishTypeLabels, getMealTypeLabels } from "@/constants/enum/Food"
 
 import { FoodType } from "@/schemas/foodSchema"
 
@@ -13,19 +17,13 @@ interface FoodDetailTabDialogProps {
 }
 
 function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
-  // const getMealTypeLabels = (mealTypes: MealTypeEnum[] | null | undefined) => {
-  //   if (!mealTypes || mealTypes.length === 0) {
-  //     return "--"
-  //   }
-  //   return mealTypes.map((type) => mealTypeMap[type]?.label || "--").join(", ")
-  // }
+  const mealTypeLabels = foodData.mealType
+    ? getMealTypeLabels(foodData.mealType).join(", ")
+    : "--"
 
-  // const getDishTypeLabels = (dishTypes: DishTypeEnum[] | null | undefined) => {
-  //   if (!dishTypes || dishTypes.length === 0) {
-  //     return "--"
-  //   }
-  //   return dishTypes.map((dish) => dishTypeMap[dish]?.label || "--").join(", ")
-  // }
+  const dishTypeLabels = foodData.dishType
+    ? getDishTypeLabels(foodData.dishType).join(", ")
+    : "--"
 
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -39,26 +37,35 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
         <Input id="name" type="text" value={foodData.name} readOnly />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="category">Danh mục</Label>
-        <Input id="category" type="text" value={foodData.category} readOnly />
-      </div>
+      <div className="col-span-2">
+        <div className="grid grid-cols-3 gap-x-6 gap-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="category">Danh mục</Label>
+            <Input
+              id="category"
+              type="text"
+              value={foodData.category}
+              readOnly
+            />
+          </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="mealType"></Label>
-        <Input id="mealType" type="text" value={foodData.mealType} readOnly />
-      </div>
+          <div className="space-y-2">
+            <Label htmlFor="mealType">Loại bữa ăn</Label>
+            <Input id="mealType" type="text" value={mealTypeLabels} readOnly />
+          </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="dishType"></Label>
-        <Input id="dishType" type="text" value={foodData.dishType} readOnly />
+          <div className="space-y-2">
+            <Label htmlFor="dishType">Loại món ăn</Label>
+            <Input id="dishType" type="text" value={dishTypeLabels} readOnly />
+          </div>
+        </div>
       </div>
 
       <div className="col-span-2 space-y-2">
         <Label htmlFor="description">Mô tả</Label>
         <Textarea
           id="description"
-          rows={3}
+          rows={4}
           value={foodData.description}
           readOnly
         />

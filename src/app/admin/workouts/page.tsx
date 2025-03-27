@@ -17,8 +17,6 @@ import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useWorkout } from "@/hooks/useWorkout"
 
-import { CategoryType } from "@/schemas/categorySchema"
-
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -43,8 +41,8 @@ function WorkoutPage() {
 
   const search = searchParams.get("search") || ""
   const popular = searchParams.get("popular") || ""
+  const difficulty = searchParams.get("difficulty") || ""
   const status = searchParams.get("status") || ""
-  const difficultyParam = searchParams.get("difficulty") || ""
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
@@ -53,57 +51,35 @@ function WorkoutPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
-  let difficulty: DifficultyLevelEnum | undefined = undefined
+  const difficultyParam =
+    difficulty && !isNaN(Number(difficulty)) ? Number(difficulty) : undefined
 
-  if (difficultyParam) {
-    const difficultyNumber = parseInt(difficultyParam, 10)
-
-    if (
-      !isNaN(difficultyNumber) &&
-      difficultyNumber >= 0 &&
-      difficultyNumber <= 3
-    ) {
-      difficulty = difficultyNumber as DifficultyLevelEnum
-    }
+  const parseBooleanParam = (param: string): boolean | undefined => {
+    if (param === "") return undefined
+    return param === "true"
   }
 
-  const parsedStatus =
-    status === ""
-      ? undefined
-      : status === "true"
-        ? true
-        : status === "false"
-          ? false
-          : undefined
+  const parsedStatus = parseBooleanParam(status)
 
-  const parsedPopular =
-    popular === ""
-      ? undefined
-      : popular === "true"
-        ? true
-        : popular === "false"
-          ? false
-          : undefined
+  const {
+    data: categoriesData,
+    isLoading: isCategoriesLoading,
+    error: categoriesError
+  } = useCategories(1, 100, 1, "")
 
   const {
     data: workoutsData,
     isLoading: isWorkoutsLoading,
-    error: errorWorkouts
+    error: workoutsError
   } = useWorkout(
     page,
     limit,
     category,
     debouncedSearch,
-    difficulty,
-    parsedPopular,
+    difficultyParam,
+    false,
     parsedStatus
   )
-
-  const {
-    data: CategoriesData,
-    isLoading: isCategoriesLoading,
-    error: errorCategories
-  } = useCategories(1, 10, 1, undefined)
 
   const totalPages = Math.ceil((workoutsData?.totalItems || 1) / limit)
 
@@ -112,7 +88,7 @@ function WorkoutPage() {
       name: "category",
       label: "Danh mục",
       options:
-        CategoriesData?.categories?.map((item: CategoryType) => ({
+        categoriesData?.categories?.map((item) => ({
           value: item.name,
           label: item.name
         })) || [],
@@ -129,16 +105,6 @@ function WorkoutPage() {
       ],
       value: difficulty !== undefined ? String(difficulty) : undefined,
       onChange: (value: string) => updateParams("difficulty", value)
-    },
-    {
-      name: "popular",
-      label: "Độ phổ biến",
-      options: [
-        { value: "true", label: "Khá phổ biến" },
-        { value: "false", label: "Ít phổ biến" }
-      ],
-      value: popular,
-      onChange: (value: string) => updateParams("popular", value)
     },
     {
       name: "status",
@@ -172,7 +138,6 @@ function WorkoutPage() {
 
     params.delete("category")
     params.delete("difficulty")
-    params.delete("popular")
     params.delete("status")
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
@@ -181,6 +146,7 @@ function WorkoutPage() {
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
+      updateParams("page", 1)
     }
   }, [debouncedSearch])
 
@@ -205,9 +171,9 @@ function WorkoutPage() {
 
   const columns = createColumns({ onViewDetail: handleViewDetail })
 
-  if (isWorkoutsLoading || isCategoriesLoading) return <LoadingPage />
-  if (errorWorkouts) return <p>Error: {errorWorkouts.message}</p>
-  if (errorCategories) return <p>Error: {errorCategories.message}</p>
+  if (isCategoriesLoading || isWorkoutsLoading) return <LoadingPage />
+  if (categoriesError || workoutsError)
+    return <p>Error: {categoriesError?.message || workoutsError?.message}</p>
 
   return (
     <div>

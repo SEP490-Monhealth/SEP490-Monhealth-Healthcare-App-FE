@@ -44,7 +44,7 @@ function ConsultantPage() {
   const {
     data: consultantsData,
     isLoading: isConsultantLoading,
-    error: consultantError
+    error: consultantsError
   } = useConsultants(page, limit, expertise, debouncedSearch, false, false)
 
   const totalPages = Math.ceil((consultantsData?.totalItems || 1) / limit)
@@ -81,6 +81,7 @@ function ConsultantPage() {
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
+      updateParams("page", 1)
     }
   }, [debouncedSearch])
 
@@ -93,8 +94,8 @@ function ConsultantPage() {
   }
 
   if (isExpertiseLoading || isConsultantLoading) return <LoadingPage />
-  if (expertiseError || consultantError)
-    return <p>Error: {expertiseError?.message || consultantError?.message}</p>
+  if (expertiseError || consultantsError)
+    return <p>Error: {expertiseError?.message || consultantsError?.message}</p>
 
   return (
     <div>

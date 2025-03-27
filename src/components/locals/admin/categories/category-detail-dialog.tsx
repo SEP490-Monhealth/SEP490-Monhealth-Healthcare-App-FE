@@ -121,7 +121,7 @@ function CategoryDetailDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-h-[520px] min-w-[700px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết danh mục</DialogTitle>
           <DialogDescription>
@@ -226,14 +226,14 @@ function CategoryDetailDialog({
                 {!isEdit ? (
                   <Textarea
                     id="description"
-                    rows={3}
+                    rows={4}
                     value={categoryData.description}
                     readOnly
                   />
                 ) : (
                   <Textarea
                     id="description"
-                    rows={3}
+                    rows={4}
                     placeholder="Nhập mô tả danh mục"
                     defaultValue={categoryData.description}
                     {...register("description")}

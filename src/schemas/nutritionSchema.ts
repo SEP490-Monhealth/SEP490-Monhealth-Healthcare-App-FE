@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const nutritionSchema = z.object({
+export const nutritionSchema = z.object({
   nutritionId: uuidSchema,
 
   calories: z.number().min(0, { message: "Calo phải lớn hơn hoặc bằng 0" }),

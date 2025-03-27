@@ -156,7 +156,7 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
               <Label htmlFor="description">Mô tả</Label>
               <Textarea
                 id="description"
-                rows={3}
+                rows={4}
                 placeholder="Nhập mô tả danh mục"
                 {...register("description")}
               />
