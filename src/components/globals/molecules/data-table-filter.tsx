@@ -46,6 +46,8 @@ export function DataTableFilters({
     }
   }
 
+  const popoverWidth = Math.min(filters.length * 200, 600)
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -55,7 +57,7 @@ export function DataTableFilters({
           {activeFiltersCount > 0 && <span>({activeFiltersCount})</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-96 p-2">
+      <PopoverContent className="p-2" style={{ width: `${popoverWidth}px` }}>
         <h4 className="px-2 py-1.5 text-sm font-medium select-none data-[inset]:pl-8">
           Bộ lọc
         </h4>

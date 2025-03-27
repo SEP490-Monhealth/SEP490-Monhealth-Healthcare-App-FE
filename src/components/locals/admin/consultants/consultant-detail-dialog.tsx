@@ -145,7 +145,7 @@ function ConsultantDetailDialog({
                 <Label htmlFor="bio">Mô tả</Label>
                 <Textarea
                   id="bio"
-                  rows={6}
+                  rows={5}
                   value={consultantData.bio}
                   readOnly
                 />

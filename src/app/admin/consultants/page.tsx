@@ -12,6 +12,7 @@ import ConsultantDetailDialog from "@/components/locals/admin/consultants/consul
 
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
+import { useExpertise } from "@/hooks/useExpertise"
 
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
@@ -19,6 +20,9 @@ import { createColumns } from "./columns"
 const DEFAULT_VISIBILITY = {
   consultantId: false,
   bio: false,
+  bookingCount: false,
+  ratingCount: false,
+  averageRating: false,
   createdBy: false,
   updatedBy: false
 }
@@ -52,9 +56,15 @@ function ConsultantPage() {
           : undefined
 
   const {
+    data: expertiseData,
+    isLoading: isExpertiseLoading,
+    error: expertiseError
+  } = useExpertise(1, 100, "")
+
+  const {
     data: consultantsData,
-    isLoading,
-    error
+    isLoading: isConsultantLoading,
+    error: consultantError
   } = useConsultants(
     page,
     limit,
@@ -70,10 +80,11 @@ function ConsultantPage() {
     {
       name: "expertise",
       label: "Chuyên môn",
-      options: [
-        { value: "expertise1", label: "Chuyên môn 1" },
-        { value: "expertise2", label: "Chuyên môn 2" }
-      ],
+      options:
+        expertiseData?.expertise.map((item) => ({
+          value: item.expertiseId,
+          label: item.name
+        })) || [],
       value: expertise,
       onChange: (value: string) => updateParams("expertise", value)
     },
@@ -131,8 +142,9 @@ function ConsultantPage() {
 
   const columns = createColumns({ onViewDetail: handleViewDetail })
 
-  if (isLoading) return <LoadingPage />
-  if (error) return <p>Error: {error.message}</p>
+  if (isExpertiseLoading || isConsultantLoading) return <LoadingPage />
+  if (expertiseError || consultantError)
+    return <p>Error: {expertiseError?.message || consultantError?.message}</p>
 
   return (
     <div>

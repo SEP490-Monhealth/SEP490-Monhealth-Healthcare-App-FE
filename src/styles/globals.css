@@ -121,3 +121,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: textfield; /* Chrome, Safari, Edge */
+  appearance: textfield; /* Chuẩn chung */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Loại bỏ spinner trên Chrome, Safari */
+  margin: 0; /* Loại bỏ khoảng cách */
+}
