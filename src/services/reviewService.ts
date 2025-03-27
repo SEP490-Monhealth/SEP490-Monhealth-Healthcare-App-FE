@@ -11,11 +11,12 @@ interface ReviewsResponse {
 export const fetchReviews = async (
   page: number,
   limit: number,
+  search?: string,
   rating?: number
 ): Promise<ReviewsResponse> => {
   try {
     const response = await monAPI.get(`/reviews`, {
-      params: { page, limit, rating }
+      params: { page, limit, search, rating }
     })
 
     const { success, message, data } = response.data
