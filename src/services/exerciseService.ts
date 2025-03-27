@@ -7,6 +7,7 @@ import monAPI from "@/lib/monAPI"
 import {
   CreateExerciseType,
   ExerciseType,
+  ExerciseWorkoutType,
   UpdateExerciseType
 } from "@/schemas/exerciseSchema"
 
@@ -75,9 +76,11 @@ export const addExercise = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding exercise:", error)
-    throw new Error("Failed to add exercise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || error.message || "Failed to add exercise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -91,14 +94,19 @@ export const updateExercise = async (
     const { success, message } = response.data
 
     if (!success) {
+      toast.error(message || "Failed to update exercise")
       throw new Error(message || "Failed to update exercise")
     }
 
-    toast.success(message)
+    toast.success(message || "Exercise updated successfully")
     return message
-  } catch (error) {
-    console.error("Error updating exercise:", error)
-    throw new Error("Failed to update exercise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message ||
+      error.message ||
+      "Failed to update exercise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -119,5 +127,24 @@ export const updateExerciseStatus = async (
   } catch (error) {
     console.error("Error updating exercise status:", error)
     throw new Error("Failed to update exercise status")
+  }
+}
+
+export const fetchExerciseByWorkoutId = async (
+  workoutId: string
+): Promise<ExerciseWorkoutType> => {
+  try {
+    const response = await monAPI.get(`/exercises/workout/${workoutId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch exercise")
+    }
+
+    return data
+  } catch (error) {
+    console.error("Error fetching exercise by ID:", error)
+    throw new Error("Failed to fetch exercise")
   }
 }
