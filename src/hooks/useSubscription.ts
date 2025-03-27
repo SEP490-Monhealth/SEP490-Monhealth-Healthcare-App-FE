@@ -1,14 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
 
 import {
-  CreateUpdateSubscriptionType,
-  SubscriptionType
+  CreateSubscriptionType,
+  SubscriptionType,
+  UpdateSubscriptionType
 } from "@/schemas/subscriptionSchema"
 
 import {
   addSubscription,
   fetchSubscriptionById,
-  fetchSubscriptions
+  fetchSubscriptions,
+  updateSubscription,
+  updateSubscriptionStatus
 } from "@/services/subscriptionService"
 
 export const useSubscriptions = (
@@ -34,10 +38,45 @@ export const useSubscriptionById = (subscriptionId: string) =>
 export const useAddSubscription = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<string, Error, CreateUpdateSubscriptionType>({
+  return useMutation<string, Error, CreateSubscriptionType>({
     mutationFn: addSubscription,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] })
+    }
+  })
+}
+
+export const useUpdateSubscription = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<
+    string,
+    Error,
+    { subscriptionId: string; updatedData: UpdateSubscriptionType }
+  >({
+    mutationFn: ({ subscriptionId, updatedData }) =>
+      updateSubscription(subscriptionId, updatedData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subscriptions"] })
+      queryClient.invalidateQueries({ queryKey: ["subscription"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update subscription")
+    }
+  })
+}
+
+export const useSubscriptionStatus = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { subscriptionId: string }>({
+    mutationFn: ({ subscriptionId }) =>
+      updateSubscriptionStatus(subscriptionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["subscriptions"] })
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update subscription status")
     }
   })
 }

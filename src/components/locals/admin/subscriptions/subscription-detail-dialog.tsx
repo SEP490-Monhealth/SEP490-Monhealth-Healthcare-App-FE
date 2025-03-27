@@ -1,0 +1,403 @@
+import React, { useEffect, useRef, useState } from "react"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+
+import { Button } from "@/components/globals/atoms/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@/components/globals/atoms/dialog"
+import { Input } from "@/components/globals/atoms/input"
+import { Label } from "@/components/globals/atoms/label"
+import { Textarea } from "@/components/globals/atoms/textarea"
+
+import ErrorDialog from "@/components/globals/molecules/error-dialog"
+import LoadingDialog from "@/components/globals/molecules/loading-dialog"
+
+import {
+  useSubscriptionById,
+  useUpdateSubscription
+} from "@/hooks/useSubscription"
+
+import {
+  UpdateSubscriptionType,
+  updateSubscriptionSchema
+} from "@/schemas/subscriptionSchema"
+
+import { formatCurrency, formatDate } from "@/utils/formatters"
+
+interface SubscriptionDetailDialogProps {
+  isOpen: boolean
+  onClose: () => void
+  subscriptionId: string | null
+}
+
+function SubscriptionDetailDialog({
+  isOpen,
+  onClose,
+  subscriptionId
+}: SubscriptionDetailDialogProps) {
+  const {
+    data: subscriptionData,
+    isLoading,
+    error
+  } = useSubscriptionById(subscriptionId || "")
+
+  const { mutate: updateSubscription } = useUpdateSubscription()
+
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [isLoadingSave, setIsLoadingSave] = useState<boolean>(false)
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm<UpdateSubscriptionType>({
+    resolver: zodResolver(updateSubscriptionSchema)
+  })
+
+  useEffect(() => {
+    if (subscriptionData) {
+      setValue("name", subscriptionData.name)
+      setValue("description", subscriptionData.description)
+      setValue("price", subscriptionData.price)
+      setValue("durationDays", subscriptionData.durationDays)
+      setValue("features", subscriptionData.features)
+      setValue("bookingAllowance", subscriptionData.bookingAllowance)
+      setValue("features", subscriptionData.features)
+    }
+  }, [subscriptionData, setValue])
+
+  const ensureFeaturesArray = (featuresValue: string | string[]): string[] => {
+    if (Array.isArray(featuresValue)) {
+      const validFeatures = featuresValue
+        .map((feature) => feature.trim())
+        .filter((feature) => feature.length > 0)
+
+      if (validFeatures.length === 0) return []
+
+      return [validFeatures.join("\n")]
+    }
+
+    if (typeof featuresValue === "string") {
+      const validFeatures = featuresValue
+        .split(/[,\n]+/)
+        .map((feature) => feature.trim())
+        .filter((feature) => feature.length > 0)
+
+      if (validFeatures.length === 0) return []
+
+      return [validFeatures.join("\n")]
+    }
+
+    return []
+  }
+
+  const featuresValue = watch("features")
+  const featuresArray = ensureFeaturesArray(featuresValue)
+
+  console.log("hehe", featuresArray)
+
+  const onSubmit = async (data: UpdateSubscriptionType) => {
+    console.log(JSON.stringify(data, null, 2))
+  }
+
+  const handleEdit = () => {
+    setIsEdit(true)
+  }
+
+  const handleCancelEdit = () => {
+    setIsEdit(false)
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="min-h-[400px] min-w-[700px]">
+        <DialogHeader>
+          <DialogTitle>Chi tiết gói đăng ký</DialogTitle>
+          <DialogDescription>
+            Xem thông tin chi tiết của gói đăng ký.
+          </DialogDescription>
+        </DialogHeader>
+
+        {isLoading ? (
+          <LoadingDialog />
+        ) : error || !subscriptionData ? (
+          <ErrorDialog
+            message={
+              error
+                ? (error as Error).message || "Không thể tải dữ liệu."
+                : "Không có dữ liệu gói đăng ký."
+            }
+          />
+        ) : (
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="subscriptionId">Mã gói đăng ký</Label>
+              <Input
+                id="subscriptionId"
+                type="text"
+                value={subscriptionId || ""}
+                readOnly
+              />
+            </div>
+
+            <div className="col-span-2 grid grid-cols-3 gap-x-6">
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="name">Tên gói đăng ký</Label>
+
+                {!isEdit ? (
+                  <Input
+                    id="name"
+                    type="text"
+                    value={subscriptionData.name}
+                    readOnly
+                  />
+                ) : (
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Nhập tên gói đăng ký"
+                    defaultValue={subscriptionData.name}
+                    {...register("name")}
+                  />
+                )}
+
+                {errors.name && (
+                  <p className="mt-1 ml-1 text-sm text-red-600">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="status">Trạng thái</Label>
+                <Input
+                  id="status"
+                  type="text"
+                  value={
+                    subscriptionData.status ? "Hoạt động" : "Ngừng hoạt động"
+                  }
+                  readOnly
+                />
+              </div>
+            </div>
+
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="description">Mô tả gói đăng ký</Label>
+
+              {!isEdit ? (
+                <Input
+                  id="description"
+                  type="text"
+                  value={subscriptionData.description}
+                  readOnly
+                />
+              ) : (
+                <Input
+                  id="description"
+                  type="text"
+                  placeholder="Nhập mô tả gói đăng ký"
+                  defaultValue={subscriptionData.description}
+                  {...register("description")}
+                />
+              )}
+
+              {errors.description && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
+
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="features">Tính năng</Label>
+
+              {!isEdit ? (
+                <Textarea
+                  id="features"
+                  rows={2}
+                  value={subscriptionData.features}
+                  readOnly
+                />
+              ) : (
+                <Textarea
+                  id="features"
+                  rows={2}
+                  placeholder="Nhập tính năng gói đăng ký"
+                  defaultValue={subscriptionData.features}
+                  {...register("features")}
+                />
+              )}
+
+              {errors.features && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.features.message}
+                </p>
+              )}
+            </div>
+
+            <div className="col-span-2 grid grid-cols-3 gap-x-6">
+              <div className="space-y-2">
+                <Label htmlFor="price">Giá (VND)</Label>
+
+                {!isEdit ? (
+                  <Input
+                    id="price"
+                    type="text"
+                    value={formatCurrency(subscriptionData.price)}
+                    readOnly
+                  />
+                ) : (
+                  <Input
+                    id="price"
+                    type="number"
+                    placeholder="Nhập giá gói đăng ký"
+                    defaultValue={subscriptionData.price}
+                    {...register("price", { valueAsNumber: true })}
+                  />
+                )}
+
+                {errors.price && (
+                  <p className="mt-1 ml-1 text-sm text-red-600">
+                    {errors.price.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="durationDays">Thời gian hiệu lực</Label>
+
+                {!isEdit ? (
+                  <Input
+                    id="durationDays"
+                    type="text"
+                    value={subscriptionData.durationDays}
+                    readOnly
+                  />
+                ) : (
+                  <Input
+                    id="durationDays"
+                    type="number"
+                    placeholder="Nhập thời gian hiệu lực"
+                    defaultValue={subscriptionData.durationDays}
+                    {...register("durationDays", { valueAsNumber: true })}
+                  />
+                )}
+
+                {errors.durationDays && (
+                  <p className="mt-1 ml-1 text-sm text-red-600">
+                    {errors.durationDays.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="bookingAllowance">Số lần đặt lịch</Label>
+
+                {!isEdit ? (
+                  <Input
+                    id="bookingAllowance"
+                    type="text"
+                    value={subscriptionData.bookingAllowance}
+                    readOnly
+                  />
+                ) : (
+                  <Input
+                    id="bookingAllowance"
+                    type="number"
+                    placeholder="Nhập số lần đặt lịch"
+                    defaultValue={subscriptionData.bookingAllowance}
+                    {...register("bookingAllowance", { valueAsNumber: true })}
+                  />
+                )}
+
+                {errors.bookingAllowance && (
+                  <p className="mt-1 ml-1 text-sm text-red-600">
+                    {errors.bookingAllowance.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="createdAt">Ngày tạo</Label>
+              <Input
+                id="createdAt"
+                type="text"
+                value={formatDate(subscriptionData.createdAt)}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="createdBy">Người tạo</Label>
+              <Input
+                id="createdBy"
+                type="text"
+                value={subscriptionData.createdBy}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+              <Input
+                id="updatedAt"
+                type="text"
+                value={formatDate(subscriptionData.updatedAt)}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="updatedBy">Người cập nhật</Label>
+              <Input
+                id="updatedBy"
+                type="text"
+                value={subscriptionData.updatedBy}
+                readOnly
+              />
+            </div>
+          </div>
+        )}
+
+        <DialogFooter>
+          <div className="flex w-full justify-between">
+            {!isEdit ? (
+              <Button variant={"outline"} onClick={handleEdit}>
+                Chỉnh sửa
+              </Button>
+            ) : (
+              <div className="space-x-4">
+                <Button variant={"outline"} onClick={handleCancelEdit}>
+                  Hủy
+                </Button>
+
+                <Button
+                  type="submit"
+                  disabled={isLoadingSave}
+                  variant={"default"}
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  {isLoadingSave ? "Đang cập nhật..." : "Cập nhật"}
+                </Button>
+              </div>
+            )}
+
+            <Button onClick={onClose}>Đóng</Button>
+          </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export default SubscriptionDetailDialog
