@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -31,9 +33,11 @@ export const fetchSubscriptions = async (
 
     const { totalPages, totalItems, items: subscriptions } = data
     return { totalPages, totalItems, subscriptions }
-  } catch (error) {
-    console.error("Error fetching subscriptions:", error)
-    throw new Error("Failed to fetch subscriptions")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch subscriptions"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -50,9 +54,11 @@ export const fetchSubscriptionById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching subscription by ID:", error)
-    throw new Error("Failed to fetch subscription")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch subscription"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -69,8 +75,10 @@ export const addSubscription = async (
     }
 
     return message
-  } catch (error) {
-    console.error("Error adding subscription:", error)
-    throw new Error("Failed to add subscription")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add subscription"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

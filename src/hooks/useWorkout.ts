@@ -56,9 +56,6 @@ export const useAddWorkout = () => {
     mutationFn: addWorkout,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workouts"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to add workout")
     }
   })
 }
@@ -76,9 +73,6 @@ export const useUpdateWorkout = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workouts"] })
       queryClient.invalidateQueries({ queryKey: ["workout"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update workout")
     }
   })
 }
@@ -90,9 +84,6 @@ export const useWorkoutStatus = () => {
     mutationFn: ({ workoutId }) => updateWorkoutStatus(workoutId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workouts"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update workout status")
     }
   })
 }

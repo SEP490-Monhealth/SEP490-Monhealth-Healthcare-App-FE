@@ -32,9 +32,11 @@ export const fetchCategories = async (
 
     const { totalPages, totalItems, items: categories } = data
     return { totalPages, totalItems, categories }
-  } catch (error) {
-    console.error("Error fetching categories:", error)
-    throw new Error("Failed to fetch categories")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch categories"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -51,9 +53,11 @@ export const fetchCategoryById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching category by ID:", error)
-    throw new Error("Failed to fetch category")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch category"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -71,9 +75,11 @@ export const addCategory = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding category:", error)
-    throw new Error("Failed to add category")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add category"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -92,8 +98,10 @@ export const updateCategory = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating category:", error)
-    throw new Error("Failed to update category")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update category"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

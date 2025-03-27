@@ -36,9 +36,11 @@ export const fetchExercises = async (
 
     const { totalPages, totalItems, items: exercises } = data
     return { totalPages, totalItems, exercises }
-  } catch (error) {
-    console.error("Error fetching exercises:", error)
-    throw new Error("Failed to fetch exercises")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch exercises"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -55,9 +57,11 @@ export const fetchExerciseById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching exercise by ID:", error)
-    throw new Error("Failed to fetch exercise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch exercise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -75,9 +79,11 @@ export const addExercise = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding exercise:", error)
-    throw new Error("Failed to add exercise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add exercise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -96,9 +102,11 @@ export const updateExercise = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating exercise:", error)
-    throw new Error("Failed to update exercise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update exercise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -116,8 +124,10 @@ export const updateExerciseStatus = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating exercise status:", error)
-    throw new Error("Failed to update exercise status")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update exercise status"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

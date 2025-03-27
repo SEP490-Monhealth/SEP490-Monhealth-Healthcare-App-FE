@@ -30,9 +30,11 @@ export const fetchUsers = async (
 
     const { totalPages, totalItems, items: users } = data
     return { totalPages, totalItems, users }
-  } catch (error) {
-    console.error("Error fetching users:", error)
-    throw new Error("Failed to fetch users")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch users"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -47,9 +49,10 @@ export const fetchUserById = async (userId: string): Promise<UserType> => {
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching user by ID:", error)
-    throw new Error("Failed to fetch user")
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || "Failed to fetch user"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -67,9 +70,10 @@ export const addUser = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding user:", error)
-    throw new Error("Failed to add user")
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || "Failed to add user"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -85,8 +89,10 @@ export const updateUserStatus = async (userId: string): Promise<void> => {
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating user status:", error)
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update user status"
+    toast.error(errorMessage)
     throw new Error("Failed to update user status")
   }
 }

@@ -52,7 +52,11 @@ export const sidebarItems: SidebarItem[] = [
     children: [
       { title: "Danh sách chuyên viên", path: "/admin/consultants" },
       { title: "Hồ sơ đăng ký", path: "/admin/consultants/applications" },
-      { title: "Danh sách chuyên môn", path: "/admin/consultants/expertise" }
+      { title: "Danh sách chuyên môn", path: "/admin/consultants/expertise" },
+      {
+        title: "Chứng chỉ chuyên viên",
+        path: "/admin/consultants/certificates"
+      }
     ]
   },
   {
@@ -60,26 +64,24 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Calendar,
     children: [
-      { title: "Danh sách lịch hẹn", path: "/admin/bookings" }, // khi
-      { title: "Lịch ngoại lệ", path: "/admin/schedules/exceptions" } // khi
+      { title: "Danh sách lịch hẹn", path: "/admin/bookings" },
+      { title: "Thời gian làm việc", path: "/admin/schedules/time-slots" },
+      { title: "Lịch ngoại lệ", path: "/admin/schedules/exceptions" }
     ]
   },
   {
     title: "Dinh dưỡng",
-    path: "#",
+    path: "/admin/foods",
     icon: Utensils,
-    children: [
-      { title: "Danh sách món ăn", path: "/admin/foods" },
-      { title: "Khẩu phần ăn", path: "/admin/foods/portions" }
-    ]
+    children: []
   },
   {
     title: "Luyện tập thể chất",
     path: "#",
     icon: Dumbbell,
     children: [
-      { title: "Danh sách bộ bài tập", path: "/admin/workouts" }, // khi
-      { title: "Danh sách bài tập", path: "/admin/exercises" } // DONE
+      { title: "Danh sách bộ bài tập", path: "/admin/workouts" },
+      { title: "Danh sách bài tập", path: "/admin/exercises" }
     ]
   },
   {
@@ -102,30 +104,42 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: CreditCard,
     children: [
-      { title: "Danh sách giao dịch", path: "/admin/payments" }, // khi
-      { title: "Lịch sử giao dịch", path: "/admin/transactions" }, // khi
-      { title: "Thống kê doanh thu", path: "/admin/payments/statistics" }
+      { title: "Danh sách giao dịch", path: "/admin/payments" },
+      { title: "Lịch sử giao dịch", path: "/admin/transactions" },
+      { title: "Yêu cầu rút tiền", path: "/admin/withdrawal-requests" }
     ]
   },
   {
-    title: "Đánh giá", // khi
+    title: "Đánh giá",
     path: "/admin/reviews",
     icon: PieChart,
     children: []
   },
   {
-    title: "Thông báo", // khi
+    title: "Thông báo",
     path: "/admin/notifications",
     icon: Bell,
     children: []
   },
   {
-    title: "Danh mục & Tiêu chí",
+    title: "Phân loại",
     path: "#",
     icon: Tag,
     children: [
-      { title: "Danh sách danh mục", path: "/admin/categories" }, // DONE
-      { title: "Danh sách dị ứng", path: "/admin/allergies" } // DONE
+      { title: "Danh sách danh mục", path: "/admin/categories" },
+      { title: "Danh sách dị ứng", path: "/admin/allergies" }
+    ]
+  },
+  {
+    title: "Ngân hàng",
+    path: "#",
+    icon: CreditCard,
+    children: [
+      { title: "Danh sách ngân hàng", path: "/admin/banks" },
+      {
+        title: "Ngân hàng chuyên viên",
+        path: "/admin/consultant-banks"
+      }
     ]
   }
 ]

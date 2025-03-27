@@ -38,9 +38,6 @@ export const useConsultantStatus = () => {
     mutationFn: ({ consultantId }) => updateConsultantStatus(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update consultant status")
     }
   })
 }

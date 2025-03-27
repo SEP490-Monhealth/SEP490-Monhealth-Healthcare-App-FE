@@ -29,9 +29,11 @@ export const fetchCertificates = async (
 
     const { totalPages, totalItems, items: certificates } = data
     return { totalPages, totalItems, certificates }
-  } catch (error) {
-    console.error("Error fetching certificates:", error)
-    throw new Error("Failed to fetch certificates")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch certificates"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -48,8 +50,10 @@ export const fetchCertificateById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching certificate by ID:", error)
-    throw new Error("Failed to fetch certificate")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch certificate"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

@@ -36,9 +36,6 @@ export const useAddPortion = () => {
     mutationFn: addPortion,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["portions"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to add portion")
     }
   })
 }

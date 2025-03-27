@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import { ReviewType } from "@/schemas/reviewSchema"
@@ -27,9 +29,11 @@ export const fetchReviews = async (
 
     const { totalPages, totalItems, items: reviews } = data
     return { totalPages, totalItems, reviews }
-  } catch (error) {
-    console.error("Error fetching reviews:", error)
-    throw new Error("Failed to fetch reviews")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch reviews"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -46,8 +50,10 @@ export const fetchReviewById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching review by ID:", error)
-    throw new Error("Failed to fetch review")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch review"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

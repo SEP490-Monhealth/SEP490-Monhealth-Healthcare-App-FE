@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
 
 import { CreateUpdateUserType, UserType } from "@/schemas/userSchema"
 
@@ -37,9 +36,6 @@ export const useAddUser = () => {
     mutationFn: addUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to add user")
     }
   })
 }
@@ -51,9 +47,6 @@ export const useUserStatus = () => {
     mutationFn: ({ userId }) => updateUserStatus(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update user status")
     }
   })
 }

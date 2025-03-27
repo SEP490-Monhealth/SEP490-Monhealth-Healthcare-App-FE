@@ -28,9 +28,11 @@ export const fetchAllergies = async (
 
     const { totalPages, totalItems, items: allergies } = data
     return { totalPages, totalItems, allergies }
-  } catch (error) {
-    console.error("Error fetching allergies:", error)
-    throw new Error("Failed to fetch allergies")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch allergies"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -47,9 +49,11 @@ export const fetchAllergyById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching allergy by ID:", error)
-    throw new Error("Failed to fetch allergy")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch allergy"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -67,9 +71,11 @@ export const addAllergy = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding allergy:", error)
-    throw new Error("Failed to add allergy")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add allergy"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -88,8 +94,10 @@ export const updateAllergy = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating allergy:", error)
-    throw new Error("Failed to update allergy")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update allergy"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

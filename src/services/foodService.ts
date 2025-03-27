@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import { FoodType } from "@/schemas/foodSchema"
@@ -30,9 +32,11 @@ export const fetchFoods = async (
 
     const { totalPages, totalItems, items: foods } = data
     return { totalPages, totalItems, foods }
-  } catch (error) {
-    console.error("Error fetching foods:", error)
-    throw new Error("Failed to fetch foods")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch foods"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -47,8 +51,10 @@ export const fetchFoodById = async (foodId: string): Promise<FoodType> => {
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching food by ID:", error)
-    throw new Error("Failed to fetch food")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch food"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

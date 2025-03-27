@@ -31,9 +31,11 @@ export const fetchExpertise = async (
 
     const { totalPages, totalItems, items: expertise } = data
     return { totalPages, totalItems, expertise }
-  } catch (error) {
-    console.error("Error fetching expertise:", error)
-    throw new Error("Failed to fetch expertise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch expertise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -50,9 +52,11 @@ export const fetchExpertiseById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching expertise by ID:", error)
-    throw new Error("Failed to fetch expertise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch expertise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -70,9 +74,11 @@ export const addExpertise = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding expertise:", error)
-    throw new Error("Failed to add expertise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add expertise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -91,8 +97,10 @@ export const updateExpertise = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating expertise:", error)
-    throw new Error("Failed to update expertise")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update expertise"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

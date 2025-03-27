@@ -31,9 +31,6 @@ export const useAddAllergy = () => {
     mutationFn: addAllergy,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allergies"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to add allergy")
     }
   })
 }
@@ -51,9 +48,6 @@ export const useUpdateAllergy = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allergies"] })
       queryClient.invalidateQueries({ queryKey: ["allergy"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update allergy")
     }
   })
 }

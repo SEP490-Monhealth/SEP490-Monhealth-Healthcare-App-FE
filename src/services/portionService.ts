@@ -30,9 +30,11 @@ export const fetchPortions = async (
 
     const { totalPages, totalItems, items: portions } = data
     return { totalPages, totalItems, portions }
-  } catch (error) {
-    console.error("Error fetching portions:", error)
-    throw new Error("Failed to fetch portions")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch portions"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -49,9 +51,11 @@ export const fetchPortionById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching portion by ID:", error)
-    throw new Error("Failed to fetch portion")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch portion"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -69,8 +73,10 @@ export const addPortion = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding portion:", error)
-    throw new Error("Failed to add portion")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add portion"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

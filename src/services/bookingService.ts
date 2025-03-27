@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import monAPI from "@/lib/monAPI"
@@ -29,9 +31,11 @@ export const fetchBookings = async (
 
     const { totalPages, totalItems, items: bookings } = data
     return { totalPages, totalItems, bookings }
-  } catch (error) {
-    console.error("Error fetching bookings:", error)
-    throw new Error("Failed to fetch bookings")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch bookings"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -48,8 +52,10 @@ export const fetchBookingById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching booking by ID:", error)
-    throw new Error("Failed to fetch booking")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch booking"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

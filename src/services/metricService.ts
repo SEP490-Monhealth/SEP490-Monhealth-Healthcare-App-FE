@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import { MetricType } from "@/schemas/metricSchema"
@@ -15,8 +17,10 @@ export const fetchMetricsByUserId = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching metrics by user ID:", error)
-    throw new Error("Failed to fetch metrics")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch metrics"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

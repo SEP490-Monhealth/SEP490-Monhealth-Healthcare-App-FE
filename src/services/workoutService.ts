@@ -38,9 +38,11 @@ export const fetchWorkouts = async (
 
     const { totalPages, totalItems, items: workouts } = data
     return { totalPages, totalItems, workouts }
-  } catch (error) {
-    console.error("Error fetching workouts:", error)
-    throw new Error("Failed to fetch workouts")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch workouts"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -57,9 +59,11 @@ export const fetchWorkoutById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching workout by ID:", error)
-    throw new Error("Failed to fetch workout")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch workout"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -77,9 +81,11 @@ export const addWorkout = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error adding workout:", error)
-    throw new Error("Failed to add workout")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add workout"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -98,9 +104,11 @@ export const updateWorkout = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating workout:", error)
-    throw new Error("Failed to update workout")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update workout"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -116,8 +124,10 @@ export const updateWorkoutStatus = async (workoutId: string): Promise<void> => {
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating workout status:", error)
-    throw new Error("Failed to update workout status")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update workout status"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

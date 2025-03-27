@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import { GoalType } from "@/schemas/goalSchema"
@@ -15,8 +17,10 @@ export const fetchGoalsByUserId = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching goals by user ID:", error)
-    throw new Error("Failed to fetch goals")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch goals"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

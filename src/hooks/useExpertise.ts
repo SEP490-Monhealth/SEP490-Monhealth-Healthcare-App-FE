@@ -34,9 +34,6 @@ export const useAddExpertise = () => {
     mutationFn: addExpertise,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expertises"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to add Expertise")
     }
   })
 }
@@ -53,9 +50,6 @@ export const useUpdateExpertise = () => {
       updateExpertise(expertiseId, updatedData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expertises"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update Expertise")
     }
   })
 }

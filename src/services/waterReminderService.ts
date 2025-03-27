@@ -1,3 +1,5 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import {
@@ -31,9 +33,11 @@ export const fetchWaterReminders = async (
 
     const { totalPages, totalItems, items: waterReminders } = data
     return { totalPages, totalItems, waterReminders }
-  } catch (error) {
-    console.error("Error fetching water reminders:", error)
-    throw new Error("Failed to fetch water reminders")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch water reminders"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -50,9 +54,11 @@ export const fetchWaterReminderById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching water reminder by ID:", error)
-    throw new Error("Failed to fetch water reminder")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch water reminder"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -69,8 +75,10 @@ export const addWaterReminder = async (
     }
 
     return message
-  } catch (error) {
-    console.error("Error adding water reminder:", error)
-    throw new Error("Failed to add water reminder")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to add water reminder"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

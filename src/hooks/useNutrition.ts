@@ -29,9 +29,6 @@ export const useUpdateNutrition = () => {
       queryClient.invalidateQueries({ queryKey: ["foods"] })
       queryClient.invalidateQueries({ queryKey: ["food"] })
       queryClient.invalidateQueries({ queryKey: ["nutrition"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update nutrition")
     }
   })
 }

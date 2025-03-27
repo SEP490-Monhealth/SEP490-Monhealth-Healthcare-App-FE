@@ -17,9 +17,11 @@ export const fetchNutritionByFoodId = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching nutrition by food ID:", error)
-    throw new Error("Failed to fetch nutrition")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch nutrition"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -38,8 +40,10 @@ export const updateNutrition = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating nutrition:", error)
-    throw new Error("Failed to update nutrition")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update nutrition"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

@@ -41,9 +41,6 @@ export const useAddCategory = () => {
     mutationFn: addCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to add category")
     }
   })
 }
@@ -61,9 +58,6 @@ export const useUpdateCategory = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] })
       queryClient.invalidateQueries({ queryKey: ["category"] })
-    },
-    onError: (error) => {
-      toast.error(error.message || "Failed to update category")
     }
   })
 }

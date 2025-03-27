@@ -31,9 +31,11 @@ export const fetchConsultants = async (
 
     const { totalPages, totalItems, items: consultants } = data
     return { totalPages, totalItems, consultants }
-  } catch (error) {
-    console.error("Error fetching consultants:", error)
-    throw new Error("Failed to fetch consultants")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch consultants"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -50,9 +52,11 @@ export const fetchConsultantById = async (
     }
 
     return data
-  } catch (error) {
-    console.error("Error fetching consultant by ID:", error)
-    throw new Error("Failed to fetch consultant")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch consultant"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
 
@@ -70,8 +74,10 @@ export const updateConsultantStatus = async (
 
     toast.success(message)
     return message
-  } catch (error) {
-    console.error("Error updating consultant status:", error)
-    throw new Error("Failed to update consultant status")
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update consultant status"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }
