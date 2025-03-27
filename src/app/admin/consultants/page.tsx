@@ -14,6 +14,8 @@ import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
 
+import { parseBooleanParam } from "@/utils/helpers"
+
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -46,14 +48,7 @@ function ConsultantPage() {
   )
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
-  const parsedStatus =
-    status === ""
-      ? undefined
-      : status === "true"
-        ? true
-        : status === "false"
-          ? false
-          : undefined
+  const parsedStatus = parseBooleanParam(status)
 
   const {
     data: expertiseData,

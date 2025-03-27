@@ -51,12 +51,22 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
 
           <div className="space-y-2">
             <Label htmlFor="mealType">Loại bữa ăn</Label>
-            <Input id="mealType" type="text" value={mealTypeLabels} readOnly />
+            <Input
+              id="mealType"
+              type="text"
+              value={mealTypeLabels || "--"}
+              readOnly
+            />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="dishType">Loại món ăn</Label>
-            <Input id="dishType" type="text" value={dishTypeLabels} readOnly />
+            <Input
+              id="dishType"
+              type="text"
+              value={dishTypeLabels || "--"}
+              readOnly
+            />
           </div>
         </div>
       </div>

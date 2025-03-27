@@ -25,8 +25,8 @@ import {
 } from "@/hooks/useSubscription"
 
 import {
-  UpdateSubscriptionType,
-  updateSubscriptionSchema
+  CreateUpdateSubscriptionType,
+  createUpdateSubscriptionSchema
 } from "@/schemas/subscriptionSchema"
 
 import { formatCurrency, formatDate } from "@/utils/formatters"
@@ -44,8 +44,8 @@ function SubscriptionDetailDialog({
 }: SubscriptionDetailDialogProps) {
   const {
     data: subscriptionData,
-    isLoading,
-    error
+    isLoading: isSubscriptionLoading,
+    error: subscriptionError
   } = useSubscriptionById(subscriptionId || "")
 
   const { mutate: updateSubscription } = useUpdateSubscription()
@@ -57,10 +57,9 @@ function SubscriptionDetailDialog({
     register,
     setValue,
     handleSubmit,
-    watch,
     formState: { errors }
-  } = useForm<UpdateSubscriptionType>({
-    resolver: zodResolver(updateSubscriptionSchema)
+  } = useForm<CreateUpdateSubscriptionType>({
+    resolver: zodResolver(createUpdateSubscriptionSchema)
   })
 
   useEffect(() => {
@@ -75,38 +74,27 @@ function SubscriptionDetailDialog({
     }
   }, [subscriptionData, setValue])
 
-  const ensureFeaturesArray = (featuresValue: string | string[]): string[] => {
-    if (Array.isArray(featuresValue)) {
-      const validFeatures = featuresValue
-        .map((feature) => feature.trim())
-        .filter((feature) => feature.length > 0)
+  const onSubmit = async (data: CreateUpdateSubscriptionType) => {
+    // setIsEdit(false)
+    // setIsLoadingSave(true)
 
-      if (validFeatures.length === 0) return []
+    const finalData = data
+    console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-      return [validFeatures.join("\n")]
-    }
-
-    if (typeof featuresValue === "string") {
-      const validFeatures = featuresValue
-        .split(/[,\n]+/)
-        .map((feature) => feature.trim())
-        .filter((feature) => feature.length > 0)
-
-      if (validFeatures.length === 0) return []
-
-      return [validFeatures.join("\n")]
-    }
-
-    return []
-  }
-
-  const featuresValue = watch("features")
-  const featuresArray = ensureFeaturesArray(featuresValue)
-
-  console.log("hehe", featuresArray)
-
-  const onSubmit = async (data: UpdateSubscriptionType) => {
-    console.log(JSON.stringify(data, null, 2))
+    // try {
+    //   await updateSubscription(
+    //     { subscriptionId: subscriptionId || "", updatedData: data },
+    //     {
+    //       onSuccess: () => {
+    //         setIsEdit(false)
+    //         setIsLoadingSave(false)
+    //       }
+    //     }
+    //   )
+    // } catch (error) {
+    //   console.error("Lỗi khi cập nhật gói đăng ký:", error)
+    //   setIsLoadingSave(false)
+    // }
   }
 
   const handleEdit = () => {
@@ -116,6 +104,9 @@ function SubscriptionDetailDialog({
   const handleCancelEdit = () => {
     setIsEdit(false)
   }
+
+  const isLoading = isSubscriptionLoading
+  const hasError = subscriptionError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -129,13 +120,9 @@ function SubscriptionDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !subscriptionData ? (
+        ) : hasError || !subscriptionData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu gói đăng ký."
-            }
+            message={subscriptionError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -144,7 +131,7 @@ function SubscriptionDetailDialog({
               <Input
                 id="subscriptionId"
                 type="text"
-                value={subscriptionId || ""}
+                value={subscriptionData.subscriptionId}
                 readOnly
               />
             </div>
@@ -223,14 +210,14 @@ function SubscriptionDetailDialog({
               {!isEdit ? (
                 <Textarea
                   id="features"
-                  rows={2}
+                  rows={6}
                   value={subscriptionData.features}
                   readOnly
                 />
               ) : (
                 <Textarea
                   id="features"
-                  rows={2}
+                  rows={6}
                   placeholder="Nhập tính năng gói đăng ký"
                   defaultValue={subscriptionData.features}
                   {...register("features")}

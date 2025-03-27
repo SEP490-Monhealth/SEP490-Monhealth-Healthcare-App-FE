@@ -16,6 +16,8 @@ import { ExerciseTypeEnum } from "@/constants/enum/Workout"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExercises } from "@/hooks/useExercise"
 
+import { parseBooleanParam } from "@/utils/helpers"
+
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -45,14 +47,7 @@ function ExercisePage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
-  const parsedStatus =
-    status === ""
-      ? undefined
-      : status === "true"
-        ? true
-        : status === "false"
-          ? false
-          : undefined
+  const parsedStatus = parseBooleanParam(status)
 
   const {
     data: exercisesData,

@@ -2,9 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
 import {
-  CreateSubscriptionType,
-  SubscriptionType,
-  UpdateSubscriptionType
+  CreateUpdateSubscriptionType,
+  SubscriptionType
 } from "@/schemas/subscriptionSchema"
 
 import {
@@ -38,7 +37,7 @@ export const useSubscriptionById = (subscriptionId: string) =>
 export const useAddSubscription = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<string, Error, CreateSubscriptionType>({
+  return useMutation<string, Error, CreateUpdateSubscriptionType>({
     mutationFn: addSubscription,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] })
@@ -52,7 +51,7 @@ export const useUpdateSubscription = () => {
   return useMutation<
     string,
     Error,
-    { subscriptionId: string; updatedData: UpdateSubscriptionType }
+    { subscriptionId: string; updatedData: CreateUpdateSubscriptionType }
   >({
     mutationFn: ({ subscriptionId, updatedData }) =>
       updateSubscription(subscriptionId, updatedData),

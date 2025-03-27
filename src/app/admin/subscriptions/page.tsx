@@ -14,6 +14,8 @@ import SubscriptionDetailDialog from "@/components/locals/admin/subscriptions/su
 import { useDebounce } from "@/hooks/useDebounce"
 import { useSubscriptions } from "@/hooks/useSubscription"
 
+import { parseBooleanParam } from "@/utils/helpers"
+
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -45,17 +47,8 @@ function SubscriptionPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
-  const parsedSort =
-    sort === "true" ? true : sort === "false" ? false : undefined
-
-  const parsedStatus =
-    status === ""
-      ? undefined
-      : status === "true"
-        ? true
-        : status === "false"
-          ? false
-          : undefined
+  const parsedSort = parseBooleanParam(sort)
+  const parsedStatus = parseBooleanParam(status)
 
   const {
     data: subscriptionsData,

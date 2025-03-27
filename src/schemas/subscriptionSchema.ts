@@ -45,10 +45,20 @@ export const subscriptionSchema = z.object({
   durationDays: z
     .number({ message: "Thời gian hiệu lực phải là số" })
     .int({ message: "Thời gian hiệu lực phải là số nguyên" })
-    .nonnegative({ message: "Thời gian hiệu lực phải là số ngày lớn hơn 0" }),
-  features: z.array(
-    z.string().nonempty({ message: "Tính năng không được để trống" })
-  ),
+    .nonnegative({
+      message: "Thời gian hiệu lực phải lớn hơn hoặc bằng 0"
+    }),
+  features: z
+    .string()
+    .transform((value) =>
+      value
+        .split("\n")
+        .map((feature) => feature.trim())
+        .filter((feature) => feature !== "")
+    )
+    .refine((features) => features.length > 0, {
+      message: "Gói đăng ký phải có ít nhất một tính năng"
+    }),
 
   bookingAllowance: z
     .number({ message: "Số lần đặt lịch phải là số" })
@@ -61,22 +71,18 @@ export const subscriptionSchema = z.object({
   ...auditFields
 })
 
-export const createSubscriptionSchema = subscriptionSchema.pick({
+export const createUpdateSubscriptionSchema = subscriptionSchema.pick({
   name: true,
   description: true,
   price: true,
   durationDays: true,
   features: true,
-  bookingAllowance: true,
-  status: true
-})
-
-export const updateSubscriptionSchema = createSubscriptionSchema.omit({
-  status: true
+  bookingAllowance: true
 })
 
 export type UserSubscriptionType = z.infer<typeof userSubscription>
 
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
-export type CreateSubscriptionType = z.infer<typeof createSubscriptionSchema>
-export type UpdateSubscriptionType = z.infer<typeof updateSubscriptionSchema>
+export type CreateUpdateSubscriptionType = z.infer<
+  typeof createUpdateSubscriptionSchema
+>

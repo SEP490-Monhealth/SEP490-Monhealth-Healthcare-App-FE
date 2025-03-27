@@ -17,6 +17,8 @@ import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useWorkout } from "@/hooks/useWorkout"
 
+import { parseBooleanParam } from "@/utils/helpers"
+
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -53,11 +55,6 @@ function WorkoutPage() {
 
   const difficultyParam =
     difficulty && !isNaN(Number(difficulty)) ? Number(difficulty) : undefined
-
-  const parseBooleanParam = (param: string): boolean | undefined => {
-    if (param === "") return undefined
-    return param === "true"
-  }
 
   const parsedStatus = parseBooleanParam(status)
 

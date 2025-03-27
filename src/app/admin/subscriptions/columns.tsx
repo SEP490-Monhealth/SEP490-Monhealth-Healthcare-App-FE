@@ -86,7 +86,7 @@ export const createColumns = (
   },
   {
     accessorKey: "price",
-    meta: { title: "Giá (VND)" },
+    meta: { title: "Giá" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Giá (VND)" center />
     ),
@@ -101,9 +101,9 @@ export const createColumns = (
   },
   {
     accessorKey: "durationDays",
-    meta: { title: "Thời gian (Ngày)" },
+    meta: { title: "Thời gian (ngày)" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Thời gian (Ngày)" center />
+      <DataTableColumnHeader column={column} title="Thời gian (ngày)" center />
     ),
     cell: ({ row }) => {
       const durationDays = row.original.durationDays
@@ -186,7 +186,7 @@ export const createColumns = (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const { mutate: updateExerciseStatus } = useSubscriptionStatus()
+      const { mutate: updateSubscriptionStatus } = useSubscriptionStatus()
 
       const subscriptionData = row.original
       const isActive = subscriptionData.status
@@ -203,7 +203,7 @@ export const createColumns = (
       }
 
       const handleConfirm = () => {
-        updateExerciseStatus({
+        updateSubscriptionStatus({
           subscriptionId: subscriptionData.subscriptionId
         })
         setOpenAlert(false)
@@ -263,7 +263,7 @@ export const createColumns = (
             title="Xác nhận thay đổi trạng thái"
             description={`Bạn có chắc muốn ${
               isActive ? "ngừng hoạt động" : "kích hoạt"
-            } gói đăng kí này?`}
+            } gói đăng ký này?`}
           />
         </div>
       )

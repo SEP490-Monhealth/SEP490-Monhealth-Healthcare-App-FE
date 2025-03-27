@@ -14,6 +14,8 @@ import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useFoods } from "@/hooks/useFood"
 
+import { parseBooleanParam } from "@/utils/helpers"
+
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -43,11 +45,6 @@ function FoodPage() {
   const [selectedFood, setSelectedFood] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
-
-  const parseBooleanParam = (param: string): boolean | undefined => {
-    if (param === "") return undefined
-    return param === "true"
-  }
 
   const parsedIsPublic = parseBooleanParam(isPublic)
   const parsedStatus = parseBooleanParam(status)

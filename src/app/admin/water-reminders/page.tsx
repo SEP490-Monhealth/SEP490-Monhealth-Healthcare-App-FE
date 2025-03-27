@@ -14,6 +14,8 @@ import WaterReminderDetailDialog from "@/components/locals/admin/water-reminders
 import { useDebounce } from "@/hooks/useDebounce"
 import { useWaterReminders } from "@/hooks/useWaterReminder"
 
+import { parseBooleanParam } from "@/utils/helpers"
+
 import LoadingPage from "../loading"
 import { createColumns } from "./columns"
 
@@ -43,23 +45,8 @@ function WaterReminderPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
-  const parsedRecurring =
-    recurring === ""
-      ? undefined
-      : status === "true"
-        ? true
-        : status === "false"
-          ? false
-          : undefined
-
-  const parsedStatus =
-    status === ""
-      ? undefined
-      : status === "true"
-        ? true
-        : status === "false"
-          ? false
-          : undefined
+  const parsedRecurring = parseBooleanParam(status)
+  const parsedStatus = parseBooleanParam(status)
 
   const {
     data: waterRemindersData,

@@ -14,21 +14,23 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
-import { Textarea } from "@/components/globals/atoms/textarea"
 
 import { useAddSubscription } from "@/hooks/useSubscription"
 
 import {
-  CreateSubscriptionType,
-  createSubscriptionSchema
+  CreateUpdateSubscriptionType,
+  createUpdateSubscriptionSchema
 } from "@/schemas/subscriptionSchema"
 
-interface AddExerciseDialogProps {
+interface AddSubscriptionDialogProps {
   isOpen: boolean
   onClose: () => void
 }
 
-function AddSubscriptionDialog({ isOpen, onClose }: AddExerciseDialogProps) {
+function AddSubscriptionDialog({
+  isOpen,
+  onClose
+}: AddSubscriptionDialogProps) {
   const { mutate: addSubscription } = useAddSubscription()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -38,20 +40,19 @@ function AddSubscriptionDialog({ isOpen, onClose }: AddExerciseDialogProps) {
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<CreateSubscriptionType>({
-    resolver: zodResolver(createSubscriptionSchema),
+  } = useForm<CreateUpdateSubscriptionType>({
+    resolver: zodResolver(createUpdateSubscriptionSchema),
     defaultValues: {
       name: "",
       description: "",
       price: 0,
       durationDays: 0,
       features: [],
-      bookingAllowance: 0,
-      status: false
+      bookingAllowance: 0
     }
   })
 
-  const onSubmit = async (data: CreateSubscriptionType) => {
+  const onSubmit = async (data: CreateUpdateSubscriptionType) => {
     setIsLoading(true)
 
     const finalData = data
@@ -65,7 +66,7 @@ function AddSubscriptionDialog({ isOpen, onClose }: AddExerciseDialogProps) {
         }
       })
     } catch (error) {
-      console.error("Lỗi khi tạo gói đăng kí:", error)
+      console.error("Lỗi khi tạo gói đăng ký:", error)
     } finally {
       setIsLoading(false)
     }
@@ -77,20 +78,20 @@ function AddSubscriptionDialog({ isOpen, onClose }: AddExerciseDialogProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Tạo gói đăng kí</DialogTitle>
+          <DialogTitle>Tạo gói đăng ký</DialogTitle>
           <DialogDescription>
-            Vui lòng điền đầy đủ thông tin để tạo gói đăng kí mới.
+            Vui lòng điền đầy đủ thông tin để tạo gói đăng ký mới.
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-4">
           <div>
             <div className="space-y-2">
-              <Label htmlFor="name">Tên gói đăng kí</Label>
+              <Label htmlFor="name">Tên gói đăng ký</Label>
               <Input
                 id="name"
                 type="text"
-                placeholder="Nhập tên gói đăng kí"
+                placeholder="Nhập tên gói đăng ký"
                 {...register("name")}
               />
             </div>
@@ -114,7 +115,7 @@ function AddSubscriptionDialog({ isOpen, onClose }: AddExerciseDialogProps) {
             size="lg"
             onClick={handleSubmit(onSubmit)}
           >
-            {isLoading ? "Đang tạo..." : "Tạo gói đăng kí"}
+            {isLoading ? "Đang tạo..." : "Tạo gói đăng ký"}
           </Button>
         </DialogFooter>
       </DialogContent>
