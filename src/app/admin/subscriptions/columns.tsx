@@ -21,7 +21,13 @@ import { SubscriptionType } from "@/schemas/subscriptionSchema"
 
 import { formatCurrency, formatDate } from "@/utils/formatters"
 
-export const columns: ColumnDef<SubscriptionType>[] = [
+export type ColumnActionsHandlers = {
+  onViewDetail: (subscriptionId: string) => void
+}
+
+export const createColumns = (
+  handlers: ColumnActionsHandlers
+): ColumnDef<SubscriptionType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -197,7 +203,11 @@ export const columns: ColumnDef<SubscriptionType>[] = [
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  handlers.onViewDetail(subscriptionData.subscriptionId)
+                }
+              >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>

@@ -12,7 +12,7 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useSubscriptions } from "@/hooks/useSubscription"
 
 import LoadingPage from "../loading"
-import { columns } from "./columns"
+import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   subscriptionId: false,
@@ -35,6 +35,12 @@ function SubscriptionPage() {
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
+
+  const [selectedSubscription, setSelectedSubscription] = useState<
+    string | null
+  >(null)
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedSort =
     sort === "true" ? true : sort === "false" ? false : undefined
@@ -94,12 +100,6 @@ function SubscriptionPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  useEffect(() => {
-    if (debouncedSearch !== search) {
-      updateParams("search", debouncedSearch)
-    }
-  }, [debouncedSearch])
-
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
@@ -109,9 +109,34 @@ function SubscriptionPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const handleAddNewSubscription = () => {
-    console.log("halo anh em")
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
+    }
+  }, [debouncedSearch])
+
+  const handleViewDetail = (subscriptionId: string) => {
+    setSelectedSubscription(subscriptionId)
+    setIsDetailDialogOpen(true)
   }
+
+  const handleCloseDetailDialog = () => {
+    setIsDetailDialogOpen(false)
+    setTimeout(() => setSelectedSubscription(null), 300)
+  }
+
+  const handleAddSubscription = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedSubscription(null), 300)
+  }
+
+  const columns = createColumns({
+    onViewDetail: handleViewDetail
+  })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
@@ -133,7 +158,18 @@ function SubscriptionPage() {
         filters={filters}
         onClearAllFilters={clearAllFilters}
         addNewButton
-        onAddNew={handleAddNewSubscription}
+        onAddNew={handleAddSubscription}
+      />
+
+      <SubscriptionDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleCloseDetailDialog}
+        subscriptionId={selectedSubscription}
+      />
+
+      <AddSubscriptionDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
       />
     </div>
   )
