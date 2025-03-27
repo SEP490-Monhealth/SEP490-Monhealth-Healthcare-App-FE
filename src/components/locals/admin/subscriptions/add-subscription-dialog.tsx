@@ -14,6 +14,7 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
+import { Textarea } from "@/components/globals/atoms/textarea"
 
 import { useAddSubscription } from "@/hooks/useSubscription"
 
@@ -41,15 +42,7 @@ function AddSubscriptionDialog({
     reset,
     formState: { errors }
   } = useForm<CreateUpdateSubscriptionType>({
-    resolver: zodResolver(createUpdateSubscriptionSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      durationDays: 0,
-      features: [],
-      bookingAllowance: 0
-    }
+    resolver: zodResolver(createUpdateSubscriptionSchema)
   })
 
   const onSubmit = async (data: CreateUpdateSubscriptionType) => {
@@ -99,6 +92,98 @@ function AddSubscriptionDialog({
             {errors.name && (
               <p className="mt-1 ml-1 text-sm text-red-600">
                 {errors.name.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <div className="space-y-2">
+              <Label htmlFor="description">Mô tả gói đăng ký</Label>
+              <Textarea
+                id="description"
+                rows={6}
+                placeholder="Nhập mô tả gói đăng ký"
+                {...register("description")}
+              />
+            </div>
+
+            {errors.description && (
+              <p className="mt-1 ml-1 text-sm text-red-600">
+                {errors.description.message}
+              </p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-3 gap-x-6">
+            <div>
+              <div className="space-y-2">
+                <Label htmlFor="price">Giá tiền (VND)</Label>
+                <Input
+                  id="price"
+                  type="number"
+                  placeholder="Nhập giá tiền đăng ký"
+                  {...register("price", { valueAsNumber: true })}
+                />
+              </div>
+
+              {errors.price && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.price.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <div className="space-y-2">
+                <Label htmlFor="durationDays">Thời gian hiệu lực (Ngày)</Label>
+                <Input
+                  id="durationDays"
+                  type="number"
+                  placeholder="Nhập số ngày"
+                  {...register("durationDays", { valueAsNumber: true })}
+                />
+              </div>
+
+              {errors.durationDays && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.durationDays.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <div className="space-y-2">
+                <Label htmlFor="bookingAllowance">Số lần đặt lịch</Label>
+                <Input
+                  id="bookingAllowance"
+                  type="number"
+                  placeholder="Nhập số lần"
+                  {...register("bookingAllowance", { valueAsNumber: true })}
+                />
+              </div>
+
+              {errors.bookingAllowance && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.bookingAllowance.message}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <div className="space-y-2">
+              <Label htmlFor="features">Tính năng gói đăng ký</Label>
+              <Textarea
+                id="features"
+                rows={6}
+                placeholder="Nhập tính năng gói đăng ký"
+                {...register("features")}
+              />
+            </div>
+
+            {errors.features && (
+              <p className="mt-1 ml-1 text-sm text-red-600">
+                {errors.features.message}
               </p>
             )}
           </div>

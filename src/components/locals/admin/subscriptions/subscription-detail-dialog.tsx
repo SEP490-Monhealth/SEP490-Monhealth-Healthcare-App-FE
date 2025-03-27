@@ -81,20 +81,20 @@ function SubscriptionDetailDialog({
     const finalData = data
     console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-    // try {
-    //   await updateSubscription(
-    //     { subscriptionId: subscriptionId || "", updatedData: data },
-    //     {
-    //       onSuccess: () => {
-    //         setIsEdit(false)
-    //         setIsLoadingSave(false)
-    //       }
-    //     }
-    //   )
-    // } catch (error) {
-    //   console.error("Lỗi khi cập nhật gói đăng ký:", error)
-    //   setIsLoadingSave(false)
-    // }
+    try {
+      await updateSubscription(
+        { subscriptionId: subscriptionId || "", updatedData: finalData },
+        {
+          onSuccess: () => {
+            setIsEdit(false)
+            setIsLoadingSave(false)
+          }
+        }
+      )
+    } catch (error) {
+      console.error("Lỗi khi cập nhật gói đăng ký:", error)
+      setIsLoadingSave(false)
+    }
   }
 
   const handleEdit = () => {
