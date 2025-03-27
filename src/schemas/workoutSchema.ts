@@ -24,7 +24,7 @@ const workoutSchema = z.object({
     .string()
     .nonempty({ message: "Tên bộ bài tập không được để trống" })
     .min(3, { message: "Tên bộ bài tập phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên bộ bài tập không được dài hơn 255 ký tự" })
+    .max(50, { message: "Tên bộ bài tập không được dài hơn 50 ký tự" })
     .regex(/^[\p{L} ]+$/u, {
       message: "Tên bộ bài tập chỉ được chứa chữ cái và khoảng trắng"
     }),

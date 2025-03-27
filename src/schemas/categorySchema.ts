@@ -13,7 +13,7 @@ export const categorySchema = z.object({
     .string()
     .nonempty({ message: "Tên danh mục không được để trống" })
     .min(3, { message: "Tên danh mục phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên danh mục không được dài hơn 255 ký tự" })
+    .max(50, { message: "Tên danh mục không được dài hơn 50 ký tự" })
     .regex(/^[\p{L} ]+$/u, {
       message: "Tên danh mục chỉ được chứa chữ cái và khoảng trắng"
     }),

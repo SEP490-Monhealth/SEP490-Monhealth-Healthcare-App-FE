@@ -9,7 +9,7 @@ const allergySchema = z.object({
     .string()
     .nonempty({ message: "Tên dị ứng không được để trống" })
     .min(3, { message: "Tên dị ứng phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên dị ứng không được dài hơn 255 ký tự" })
+    .max(50, { message: "Tên dị ứng không được dài hơn 50 ký tự" })
     .regex(/^[\p{L} ]+$/u, {
       message: "Tên dị ứng chỉ được chứa chữ cái và khoảng trắng"
     }),

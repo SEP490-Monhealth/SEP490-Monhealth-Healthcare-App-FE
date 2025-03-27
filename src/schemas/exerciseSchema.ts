@@ -14,7 +14,7 @@ const exerciseSchema = z.object({
     .string()
     .nonempty({ message: "Tên bài tập không được để trống" })
     .min(3, { message: "Tên bài tập phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên bài tập không được quá 255 ký tự" }),
+    .max(50, { message: "Tên bài tập không được quá 50 ký tự" }),
   instructions: z
     .string()
     .nonempty({ message: "Hướng dẫn món ăn không được để trống" })

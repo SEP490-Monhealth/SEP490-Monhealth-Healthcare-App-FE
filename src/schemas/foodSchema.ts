@@ -17,7 +17,10 @@ export const foodSchema = z.object({
     .string()
     .nonempty({ message: "Tên món ăn không được để trống" })
     .min(3, { message: "Tên món ăn phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên món ăn không được quá 255 ký tự" }),
+    .max(50, { message: "Tên món ăn không được quá 50 ký tự" })
+    .regex(/^[\p{L} ]+$/u, {
+      message: "Tên món ăn chỉ được chứa chữ cái và khoảng trắng"
+    }),
   description: z
     .string()
     .nonempty({ message: "Mô tả món ăn không được để trống" })

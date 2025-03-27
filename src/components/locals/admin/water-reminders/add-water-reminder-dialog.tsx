@@ -55,9 +55,9 @@ function AddWaterReminderDialog({
   } = useForm<CreateUpdateWaterReminderType>({
     resolver: zodResolver(createUpdateWaterReminderSchema),
     defaultValues: {
-      name: "Nhắc nhở uống nước",
-      volume: 250,
-      isRecurring: true
+      name: "",
+      volume: 0,
+      isRecurring: false
     }
   })
 
@@ -68,21 +68,18 @@ function AddWaterReminderDialog({
       const finalData = data
       console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-      // try {
-      //   await addWaterReminder(finalData, {
-      //     onSuccess: () => {
-      //       onClose()
-      //       reset()
-      //     }
-      //   })
+      await addWaterReminder(finalData, {
+        onSuccess: () => {
+          onClose()
+          reset()
+        }
+      })
     } catch (error) {
       console.error("Lỗi khi tạo nhắc nhở:", error)
     } finally {
       setIsLoading(false)
     }
   }
-
-  console.log(errors)
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

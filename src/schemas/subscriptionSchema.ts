@@ -32,7 +32,7 @@ export const subscriptionSchema = z.object({
   name: z
     .string()
     .min(3, { message: "Tên gói đăng ký phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên gói đăng ký không được quá 255 ký tự" }),
+    .max(50, { message: "Tên gói đăng ký không được quá 50 ký tự" }),
   description: z
     .string()
     .nonempty({ message: "Mô tả gói đăng ký không được để trống" })

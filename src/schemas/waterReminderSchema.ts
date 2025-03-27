@@ -10,7 +10,7 @@ export const waterReminderSchema = z.object({
     .string()
     .nonempty({ message: "Tên nhắc nhở không được để trống" })
     .min(3, { message: "Tên nhắc nhở phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên nhắc nhở không được quá 255 ký tự" }),
+    .max(50, { message: "Tên nhắc nhở không được quá 50 ký tự" }),
   time: z
     .string()
     .nonempty({

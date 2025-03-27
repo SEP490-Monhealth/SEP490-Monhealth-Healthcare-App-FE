@@ -33,6 +33,8 @@ const bookingSchema = z.object({
 
   status: BookingStatusSchemaEnum,
 
+  completedAt: z.string(),
+
   ...auditFields
 })
 

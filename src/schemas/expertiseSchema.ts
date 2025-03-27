@@ -9,7 +9,7 @@ export const expertiseSchema = z.object({
     .string()
     .nonempty({ message: "Tên chuyên môn không được để trống" })
     .min(3, { message: "Tên chuyên môn phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Tên chuyên môn không được quá 255 ký tự" }),
+    .max(50, { message: "Tên chuyên môn không được quá 50 ký tự" }),
   description: z
     .string()
     .nonempty({ message: "Mô tả chuyên môn không được để trống" })
