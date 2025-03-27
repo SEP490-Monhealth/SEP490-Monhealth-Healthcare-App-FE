@@ -1,8 +1,11 @@
+import { toast } from "sonner"
+
 import monAPI from "@/lib/monAPI"
 
 import {
-  CreateUpdateSubscriptionType,
-  SubscriptionType
+  CreateSubscriptionType,
+  SubscriptionType,
+  UpdateSubscriptionType
 } from "@/schemas/subscriptionSchema"
 
 interface SubscriptionsResponse {
@@ -57,7 +60,7 @@ export const fetchSubscriptionById = async (
 }
 
 export const addSubscription = async (
-  newSubscriptionData: CreateUpdateSubscriptionType
+  newSubscriptionData: CreateSubscriptionType
 ): Promise<string> => {
   try {
     const response = await monAPI.post("/subscriptions", newSubscriptionData)
@@ -72,5 +75,51 @@ export const addSubscription = async (
   } catch (error) {
     console.error("Error adding subscription:", error)
     throw new Error("Failed to add subscription")
+  }
+}
+
+export const updateSubscription = async (
+  subscriptionId: string,
+  updatedData: UpdateSubscriptionType
+): Promise<string> => {
+  try {
+    const response = await monAPI.put(
+      `/subscriptions/${subscriptionId}`,
+      updatedData
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update subscription")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating subscription:", error)
+    throw new Error("Failed to update subscription")
+  }
+}
+
+export const updateSubscriptionStatus = async (
+  subscriptionId: string
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(
+      `/subscriptions/${subscriptionId}/status`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update subscription status")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    console.error("Error updating subscription status:", error)
+    throw new Error("Failed to update subscription status")
   }
 }

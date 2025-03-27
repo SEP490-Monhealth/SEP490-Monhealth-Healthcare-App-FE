@@ -45,7 +45,7 @@ export const subscriptionSchema = z.object({
   durationDays: z
     .number({ message: "Thời gian hiệu lực phải là số" })
     .int({ message: "Thời gian hiệu lực phải là số nguyên" })
-    .min(1, { message: "Thời gian hiệu lực phải là số ngày lớn hơn 0" }),
+    .nonnegative({ message: "Thời gian hiệu lực phải là số ngày lớn hơn 0" }),
   features: z.array(
     z.string().nonempty({ message: "Tính năng không được để trống" })
   ),
@@ -61,7 +61,7 @@ export const subscriptionSchema = z.object({
   ...auditFields
 })
 
-export const createUpdateSubscriptionSchema = subscriptionSchema.pick({
+export const createSubscriptionSchema = subscriptionSchema.pick({
   name: true,
   description: true,
   price: true,
@@ -71,9 +71,12 @@ export const createUpdateSubscriptionSchema = subscriptionSchema.pick({
   status: true
 })
 
+export const updateSubscriptionSchema = createSubscriptionSchema.omit({
+  status: true
+})
+
 export type UserSubscriptionType = z.infer<typeof userSubscription>
 
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
-export type CreateUpdateSubscriptionType = z.infer<
-  typeof createUpdateSubscriptionSchema
->
+export type CreateSubscriptionType = z.infer<typeof createSubscriptionSchema>
+export type UpdateSubscriptionType = z.infer<typeof updateSubscriptionSchema>
