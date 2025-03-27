@@ -4,10 +4,15 @@ import { ReviewType } from "@/schemas/reviewSchema"
 
 import { fetchReviewById, fetchReviews } from "@/services/reviewService"
 
-export const useReviews = (page: number, limit: number, rating?: number) =>
+export const useReviews = (
+  page: number,
+  limit: number,
+  search?: string,
+  rating?: number
+) =>
   useQuery({
-    queryKey: ["reviews", page, limit, rating],
-    queryFn: () => fetchReviews(page, limit, rating),
+    queryKey: ["reviews", page, limit, search, rating],
+    queryFn: () => fetchReviews(page, limit, search, rating),
     staleTime: 1000 * 60 * 5
   })
 
