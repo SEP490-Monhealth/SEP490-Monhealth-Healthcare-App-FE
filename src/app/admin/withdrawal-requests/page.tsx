@@ -8,7 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import TransactionDetailDialog from "@/components/locals/admin/transactions/transaction-detail-dialog"
+import TransactionWithdrawalDetailDialog from "@/components/locals/admin/withdrawal-requests/withdrawal-requests-detail-dialog"
 
 import {
   TransactionStatusEnum,
@@ -19,7 +19,7 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useTransactions } from "@/hooks/useTransaction"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
+import { createColumns } from "./column"
 
 const DEFAULT_VISIBILITY = {
   transactionId: false,
@@ -34,11 +34,10 @@ function TransactionPage() {
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
-  const type = searchParams.get("type") || ""
+  const type = TransactionTypeEnum.Withdrawal
   const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
 
-  const typeParam = type && !isNaN(Number(type)) ? Number(type) : undefined
   const statusParam =
     status && !isNaN(Number(status)) ? Number(status) : undefined
 
@@ -54,39 +53,11 @@ function TransactionPage() {
     data: transactionsData,
     isLoading,
     error
-  } = useTransactions(page, limit, typeParam, debouncedSearch, statusParam)
+  } = useTransactions(page, limit, type, debouncedSearch, statusParam)
 
   const totalPages = Math.ceil((transactionsData?.totalItems || 1) / limit)
 
   const filters: DataTableFilterProps[] = [
-    {
-      name: "type",
-      label: "Loại giao dịch",
-      options: [
-        {
-          value: String(TransactionTypeEnum.Earning),
-          label: "Thu nhập"
-        },
-        {
-          value: String(TransactionTypeEnum.Withdrawal),
-          label: "Rút tiền"
-        },
-        {
-          value: String(TransactionTypeEnum.Refund),
-          label: "Hoàn tiền"
-        },
-        {
-          value: String(TransactionTypeEnum.Fee),
-          label: "Phí"
-        },
-        {
-          value: String(TransactionTypeEnum.Bonus),
-          label: "Tiền thưởng"
-        }
-      ],
-      value: type !== undefined ? String(type) : "",
-      onChange: (value: string) => updateParams("type", value)
-    },
     {
       name: "status",
       label: "Trạng thái",
@@ -122,7 +93,6 @@ function TransactionPage() {
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
-    params.delete("type")
     params.delete("status")
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
@@ -168,7 +138,7 @@ function TransactionPage() {
         onClearAllFilters={clearAllFilters}
       />
 
-      <TransactionDetailDialog
+      <TransactionWithdrawalDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
         transactionId={selectedTransaction}
