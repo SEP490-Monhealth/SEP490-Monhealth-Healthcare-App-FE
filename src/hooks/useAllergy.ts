@@ -26,7 +26,8 @@ export const useAllergyById = (allergyId: string) =>
   useQuery<AllergyType, Error>({
     queryKey: ["allergy", allergyId],
     queryFn: () => fetchAllergyById(allergyId),
-    enabled: !!allergyId
+    enabled: !!allergyId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddAllergy = () => {

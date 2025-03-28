@@ -29,5 +29,6 @@ export const useCertificateById = (certificateId: string) =>
   useQuery<CertificateType, Error>({
     queryKey: ["certificate", certificateId],
     queryFn: () => fetchCertificateById(certificateId),
-    enabled: !!certificateId
+    enabled: !!certificateId,
+    staleTime: 1000 * 60 * 5
   })

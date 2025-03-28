@@ -39,7 +39,8 @@ export const useExerciseById = (exerciseId: string) =>
   useQuery<ExerciseType, Error>({
     queryKey: ["exercise", exerciseId],
     queryFn: () => fetchExerciseById(exerciseId),
-    enabled: !!exerciseId
+    enabled: !!exerciseId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddExercise = () => {

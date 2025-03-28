@@ -3,11 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
@@ -19,7 +14,10 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
+import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import {
   TransactionStatusEnum,
@@ -30,8 +28,7 @@ import {
 
 import { TransactionType } from "@/schemas/transactionSchema"
 
-import { formatCurrency, formatDate } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
+import { formatCurrency } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (transactionId: string) => void
@@ -75,18 +72,16 @@ export const createColumns = (
     accessorKey: "type",
     meta: { title: "Loại giao dịch" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loại giao dịch" center />
+      <DataTableColumnHeader column={column} title="Loại giao dịch" />
     ),
     cell: ({ row }) => {
       const type = row.original.type as TransactionTypeEnum
       const { label, color } = getTransactionTypeMeta(type)
 
       return (
-        <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
-        </div>
+        <Badge className="text-white" style={{ backgroundColor: color }}>
+          {label}
+        </Badge>
       )
     }
   },
@@ -97,22 +92,13 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.consultant.fullName
-      const email = row.original.consultant.email
-      const avatarUrl = row.original.consultant.avatarUrl
+      const consultant = {
+        fullName: row.original.consultant.fullName,
+        email: row.original.consultant.email,
+        avatarUrl: row.original.consultant.avatarUrl
+      }
 
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
+      return <DataTableCellUser user={consultant} />
     }
   },
   {
@@ -135,7 +121,7 @@ export const createColumns = (
     header: "Mô tả",
     cell: ({ row }) => {
       const description = row.original.description
-      return <span className="block max-w-[320px] truncate">{description}</span>
+      return <DataTableCellDescription description={description} />
     }
   },
   {
@@ -165,7 +151,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -183,7 +169,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

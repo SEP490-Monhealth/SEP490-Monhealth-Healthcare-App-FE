@@ -39,5 +39,6 @@ export const useFoodById = (foodId: string) =>
   useQuery<FoodType, Error>({
     queryKey: ["food", foodId],
     queryFn: () => fetchFoodById(foodId),
-    enabled: !!foodId
+    enabled: !!foodId,
+    staleTime: 1000 * 60 * 5
   })

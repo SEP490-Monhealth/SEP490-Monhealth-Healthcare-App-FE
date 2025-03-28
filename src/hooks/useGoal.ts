@@ -8,5 +8,6 @@ export const useGoalsByUserId = (userId: string) =>
   useQuery<GoalType[], Error>({
     queryKey: ["goals", userId],
     queryFn: () => fetchGoalsByUserId(userId),
-    enabled: !!userId
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5
   })

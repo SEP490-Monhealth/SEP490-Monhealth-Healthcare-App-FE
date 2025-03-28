@@ -32,7 +32,8 @@ export const useUserById = (userId: string) =>
   useQuery<UserType, Error>({
     queryKey: ["user", userId],
     queryFn: () => fetchUserById(userId),
-    enabled: !!userId
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddUser = () => {

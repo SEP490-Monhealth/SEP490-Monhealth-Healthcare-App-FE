@@ -22,8 +22,8 @@ export const usePortionsByFoodId = (
     queryKey: ["portions", foodId, page, limit, search, sort, order],
     queryFn: () =>
       fetchPortionsByFoodId(foodId, page, limit, search, sort, order),
-    staleTime: 1000 * 60 * 5,
-    enabled: !!foodId
+    enabled: !!foodId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddPortion = () => {

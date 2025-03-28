@@ -3,11 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
@@ -19,7 +14,10 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
+import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import {
   BookingStatusEnum,
@@ -28,8 +26,7 @@ import {
 
 import { BookingType } from "@/schemas/bookingSchema"
 
-import { formatDate, formatDateAndHour } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
+import { formatDatetime } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (bookingId: string) => void
@@ -76,22 +73,8 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.member.fullName
-      const email = row.original.member.email
-      const avatarUrl = row.original.member.avatarUrl
-
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
+      const member = row.original.member
+      return <DataTableCellUser user={member} />
     }
   },
   {
@@ -101,22 +84,8 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.consultant.fullName
-      const email = row.original.consultant.email
-      const avatarUrl = row.original.consultant.avatarUrl
-
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
+      const consultant = row.original.consultant
+      return <DataTableCellUser user={consultant} />
     }
   },
   {
@@ -147,9 +116,7 @@ export const createColumns = (
     cell: ({ row }) => {
       const date = row.original.date
       return (
-        <span className="flex justify-center pr-4">
-          {formatDateAndHour(date)}
-        </span>
+        <span className="flex justify-center pr-4">{formatDatetime(date)}</span>
       )
     }
   },
@@ -158,11 +125,7 @@ export const createColumns = (
     header: "Ghi chú",
     cell: ({ row }) => {
       const notes = row.original.notes
-      return (
-        <span className="block max-w-[320px] truncate">
-          {notes ? notes : "--"}
-        </span>
-      )
+      return notes ? <DataTableCellDescription description={notes} /> : "--"
     }
   },
   {
@@ -170,10 +133,10 @@ export const createColumns = (
     header: "Lý do hủy",
     cell: ({ row }) => {
       const cancellationReason = row.original.cancellationReason
-      return (
-        <span className="block max-w-[320px] truncate">
-          {cancellationReason ? cancellationReason : "--"}
-        </span>
+      return cancellationReason ? (
+        <DataTableCellDescription description={cancellationReason} />
+      ) : (
+        "--"
       )
     }
   },
@@ -185,7 +148,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -203,7 +166,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

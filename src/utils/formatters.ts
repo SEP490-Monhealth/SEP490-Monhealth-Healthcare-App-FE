@@ -100,10 +100,10 @@ export function formatPhoneNumber(phone: string): string {
  * @returns Chuỗi ngày giờ đã được định dạng.
  *
  * @example
- * formatDateAndHour("2024-03-15T14:30:00") => "14:30, 15/03/2024"
- * formatDateAndHour(new Date(2024, 2, 15, 14, 30, 0)) => "14:30, 15/03/2024"
+ * formatDatetime("2024-03-15T14:30:00") => "14:30, 15/03/2024"
+ * formatDatetime(new Date(2024, 2, 15, 14, 30, 0)) => "14:30, 15/03/2024"
  */
-export function formatDateAndHour(dateTime: Date | string): string {
+export function formatDatetime(dateTime: Date | string): string {
   if (!dateTime) return ""
 
   const d = typeof dateTime === "string" ? new Date(dateTime) : dateTime

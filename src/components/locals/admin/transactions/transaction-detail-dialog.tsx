@@ -18,6 +18,7 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
+import { Textarea } from "@/components/globals/atoms/textarea"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
@@ -170,9 +171,9 @@ function TransactionDetailDialog({
 
             <div className="col-span-2 space-y-2">
               <Label htmlFor="description">Mô tả</Label>
-              <Input
+              <Textarea
                 id="description"
-                type="text"
+                rows={4}
                 value={transactionData.description}
                 readOnly
               />

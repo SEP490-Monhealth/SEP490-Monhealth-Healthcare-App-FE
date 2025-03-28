@@ -37,7 +37,8 @@ export const useSubscriptionById = (subscriptionId: string) =>
   useQuery<SubscriptionType, Error>({
     queryKey: ["subscription", subscriptionId],
     queryFn: () => fetchSubscriptionById(subscriptionId),
-    enabled: !!subscriptionId
+    enabled: !!subscriptionId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddSubscription = () => {

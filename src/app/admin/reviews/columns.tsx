@@ -3,11 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
 import {
@@ -18,12 +13,12 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
+import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import { ReviewType } from "@/schemas/reviewSchema"
-
-import { formatDate } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (reviewId: string) => void
@@ -70,22 +65,13 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.member.fullName
-      const email = row.original.member.email
-      const avatarUrl = row.original.member.avatarUrl
+      const member = {
+        fullName: row.original.member.fullName,
+        email: row.original.member.email,
+        avatarUrl: row.original.member.avatarUrl
+      }
 
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
+      return <DataTableCellUser user={member} />
     }
   },
   {
@@ -109,11 +95,7 @@ export const createColumns = (
     header: "Phản hồi",
     cell: ({ row }) => {
       const comment = row.original.comment
-      return (
-        <span className="block max-w-[320px] truncate">
-          {comment}
-        </span>
-      )
+      return <DataTableCellDescription description={comment} />
     }
   },
   {
@@ -124,7 +106,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -135,7 +117,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

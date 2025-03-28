@@ -13,11 +13,11 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import { ExpertiseType } from "@/schemas/expertiseSchema"
-
-import { formatDate } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (expertiseId: string) => void
@@ -69,11 +69,7 @@ export const createColumns = (
     header: "Mô tả",
     cell: ({ row }) => {
       const description = row.original.description
-      return (
-        <span title={description} className="block max-w-[320px] truncate">
-          {description}
-        </span>
-      )
+      return <DataTableCellDescription description={description} />
     }
   },
   {
@@ -84,7 +80,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -102,7 +98,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

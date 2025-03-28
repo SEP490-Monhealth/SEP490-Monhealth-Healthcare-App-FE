@@ -51,7 +51,8 @@ export const useWorkoutById = (workoutId: string) =>
   useQuery<WorkoutType, Error>({
     queryKey: ["workout", workoutId],
     queryFn: () => fetchWorkoutById(workoutId),
-    enabled: !!workoutId
+    enabled: !!workoutId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddWorkout = () => {

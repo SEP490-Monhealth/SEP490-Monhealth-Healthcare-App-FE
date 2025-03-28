@@ -3,11 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
@@ -18,19 +13,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger
-} from "@/components/globals/atoms/hover-card"
 import { Separator } from "@/components/globals/atoms/separator"
 
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
+import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
-import { formatDate, formatPhoneNumber } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
+import { formatPhoneNumber } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (consultantId: string) => void
@@ -77,22 +69,13 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Họ tên" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.fullName
-      const email = row.original.email
-      const avatarUrl = row.original.avatarUrl
+      const consultant = {
+        fullName: row.original.fullName,
+        email: row.original.email,
+        avatarUrl: row.original.avatarUrl
+      }
 
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
+      return <DataTableCellUser user={consultant} />
     }
   },
   {
@@ -121,14 +104,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const bio = row.original.bio
-      return (
-        <HoverCard>
-          <HoverCardTrigger className="block max-w-[320px] cursor-pointer truncate hover:underline">
-            {bio}
-          </HoverCardTrigger>
-          <HoverCardContent className="w-96">{bio}</HoverCardContent>
-        </HoverCard>
-      )
+      return <DataTableCellDescription description={bio} />
     }
   },
   {
@@ -212,7 +188,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -223,7 +199,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

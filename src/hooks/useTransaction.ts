@@ -39,7 +39,8 @@ export const useTransactionById = (transactionId: string) =>
   useQuery<TransactionType, Error>({
     queryKey: ["transaction", transactionId],
     queryFn: () => fetchTransactionById(transactionId),
-    enabled: !!transactionId
+    enabled: !!transactionId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useUpdateTransactionStatus = () => {

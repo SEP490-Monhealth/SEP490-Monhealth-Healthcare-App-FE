@@ -8,5 +8,6 @@ export const useMetricsByUserId = (userId: string) =>
   useQuery<MetricType[], Error>({
     queryKey: ["metrics", userId],
     queryFn: () => fetchMetricsByUserId(userId),
-    enabled: !!userId
+    enabled: !!userId,
+    staleTime: 1000 * 60 * 5
   })

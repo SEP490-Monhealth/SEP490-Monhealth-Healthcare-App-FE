@@ -26,5 +26,6 @@ export const useReviewById = (reviewId: string) =>
   useQuery<ReviewType, Error>({
     queryKey: ["review", reviewId],
     queryFn: () => fetchReviewById(reviewId),
-    enabled: !!reviewId
+    enabled: !!reviewId,
+    staleTime: 1000 * 60 * 5
   })

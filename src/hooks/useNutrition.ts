@@ -11,7 +11,8 @@ export const useNutritionByFoodId = (foodId: string) =>
   useQuery<NutritionType, Error>({
     queryKey: ["nutrition", foodId],
     queryFn: () => fetchNutritionByFoodId(foodId),
-    enabled: !!foodId
+    enabled: !!foodId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useUpdateNutrition = () => {

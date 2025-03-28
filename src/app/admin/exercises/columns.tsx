@@ -18,13 +18,13 @@ import {
 import { Separator } from "@/components/globals/atoms/separator"
 
 import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import { useExerciseStatus } from "@/hooks/useExercise"
 
 import { ExerciseType } from "@/schemas/exerciseSchema"
-
-import { formatDate } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (exerciseId: string) => void
@@ -76,9 +76,7 @@ export const createColumns = (
     header: "Hướng dẫn",
     cell: ({ row }) => {
       const instructions = row.original.instructions
-      return (
-        <span className="block max-w-[320px] truncate">{instructions}</span>
-      )
+      return <DataTableCellDescription description={instructions} />
     }
   },
   {
@@ -123,7 +121,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -141,7 +139,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

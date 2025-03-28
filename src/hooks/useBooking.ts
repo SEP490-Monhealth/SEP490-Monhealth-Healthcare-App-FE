@@ -28,5 +28,6 @@ export const useBookingById = (bookingId: string) =>
   useQuery<BookingType, Error>({
     queryKey: ["booking", bookingId],
     queryFn: () => fetchBookingById(bookingId),
-    enabled: !!bookingId
+    enabled: !!bookingId,
+    staleTime: 1000 * 60 * 5
   })

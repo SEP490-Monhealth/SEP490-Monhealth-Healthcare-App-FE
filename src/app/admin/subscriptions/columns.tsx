@@ -18,13 +18,15 @@ import {
 import { Separator } from "@/components/globals/atoms/separator"
 
 import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import { useSubscriptionStatus } from "@/hooks/useSubscription"
 
 import { SubscriptionType } from "@/schemas/subscriptionSchema"
 
-import { formatCurrency, formatDate } from "@/utils/formatters"
+import { formatCurrency } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (subscriptionId: string) => void
@@ -77,11 +79,7 @@ export const createColumns = (
     header: "Mô tả",
     cell: ({ row }) => {
       const description = row.original.description
-      return (
-        <span title={description} className="block max-w-[320px] truncate">
-          {description}
-        </span>
-      )
+      return <DataTableCellDescription description={description} />
     }
   },
   {
@@ -112,7 +110,11 @@ export const createColumns = (
   },
   {
     accessorKey: "features",
-    header: "Tính năng"
+    header: "Tính năng",
+    cell: ({ row }) => {
+      const features = row.original.features
+      return <DataTableCellDescription description={features} />
+    }
   },
   {
     accessorKey: "bookingAllowance",
@@ -152,7 +154,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -170,7 +172,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

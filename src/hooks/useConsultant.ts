@@ -34,7 +34,8 @@ export const useConsultantById = (consultantId: string) =>
   useQuery<ConsultantType, Error>({
     queryKey: ["consultant", consultantId],
     queryFn: () => fetchConsultantById(consultantId),
-    enabled: !!consultantId
+    enabled: !!consultantId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useConsultantStatus = () => {

@@ -37,7 +37,8 @@ export const useCategoryById = (categoryId: string) =>
   useQuery<CategoryType, Error>({
     queryKey: ["category", categoryId],
     queryFn: () => fetchCategoryById(categoryId),
-    enabled: !!categoryId
+    enabled: !!categoryId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddCategory = () => {

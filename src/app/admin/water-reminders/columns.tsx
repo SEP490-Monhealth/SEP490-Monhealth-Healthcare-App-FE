@@ -16,10 +16,9 @@ import {
 import { Separator } from "@/components/globals/atoms/separator"
 
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import { WaterReminderType } from "@/schemas/waterReminderSchema"
-
-import { formatDate } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (waterReminder: string) => void
@@ -132,7 +131,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
   },
   {
@@ -150,7 +149,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
   },
   {

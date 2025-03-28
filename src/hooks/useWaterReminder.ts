@@ -34,7 +34,8 @@ export const useWaterReminderById = (waterReminderId: string) =>
   useQuery<WaterReminderType, Error>({
     queryKey: ["water-reminder", waterReminderId],
     queryFn: () => fetchWaterReminderById(waterReminderId),
-    enabled: !!waterReminderId
+    enabled: !!waterReminderId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddWaterReminder = () => {

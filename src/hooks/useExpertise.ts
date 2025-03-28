@@ -30,7 +30,8 @@ export const useExpertiseById = (expertiseId: string) =>
   useQuery<ExpertiseType, Error>({
     queryKey: ["expertise", expertiseId],
     queryFn: () => fetchExpertiseById(expertiseId),
-    enabled: !!expertiseId
+    enabled: !!expertiseId,
+    staleTime: 1000 * 60 * 5
   })
 
 export const useAddExpertise = () => {
