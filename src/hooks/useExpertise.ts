@@ -13,8 +13,14 @@ import {
   updateExpertise
 } from "@/services/expertiseService"
 
+interface ExpertiseResponse {
+  totalPages: number
+  totalItems: number
+  expertise: ExpertiseType[]
+}
+
 export const useExpertise = (page: number, limit: number, search?: string) =>
-  useQuery({
+  useQuery<ExpertiseResponse, Error>({
     queryKey: ["expertises", page, limit, search],
     queryFn: () => fetchExpertise(page, limit, search),
     staleTime: 1000 * 60 * 5

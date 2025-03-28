@@ -4,6 +4,12 @@ import { FoodType } from "@/schemas/foodSchema"
 
 import { fetchFoodById, fetchFoods } from "@/services/foodService"
 
+interface FoodsResponse {
+  totalPages: number
+  totalItems: number
+  foods: FoodType[]
+}
+
 export const useFoods = (
   page: number,
   limit: number,
@@ -13,7 +19,7 @@ export const useFoods = (
   popular?: boolean,
   status?: boolean
 ) =>
-  useQuery({
+  useQuery<FoodsResponse, Error>({
     queryKey: [
       "foods",
       page,

@@ -9,6 +9,12 @@ import {
   updateUserStatus
 } from "@/services/userService"
 
+interface UsersResponse {
+  totalPages: number
+  totalItems: number
+  users: UserType[]
+}
+
 export const useUsers = (
   page: number,
   limit: number,
@@ -16,7 +22,7 @@ export const useUsers = (
   role?: string,
   status?: boolean
 ) =>
-  useQuery({
+  useQuery<UsersResponse, Error>({
     queryKey: ["users", page, limit, search, role, status],
     queryFn: () => fetchUsers(page, limit, search, role, status),
     staleTime: 1000 * 60 * 5

@@ -9,6 +9,12 @@ import {
   updateConsultantStatus
 } from "@/services/consultantService"
 
+interface ConsultantsResponse {
+  totalPages: number
+  totalItems: number
+  consultants: ConsultantType[]
+}
+
 export const useConsultants = (
   page: number,
   limit: number,
@@ -17,7 +23,7 @@ export const useConsultants = (
   verified?: boolean,
   status?: boolean
 ) =>
-  useQuery({
+  useQuery<ConsultantsResponse, Error>({
     queryKey: ["consultants", page, limit, expertise, search, verified, status],
     queryFn: () =>
       fetchConsultants(page, limit, expertise, search, verified, status),

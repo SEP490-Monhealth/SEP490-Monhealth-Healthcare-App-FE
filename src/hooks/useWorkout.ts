@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
 
 import {
   CreateWorkoutType,
@@ -17,6 +16,12 @@ import {
 
 import { DifficultyLevelEnum } from "./../constants/enum/Workout"
 
+interface WorkoutsResponse {
+  totalPages: number
+  totalItems: number
+  workouts: WorkoutType[]
+}
+
 export const useWorkout = (
   page: number,
   limit: number,
@@ -26,7 +31,7 @@ export const useWorkout = (
   popular?: boolean,
   status?: boolean
 ) =>
-  useQuery({
+  useQuery<WorkoutsResponse, Error>({
     queryKey: [
       "workouts",
       page,

@@ -16,6 +16,12 @@ import {
   updateTransactionStatus
 } from "@/services/transactionService"
 
+interface TransactionsResponse {
+  totalPages: number
+  totalItems: number
+  transactions: TransactionType[]
+}
+
 export const useTransactions = (
   page: number,
   limit: number,
@@ -23,7 +29,7 @@ export const useTransactions = (
   transactionType?: TransactionTypeEnum,
   status?: TransactionStatusEnum
 ) =>
-  useQuery({
+  useQuery<TransactionsResponse, Error>({
     queryKey: ["transactions", page, limit, search, transactionType, status],
     queryFn: () =>
       fetchTransactions(page, limit, search, transactionType, status),

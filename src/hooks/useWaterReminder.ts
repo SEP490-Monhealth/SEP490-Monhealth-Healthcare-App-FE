@@ -11,6 +11,12 @@ import {
   fetchWaterReminders
 } from "@/services/waterReminderService"
 
+interface WaterReminderResponse {
+  totalPages: number
+  totalItems: number
+  waterReminders: WaterReminderType[]
+}
+
 export const useWaterReminders = (
   page: number,
   limit: number,
@@ -18,15 +24,15 @@ export const useWaterReminders = (
   recurring?: boolean,
   status?: boolean
 ) =>
-  useQuery({
-    queryKey: ["waterReminders", page, limit, search, recurring, status],
+  useQuery<WaterReminderResponse, Error>({
+    queryKey: ["water-reminders", page, limit, search, recurring, status],
     queryFn: () => fetchWaterReminders(page, limit, search, recurring, status),
     staleTime: 1000 * 60 * 5
   })
 
 export const useWaterReminderById = (waterReminderId: string) =>
   useQuery<WaterReminderType, Error>({
-    queryKey: ["waterReminder", waterReminderId],
+    queryKey: ["water-reminder", waterReminderId],
     queryFn: () => fetchWaterReminderById(waterReminderId),
     enabled: !!waterReminderId
   })
@@ -37,7 +43,7 @@ export const useAddWaterReminder = () => {
   return useMutation<WaterReminderType, Error, CreateUpdateWaterReminderType>({
     mutationFn: addWaterReminder,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["WaterReminders"] })
+      queryClient.invalidateQueries({ queryKey: ["water-reminders"] })
     }
   })
 }

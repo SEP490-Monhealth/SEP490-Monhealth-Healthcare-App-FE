@@ -50,9 +50,10 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: UserCheck,
     children: [
+      { title: "Danh sách chuyên môn", path: "/admin/consultants/expertise" },
       { title: "Danh sách chuyên viên", path: "/admin/consultants" },
       { title: "Hồ sơ đăng ký", path: "/admin/consultants/applications" },
-      { title: "Danh sách chuyên môn", path: "/admin/consultants/expertise" }
+      { title: "Thông tin thanh toán", path: "/admin/consultants/banks" }
     ]
   },
   {
@@ -123,18 +124,6 @@ export const sidebarItems: SidebarItem[] = [
     children: [
       { title: "Danh sách danh mục", path: "/admin/categories" },
       { title: "Danh sách dị ứng", path: "/admin/allergies" }
-    ]
-  },
-  {
-    title: "Ngân hàng",
-    path: "#",
-    icon: CreditCard,
-    children: [
-      { title: "Danh sách ngân hàng", path: "/admin/banks" },
-      {
-        title: "Ngân hàng chuyên viên",
-        path: "/admin/consultant-banks"
-      }
     ]
   }
 ]

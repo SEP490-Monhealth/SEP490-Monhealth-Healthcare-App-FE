@@ -23,11 +23,9 @@ import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import { useFoodById } from "@/hooks/useFood"
 import { useNutritionByFoodId } from "@/hooks/useNutrition"
-import { usePortionsByFoodId } from "@/hooks/usePortion"
 
 import FoodDetailTabDialog from "./food-detail-tab-dialog"
 import FoodNutritionTabDialog from "./food-nutrition-tab-dialog"
-import FoodPortionTabDialog from "./food-portion-tab-dialog"
 
 interface FoodDetailDialogProps {
   isOpen: boolean
@@ -48,14 +46,8 @@ function FoodDetailDialog({ isOpen, onClose, foodId }: FoodDetailDialogProps) {
     error: nutritionError
   } = useNutritionByFoodId(foodId || "")
 
-  const {
-    data: portionsData,
-    isLoading: isPortionsLoading,
-    error: portionsError
-  } = usePortionsByFoodId(foodId || "")
-
-  const isLoading = isFoodLoading || isNutritionLoading || isPortionsLoading
-  const hasError = foodError || nutritionError || portionsError
+  const isLoading = isFoodLoading || isNutritionLoading
+  const hasError = foodError || nutritionError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -90,12 +82,6 @@ function FoodDetailDialog({ isOpen, onClose, foodId }: FoodDetailDialogProps) {
               >
                 Dinh dưỡng
               </TabsTrigger>
-              <TabsTrigger
-                value="food-portions"
-                className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                Khẩu phần
-              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="food-detail" className="w-full">
@@ -106,10 +92,6 @@ function FoodDetailDialog({ isOpen, onClose, foodId }: FoodDetailDialogProps) {
               {nutritionData && (
                 <FoodNutritionTabDialog nutritionData={nutritionData} />
               )}
-            </TabsContent>
-
-            <TabsContent value="food-portions" className="w-full">
-              <FoodPortionTabDialog portionsData={portionsData || []} />
             </TabsContent>
           </Tabs>
         )}

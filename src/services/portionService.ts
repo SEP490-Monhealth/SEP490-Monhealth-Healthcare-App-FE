@@ -4,11 +4,24 @@ import monAPI from "@/lib/monAPI"
 
 import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
+interface PortionsResponse {
+  totalPages: number
+  totalItems: number
+  portions: PortionType[]
+}
+
 export const fetchPortionsByFoodId = async (
-  foodId: string
-): Promise<PortionType[]> => {
+  foodId: string,
+  page: number,
+  limit: number,
+  search?: string,
+  sort?: string,
+  order?: string
+): Promise<PortionsResponse> => {
   try {
-    const response = await monAPI.get(`/portions/food/${foodId}`)
+    const response = await monAPI.get(`/portions/food/${foodId}`, {
+      params: { page, limit, search, sort, order }
+    })
 
     const { success, message, data } = response.data
 

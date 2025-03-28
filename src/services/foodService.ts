@@ -52,8 +52,7 @@ export const fetchFoodById = async (foodId: string): Promise<FoodType> => {
 
     return data
   } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch food"
+    const errorMessage = error.response?.data?.message || "Failed to fetch food"
     toast.error(errorMessage)
     throw new Error(errorMessage)
   }

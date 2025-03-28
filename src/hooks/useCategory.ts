@@ -15,13 +15,19 @@ import {
   updateCategory
 } from "@/services/categoryService"
 
+interface CategoriesResponse {
+  totalPages: number
+  totalItems: number
+  categories: CategoryType[]
+}
+
 export const useCategories = (
   page: number,
   limit: number,
   type?: CategoryTypeEnum,
   search?: string
 ) =>
-  useQuery({
+  useQuery<CategoriesResponse, Error>({
     queryKey: ["categories", page, limit, type, search],
     queryFn: () => fetchCategories(page, limit, type, search),
     staleTime: 1000 * 60 * 5

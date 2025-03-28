@@ -7,13 +7,19 @@ import {
   fetchCertificates
 } from "@/services/certificateService"
 
+interface CertificatesResponse {
+  totalPages: number
+  totalItems: number
+  certificates: CertificateType[]
+}
+
 export const useCertificates = (
   page: number,
   limit: number,
   search?: string,
   verified?: boolean
 ) =>
-  useQuery({
+  useQuery<CertificatesResponse, Error>({
     queryKey: ["certificates", page, limit, search, verified],
     queryFn: () => fetchCertificates(page, limit, search, verified),
     staleTime: 1000 * 60 * 5

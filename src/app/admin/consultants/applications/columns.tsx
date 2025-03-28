@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Check, Copy, Eye, MoreHorizontal, X } from "lucide-react"
+import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import {
   Avatar,
@@ -22,7 +22,6 @@ import {
   HoverCardContent,
   HoverCardTrigger
 } from "@/components/globals/atoms/hover-card"
-import { Separator } from "@/components/globals/atoms/separator"
 
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 

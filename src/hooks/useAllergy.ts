@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
 
 import { AllergyType, CreateUpdateAllergyType } from "@/schemas/allergySchema"
 
@@ -10,8 +9,14 @@ import {
   updateAllergy
 } from "@/services/allergyService"
 
+interface AllergiesResponse {
+  totalPages: number
+  totalItems: number
+  allergies: AllergyType[]
+}
+
 export const useAllergies = (page: number, limit: number, search?: string) =>
-  useQuery({
+  useQuery<AllergiesResponse, Error>({
     queryKey: ["allergies", page, limit, search],
     queryFn: () => fetchAllergies(page, limit, search),
     staleTime: 1000 * 60 * 5

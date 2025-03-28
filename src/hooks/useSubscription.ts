@@ -14,6 +14,12 @@ import {
   updateSubscriptionStatus
 } from "@/services/subscriptionService"
 
+interface SubscriptionsResponse {
+  totalPages: number
+  totalItems: number
+  subscriptions: SubscriptionType[]
+}
+
 export const useSubscriptions = (
   page: number,
   limit: number,
@@ -21,7 +27,7 @@ export const useSubscriptions = (
   sort?: boolean,
   status?: boolean
 ) =>
-  useQuery({
+  useQuery<SubscriptionsResponse, Error>({
     queryKey: ["subscriptions", page, limit, search, sort, status],
     queryFn: () => fetchSubscriptions(page, limit, search, sort, status),
     staleTime: 1000 * 60 * 5

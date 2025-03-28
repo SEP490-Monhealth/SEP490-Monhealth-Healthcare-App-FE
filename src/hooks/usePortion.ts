@@ -4,10 +4,25 @@ import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
 import { addPortion, fetchPortionsByFoodId } from "@/services/portionService"
 
-export const usePortionsByFoodId = (foodId: string) =>
-  useQuery<PortionType[], Error>({
-    queryKey: ["portions", foodId],
-    queryFn: () => fetchPortionsByFoodId(foodId),
+interface PortionsResponse {
+  totalPages: number
+  totalItems: number
+  portions: PortionType[]
+}
+
+export const usePortionsByFoodId = (
+  foodId: string,
+  page: number,
+  limit: number,
+  search?: string,
+  sort?: string,
+  order?: string
+) =>
+  useQuery<PortionsResponse, Error>({
+    queryKey: ["portions", foodId, page, limit, search, sort, order],
+    queryFn: () =>
+      fetchPortionsByFoodId(foodId, page, limit, search, sort, order),
+    staleTime: 1000 * 60 * 5,
     enabled: !!foodId
   })
 

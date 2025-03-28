@@ -12,7 +12,7 @@ import AddUserDialog from "@/components/locals/admin/users/add-user-dialog"
 import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
-import { usePortions } from "@/hooks/usePortion"
+import { usePortionsByFoodId } from "@/hooks/usePortion"
 
 import LoadingPage from "../../loading"
 import { createColumns } from "./columns"
@@ -28,6 +28,7 @@ function PortionPage() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
+  const foodId = searchParams.get("foodId") || ""
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
@@ -45,7 +46,7 @@ function PortionPage() {
     data: portionsData,
     isLoading,
     error
-  } = usePortions(page, limit, debouncedSearch, sort, order)
+  } = usePortionsByFoodId(foodId, page, limit, debouncedSearch, sort, order)
 
   const totalPages = Math.ceil((portionsData?.totalItems || 1) / limit)
 
@@ -54,8 +55,8 @@ function PortionPage() {
       name: "sort",
       label: "Sắp xếp",
       options: [
-        { value: "portionSize", label: "Khẩu phần" },
-        { value: "portionWeight", label: "Định lượng" }
+        { value: "size", label: "Khẩu phần" },
+        { value: "weight", label: "Định lượng" }
       ],
       value: sort,
       onChange: (value: string) => updateParams("sort", value)
