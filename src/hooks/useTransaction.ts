@@ -25,14 +25,13 @@ interface TransactionsResponse {
 export const useTransactions = (
   page: number,
   limit: number,
+  type?: TransactionTypeEnum,
   search?: string,
-  transactionType?: TransactionTypeEnum,
   status?: TransactionStatusEnum
 ) =>
   useQuery<TransactionsResponse, Error>({
-    queryKey: ["transactions", page, limit, search, transactionType, status],
-    queryFn: () =>
-      fetchTransactions(page, limit, search, transactionType, status),
+    queryKey: ["transactions", page, limit, search, type, status],
+    queryFn: () => fetchTransactions(page, limit, type, search, status),
     staleTime: 1000 * 60 * 5
   })
 

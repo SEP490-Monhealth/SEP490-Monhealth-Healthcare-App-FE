@@ -72,6 +72,25 @@ export const createColumns = (
     )
   },
   {
+    accessorKey: "type",
+    meta: { title: "Loại giao dịch" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Loại giao dịch" center />
+    ),
+    cell: ({ row }) => {
+      const type = row.original.type as TransactionTypeEnum
+      const { label, color } = getTransactionTypeMeta(type)
+
+      return (
+        <div className="flex justify-center pr-4">
+          <Badge className="text-white" style={{ backgroundColor: color }}>
+            {label}
+          </Badge>
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: "consultant",
     meta: { title: "Chuyên viên" },
     header: ({ column }) => (
@@ -97,26 +116,6 @@ export const createColumns = (
     }
   },
   {
-    accessorKey: "type",
-    meta: { title: "Loại giao dịch" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loại giao dịch" center />
-    ),
-    cell: ({ row }) => {
-      const type = row.original.type as TransactionTypeEnum
-      const { label, color } = getTransactionTypeMeta(type)
-
-      return (
-        <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
-        </div>
-      )
-    }
-  },
-
-  {
     accessorKey: "amount",
     meta: { title: "Số tiền" },
     header: ({ column }) => (
@@ -136,11 +135,7 @@ export const createColumns = (
     header: "Mô tả",
     cell: ({ row }) => {
       const description = row.original.description
-      return (
-        <span className="block max-w-[320px] truncate">
-          {description ? description : "--"}
-        </span>
-      )
+      return <span className="block max-w-[320px] truncate">{description}</span>
     }
   },
   {

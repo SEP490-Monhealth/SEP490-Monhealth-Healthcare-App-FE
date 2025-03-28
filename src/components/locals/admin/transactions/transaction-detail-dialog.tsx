@@ -23,6 +23,8 @@ import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import {
+  TransactionStatusEnum,
+  TransactionTypeEnum,
   getTransactionStatusMeta,
   getTransactionTypeMeta
 } from "@/constants/enum/Transaction"
@@ -49,13 +51,13 @@ function TransactionDetailDialog({
     error
   } = useTransactionById(transactionId || "")
 
-  const statusLabel = transactionData
-    ? getTransactionStatusMeta(transactionData.status).label
-    : ""
+  const { label: transactionTypeLabel } = getTransactionTypeMeta(
+    transactionData?.type || TransactionTypeEnum.Earning
+  )
 
-  const typeLabel = transactionData
-    ? getTransactionTypeMeta(transactionData.type).label
-    : ""
+  const { label: transactionStatusLabel } = getTransactionStatusMeta(
+    transactionData?.status || TransactionStatusEnum.Pending
+  )
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -137,7 +139,12 @@ function TransactionDetailDialog({
             <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
               <div className="space-y-2">
                 <Label htmlFor="type">Loại giao dịch</Label>
-                <Input id="type" type="text" value={typeLabel} readOnly />
+                <Input
+                  id="type"
+                  type="text"
+                  value={transactionTypeLabel}
+                  readOnly
+                />
               </div>
 
               <div className="space-y-2">
@@ -152,7 +159,12 @@ function TransactionDetailDialog({
 
               <div className="space-y-2">
                 <Label htmlFor="status">Trạng thái</Label>
-                <Input id="status" type="text" value={statusLabel} readOnly />
+                <Input
+                  id="status"
+                  type="text"
+                  value={transactionStatusLabel}
+                  readOnly
+                />
               </div>
             </div>
 

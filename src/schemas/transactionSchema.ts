@@ -10,9 +10,9 @@ import { userSchema } from "./userSchema"
 
 const transactionSchema = z.object({
   transactionId: uuidSchema,
+  consultantId: uuidSchema,
   walletId: uuidSchema,
   bookingId: uuidSchema,
-  consultantId: uuidSchema,
 
   type: TransactionTypeSchemaEnum,
 
@@ -37,20 +37,22 @@ const transactionSchema = z.object({
 })
 
 export const createTransactionSchema = transactionSchema.pick({
-  transactionId: true,
-  walletId: true,
+  consultantId: true,
   bookingId: true,
 
   type: true,
 
   description: true,
-  amount: true,
-
-  status: true
+  amount: true
 })
 
-export const updateTransactionSchema = createTransactionSchema.omit({
-  transactionId: true
+export const updateTransactionSchema = transactionSchema.pick({
+  consultantId: true,
+
+  type: true,
+
+  description: true,
+  amount: true
 })
 
 export type TransactionType = z.infer<typeof transactionSchema>

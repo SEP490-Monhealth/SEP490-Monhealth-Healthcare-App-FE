@@ -34,17 +34,13 @@ function TransactionPage() {
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
+  const type = searchParams.get("type") || ""
   const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
-  const transactionType = searchParams.get("transactionType") || ""
 
+  const typeParam = type && !isNaN(Number(type)) ? Number(type) : undefined
   const statusParam =
     status && !isNaN(Number(status)) ? Number(status) : undefined
-
-  const typeParam =
-    transactionType && !isNaN(Number(transactionType))
-      ? Number(transactionType)
-      : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
@@ -53,18 +49,19 @@ function TransactionPage() {
     null
   )
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const {
     data: transactionsData,
     isLoading,
     error
-  } = useTransactions(page, limit, debouncedSearch, typeParam, statusParam)
+  } = useTransactions(page, limit, typeParam, debouncedSearch, statusParam)
 
   const totalPages = Math.ceil((transactionsData?.totalItems || 1) / limit)
 
   const filters: DataTableFilterProps[] = [
     {
-      name: "transactionType",
+      name: "type",
       label: "Loại giao dịch",
       options: [
         {
@@ -81,15 +78,15 @@ function TransactionPage() {
         },
         {
           value: String(TransactionTypeEnum.Fee),
-          label: "Phí giao dịch"
+          label: "Phí"
         },
         {
           value: String(TransactionTypeEnum.Bonus),
           label: "Tiền thưởng"
         }
       ],
-      value: transactionType !== undefined ? String(transactionType) : "",
-      onChange: (value: string) => updateParams("transactionType", value)
+      value: type !== undefined ? String(type) : "",
+      onChange: (value: string) => updateParams("type", value)
     },
     {
       name: "status",
@@ -97,7 +94,7 @@ function TransactionPage() {
       options: [
         {
           value: String(TransactionStatusEnum.Pending),
-          label: "Chờ thanh toán"
+          label: "Chờ xử lý"
         },
         {
           value: String(TransactionStatusEnum.Completed),
@@ -125,8 +122,10 @@ function TransactionPage() {
 
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
-    params.delete("transactionType")
+
+    params.delete("type")
     params.delete("status")
+
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
@@ -147,6 +146,15 @@ function TransactionPage() {
     setTimeout(() => setSelectedTransaction(null), 300)
   }
 
+  const handleAddTransaction = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedTransaction(null), 300)
+  }
+
   const columns = createColumns({ onViewDetail: handleViewDetail })
 
   if (isLoading) return <LoadingPage />
@@ -160,7 +168,7 @@ function TransactionPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm giao dịch của chuyên viên..."
+        placeholder="Tìm kiếm giao dịch..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}
@@ -168,6 +176,8 @@ function TransactionPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
+        addNewButton
+        onAddNew={handleAddTransaction}
       />
 
       <TransactionDetailDialog
@@ -175,6 +185,11 @@ function TransactionPage() {
         onClose={handleCloseDetailDialog}
         transactionId={selectedTransaction}
       />
+
+      {/* <AddTransactionDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
+      /> */}
     </div>
   )
 }

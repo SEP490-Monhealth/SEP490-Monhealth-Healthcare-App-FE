@@ -147,7 +147,7 @@ function FoodPage() {
     setTimeout(() => setSelectedFood(null), 300)
   }
 
-  const handleAddWorkout = () => {
+  const handleAddFood = () => {
     setIsAddDialogOpen(true)
   }
 
@@ -179,7 +179,7 @@ function FoodPage() {
         filters={filters}
         onClearAllFilters={clearAllFilters}
         addNewButton
-        onAddNew={handleAddWorkout}
+        onAddNew={handleAddFood}
       />
 
       <FoodDetailDialog

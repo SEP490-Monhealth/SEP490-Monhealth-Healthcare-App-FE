@@ -21,13 +21,13 @@ interface TransactionsResponse {
 export const fetchTransactions = async (
   page: number,
   limit: number,
+  type?: TransactionTypeEnum,
   search?: string,
-  transactionType?: TransactionTypeEnum,
   status?: TransactionStatusEnum
 ): Promise<TransactionsResponse> => {
   try {
     const response = await monAPI.get(`/transactions`, {
-      params: { page, limit, search, transactionType, status }
+      params: { page, limit, type, search, status }
     })
 
     const { success, message, data } = response.data

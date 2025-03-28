@@ -22,38 +22,38 @@ export const TransactionStatusSchemaEnum = z.nativeEnum(TransactionStatusEnum)
 const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
   [TransactionTypeEnum.Earning]: {
     label: "Thu nhập",
-    color: "#28A745" // Xanh lá
+    color: "#16a34a" // green 600
   },
   [TransactionTypeEnum.Withdrawal]: {
     label: "Rút tiền",
-    color: "#DC3545" // Đỏ
+    color: "#f97316" // orange 500
   },
   [TransactionTypeEnum.Refund]: {
     label: "Hoàn tiền",
-    color: "#17A2B8" // Xanh dương nhạt
+    color: "#3b82f6" // blue 500
   },
   [TransactionTypeEnum.Fee]: {
-    label: "Phí giao dịch",
-    color: "#6C757D" // Xám
+    label: "Phí",
+    color: "#ef4444" // red 500
   },
   [TransactionTypeEnum.Bonus]: {
     label: "Tiền thưởng",
-    color: "#FFC107" // Vàng
+    color: "#ca8a04" // yellow 600
   }
 }
 
 const transactionStatusMap: Record<TransactionStatusEnum, EnumMeta> = {
   [TransactionStatusEnum.Pending]: {
-    label: "Chờ thanh toán",
-    color: "#FFA500" // Màu cam
+    label: "Chờ xử lý",
+    color: "#ca8a04" // yellow 600
   },
   [TransactionStatusEnum.Completed]: {
     label: "Đã thanh toán",
-    color: "#28A745" // Màu xanh lá
+    color: "#3b82f6" // blue 500
   },
   [TransactionStatusEnum.Failed]: {
     label: "Thất bại",
-    color: "#DC3545" // Màu đỏ
+    color: "#ef4444" // red 500
   }
 }
 
