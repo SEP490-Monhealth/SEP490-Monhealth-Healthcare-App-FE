@@ -22,7 +22,10 @@ import { Label } from "@/components/globals/atoms/label"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import { getPaymentStatusMeta } from "@/constants/enum/Payment"
+import {
+  PaymentStatusEnum,
+  getPaymentStatusMeta
+} from "@/constants/enum/Payment"
 
 import { usePaymentById } from "@/hooks/usePayment"
 
@@ -42,13 +45,16 @@ function PaymentDetailDialog({
 }: PaymentDetailDialogProps) {
   const {
     data: paymentData,
-    isLoading,
-    error
+    isLoading: isPaymentLoading,
+    error: paymentError
   } = usePaymentById(paymentId || "")
 
-  const label = paymentData
-    ? getPaymentStatusMeta(paymentData.status).label
-    : ""
+  const { label: paymentStatusLabel } = getPaymentStatusMeta(
+    paymentData?.status || PaymentStatusEnum.Pending
+  )
+
+  const isLoading = isPaymentLoading
+  const hasError = paymentError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -62,13 +68,9 @@ function PaymentDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !paymentData ? (
+        ) : hasError || !paymentData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu thanh toán."
-            }
+            message={paymentError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -148,7 +150,12 @@ function PaymentDetailDialog({
 
               <div className="space-y-2">
                 <Label htmlFor="status">Trạng thái</Label>
-                <Input id="status" type="text" value={label} readOnly />
+                <Input
+                  id="status"
+                  type="text"
+                  value={paymentStatusLabel}
+                  readOnly
+                />
               </div>
             </div>
 
