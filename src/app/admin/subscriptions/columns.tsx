@@ -101,7 +101,7 @@ export const createColumns = (
   },
   {
     accessorKey: "durationDays",
-    meta: { title: "Thời gian (ngày)" },
+    meta: { title: "Thời gian" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Thời gian (ngày)" center />
     ),

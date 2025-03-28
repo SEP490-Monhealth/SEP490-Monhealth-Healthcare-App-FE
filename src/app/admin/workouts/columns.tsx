@@ -116,13 +116,11 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const difficultyLevel = row.original.difficultyLevel
-      const { label, color } = getDifficultyLevelMeta(difficultyLevel)
+      const { label } = getDifficultyLevelMeta(difficultyLevel)
 
       return (
         <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
+          <Badge variant="outline">{label}</Badge>
         </div>
       )
     }
@@ -151,7 +149,7 @@ export const createColumns = (
   },
   {
     accessorKey: "caloriesBurned",
-    meta: { title: "Năng lượng đốt (kcal)" },
+    meta: { title: "Năng lượng đốt" },
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}

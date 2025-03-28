@@ -142,11 +142,15 @@ export const createColumns = (
     accessorKey: "date",
     meta: { title: "Ngày giờ" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Ngày giờ" />
+      <DataTableColumnHeader column={column} title="Ngày giờ" center />
     ),
     cell: ({ row }) => {
       const date = row.original.date
-      return <span>{formatDateAndHour(date)}</span>
+      return (
+        <span className="flex justify-center pr-4">
+          {formatDateAndHour(date)}
+        </span>
+      )
     }
   },
   {

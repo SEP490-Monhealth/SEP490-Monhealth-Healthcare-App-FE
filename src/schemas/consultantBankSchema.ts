@@ -1,11 +1,17 @@
 import { z } from "zod"
 
+import { bankSchema } from "./bankSchema"
 import { timestampFields, uuidSchema } from "./baseSchema"
 
 const consultantBankSchema = z.object({
   consultantBankId: uuidSchema,
   consultantId: uuidSchema,
   bankId: uuidSchema,
+
+  bank: z.object({
+    shortName: bankSchema.shape.shortName,
+    logoUrl: bankSchema.shape.logoUrl
+  }),
 
   number: z.string().nonempty({ message: "Số tài khoản không được để trống" }),
   name: z

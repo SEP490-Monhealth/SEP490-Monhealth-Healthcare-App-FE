@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
 
-const bankSchema = z.object({
+export const bankSchema = z.object({
   bankId: uuidSchema,
 
   code: z.string().nonempty({ message: "Mã ngân hàng không được để trống" }),

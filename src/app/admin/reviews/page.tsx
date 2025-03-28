@@ -47,7 +47,7 @@ function ReviewPage() {
   const filters: DataTableFilterProps[] = [
     {
       name: "rating",
-      label: "Lượt đánh giá",
+      label: "Đánh giá",
       options: [
         { value: String(1), label: "(1) ⭐" },
         { value: String(2), label: "(2) ⭐⭐" },

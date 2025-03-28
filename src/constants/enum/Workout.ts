@@ -43,16 +43,13 @@ const workoutTypeMap: Record<WorkoutTypeEnum, EnumMeta> = {
 
 const difficultyLevelMap: Record<DifficultyLevelEnum, EnumMeta> = {
   [DifficultyLevelEnum.Easy]: {
-    label: "Dễ",
-    color: "#3b82f6" // blue 500
+    label: "Dễ"
   },
   [DifficultyLevelEnum.Medium]: {
-    label: "Trung bình",
-    color: "#ca8a04" // yellow 600
+    label: "Trung bình"
   },
   [DifficultyLevelEnum.Hard]: {
-    label: "Khó",
-    color: "#ef4444" // red 500
+    label: "Khó"
   }
 }
 

@@ -32,7 +32,7 @@ const users = [
     id: "2",
     name: "Jane Smith",
     email: "jane.smith@example.com",
-    role: "Subscription Member",
+    role: "Member",
     status: true,
     createdAt: "2023-10-18T14:35:22Z",
     avatarUrl: "/placeholder.svg"
@@ -59,7 +59,7 @@ const users = [
     id: "5",
     name: "Michael Wilson",
     email: "michael.wilson@example.com",
-    role: "Subscription Member",
+    role: "Member",
     status: true,
     createdAt: "2023-10-25T16:08:33Z",
     avatarUrl: "/placeholder.svg"
