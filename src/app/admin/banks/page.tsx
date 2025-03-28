@@ -8,26 +8,23 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import TransactionDetailDialog from "@/components/locals/admin/transactions/transaction-detail-dialog"
+import AddBankDialog from "@/components/locals/admin/banks/add-bank-dialog"
+import BankDetailDialog from "@/components/locals/admin/banks/bank-detail-dialog"
 
-import {
-  TransactionStatusEnum,
-  TransactionTypeEnum
-} from "@/constants/enum/Transaction"
-
+import { useBanks } from "@/hooks/useBank"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useTransactions } from "@/hooks/useTransaction"
+
+import { parseBooleanParam } from "@/utils/helpers"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
+import { createColumns } from "./column"
 
 const DEFAULT_VISIBILITY = {
-  transactionId: false,
-  createdBy: false,
-  updatedBy: false
+  bankId: false,
+  code: false
 }
 
-function TransactionPage() {
+function BankPage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -36,76 +33,33 @@ function TransactionPage() {
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
-  const transactionType = searchParams.get("transactionType") || ""
-
-  const statusParam =
-    status && !isNaN(Number(status)) ? Number(status) : undefined
-
-  const typeParam =
-    transactionType && !isNaN(Number(transactionType))
-      ? Number(transactionType)
-      : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
 
-  const [selectedTransaction, setSelectedTransaction] = useState<string | null>(
-    null
-  )
+  const [selectedBank, setSelectedBank] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
+
+  const parsedStatus = parseBooleanParam(status)
 
   const {
-    data: transactionsData,
+    data: banksData,
     isLoading,
     error
-  } = useTransactions(page, limit, debouncedSearch, typeParam, statusParam)
+  } = useBanks(page, limit, debouncedSearch, parsedStatus)
 
-  const totalPages = Math.ceil((transactionsData?.totalItems || 1) / limit)
+  const totalPages = Math.ceil((banksData?.totalItems || 1) / limit)
 
   const filters: DataTableFilterProps[] = [
-    {
-      name: "transactionType",
-      label: "Loại giao dịch",
-      options: [
-        {
-          value: String(TransactionTypeEnum.Earning),
-          label: "Thu nhập"
-        },
-        {
-          value: String(TransactionTypeEnum.Withdrawal),
-          label: "Rút tiền"
-        },
-        {
-          value: String(TransactionTypeEnum.Refund),
-          label: "Hoàn tiền"
-        },
-        {
-          value: String(TransactionTypeEnum.Fee),
-          label: "Phí giao dịch"
-        },
-        {
-          value: String(TransactionTypeEnum.Bonus),
-          label: "Tiền thưởng"
-        }
-      ],
-      value: transactionType !== undefined ? String(transactionType) : "",
-      onChange: (value: string) => updateParams("transactionType", value)
-    },
     {
       name: "status",
       label: "Trạng thái",
       options: [
-        {
-          value: String(TransactionStatusEnum.Pending),
-          label: "Chờ thanh toán"
-        },
-        {
-          value: String(TransactionStatusEnum.Completed),
-          label: "Đã thanh toán"
-        },
-        { value: String(TransactionStatusEnum.Failed), label: "Thất bại" }
+        { value: "true", label: "Hoạt động" },
+        { value: "false", label: "Ngừng hoạt động" }
       ],
-      value: status !== undefined ? String(status) : "",
+      value: status,
       onChange: (value: string) => updateParams("status", value)
     }
   ]
@@ -125,8 +79,9 @@ function TransactionPage() {
 
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
-    params.delete("transactionType")
+
     params.delete("status")
+
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
@@ -137,14 +92,23 @@ function TransactionPage() {
     }
   }, [debouncedSearch, search])
 
-  const handleViewDetail = (transactionId: string) => {
-    setSelectedTransaction(transactionId)
+  const handleViewDetail = (bankId: string) => {
+    setSelectedBank(bankId)
     setIsDetailDialogOpen(true)
   }
 
   const handleCloseDetailDialog = () => {
     setIsDetailDialogOpen(false)
-    setTimeout(() => setSelectedTransaction(null), 300)
+    setTimeout(() => setSelectedBank(null), 300)
+  }
+
+  const handleAddExercise = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedBank(null), 300)
   }
 
   const columns = createColumns({ onViewDetail: handleViewDetail })
@@ -155,12 +119,12 @@ function TransactionPage() {
   return (
     <div>
       <DataTable
-        data={transactionsData?.transactions || []}
+        data={banksData?.banks || []}
         columns={columns}
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm giao dịch của chuyên viên..."
+        placeholder="Tìm kiếm tên ngân hàng..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}
@@ -168,15 +132,19 @@ function TransactionPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
+        addNewButton
+        onAddNew={handleAddExercise}
       />
 
-      <TransactionDetailDialog
+      <BankDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        transactionId={selectedTransaction}
+        bankId={selectedBank}
       />
+
+      <AddBankDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />
     </div>
   )
 }
 
-export default TransactionPage
+export default BankPage

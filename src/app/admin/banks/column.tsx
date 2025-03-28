@@ -1,7 +1,9 @@
 "use client"
 
+import { useState } from "react"
+
 import { ColumnDef } from "@tanstack/react-table"
-import { Copy, Eye, MoreHorizontal } from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import {
   Avatar,
@@ -18,28 +20,25 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
+import { Separator } from "@/components/globals/atoms/separator"
 
+import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 
-import {
-  TransactionStatusEnum,
-  TransactionTypeEnum,
-  getTransactionStatusMeta,
-  getTransactionTypeMeta
-} from "@/constants/enum/Transaction"
+import { useBankStatus } from "@/hooks/useBank"
 
-import { TransactionType } from "@/schemas/transactionSchema"
+import { BankType } from "@/schemas/bankSchema"
 
-import { formatCurrency, formatDate } from "@/utils/formatters"
+import { formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
-  onViewDetail: (transactionId: string) => void
+  onViewDetail: (bankId: string) => void
 }
 
 export const createColumns = (
   handlers: ColumnActionsHandlers
-): ColumnDef<TransactionType>[] => [
+): ColumnDef<BankType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -65,84 +64,41 @@ export const createColumns = (
     enableHiding: false
   },
   {
-    accessorKey: "transactionId",
-    meta: { title: "Mã giao dịch" },
+    accessorKey: "bankId",
+    meta: { title: "Mã ngân hàng" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã giao dịch" />
+      <DataTableColumnHeader column={column} title="Mã ngân hàng" />
     )
   },
   {
-    accessorKey: "consultant",
-    meta: { title: "Chuyên viên" },
+    accessorKey: "name",
+    meta: { title: "Tên ngân hàng" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Chuyên viên" />
+      <DataTableColumnHeader column={column} title="Tên ngân hàng" />
+    )
+  },
+  {
+    accessorKey: "shortName",
+    meta: { title: "Ngân hàng" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngân hàng" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.consultant.fullName
-      const email = row.original.consultant.email
-      const avatarUrl = row.original.consultant.avatarUrl
+      const shortName = row.original.shortName
+      const avatarUrl = row.original.logoUrl
 
       return (
         <div className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
+            <AvatarImage src={avatarUrl || ""} alt={getInitials(shortName)} />
+            <AvatarFallback>{getInitials(shortName)}</AvatarFallback>
           </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "type",
-    meta: { title: "Loại giao dịch" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loại giao dịch" center />
-    ),
-    cell: ({ row }) => {
-      const type = row.original.type as TransactionTypeEnum
-      const { label, color } = getTransactionTypeMeta(type)
-
-      return (
-        <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
+          <span className="capitalize">{shortName}</span>
         </div>
       )
     }
   },
 
-  {
-    accessorKey: "amount",
-    meta: { title: "Số tiền" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số tiền (VND)" center />
-    ),
-    cell: ({ row }) => {
-      const amount = row.original.amount
-      return (
-        <span className="flex justify-center pr-4">
-          {formatCurrency(amount)}
-        </span>
-      )
-    }
-  },
-  {
-    accessorKey: "description",
-    header: "Mô tả",
-    cell: ({ row }) => {
-      const description = row.original.description
-      return (
-        <span className="block max-w-[320px] truncate">
-          {description ? description : "--"}
-        </span>
-      )
-    }
-  },
   {
     accessorKey: "status",
     meta: { title: "Trạng thái" },
@@ -150,13 +106,11 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
-      const status = row.original.status as TransactionStatusEnum
-      const { label, color } = getTransactionStatusMeta(status)
-
+      const status = row.original.status
       return (
         <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
+          <Badge variant={status ? "default" : "destructive"}>
+            {status ? "Hoạt động" : "Ngừng hoạt động"}
           </Badge>
         </div>
       )
@@ -173,13 +127,7 @@ export const createColumns = (
       return <span>{formatDate(createdAt)}</span>
     }
   },
-  {
-    accessorKey: "createdBy",
-    meta: { title: "Người tạo" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người tạo" />
-    )
-  },
+
   {
     accessorKey: "updatedAt",
     meta: { title: "Ngày cập nhật" },
@@ -191,20 +139,33 @@ export const createColumns = (
       return <span>{formatDate(updatedAt)}</span>
     }
   },
-  {
-    accessorKey: "updatedBy",
-    meta: { title: "Người cập nhật" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người cập nhật" />
-    )
-  },
+
   {
     id: "actions",
     header: () => (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const transactionData = row.original
+      const { mutate: updateBankStatus } = useBankStatus()
+
+      const bankData = row.original
+      const isActive = bankData.status
+
+      const [openAlert, setOpenAlert] = useState<boolean>(false)
+
+      const handleOpenAlert = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setOpenAlert(true)
+      }
+
+      const handleCloseAlert = () => {
+        setOpenAlert(false)
+      }
+
+      const handleConfirm = () => {
+        updateBankStatus({ bankId: bankData.bankId })
+        setOpenAlert(false)
+      }
 
       return (
         <div className="flex justify-center">
@@ -217,25 +178,47 @@ export const createColumns = (
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-
               <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(transactionData.transactionId)
-                }
+                onClick={() => navigator.clipboard.writeText(bankData.bankId)}
               >
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() =>
-                  handlers.onViewDetail(transactionData.transactionId)
-                }
+                onClick={() => handlers.onViewDetail(bankData.bankId)}
               >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>
+              <Separator />
+              <DropdownMenuItem
+                variant={isActive ? "destructive" : "default"}
+                onClick={handleOpenAlert}
+              >
+                {isActive ? (
+                  <>
+                    <Ban className="h-4 w-4" />
+                    Ngừng hoạt động
+                  </>
+                ) : (
+                  <>
+                    <Circle className="h-4 w-4" />
+                    Kích hoạt
+                  </>
+                )}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <ConfirmAlertDialog
+            open={openAlert}
+            onOpenChange={handleCloseAlert}
+            onConfirm={handleConfirm}
+            title="Xác nhận thay đổi trạng thái"
+            description={`Bạn có chắc muốn ${
+              isActive ? "ngừng hoạt động" : "kích hoạt"
+            } ngân hàng này?`}
+          />
         </div>
       )
     },

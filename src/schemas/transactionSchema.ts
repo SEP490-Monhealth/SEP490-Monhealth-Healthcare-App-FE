@@ -6,13 +6,22 @@ import {
 } from "@/constants/enum/Transaction"
 
 import { auditFields, uuidSchema } from "./baseSchema"
+import { userSchema } from "./userSchema"
 
 const transactionSchema = z.object({
   transactionId: uuidSchema,
   walletId: uuidSchema,
   bookingId: uuidSchema,
+  consultantId: uuidSchema,
 
   type: TransactionTypeSchemaEnum,
+
+  consultant: z.object({
+    fullName: userSchema.shape.fullName,
+    email: userSchema.shape.email,
+    phoneNumber: userSchema.shape.phoneNumber,
+    avatarUrl: userSchema.shape.avatarUrl
+  }),
 
   description: z
     .string()
