@@ -69,8 +69,8 @@ function SubscriptionDetailDialog({
       setValue("price", subscriptionData.price)
       setValue("durationDays", subscriptionData.durationDays)
       setValue("features", subscriptionData.features)
-      setValue("bookingAllowance", subscriptionData.bookingAllowance)
       setValue("features", subscriptionData.features)
+      setValue("bookingAllowance", subscriptionData.bookingAllowance)
     }
   }, [subscriptionData, setValue])
 
@@ -83,7 +83,7 @@ function SubscriptionDetailDialog({
 
     try {
       await updateSubscription(
-        { subscriptionId: subscriptionId || "", updatedData: data },
+        { subscriptionId: subscriptionId || "", updatedData: finalData },
         {
           onSuccess: () => {
             setIsEdit(false)
