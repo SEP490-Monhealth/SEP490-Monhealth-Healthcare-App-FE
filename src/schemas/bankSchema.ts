@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { auditFields, uuidSchema } from "./baseSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 
 const bankSchema = z.object({
   bankId: uuidSchema,
@@ -23,7 +23,15 @@ const bankSchema = z.object({
 
   status: z.string().optional(),
 
-  ...auditFields
+  ...timestampFields
+})
+
+export const createUpdateBankSchema = bankSchema.pick({
+  code: true,
+  name: true,
+  shortName: true,
+  logoUrl: true
 })
 
 export type BankType = z.infer<typeof bankSchema>
+export type CreateUpdateBankType = z.infer<typeof createUpdateBankSchema>
