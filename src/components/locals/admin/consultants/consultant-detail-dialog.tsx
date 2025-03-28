@@ -41,9 +41,12 @@ function ConsultantDetailDialog({
 }: ConsultantDetailDialogProps) {
   const {
     data: consultantData,
-    isLoading,
-    error
+    isLoading: isConsultantLoading,
+    error: consultantError
   } = useConsultantById(consultantId || "")
+
+  const isLoading = isConsultantLoading
+  const hasError = consultantError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -57,13 +60,9 @@ function ConsultantDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !consultantData ? (
+        ) : hasError || !consultantData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu chuyên viên."
-            }
+            message={consultantError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="flex flex-col gap-4">

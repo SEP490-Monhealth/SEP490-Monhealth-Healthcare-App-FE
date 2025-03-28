@@ -48,17 +48,19 @@ function TransactionDetailDialog({
 }: TransactionDetailDialogProps) {
   const {
     data: transactionData,
-    isLoading,
-    error
+    isLoading: isTransactionLoading,
+    error: transactionError
   } = useTransactionById(transactionId || "")
 
   const { label: transactionTypeLabel } = getTransactionTypeMeta(
     transactionData?.type || TransactionTypeEnum.Earning
   )
-
   const { label: transactionStatusLabel } = getTransactionStatusMeta(
     transactionData?.status || TransactionStatusEnum.Pending
   )
+
+  const isLoading = isTransactionLoading
+  const hasError = transactionError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -72,13 +74,9 @@ function TransactionDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !transactionData ? (
+        ) : hasError || !transactionData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu giao dịch."
-            }
+            message={transactionError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">

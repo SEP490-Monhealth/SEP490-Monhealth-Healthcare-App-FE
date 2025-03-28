@@ -3,11 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
@@ -19,7 +14,10 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
+import DataTableCellPrice from "@/components/globals/molecules/data-table-cell-price"
+import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import {
   PaymentStatusEnum,
@@ -27,9 +25,6 @@ import {
 } from "@/constants/enum/Payment"
 
 import { PaymentType } from "@/schemas/paymentSchema"
-
-import { formatCurrency, formatDate } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (paymentId: string) => void
@@ -76,22 +71,13 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Người dùng" />
     ),
     cell: ({ row }) => {
-      const fullName = row.original.member.fullName
-      const email = row.original.member.email
-      const avatarUrl = row.original.member.avatarUrl
+      const member = {
+        fullName: row.original.member.fullName,
+        email: row.original.member.email,
+        avatarUrl: row.original.member.avatarUrl
+      }
 
-      return (
-        <div className="flex items-center gap-2">
-          <Avatar>
-            <AvatarImage src={avatarUrl || ""} alt={getInitials(fullName)} />
-            <AvatarFallback>{getInitials(fullName)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="capitalize">{fullName}</span>
-            <span className="text-muted-foreground text-sm">{email}</span>
-          </div>
-        </div>
-      )
+      return <DataTableCellUser user={member} />
     }
   },
   {
@@ -103,17 +89,13 @@ export const createColumns = (
   },
   {
     accessorKey: "amount",
-    meta: { title: "Thanh toán" },
+    meta: { title: "Số tiền" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Thanh toán (VND)" center />
+      <DataTableColumnHeader column={column} title="Số tiền (VND)" center />
     ),
     cell: ({ row }) => {
       const amount = row.original.amount
-      return (
-        <span className="flex justify-center pr-4">
-          {formatCurrency(amount)}
-        </span>
-      )
+      return <DataTableCellPrice amount={amount} />
     }
   },
   {
@@ -143,8 +125,15 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <span>{formatDate(createdAt)}</span>
+      return <DataTableTime time={createdAt} />
     }
+  },
+  {
+    accessorKey: "createdBy",
+    meta: { title: "Người tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người tạo" />
+    )
   },
   {
     accessorKey: "updatedAt",
@@ -154,8 +143,15 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <span>{formatDate(updatedAt)}</span>
+      return <DataTableTime time={updatedAt} />
     }
+  },
+  {
+    accessorKey: "updatedBy",
+    meta: { title: "Người cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người cập nhật" />
+    )
   },
   {
     id: "actions",

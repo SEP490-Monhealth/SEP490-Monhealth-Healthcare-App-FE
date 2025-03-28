@@ -17,7 +17,10 @@ import { Label } from "@/components/globals/atoms/label"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import { getBookingStatusMeta } from "@/constants/enum/Booking"
+import {
+  BookingStatusEnum,
+  getBookingStatusMeta
+} from "@/constants/enum/Booking"
 
 import { useBookingById } from "@/hooks/useBooking"
 
@@ -36,13 +39,16 @@ function BookingDetailDialog({
 }: BookingDetailDialogProps) {
   const {
     data: bookingData,
-    isLoading,
-    error
+    isLoading: isBookingLoading,
+    error: bookingError
   } = useBookingById(bookingId || "")
 
-  const label = bookingData
-    ? getBookingStatusMeta(bookingData.status).label
-    : ""
+  const { label: bookingStatusLabel } = getBookingStatusMeta(
+    bookingData?.status || BookingStatusEnum.Pending
+  )
+
+  const isLoading = isBookingLoading
+  const hasError = bookingError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -56,13 +62,9 @@ function BookingDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !bookingData ? (
+        ) : hasError || !bookingData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu lịch hẹn."
-            }
+            message={bookingError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -172,7 +174,12 @@ function BookingDetailDialog({
 
             <div className="space-y-2">
               <Label htmlFor="status">Trạng thái</Label>
-              <Input id="status" type="text" value={label} readOnly />
+              <Input
+                id="status"
+                type="text"
+                value={bookingStatusLabel}
+                readOnly
+              />
             </div>
 
             <div className="space-y-2">

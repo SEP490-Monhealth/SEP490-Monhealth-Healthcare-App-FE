@@ -20,7 +20,9 @@ const paymentSchema = z.object({
 
   subscriptionName: subscriptionSchema.shape.name,
 
-  amount: z.number(),
+  amount: z
+    .number({ message: "Số tiền thanh toán phải là một số" })
+    .positive({ message: "Số tiền thanh toán phải lớn hơn 0" }),
 
   status: PaymentStatusSchemaEnum,
 

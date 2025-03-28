@@ -41,8 +41,8 @@ function ExerciseDetailDialog({
 }: ExerciseDetailDialogProps) {
   const {
     data: exerciseData,
-    isLoading,
-    error
+    isLoading: isExerciseLoading,
+    error: exerciseError
   } = useExerciseById(exerciseId || "")
 
   const { mutate: updateExercise } = useUpdateExercise()
@@ -98,6 +98,9 @@ function ExerciseDetailDialog({
     setIsEdit(false)
   }
 
+  const isLoading = isExerciseLoading
+  const hasError = exerciseError
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-h-[400px] min-w-[700px]">
@@ -110,13 +113,9 @@ function ExerciseDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !exerciseData ? (
+        ) : hasError || !exerciseData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu bài tập."
-            }
+            message={exerciseError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">

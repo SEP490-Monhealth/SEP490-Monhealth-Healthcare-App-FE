@@ -34,9 +34,12 @@ function WaterReminderDetailDialog({
 }: WaterReminderDetailDialogProps) {
   const {
     data: waterReminderData,
-    isLoading,
-    error
+    isLoading: isWaterReminderLoading,
+    error: waterReminderError
   } = useWaterReminderById(waterReminderId || "")
+
+  const isLoading = isWaterReminderLoading
+  const hasError = waterReminderError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -50,13 +53,9 @@ function WaterReminderDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : error || !waterReminderData ? (
+        ) : hasError || !waterReminderData ? (
           <ErrorDialog
-            message={
-              error
-                ? (error as Error).message || "Không thể tải dữ liệu."
-                : "Không có dữ liệu nhắc nhở."
-            }
+            message={waterReminderError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">

@@ -20,7 +20,6 @@ import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   paymentId: false,
-  cancellationReason: false,
   createdBy: false,
   updatedBy: false
 }
@@ -57,10 +56,22 @@ function PaymentPage() {
       name: "status",
       label: "Trạng thái",
       options: [
-        { value: String(PaymentStatusEnum.Pending), label: "Chờ xác nhận" },
-        { value: String(PaymentStatusEnum.Completed), label: "Đã xác nhận" },
-        { value: String(PaymentStatusEnum.Failed), label: "Thất bại" },
-        { value: String(PaymentStatusEnum.Refunded), label: "Hoàn trả" }
+        {
+          value: String(PaymentStatusEnum.Pending),
+          label: "Chờ xử lý"
+        },
+        {
+          value: String(PaymentStatusEnum.Completed),
+          label: "Đã thanh toán"
+        },
+        {
+          value: String(PaymentStatusEnum.Failed),
+          label: "Thất bại"
+        },
+        {
+          value: String(PaymentStatusEnum.Refunded),
+          label: "Hoàn trả"
+        }
       ],
       value: status !== undefined ? String(status) : "",
       onChange: (value: string) => updateParams("status", value)
@@ -82,7 +93,9 @@ function PaymentPage() {
 
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
+
     params.delete("status")
+
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
@@ -116,7 +129,7 @@ function PaymentPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm thanh toán hoặc người dùng..."
+        placeholder="Tìm kiếm thanh toán..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}

@@ -44,10 +44,10 @@ function ReviewDetailDialog({
     error: reviewError
   } = useReviewById(reviewId || "")
 
+  const ratingReview = reviewData?.rating ? `${reviewData.rating} ⭐` : ""
+
   const isLoading = isReviewLoading
   const hasError = reviewError
-
-  const ratingReview = reviewData?.rating ? `${reviewData.rating} ⭐` : ""
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
