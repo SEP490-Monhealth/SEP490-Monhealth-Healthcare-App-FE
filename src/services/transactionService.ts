@@ -1,0 +1,94 @@
+import { toast } from "sonner"
+
+import {
+  TransactionStatusEnum,
+  TransactionTypeEnum
+} from "@/constants/enum/Transaction"
+
+import monAPI from "@/lib/monAPI"
+
+import {
+  TransactionType,
+  UpdateTransactionType
+} from "@/schemas/transactionSchema"
+
+interface TransactionsResponse {
+  totalPages: number
+  totalItems: number
+  transactions: TransactionType[]
+}
+
+export const fetchTransactions = async (
+  page: number,
+  limit: number,
+  search?: string,
+  transactionType?: TransactionTypeEnum,
+  status?: TransactionStatusEnum
+): Promise<TransactionsResponse> => {
+  try {
+    const response = await monAPI.get(`/transactions`, {
+      params: { page, limit, search, transactionType, status }
+    })
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch transactions")
+    }
+
+    const { totalPages, totalItems, items: transactions } = data
+    return { totalPages, totalItems, transactions }
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch transactions"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const fetchTransactionById = async (
+  transactionId: string
+): Promise<TransactionType> => {
+  try {
+    const response = await monAPI.get(`/transactions/${transactionId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch transaction")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch transaction"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const updateTransactionStatus = async (
+  transactionId: string,
+  updatedData: UpdateTransactionType
+): Promise<string> => {
+  try {
+    const response = await monAPI.put(
+      `/transactions/${transactionId}/status`,
+      updatedData
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update transaction")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update transaction"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
