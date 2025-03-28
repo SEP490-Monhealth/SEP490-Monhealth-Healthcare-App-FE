@@ -14,19 +14,19 @@ export const PaymentStatusSchemaEnum = z.nativeEnum(PaymentStatusEnum)
 const paymentStatusMap: Record<PaymentStatusEnum, EnumMeta> = {
   [PaymentStatusEnum.Pending]: {
     label: "Chờ xử lý",
-    color: "#FFA500" // orange
+    color: "#f97316" // orange 500
   },
   [PaymentStatusEnum.Completed]: {
     label: "Đã thanh toán",
-    color: "#28A745" // green
+    color: "#3b82f6" // blue 500
   },
   [PaymentStatusEnum.Failed]: {
     label: "Thất bại",
-    color: "#DC3545" // red
+    color: "#ef4444" // red 500
   },
   [PaymentStatusEnum.Refunded]: {
     label: "Hoàn trả",
-    color: "#17A2B8" // cyan
+    color: "#ca8a04" // yellow 600
   }
 }
 

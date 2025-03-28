@@ -1,10 +1,18 @@
 import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
+import { userSchema } from "./userSchema"
 
 const withdrawalRequestSchema = z.object({
   withdrawalRequestId: uuidSchema,
   consultantId: uuidSchema,
+
+  consultant: z.object({
+    fullName: userSchema.shape.fullName,
+    email: userSchema.shape.email,
+    phoneNumber: userSchema.shape.phoneNumber,
+    avatarUrl: userSchema.shape.avatarUrl
+  }),
 
   description: z
     .string()

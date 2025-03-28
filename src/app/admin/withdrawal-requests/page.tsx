@@ -27,7 +27,7 @@ const DEFAULT_VISIBILITY = {
   updatedBy: false
 }
 
-function TransactionPage() {
+function WithdrawalRequestPage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -44,9 +44,9 @@ function TransactionPage() {
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
 
-  const [selectedTransaction, setSelectedTransaction] = useState<string | null>(
-    null
-  )
+  const [selectedWithdrawalRequest, setSelectedWithdrawalRequest] = useState<
+    string | null
+  >(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const {
@@ -70,7 +70,10 @@ function TransactionPage() {
           value: String(TransactionStatusEnum.Completed),
           label: "Đã thanh toán"
         },
-        { value: String(TransactionStatusEnum.Failed), label: "Thất bại" }
+        {
+          value: String(TransactionStatusEnum.Failed),
+          label: "Thất bại"
+        }
       ],
       value: status !== undefined ? String(status) : "",
       onChange: (value: string) => updateParams("status", value)
@@ -106,13 +109,13 @@ function TransactionPage() {
   }, [debouncedSearch, search])
 
   const handleViewDetail = (transactionId: string) => {
-    setSelectedTransaction(transactionId)
+    setSelectedWithdrawalRequest(transactionId)
     setIsDetailDialogOpen(true)
   }
 
   const handleCloseDetailDialog = () => {
     setIsDetailDialogOpen(false)
-    setTimeout(() => setSelectedTransaction(null), 300)
+    setTimeout(() => setSelectedWithdrawalRequest(null), 300)
   }
 
   const columns = createColumns({ onViewDetail: handleViewDetail })
@@ -128,7 +131,7 @@ function TransactionPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm giao dịch..."
+        placeholder="Tìm kiếm yêu cầu..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}
@@ -141,10 +144,10 @@ function TransactionPage() {
       <TransactionWithdrawalDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        transactionId={selectedTransaction}
+        transactionId={selectedWithdrawalRequest}
       />
     </div>
   )
 }
 
-export default TransactionPage
+export default WithdrawalRequestPage
