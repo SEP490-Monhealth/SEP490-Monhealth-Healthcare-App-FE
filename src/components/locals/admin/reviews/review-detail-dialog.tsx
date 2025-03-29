@@ -154,11 +154,11 @@ function ReviewDetailDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+              <Label htmlFor="createdAt">Ngày tạo</Label>
               <Input
-                id="updatedAt"
+                id="createdAt"
                 type="text"
-                value={formatDate(reviewData.updatedAt)}
+                value={formatDate(reviewData.createdAt)}
                 readOnly
               />
             </div>

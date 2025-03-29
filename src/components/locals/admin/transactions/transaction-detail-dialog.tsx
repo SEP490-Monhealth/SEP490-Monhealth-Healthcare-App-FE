@@ -148,12 +148,18 @@ function TransactionDetailDialog({
 
               <div className="space-y-2">
                 <Label htmlFor="price">Số tiền</Label>
-                <Input
-                  id="price"
-                  type="text"
-                  value={formatCurrency(transactionData.amount)}
-                  readOnly
-                />
+
+                <div className="relative">
+                  <Input
+                    id="price"
+                    type="text"
+                    value={formatCurrency(transactionData.amount)}
+                    readOnly
+                  />
+                  <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                    VND
+                  </span>
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -169,9 +175,9 @@ function TransactionDetailDialog({
 
             <div className="col-span-2 space-y-2">
               <Label htmlFor="description">Mô tả</Label>
-              <Textarea
+              <Input
                 id="description"
-                rows={4}
+                type="text"
                 value={transactionData.description}
                 readOnly
               />

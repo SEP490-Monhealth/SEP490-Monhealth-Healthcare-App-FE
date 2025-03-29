@@ -8,7 +8,6 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddWaterReminderDialog from "@/components/locals/admin/water-reminders/add-water-reminder-dialog"
 import WaterReminderDetailDialog from "@/components/locals/admin/water-reminders/water-reminder-detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
@@ -43,9 +42,8 @@ function WaterReminderPage() {
     string | null
   >(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
-  const parsedRecurring = parseBooleanParam(status)
+  const parsedRecurring = parseBooleanParam(recurring)
   const parsedStatus = parseBooleanParam(status)
 
   const {
@@ -126,15 +124,6 @@ function WaterReminderPage() {
     setTimeout(() => setSelectedWaterReminder(null), 300)
   }
 
-  const handleAddWaterReminder = () => {
-    setIsAddDialogOpen(true)
-  }
-
-  const handleCloseAddDialog = () => {
-    setIsAddDialogOpen(false)
-    setTimeout(() => setSelectedWaterReminder(null), 300)
-  }
-
   const columns = createColumns({ onViewDetail: handleViewDetail })
 
   if (isLoading) return <LoadingPage />
@@ -156,19 +145,12 @@ function WaterReminderPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
-        addNewButton
-        onAddNew={handleAddWaterReminder}
       />
 
       <WaterReminderDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
         waterReminderId={selectedWaterReminder}
-      />
-
-      <AddWaterReminderDialog
-        isOpen={isAddDialogOpen}
-        onClose={handleCloseAddDialog}
       />
     </div>
   )

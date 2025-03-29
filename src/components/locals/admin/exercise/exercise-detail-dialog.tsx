@@ -158,28 +158,30 @@ function ExerciseDetailDialog({
 
             <div>
               <div className="space-y-2">
-                <Label htmlFor="caloriesPerMinute">
-                  Năng lượng mỗi phút (kcal)
-                </Label>
-
-                {!isEdit ? (
-                  <Input
-                    id="caloriesPerMinute"
-                    type="text"
-                    value={exerciseData.caloriesPerMinute}
-                    readOnly
-                  />
-                ) : (
-                  <Input
-                    id="caloriesPerMinute"
-                    type="number"
-                    placeholder="Nhập năng lượng"
-                    defaultValue={exerciseData.caloriesPerMinute}
-                    {...register("caloriesPerMinute", {
-                      valueAsNumber: true
-                    })}
-                  />
-                )}
+                <Label htmlFor="caloriesPerMinute">Năng lượng mỗi phút</Label>
+                <div className="relative">
+                  {!isEdit ? (
+                    <Input
+                      id="caloriesPerMinute"
+                      type="text"
+                      value={exerciseData.caloriesPerMinute}
+                      readOnly
+                    />
+                  ) : (
+                    <Input
+                      id="caloriesPerMinute"
+                      type="number"
+                      placeholder="Nhập năng lượng"
+                      defaultValue={exerciseData.caloriesPerMinute}
+                      {...register("caloriesPerMinute", {
+                        valueAsNumber: true
+                      })}
+                    />
+                  )}
+                  <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                    kcal
+                  </span>
+                </div>
               </div>
 
               {errors.caloriesPerMinute && (
@@ -187,6 +189,16 @@ function ExerciseDetailDialog({
                   {errors.caloriesPerMinute.message}
                 </p>
               )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="status">Trạng thái</Label>
+              <Input
+                id="status"
+                type="text"
+                value={exerciseData.status ? "Hoạt động" : "Ngừng hoạt động"}
+                readOnly
+              />
             </div>
 
             <div className="col-span-2">
@@ -216,16 +228,6 @@ function ExerciseDetailDialog({
                   {errors.instructions.message}
                 </p>
               )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="status">Trạng thái</Label>
-              <Input
-                id="status"
-                type="text"
-                value={exerciseData.status ? "Hoạt động" : "Ngừng hoạt động"}
-                readOnly
-              />
             </div>
 
             <div className="space-y-2">

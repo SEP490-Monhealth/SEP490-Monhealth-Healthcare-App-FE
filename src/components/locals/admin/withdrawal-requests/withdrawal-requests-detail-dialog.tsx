@@ -24,13 +24,11 @@ import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import {
-  TransactionStatusEnum,
-  TransactionTypeEnum,
-  getTransactionStatusMeta,
-  getTransactionTypeMeta
-} from "@/constants/enum/Transaction"
+  WithdrawalRequestStatusEnum,
+  getPaymentStatusMeta
+} from "@/constants/enum/WithdrawalRequest"
 
-import { useTransactionById } from "@/hooks/useTransaction"
+import { useWithdrawalRequestById } from "@/hooks/useWithdrawalRequest"
 
 import { formatCurrency, formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
@@ -38,29 +36,26 @@ import { getInitials } from "@/utils/helpers"
 interface TransactionWithdrawalDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  transactionId: string | null
+  withdrawalRequestId: string | null
 }
 
 function TransactionWithdrawalDetailDialog({
   isOpen,
   onClose,
-  transactionId
+  withdrawalRequestId
 }: TransactionWithdrawalDetailDialogProps) {
   const {
-    data: transactionData,
+    data: withdrawalData,
     isLoading: isTransactionLoading,
     error: transactionError
-  } = useTransactionById(transactionId || "")
+  } = useWithdrawalRequestById(withdrawalRequestId || "")
 
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [confirmAlert, setConfirmAlert] = useState<boolean>(false)
   const [dialogPayment, setDialogPayment] = useState<boolean>(false)
 
-  const { label: transactionTypeLabel } = getTransactionTypeMeta(
-    transactionData?.type || TransactionTypeEnum.Earning
-  )
-  const { label: transactionStatusLabel } = getTransactionStatusMeta(
-    transactionData?.status || TransactionStatusEnum.Pending
+  const { label: withdrawalStatusLabel } = getPaymentStatusMeta(
+    withdrawalData?.status || WithdrawalRequestStatusEnum.Pending
   )
 
   const handleOpenAlert = (e: React.MouseEvent) => {
@@ -98,26 +93,26 @@ function TransactionWithdrawalDetailDialog({
       <Dialog open={isOpen} onOpenChange={handleClose}>
         <DialogContent className="min-w-[700px]">
           <DialogHeader>
-            <DialogTitle>Chi tiết giao dịch</DialogTitle>
+            <DialogTitle>Chi tiết yêu cầu</DialogTitle>
             <DialogDescription>
-              Xem thông tin chi tiết của giao dịch.
+              Xem thông tin chi tiết của yêu cầu.
             </DialogDescription>
           </DialogHeader>
 
           {isLoading ? (
             <LoadingDialog />
-          ) : hasError || !transactionData ? (
+          ) : hasError || !withdrawalData ? (
             <ErrorDialog
               message={transactionError?.message || "Không thể tải dữ liệu."}
             />
           ) : (
             <div className="grid grid-cols-2 gap-x-6 gap-y-4">
               <div className="col-span-2 space-y-2">
-                <Label htmlFor="transactionId">Mã giao dịch</Label>
+                <Label htmlFor="withdrawalRequestId">Mã yêu cầu</Label>
                 <Input
-                  id="transactionId"
+                  id="withdrawalRequestId"
                   type="text"
-                  value={transactionData.transactionId}
+                  value={withdrawalData.withdrawalRequestId}
                   readOnly
                 />
               </div>
@@ -126,9 +121,9 @@ function TransactionWithdrawalDetailDialog({
                 <div className="col-span-1">
                   <div className="flex-shrink-0">
                     <Avatar className="h-full w-48 rounded-md">
-                      <AvatarImage src={transactionData.consultant.avatarUrl} />
+                      <AvatarImage src={withdrawalData.consultant.avatarUrl} />
                       <AvatarFallback>
-                        {getInitials(transactionData.consultant.fullName)}
+                        {getInitials(withdrawalData.consultant.fullName)}
                       </AvatarFallback>
                     </Avatar>
                   </div>
@@ -140,7 +135,7 @@ function TransactionWithdrawalDetailDialog({
                     <Input
                       id="fullName"
                       type="text"
-                      value={transactionData.consultant.fullName}
+                      value={withdrawalData.consultant.fullName}
                       readOnly
                     />
                   </div>
@@ -150,7 +145,7 @@ function TransactionWithdrawalDetailDialog({
                     <Input
                       id="email"
                       type="text"
-                      value={transactionData.consultant.email}
+                      value={withdrawalData.consultant.email}
                       readOnly
                     />
                   </div>
@@ -160,43 +155,31 @@ function TransactionWithdrawalDetailDialog({
                     <Input
                       id="phoneNumber"
                       type="text"
-                      value={transactionData.consultant.phoneNumber}
+                      value={withdrawalData.consultant.phoneNumber}
                       readOnly
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="type">Loại giao dịch</Label>
-                  <Input
-                    id="type"
-                    type="text"
-                    value={transactionTypeLabel}
-                    readOnly
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="price">Số tiền</Label>
+                <Input
+                  id="price"
+                  type="text"
+                  value={formatCurrency(withdrawalData.amount)}
+                  readOnly
+                />
+              </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="price">Số tiền</Label>
-                  <Input
-                    id="price"
-                    type="text"
-                    value={formatCurrency(transactionData.amount)}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="status">Trạng thái</Label>
-                  <Input
-                    id="status"
-                    type="text"
-                    value={transactionStatusLabel}
-                    readOnly
-                  />
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="status">Trạng thái</Label>
+                <Input
+                  id="status"
+                  type="text"
+                  value={withdrawalStatusLabel}
+                  readOnly
+                />
               </div>
 
               <div className="col-span-2 space-y-2">
@@ -204,7 +187,7 @@ function TransactionWithdrawalDetailDialog({
                 <Input
                   id="description"
                   type="text"
-                  value={transactionData.description}
+                  value={withdrawalData.description}
                   readOnly
                 />
               </div>
@@ -214,7 +197,7 @@ function TransactionWithdrawalDetailDialog({
                 <Input
                   id="createdAt"
                   type="text"
-                  value={formatDate(transactionData.createdAt)}
+                  value={formatDate(withdrawalData.createdAt)}
                   readOnly
                 />
               </div>
@@ -224,7 +207,7 @@ function TransactionWithdrawalDetailDialog({
                 <Input
                   id="createdBy"
                   type="text"
-                  value={transactionData.createdBy}
+                  value={withdrawalData.createdBy}
                   readOnly
                 />
               </div>
@@ -234,7 +217,7 @@ function TransactionWithdrawalDetailDialog({
                 <Input
                   id="updatedAt"
                   type="text"
-                  value={formatDate(transactionData.updatedAt)}
+                  value={formatDate(withdrawalData.updatedAt)}
                   readOnly
                 />
               </div>
@@ -244,7 +227,7 @@ function TransactionWithdrawalDetailDialog({
                 <Input
                   id="updatedBy"
                   type="text"
-                  value={transactionData.updatedBy}
+                  value={withdrawalData.updatedBy}
                   readOnly
                 />
               </div>

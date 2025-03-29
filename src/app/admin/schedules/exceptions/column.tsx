@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
 import {
@@ -14,25 +13,20 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
-import DataTableCellPrice from "@/components/globals/molecules/data-table-cell-price"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableTime from "@/components/globals/molecules/data-table-time"
 
-import {
-  WithdrawalRequestStatusEnum,
-  getPaymentStatusMeta
-} from "@/constants/enum/WithdrawalRequest"
-
-import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
+import { ScheduleExceptionType } from "@/schemas/scheduleExceptionSchema"
 
 export type ColumnActionsHandlers = {
-  onViewDetail: (withdrawalRequestId: string) => void
+  onViewDetail: (exceptionId: string) => void
 }
 
 export const createColumns = (
   handlers: ColumnActionsHandlers
-): ColumnDef<WithdrawalRequestType>[] => [
+): ColumnDef<ScheduleExceptionType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -58,10 +52,10 @@ export const createColumns = (
     enableHiding: false
   },
   {
-    accessorKey: "withdrawalRequestId",
-    meta: { title: "Mã yêu cầu" },
+    accessorKey: "exceptionId",
+    meta: { title: "Mã ngoại lệ" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã yêu cầu" />
+      <DataTableColumnHeader column={column} title="Mã ngoại lệ" />
     )
   },
   {
@@ -71,52 +65,27 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Chuyên viên" />
     ),
     cell: ({ row }) => {
-      const consultant = {
-        fullName: row.original.consultant.fullName,
-        email: row.original.consultant.email,
-        avatarUrl: row.original.consultant.avatarUrl
-      }
-
+      const consultant = row.original.consultant
       return <DataTableCellUser user={consultant} />
     }
   },
   {
-    accessorKey: "amount",
-    meta: { title: "Số tiền" },
+    accessorKey: "date",
+    meta: { title: "Ngày bận" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số tiền (VND)" center />
+      <DataTableColumnHeader column={column} title="Ngày bận" />
     ),
     cell: ({ row }) => {
-      const amount = row.original.amount
-      return <DataTableCellPrice amount={amount} />
+      const date = row.original.date
+      return <DataTableTime time={date} />
     }
   },
   {
-    accessorKey: "description",
-    header: "Mô tả",
+    accessorKey: "reason",
+    header: "Ghi chú",
     cell: ({ row }) => {
-      const description = row.original.description
-      return <span className="block max-w-[320px] truncate">{description}</span>
-    }
-  },
-
-  {
-    accessorKey: "status",
-    meta: { title: "Loại yêu cầu" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loại yêu cầu" center />
-    ),
-    cell: ({ row }) => {
-      const status = row.original.status as WithdrawalRequestStatusEnum
-      const { label, color } = getPaymentStatusMeta(status)
-
-      return (
-        <div className="flex justify-center pr-4">
-          <Badge className="text-white" style={{ backgroundColor: color }}>
-            {label}
-          </Badge>
-        </div>
-      )
+      const reason = row.original.reason
+      return reason ? <DataTableCellDescription description={reason} /> : "--"
     }
   },
   {
@@ -131,13 +100,6 @@ export const createColumns = (
     }
   },
   {
-    accessorKey: "createdBy",
-    meta: { title: "Người tạo" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người tạo" />
-    )
-  },
-  {
     accessorKey: "updatedAt",
     meta: { title: "Ngày cập nhật" },
     header: ({ column }) => (
@@ -149,19 +111,12 @@ export const createColumns = (
     }
   },
   {
-    accessorKey: "updatedBy",
-    meta: { title: "Người cập nhật" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người cập nhật" />
-    )
-  },
-  {
     id: "actions",
     header: () => (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const transactionData = row.original
+      const bookingData = row.original
 
       return (
         <div className="flex justify-center">
@@ -177,18 +132,14 @@ export const createColumns = (
 
               <DropdownMenuItem
                 onClick={() =>
-                  navigator.clipboard.writeText(
-                    transactionData.withdrawalRequestId
-                  )
+                  navigator.clipboard.writeText(bookingData.exceptionId)
                 }
               >
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() =>
-                  handlers.onViewDetail(transactionData.withdrawalRequestId)
-                }
+                onClick={() => handlers.onViewDetail(bookingData.exceptionId)}
               >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết

@@ -59,7 +59,7 @@ function WaterReminderDetailDialog({
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="space-y-2">
+            <div className="col-span-2 space-y-2">
               <Label htmlFor="waterReminderId">Mã nhắc nhở</Label>
               <Input
                 id="waterReminderId"
@@ -81,20 +81,30 @@ function WaterReminderDetailDialog({
 
             <div className="space-y-2">
               <Label htmlFor="volume">Dung tích</Label>
-              <Input
-                id="volume"
-                type="number"
-                value={waterReminderData.volume}
-                readOnly
-              />
+
+              <div className="relative">
+                <Input
+                  id="volume"
+                  type="number"
+                  value={waterReminderData.volume}
+                  readOnly
+                />
+                <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                  ml
+                </span>
+              </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="isRecurring">Lặp lại</Label>
+              <Label htmlFor="isRecurring">Tần suất lặp lại</Label>
               <Input
                 id="isRecurring"
                 type="text"
-                value={waterReminderData.isRecurring ? "Có" : "Không"}
+                value={
+                  waterReminderData.isRecurring
+                    ? "Lặp lại hằng ngày"
+                    : "Không lặp lại"
+                }
                 readOnly
               />
             </div>

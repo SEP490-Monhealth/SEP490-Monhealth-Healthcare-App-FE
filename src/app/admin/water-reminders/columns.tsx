@@ -166,7 +166,6 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const waterReminderData = row.original
-      const isActive = waterReminderData.status
 
       return (
         <div className="flex justify-center">
@@ -196,22 +195,6 @@ export const createColumns = (
               >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
-              </DropdownMenuItem>
-
-              <Separator />
-
-              <DropdownMenuItem variant={isActive ? "destructive" : "default"}>
-                {isActive ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng hoạt động
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Kích hoạt
-                  </>
-                )}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
