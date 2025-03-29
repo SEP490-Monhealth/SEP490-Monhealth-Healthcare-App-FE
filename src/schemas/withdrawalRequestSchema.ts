@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { WithdrawalRequestStatusSchemaEnum } from "@/constants/enum/WithdrawalRequest"
+
 import { auditFields, uuidSchema } from "./baseSchema"
 import { userSchema } from "./userSchema"
 
@@ -22,7 +24,7 @@ const withdrawalRequestSchema = z.object({
     .number({ message: "Số tiền yêu cầu phải là một số" })
     .positive({ message: "Số tiền yêu cầu phải lớn hơn 0" }),
 
-  status: z.string().optional(),
+  status: WithdrawalRequestStatusSchemaEnum,
 
   ...auditFields
 })
