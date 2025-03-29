@@ -84,9 +84,9 @@ function PaymentDetailDialog({
               />
             </div>
 
-            <div className="col-span-2 grid grid-cols-4 gap-x-6 gap-y-4">
+            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
               <div className="col-span-1 flex-shrink-0">
-                <Avatar className="h-full w-48 rounded-md">
+                <Avatar className="h-full w-full rounded-md">
                   <AvatarImage src={paymentData.member.avatarUrl} />
                   <AvatarFallback>
                     {getInitials(paymentData.member.fullName)}
@@ -94,36 +94,38 @@ function PaymentDetailDialog({
                 </Avatar>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="member.fullName">Tên người dùng</Label>
-                <Input
-                  id="member.fullName"
-                  type="text"
-                  value={paymentData.member.fullName}
-                  readOnly
-                />
-              </div>
+              <div className="col-span-2 space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="member.fullName">Tên người dùng</Label>
+                  <Input
+                    id="member.fullName"
+                    type="text"
+                    value={paymentData.member.fullName}
+                    readOnly
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="member.email">Email người dùng</Label>
-                <Input
-                  id="member.email"
-                  type="email"
-                  value={paymentData.member.email}
-                  readOnly
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label htmlFor="member.email">Email người dùng</Label>
+                  <Input
+                    id="member.email"
+                    type="email"
+                    value={paymentData.member.email}
+                    readOnly
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="member.phoneNumber">
-                  Số điện thoại người dùng
-                </Label>
-                <Input
-                  id="member.phoneNumber"
-                  type="text"
-                  value={paymentData.member.phoneNumber}
-                  readOnly
-                />
+                <div className="space-y-2">
+                  <Label htmlFor="member.phoneNumber">
+                    Số điện thoại người dùng
+                  </Label>
+                  <Input
+                    id="member.phoneNumber"
+                    type="text"
+                    value={paymentData.member.phoneNumber}
+                    readOnly
+                  />
+                </div>
               </div>
             </div>
 
@@ -140,12 +142,18 @@ function PaymentDetailDialog({
 
               <div className="space-y-2">
                 <Label htmlFor="amount">Thanh toán</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  value={formatCurrency(paymentData.amount)}
-                  readOnly
-                />
+
+                <div className="relative">
+                  <Input
+                    id="amount"
+                    type="number"
+                    value={formatCurrency(paymentData.amount)}
+                    readOnly
+                  />
+                  <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                    VND
+                  </span>
+                </div>
               </div>
 
               <div className="space-y-2">

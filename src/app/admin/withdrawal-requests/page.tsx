@@ -10,13 +10,11 @@ import { DataTableFilterProps } from "@/components/globals/molecules/data-table-
 
 import TransactionWithdrawalDetailDialog from "@/components/locals/admin/withdrawal-requests/withdrawal-requests-detail-dialog"
 
-import {
-  TransactionStatusEnum,
-  TransactionTypeEnum
-} from "@/constants/enum/Transaction"
+import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useTransactions } from "@/hooks/useTransaction"
+import { useWithdrawalRequests } from "@/hooks/useWithdrawalRequest"
 
 import LoadingPage from "../loading"
 import { createColumns } from "./column"
@@ -34,11 +32,10 @@ function WithdrawalRequestPage() {
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
-  const type = TransactionTypeEnum.Withdrawal
   const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
 
-  const statusParam =
+  const typeParam =
     status && !isNaN(Number(status)) ? Number(status) : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
@@ -50,12 +47,14 @@ function WithdrawalRequestPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const {
-    data: transactionsData,
+    data: withdrawalRequestsData,
     isLoading,
     error
-  } = useTransactions(page, limit, type, debouncedSearch, statusParam)
+  } = useWithdrawalRequests(page, limit, debouncedSearch, typeParam)
 
-  const totalPages = Math.ceil((transactionsData?.totalItems || 1) / limit)
+  const totalPages = Math.ceil(
+    (withdrawalRequestsData?.totalItems || 1) / limit
+  )
 
   const filters: DataTableFilterProps[] = [
     {
@@ -63,16 +62,20 @@ function WithdrawalRequestPage() {
       label: "Trạng thái",
       options: [
         {
-          value: String(TransactionStatusEnum.Pending),
+          value: String(WithdrawalRequestStatusEnum.Pending),
           label: "Chờ xử lý"
         },
         {
-          value: String(TransactionStatusEnum.Completed),
+          value: String(WithdrawalRequestStatusEnum.Approved),
           label: "Đã thanh toán"
         },
         {
-          value: String(TransactionStatusEnum.Failed),
-          label: "Thất bại"
+          value: String(WithdrawalRequestStatusEnum.Completed),
+          label: "Hoàn tất"
+        },
+        {
+          value: String(WithdrawalRequestStatusEnum.Rejected),
+          label: "Hoàn trả"
         }
       ],
       value: status !== undefined ? String(status) : "",
@@ -126,7 +129,7 @@ function WithdrawalRequestPage() {
   return (
     <div>
       <DataTable
-        data={transactionsData?.transactions || []}
+        data={withdrawalRequestsData?.withdrawalRequests || []}
         columns={columns}
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
@@ -144,7 +147,7 @@ function WithdrawalRequestPage() {
       <TransactionWithdrawalDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        transactionId={selectedWithdrawalRequest}
+        withdrawalRequestId={selectedWithdrawalRequest}
       />
     </div>
   )
