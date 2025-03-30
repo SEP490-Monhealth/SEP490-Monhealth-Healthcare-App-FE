@@ -36,7 +36,8 @@ export const sidebarItems: SidebarItem[] = [
       { title: "Tổng quan hệ thống", path: "/admin/analytics/overview" },
       { title: "Báo cáo doanh thu", path: "/admin/analytics/revenue" },
       { title: "Báo cáo người dùng", path: "/admin/analytics/users" },
-      { title: "Báo cáo chuyên viên", path: "/admin/analytics/consultants" }
+      { title: "Báo cáo chuyên viên", path: "/admin/analytics/consultants" },
+      { title: "Báo cáo gói đăng ký", path: "/admin/analytics/subscriptions" }
     ]
   },
   {
@@ -80,19 +81,19 @@ export const sidebarItems: SidebarItem[] = [
       { title: "Danh sách bài tập", path: "/admin/exercises" }
     ]
   },
-  {
-    title: "Nước uống",
-    path: "/admin/water-reminders",
-    icon: Droplets,
-    children: []
-  },
+  // {
+  //   title: "Nước uống",
+  //   path: "/admin/water-reminders",
+  //   icon: Droplets,
+  //   children: []
+  // },
   {
     title: "Gói đăng ký",
     path: "#",
     icon: ShoppingCart,
     children: [
       { title: "Danh sách gói đăng ký", path: "/admin/subscriptions" },
-      { title: "Thống kê đăng ký", path: "/admin/subscriptions/statistics" }
+      { title: "Lịch sử đăng ký gói", path: "/admin/user-subscriptions" }
     ]
   },
   {

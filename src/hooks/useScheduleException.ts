@@ -10,7 +10,7 @@ import {
 interface ScheduleExceptionsResponse {
   totalPages: number
   totalItems: number
-  exceptions: ScheduleExceptionType[]
+  scheduleExceptions: ScheduleExceptionType[]
 }
 
 export const useScheduleExceptions = (
@@ -24,10 +24,10 @@ export const useScheduleExceptions = (
     staleTime: 1000 * 60 * 5
   })
 
-export const useScheduleExceptionById = (exceptionId: string) =>
+export const useScheduleExceptionById = (scheduleExceptionId: string) =>
   useQuery<ScheduleExceptionType, Error>({
-    queryKey: ["schedule-exception", exceptionId],
-    queryFn: () => fetchScheduleExceptionById(exceptionId),
-    enabled: !!exceptionId,
+    queryKey: ["schedule-exception", scheduleExceptionId],
+    queryFn: () => fetchScheduleExceptionById(scheduleExceptionId),
+    enabled: !!scheduleExceptionId,
     staleTime: 1000 * 60 * 5
   })

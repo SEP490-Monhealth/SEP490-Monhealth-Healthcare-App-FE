@@ -4,7 +4,7 @@ import { timestampFields, uuidSchema } from "./baseSchema"
 import { userSchema } from "./userSchema"
 
 const scheduleExceptionSchema = z.object({
-  exceptionId: uuidSchema,
+  scheduleExceptionId: uuidSchema,
   scheduleId: uuidSchema,
   consultantId: uuidSchema,
 
@@ -17,7 +17,12 @@ const scheduleExceptionSchema = z.object({
 
   date: z.string().nonempty({ message: "Ngày không được để trống" }),
 
-  reason: z.string().nonempty({ message: "Lý do không được để trống" }),
+  reason: z
+    .string()
+    .nonempty({ message: "Lý do không được để trống" })
+    .min(10, {
+      message: "Lý do phải có ít nhất 10 ký tự"
+    }),
 
   ...timestampFields
 })
