@@ -103,7 +103,7 @@ function ExerciseDetailDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-h-[400px] min-w-[700px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết bài tập</DialogTitle>
           <DialogDescription>

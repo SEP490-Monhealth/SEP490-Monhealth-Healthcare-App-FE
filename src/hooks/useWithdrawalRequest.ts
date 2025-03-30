@@ -1,12 +1,15 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
 
 import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
 
 import {
+  approveWithdrawalRequest,
   fetchWithdrawalRequestById,
-  fetchWithdrawalRequests
+  fetchWithdrawalRequests,
+  rejectWithdrawalRequest,
+  updateWithdrawalRequestStatus
 } from "@/services/withdrawalRequestService"
 
 interface WithdrawalRequestResponse {
@@ -34,3 +37,39 @@ export const useWithdrawalRequestById = (withdrawalRequestId: string) =>
     enabled: !!withdrawalRequestId,
     staleTime: 1000 * 60 * 5
   })
+
+export const useWithdrawalRequestStatus = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { withdrawalRequestId: string }>({
+    mutationFn: ({ withdrawalRequestId }) =>
+      updateWithdrawalRequestStatus(withdrawalRequestId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+    }
+  })
+}
+
+export const useApproveWithdrawalRequest = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { withdrawalRequestId: string }>({
+    mutationFn: ({ withdrawalRequestId }) =>
+      approveWithdrawalRequest(withdrawalRequestId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+    }
+  })
+}
+
+export const useRejectWithdrawalRequest = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { withdrawalRequestId: string }>({
+    mutationFn: ({ withdrawalRequestId }) =>
+      rejectWithdrawalRequest(withdrawalRequestId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["withdrawal-requests"] })
+    }
+  })
+}

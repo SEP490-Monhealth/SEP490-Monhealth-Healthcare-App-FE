@@ -61,3 +61,76 @@ export const fetchWithdrawalRequestById = async (
     throw new Error(errorMessage)
   }
 }
+
+export const updateWithdrawalRequestStatus = async (
+  withdrawalRequestId: string
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(
+      `/withdrawal-requests/${withdrawalRequestId}/status`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update withdrawal request status")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message ||
+      "Failed to update withdrawal request status"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const approveWithdrawalRequest = async (
+  withdrawalRequestId: string
+): Promise<void> => {
+  try {
+    const response = await monAPI.delete(
+      `/withdrawal-requests/${withdrawalRequestId}/approve`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to approve withdrawal request")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to approve withdrawal request"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const rejectWithdrawalRequest = async (
+  withdrawalRequestId: string
+): Promise<void> => {
+  try {
+    const response = await monAPI.delete(
+      `/withdrawal-requests/${withdrawalRequestId}/reject`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to reject withdrawal request")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to reject withdrawal request"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}

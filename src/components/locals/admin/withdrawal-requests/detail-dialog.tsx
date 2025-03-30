@@ -2,6 +2,8 @@
 
 import React, { useState } from "react"
 
+import Image from "next/image"
+
 import {
   Avatar,
   AvatarFallback,
@@ -25,10 +27,14 @@ import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import {
   WithdrawalRequestStatusEnum,
-  getPaymentStatusMeta
+  getWithdrawalRequestStatusMeta
 } from "@/constants/enum/WithdrawalRequest"
 
-import { useWithdrawalRequestById } from "@/hooks/useWithdrawalRequest"
+import {
+  useApproveWithdrawalRequest,
+  useRejectWithdrawalRequest,
+  useWithdrawalRequestById
+} from "@/hooks/useWithdrawalRequest"
 
 import { formatCurrency, formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
@@ -50,16 +56,53 @@ function WithdrawalRequestDetailDialog({
     error: withdrawalRequestError
   } = useWithdrawalRequestById(withdrawalRequestId || "")
 
-  const [openAlert, setOpenAlert] = useState<boolean>(false)
-  const [confirmAlert, setConfirmAlert] = useState<boolean>(false)
-  const [dialogPayment, setDialogPayment] = useState<boolean>(false)
+  console.log(withdrawalRequestData?.status)
 
-  const { label: withdrawalStatusLabel } = getPaymentStatusMeta(
+  const { mutate: approveWithdrawalRequest } = useApproveWithdrawalRequest()
+  const { mutate: rejectWithdrawalRequest } = useRejectWithdrawalRequest()
+
+  const qrCodeUrl =
+    "https://img.vietqr.io/image/BIDV-1890445466-compact2.png?amount=20000&addInfo=test%20rut%20tien&accountName=V%C4%83n%20H%E1%BB%AFu%20To%C3%A0n"
+
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
+  const [openQrCodeModal, setOpenQrCodeModal] = useState<boolean>(false)
+  const [alertContent, setAlertContent] = useState<{
+    title: string
+    description: string
+    onConfirm: () => void
+  }>({
+    title: "",
+    description: "",
+    onConfirm: () => {}
+  })
+
+  const [isApproved, setIsApproved] = useState<boolean>(false)
+
+  const { label: withdrawalStatusLabel } = getWithdrawalRequestStatusMeta(
     withdrawalRequestData?.status || WithdrawalRequestStatusEnum.Pending
   )
 
-  const handleOpenAlert = (e: React.MouseEvent) => {
-    e.stopPropagation()
+  const handleOpenAlert = (action: "approve" | "reject" | "complete") => {
+    if (action === "approve") {
+      setAlertContent({
+        title: "Xác nhận chấp nhận yêu cầu",
+        description: "Bạn có chắc chắn muốn chấp nhận yêu cầu này không?",
+        onConfirm: handleApprove
+      })
+    } else if (action === "reject") {
+      setAlertContent({
+        title: "Xác nhận từ chối yêu cầu",
+        description: "Bạn có chắc chắn muốn từ chối yêu cầu này không?",
+        onConfirm: handleReject
+      })
+    } else if (action === "complete") {
+      setAlertContent({
+        title: "Xác nhận hoàn tất thanh toán",
+        description: "Bạn có chắc chắn đã hoàn tất thanh toán không?",
+        onConfirm: handleCompletePayment
+      })
+    }
+
     setOpenAlert(true)
   }
 
@@ -67,21 +110,29 @@ function WithdrawalRequestDetailDialog({
     setOpenAlert(false)
   }
 
-  const handleOpenDialogPayment = () => {
-    setDialogPayment(true)
-  }
-
-  const handleConfirm = () => {
+  const handleApprove = () => {
     setOpenAlert(false)
-    setConfirmAlert(true)
+    setIsApproved(true)
   }
 
-  const handleClosePaymentDialog = () => {
-    setDialogPayment(false)
+  const handleReject = () => {
+    setOpenAlert(false)
+    setIsApproved(false)
+    onClose()
   }
 
-  const handleClose = () => {
-    setConfirmAlert(false)
+  const handleOpenQrCodeModal = async () => {
+    setOpenQrCodeModal(true)
+  }
+
+  const handleCloseQrCodeModal = () => {
+    setOpenQrCodeModal(false)
+  }
+
+  const handleCompletePayment = () => {
+    setOpenQrCodeModal(false)
+    setOpenAlert(false)
+    setIsApproved(false)
     onClose()
   }
 
@@ -90,7 +141,7 @@ function WithdrawalRequestDetailDialog({
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={handleClose}>
+      <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="min-w-[700px]">
           <DialogHeader>
             <DialogTitle>Chi tiết yêu cầu</DialogTitle>
@@ -137,7 +188,12 @@ function WithdrawalRequestDetailDialog({
 
                   <div className="space-y-2">
                     <Label htmlFor="fullName">Tên chuyên viên</Label>
-                    <Input id="fullName" type="text" value="cc" readOnly />
+                    <Input
+                      id="fullName"
+                      type="text"
+                      value={withdrawalRequestData.consultant.fullName}
+                      readOnly
+                    />
                   </div>
 
                   <div className="space-y-2">
@@ -145,14 +201,19 @@ function WithdrawalRequestDetailDialog({
                     <Input
                       id="email"
                       type="text"
-                      value="cc@gmail.com"
+                      value={withdrawalRequestData.consultant.email}
                       readOnly
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                    <Input id="phoneNumber" type="text" value="CCC" readOnly />
+                    <Input
+                      id="phoneNumber"
+                      type="text"
+                      value={withdrawalRequestData.consultant.phoneNumber}
+                      readOnly
+                    />
                   </div>
                 </div>
               </div>
@@ -233,17 +294,26 @@ function WithdrawalRequestDetailDialog({
 
           <DialogFooter>
             <div className="flex w-full justify-between">
-              <Button
-                variant={confirmAlert ? "default" : "outline"}
-                onClick={
-                  confirmAlert ? handleOpenDialogPayment : handleOpenAlert
-                }
-              >
-                {confirmAlert ? "Thanh toán" : "Chấp nhận"}
-              </Button>
-
-              <Button onClick={handleClose}>Đóng</Button>
+              {!isApproved ? (
+                <div className="space-x-4">
+                  <Button onClick={() => handleOpenAlert("approve")}>
+                    Chấp nhận
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={() => handleOpenAlert("reject")}
+                  >
+                    Từ chối
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="outline" onClick={handleOpenQrCodeModal}>
+                  Thanh toán
+                </Button>
+              )}
             </div>
+
+            <Button onClick={onClose}>Đóng</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -251,20 +321,39 @@ function WithdrawalRequestDetailDialog({
       <ConfirmAlertDialog
         open={openAlert}
         onOpenChange={handleCloseAlert}
-        onConfirm={handleConfirm}
-        title="Xác nhận thanh toán"
-        description="Bạn có chắc muốn thanh toán yêu cầu rút tiền này?"
+        onConfirm={alertContent.onConfirm}
+        title={alertContent.title}
+        description={alertContent.description}
       />
 
-      <Dialog open={dialogPayment} onOpenChange={handleClosePaymentDialog}>
-        <DialogContent className="min-h-[400px] min-w-[300px]">
+      <Dialog open={openQrCodeModal} onOpenChange={handleCloseQrCodeModal}>
+        <DialogContent>
           <DialogHeader>
-            <DialogTitle>Chi tiết thanh toán</DialogTitle>
+            <DialogTitle>QR Code</DialogTitle>
             <DialogDescription>
-              Xem thông tin chi tiết của thanh toán.
+              Quét mã QR để hoàn tất thanh toán.
             </DialogDescription>
           </DialogHeader>
-          <div>ahihih địt e đi</div>
+
+          {qrCodeUrl && (
+            <div className="flex justify-center">
+              <Image
+                src={qrCodeUrl || ""}
+                alt={withdrawalRequestData?.withdrawalRequestId || "QR Code"}
+                width={384}
+                height={384}
+              />
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button
+              variant="default"
+              onClick={() => handleOpenAlert("complete")}
+            >
+              Hoàn thành
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

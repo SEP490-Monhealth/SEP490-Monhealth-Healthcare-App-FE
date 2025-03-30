@@ -33,11 +33,11 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: BarChart3,
     children: [
-      { title: "Tổng quan hệ thống", path: "/admin/analytics/overview" },
-      { title: "Báo cáo doanh thu", path: "/admin/analytics/revenue" },
-      { title: "Báo cáo người dùng", path: "/admin/analytics/users" },
-      { title: "Báo cáo chuyên viên", path: "/admin/analytics/consultants" },
-      { title: "Báo cáo gói đăng ký", path: "/admin/analytics/subscriptions" }
+      { title: "Tổng quan", path: "/admin/analytics/overview" },
+      { title: "Doanh thu", path: "/admin/analytics/revenue" },
+      { title: "Người dùng", path: "/admin/analytics/users" },
+      { title: "Chuyên viên", path: "/admin/analytics/consultants" },
+      { title: "Gói đăng ký", path: "/admin/analytics/subscriptions" }
     ]
   },
   {
@@ -51,8 +51,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: UserCheck,
     children: [
-      { title: "Danh sách chuyên môn", path: "/admin/consultants/expertise" },
-      { title: "Danh sách chuyên viên", path: "/admin/consultants" },
+      { title: "Chuyên môn", path: "/admin/consultants/expertise" },
+      { title: "Chuyên viên", path: "/admin/consultants" },
       { title: "Hồ sơ đăng ký", path: "/admin/consultants/applications" },
       { title: "Thông tin thanh toán", path: "/admin/consultants/banks" }
     ]
@@ -62,7 +62,7 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Calendar,
     children: [
-      { title: "Danh sách lịch hẹn", path: "/admin/bookings" },
+      { title: "Lịch hẹn", path: "/admin/bookings" },
       { title: "Lịch ngoại lệ", path: "/admin/schedules/exceptions" }
     ]
   },
@@ -77,8 +77,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Dumbbell,
     children: [
-      { title: "Danh sách bộ bài tập", path: "/admin/workouts" },
-      { title: "Danh sách bài tập", path: "/admin/exercises" }
+      { title: "Bộ bài tập", path: "/admin/workouts" },
+      { title: "Bài tập", path: "/admin/exercises" }
     ]
   },
   // {
@@ -92,7 +92,7 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: ShoppingCart,
     children: [
-      { title: "Danh sách gói đăng ký", path: "/admin/subscriptions" },
+      { title: "Gói đăng ký", path: "/admin/subscriptions" },
       { title: "Lịch sử đăng ký gói", path: "/admin/user-subscriptions" }
     ]
   },
@@ -101,8 +101,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: CreditCard,
     children: [
-      { title: "Danh sách giao dịch", path: "/admin/payments" },
-      { title: "Lịch sử giao dịch", path: "/admin/transactions" },
+      { title: "Thanh toán gói", path: "/admin/payments" },
+      { title: "Giao dịch", path: "/admin/transactions" },
       { title: "Yêu cầu rút tiền", path: "/admin/withdrawal-requests" }
     ]
   },
