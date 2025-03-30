@@ -30,19 +30,19 @@ import { getInitials } from "@/utils/helpers"
 interface ExceptionDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  exceptionId: string | null
+  scheduleExceptionId: string | null
 }
 
 function ScheduleExceptionDetailDialog({
   isOpen,
   onClose,
-  exceptionId
+  scheduleExceptionId
 }: ExceptionDetailDialogProps) {
   const {
-    data: exceptionData,
+    data: scheduleExceptionData,
     isLoading: isExceptionLoading,
     error: exceptionError
-  } = useScheduleExceptionById(exceptionId || "")
+  } = useScheduleExceptionById(scheduleExceptionId || "")
 
   const isLoading = isExceptionLoading
   const hasError = exceptionError
@@ -59,18 +59,18 @@ function ScheduleExceptionDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : hasError || !exceptionData ? (
+        ) : hasError || !scheduleExceptionData ? (
           <ErrorDialog
             message={exceptionError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="exceptionId">Mã lịch ngoại lệ</Label>
+              <Label htmlFor="scheduleExceptionId">Mã lịch ngoại lệ</Label>
               <Input
-                id="exceptionId"
+                id="scheduleExceptionId"
                 type="text"
-                value={exceptionData.exceptionId}
+                value={scheduleExceptionData.scheduleExceptionId}
                 readOnly
               />
             </div>
@@ -79,9 +79,14 @@ function ScheduleExceptionDetailDialog({
               <div className="col-span-1">
                 <div className="flex-shrink-0">
                   <Avatar className="h-full w-48 rounded-md">
-                    <AvatarImage src={exceptionData.consultant.avatarUrl} />
+                    <AvatarImage
+                      src={scheduleExceptionData.consultant.avatarUrl}
+                      alt={getInitials(
+                        scheduleExceptionData.consultant.fullName
+                      )}
+                    />
                     <AvatarFallback>
-                      {getInitials(exceptionData.consultant.fullName)}
+                      {getInitials(scheduleExceptionData.consultant.fullName)}
                     </AvatarFallback>
                   </Avatar>
                 </div>
@@ -93,7 +98,7 @@ function ScheduleExceptionDetailDialog({
                   <Input
                     id="fullName"
                     type="text"
-                    value={exceptionData.consultant.fullName}
+                    value={scheduleExceptionData.consultant.fullName}
                     readOnly
                   />
                 </div>
@@ -103,7 +108,7 @@ function ScheduleExceptionDetailDialog({
                   <Input
                     id="email"
                     type="text"
-                    value={exceptionData.consultant.email}
+                    value={scheduleExceptionData.consultant.email}
                     readOnly
                   />
                 </div>
@@ -113,33 +118,31 @@ function ScheduleExceptionDetailDialog({
                   <Input
                     id="phoneNumber"
                     type="text"
-                    value={exceptionData.consultant.phoneNumber}
+                    value={scheduleExceptionData.consultant.phoneNumber}
                     readOnly
                   />
                 </div>
               </div>
             </div>
 
-            <div className="col-span-2 grid grid-cols-4 gap-x-6 gap-y-4">
-              <div className="col-span-1 space-y-2">
-                <Label htmlFor="date">Lịch ngoại lệ</Label>
-                <Input
-                  id="date"
-                  type="text"
-                  value={formatDate(exceptionData.date)}
-                  readOnly
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="date">Lịch ngoại lệ</Label>
+              <Input
+                id="date"
+                type="text"
+                value={formatDate(scheduleExceptionData.date)}
+                readOnly
+              />
+            </div>
 
-              <div className="col-span-3 space-y-2">
-                <Label htmlFor="reason">Lý do</Label>
-                <Input
-                  id="reason"
-                  type="text"
-                  value={exceptionData.reason}
-                  readOnly
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="reason">Lý do</Label>
+              <Input
+                id="reason"
+                type="text"
+                value={scheduleExceptionData.reason}
+                readOnly
+              />
             </div>
 
             <div className="space-y-2">
@@ -147,7 +150,7 @@ function ScheduleExceptionDetailDialog({
               <Input
                 id="createdAt"
                 type="text"
-                value={formatDate(exceptionData.createdAt)}
+                value={formatDate(scheduleExceptionData.createdAt)}
                 readOnly
               />
             </div>
@@ -157,7 +160,7 @@ function ScheduleExceptionDetailDialog({
               <Input
                 id="updatedAt"
                 type="text"
-                value={formatDate(exceptionData.updatedAt)}
+                value={formatDate(scheduleExceptionData.updatedAt)}
                 readOnly
               />
             </div>

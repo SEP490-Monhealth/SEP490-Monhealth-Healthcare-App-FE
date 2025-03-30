@@ -8,8 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddCategoryDialog from "@/components/locals/admin/categories/add-category-dialog"
-import CategoryDetailDialog from "@/components/locals/admin/categories/category-detail-dialog"
+import AddCategoryDialog from "@/components/locals/admin/categories/add-dialog"
+import CategoryDetailDialog from "@/components/locals/admin/categories/detail-dialog"
 
 import { CategoryTypeEnum } from "@/constants/enum/Category"
 

@@ -76,13 +76,9 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const type = row.original.type as TransactionTypeEnum
-      const { label, color } = getTransactionTypeMeta(type)
+      const { label } = getTransactionTypeMeta(type)
 
-      return (
-        <Badge className="text-white" style={{ backgroundColor: color }}>
-          {label}
-        </Badge>
-      )
+      return <span>{label}</span>
     }
   },
   {
@@ -102,6 +98,14 @@ export const createColumns = (
     }
   },
   {
+    accessorKey: "description",
+    header: "Mô tả",
+    cell: ({ row }) => {
+      const description = row.original.description
+      return <DataTableCellDescription description={description} />
+    }
+  },
+  {
     accessorKey: "amount",
     meta: { title: "Số tiền" },
     header: ({ column }) => (
@@ -114,14 +118,6 @@ export const createColumns = (
           {formatCurrency(amount)}
         </span>
       )
-    }
-  },
-  {
-    accessorKey: "description",
-    header: "Mô tả",
-    cell: ({ row }) => {
-      const description = row.original.description
-      return <DataTableCellDescription description={description} />
     }
   },
   {

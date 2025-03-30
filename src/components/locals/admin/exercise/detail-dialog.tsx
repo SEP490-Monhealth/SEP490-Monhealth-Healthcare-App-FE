@@ -156,6 +156,35 @@ function ExerciseDetailDialog({
               )}
             </div>
 
+            <div className="col-span-2">
+              <div className="space-y-2">
+                <Label htmlFor="instructions">Hướng dẫn</Label>
+
+                {!isEdit ? (
+                  <Textarea
+                    id="instructions"
+                    rows={6}
+                    value={exerciseData.instructions}
+                    readOnly
+                  />
+                ) : (
+                  <Textarea
+                    id="instructions"
+                    rows={6}
+                    placeholder="Nhập hướng dẫn"
+                    defaultValue={exerciseData.instructions}
+                    {...register("instructions")}
+                  />
+                )}
+              </div>
+
+              {errors.instructions && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.instructions.message}
+                </p>
+              )}
+            </div>
+
             <div>
               <div className="space-y-2">
                 <Label htmlFor="caloriesPerMinute">Năng lượng mỗi phút</Label>
@@ -201,35 +230,6 @@ function ExerciseDetailDialog({
               />
             </div>
 
-            <div className="col-span-2">
-              <div className="space-y-2">
-                <Label htmlFor="instructions">Hướng dẫn</Label>
-
-                {!isEdit ? (
-                  <Textarea
-                    id="instructions"
-                    rows={6}
-                    value={exerciseData.instructions}
-                    readOnly
-                  />
-                ) : (
-                  <Textarea
-                    id="instructions"
-                    rows={6}
-                    placeholder="Nhập hướng dẫn"
-                    defaultValue={exerciseData.instructions}
-                    {...register("instructions")}
-                  />
-                )}
-              </div>
-
-              {errors.instructions && (
-                <p className="mt-1 ml-1 text-sm text-red-600">
-                  {errors.instructions.message}
-                </p>
-              )}
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="createdAt">Ngày tạo</Label>
               <Input
@@ -245,7 +245,7 @@ function ExerciseDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={exerciseData.createdBy}
+                value={exerciseData.createdBy || "--"}
                 readOnly
               />
             </div>
@@ -265,7 +265,7 @@ function ExerciseDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={exerciseData.updatedBy}
+                value={exerciseData.updatedBy || "--"}
                 readOnly
               />
             </div>

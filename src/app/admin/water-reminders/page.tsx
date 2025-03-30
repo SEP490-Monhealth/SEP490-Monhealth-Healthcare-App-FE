@@ -8,7 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import WaterReminderDetailDialog from "@/components/locals/admin/water-reminders/water-reminder-detail-dialog"
+import WaterReminderDetailDialog from "@/components/locals/admin/water-reminders/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useWaterReminders } from "@/hooks/useWaterReminder"

@@ -14,38 +14,51 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "@/components/globals/atoms/select"
 import { Textarea } from "@/components/globals/atoms/textarea"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import { useAllergyById, useUpdateAllergy } from "@/hooks/useAllergy"
+import { CategoryTypeEnum, getCategoryMeta } from "@/constants/enum/Category"
+
+import { useCategoryById, useUpdateCategory } from "@/hooks/useCategory"
 
 import {
-  CreateUpdateAllergyType,
-  createUpdateAllergySchema
-} from "@/schemas/allergySchema"
+  CreateUpdateCategoryType,
+  createUpdateCategorySchema
+} from "@/schemas/categorySchema"
 
 import { formatDate } from "@/utils/formatters"
 
-interface AllergyDetailDialogProps {
+import { categoryOptions } from "./add-dialog"
+
+interface CategoryDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  allergyId: string | null
+  categoryId: string | null
 }
 
-function AllergyDetailDialog({
+function CategoryDetailDialog({
   isOpen,
   onClose,
-  allergyId
-}: AllergyDetailDialogProps) {
+  categoryId
+}: CategoryDetailDialogProps) {
   const {
-    data: allergyData,
-    isLoading: isAllergyLoading,
-    error: allergyError
-  } = useAllergyById(allergyId || "")
+    data: categoryData,
+    isLoading: isCategoryLoading,
+    error: categoryError
+  } = useCategoryById(categoryId || "")
 
-  const { mutate: updateAllergy } = useUpdateAllergy()
+  const { mutate: updateCategory } = useUpdateCategory()
 
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isLoadingSave, setIsLoadingSave] = useState<boolean>(false)
@@ -53,20 +66,26 @@ function AllergyDetailDialog({
   const {
     register,
     setValue,
+    watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<CreateUpdateAllergyType>({
-    resolver: zodResolver(createUpdateAllergySchema)
+  } = useForm<CreateUpdateCategoryType>({
+    resolver: zodResolver(createUpdateCategorySchema)
   })
 
   useEffect(() => {
-    if (allergyData) {
-      setValue("name", allergyData.name || "")
-      setValue("description", allergyData.description || "")
+    if (categoryData) {
+      setValue("type", categoryData.type)
+      setValue("name", categoryData.name || "")
+      setValue("description", categoryData.description || "")
     }
-  }, [allergyData, setValue])
+  }, [categoryData, setValue])
 
-  const onSubmit = async (data: CreateUpdateAllergyType) => {
+  const { label: categoryTypeLabel } = getCategoryMeta(
+    categoryData?.type || CategoryTypeEnum.Food
+  )
+
+  const onSubmit = async (data: CreateUpdateCategoryType) => {
     setIsEdit(false)
     setIsLoadingSave(true)
 
@@ -74,8 +93,8 @@ function AllergyDetailDialog({
     console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
     try {
-      await updateAllergy(
-        { allergyId: allergyId || "", updatedData: data },
+      await updateCategory(
+        { categoryId: categoryId || "", updatedData: data },
         {
           onSuccess: () => {
             setIsEdit(false)
@@ -84,7 +103,7 @@ function AllergyDetailDialog({
         }
       )
     } catch (error) {
-      console.error("Lỗi khi cập nhật dị ứng:", error)
+      console.error("Lỗi khi cập nhật danh mục:", error)
       setIsLoadingSave(false)
     }
   }
@@ -97,53 +116,98 @@ function AllergyDetailDialog({
     setIsEdit(false)
   }
 
-  const isLoading = isAllergyLoading
-  const hasError = allergyError
+  const isLoading = isCategoryLoading
+  const hasError = categoryError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết dị ứng</DialogTitle>
+          <DialogTitle>Chi tiết danh mục</DialogTitle>
           <DialogDescription>
-            Xem thông tin chi tiết của dị ứng.
+            Xem thông tin chi tiết của danh mục.
           </DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
           <LoadingDialog />
-        ) : hasError || !allergyData ? (
+        ) : hasError || !categoryData ? (
           <ErrorDialog
-            message={allergyError?.message || "Không thể tải dữ liệu."}
+            message={categoryError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="allergyId">Mã dị ứng</Label>
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="categoryId">Mã danh mục</Label>
               <Input
-                id="allergyId"
+                id="categoryId"
                 type="text"
-                value={allergyData.allergyId}
+                value={categoryData.categoryId}
                 readOnly
               />
             </div>
 
             <div>
               <div className="space-y-2">
-                <Label htmlFor="name">Tên dị ứng</Label>
+                <Label htmlFor="type">Loại danh mục</Label>
+
+                {!isEdit ? (
+                  <Input
+                    id="type"
+                    type="text"
+                    value={categoryTypeLabel}
+                    readOnly
+                  />
+                ) : (
+                  <Select
+                    onValueChange={(value) => setValue("type", Number(value))}
+                    value={
+                      watch("type") !== undefined ? String(watch("type")) : ""
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Chọn loại danh mục" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Loại danh mục</SelectLabel>
+                        {categoryOptions.map((option) => (
+                          <SelectItem
+                            key={option.value}
+                            value={String(option.value)}
+                          >
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                )}
+              </div>
+
+              {errors.type && (
+                <p className="mt-1 ml-1 text-sm text-red-600">
+                  {errors.type.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <div className="space-y-2">
+                <Label htmlFor="name">Tên danh mục</Label>
                 {!isEdit ? (
                   <Input
                     id="name"
                     type="text"
-                    value={allergyData.name}
+                    value={categoryData.name}
                     readOnly
                   />
                 ) : (
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Nhập tên dị ứng"
-                    defaultValue={allergyData.name}
+                    placeholder="Nhập tên danh mục"
+                    defaultValue={categoryData.name}
                     {...register("name")}
                   />
                 )}
@@ -163,15 +227,15 @@ function AllergyDetailDialog({
                   <Textarea
                     id="description"
                     rows={4}
-                    value={allergyData.description}
+                    value={categoryData.description}
                     readOnly
                   />
                 ) : (
                   <Textarea
                     id="description"
                     rows={4}
-                    placeholder="Nhập mô tả dị ứng"
-                    defaultValue={allergyData.description}
+                    placeholder="Nhập mô tả danh mục"
+                    defaultValue={categoryData.description}
                     {...register("description")}
                   />
                 )}
@@ -189,7 +253,7 @@ function AllergyDetailDialog({
               <Input
                 id="createdAt"
                 type="text"
-                value={formatDate(allergyData.createdAt)}
+                value={formatDate(categoryData.createdAt)}
                 readOnly
               />
             </div>
@@ -199,7 +263,7 @@ function AllergyDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={allergyData.createdBy}
+                value={categoryData.createdBy || "--"}
                 readOnly
               />
             </div>
@@ -209,7 +273,7 @@ function AllergyDetailDialog({
               <Input
                 id="updatedAt"
                 type="text"
-                value={formatDate(allergyData.updatedAt)}
+                value={formatDate(categoryData.updatedAt)}
                 readOnly
               />
             </div>
@@ -219,7 +283,7 @@ function AllergyDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={allergyData.updatedBy}
+                value={categoryData.updatedBy || "--"}
                 readOnly
               />
             </div>
@@ -257,4 +321,4 @@ function AllergyDetailDialog({
   )
 }
 
-export default AllergyDetailDialog
+export default CategoryDetailDialog

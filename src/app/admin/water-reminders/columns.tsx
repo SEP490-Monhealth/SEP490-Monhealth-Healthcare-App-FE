@@ -93,9 +93,9 @@ export const createColumns = (
   },
   {
     accessorKey: "isRecurring",
-    meta: { title: "Tần suất" },
+    meta: { title: "Tần suất lặp lại" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tần suất" center />
+      <DataTableColumnHeader column={column} title="Tần suất lặp lại" center />
     ),
     cell: ({ row }) => {
       const isRecurring = row.original.isRecurring

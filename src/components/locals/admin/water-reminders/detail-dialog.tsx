@@ -136,7 +136,7 @@ function WaterReminderDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={waterReminderData.createdBy}
+                value={waterReminderData.createdBy || "--"}
                 readOnly
               />
             </div>
@@ -156,7 +156,7 @@ function WaterReminderDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={waterReminderData.updatedBy}
+                value={waterReminderData.updatedBy || "--"}
                 readOnly
               />
             </div>

@@ -8,8 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddExerciseDialog from "@/components/locals/admin/exercise/add-exercise-dialog"
-import ExerciseDetailDialog from "@/components/locals/admin/exercise/exercise-detail-dialog"
+import AddExerciseDialog from "@/components/locals/admin/exercise/add-dialog"
+import ExerciseDetailDialog from "@/components/locals/admin/exercise/detail-dialog"
 
 import { ExerciseTypeEnum } from "@/constants/enum/Workout"
 

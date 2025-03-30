@@ -68,7 +68,7 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
 
       <div className="space-y-2">
         <Label htmlFor="createdBy">Người tạo</Label>
-        <Input id="createdBy" type="text" value={userData.createdBy} readOnly />
+        <Input id="createdBy" type="text" value={userData.createdBy || "--"} readOnly />
       </div>
 
       <div className="space-y-2">
@@ -83,7 +83,7 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
 
       <div className="space-y-2">
         <Label htmlFor="updatedBy">Người cập nhật</Label>
-        <Input id="updatedBy" type="text" value={userData.updatedBy} readOnly />
+        <Input id="updatedBy" type="text" value={userData.updatedBy || "--"} readOnly />
       </div>
     </div>
   )

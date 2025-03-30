@@ -8,7 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import ConsultantDetailDialog from "@/components/locals/admin/consultants/consultant-detail-dialog"
+import ConsultantDetailDialog from "@/components/locals/admin/consultants/detail-dialog"
 
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"

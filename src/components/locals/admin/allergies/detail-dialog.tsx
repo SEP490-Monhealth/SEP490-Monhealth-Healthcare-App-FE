@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useEffect, useState } from "react"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -21,33 +19,33 @@ import { Textarea } from "@/components/globals/atoms/textarea"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import { useExpertiseById, useUpdateExpertise } from "@/hooks/useExpertise"
+import { useAllergyById, useUpdateAllergy } from "@/hooks/useAllergy"
 
 import {
-  CreateUpdateExpertiseType,
-  createUpdateExpertiseSchema
-} from "@/schemas/expertiseSchema"
+  CreateUpdateAllergyType,
+  createUpdateAllergySchema
+} from "@/schemas/allergySchema"
 
 import { formatDate } from "@/utils/formatters"
 
-interface ExpertiseDetailDialogProps {
+interface AllergyDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  expertiseId: string | null
+  allergyId: string | null
 }
 
-function ExpertiseDetailDialog({
+function AllergyDetailDialog({
   isOpen,
   onClose,
-  expertiseId
-}: ExpertiseDetailDialogProps) {
+  allergyId
+}: AllergyDetailDialogProps) {
   const {
-    data: expertiseData,
-    isLoading: isExpertiseLoading,
-    error: expertiseError
-  } = useExpertiseById(expertiseId || "")
+    data: allergyData,
+    isLoading: isAllergyLoading,
+    error: allergyError
+  } = useAllergyById(allergyId || "")
 
-  const { mutate: updateExpertise } = useUpdateExpertise()
+  const { mutate: updateAllergy } = useUpdateAllergy()
 
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isLoadingSave, setIsLoadingSave] = useState<boolean>(false)
@@ -57,18 +55,18 @@ function ExpertiseDetailDialog({
     setValue,
     handleSubmit,
     formState: { errors }
-  } = useForm<CreateUpdateExpertiseType>({
-    resolver: zodResolver(createUpdateExpertiseSchema)
+  } = useForm<CreateUpdateAllergyType>({
+    resolver: zodResolver(createUpdateAllergySchema)
   })
 
   useEffect(() => {
-    if (expertiseData) {
-      setValue("name", expertiseData.name || "")
-      setValue("description", expertiseData.description || "")
+    if (allergyData) {
+      setValue("name", allergyData.name || "")
+      setValue("description", allergyData.description || "")
     }
-  }, [expertiseData, setValue])
+  }, [allergyData, setValue])
 
-  const onSubmit = async (data: CreateUpdateExpertiseType) => {
+  const onSubmit = async (data: CreateUpdateAllergyType) => {
     setIsEdit(false)
     setIsLoadingSave(true)
 
@@ -76,8 +74,8 @@ function ExpertiseDetailDialog({
     console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
     try {
-      await updateExpertise(
-        { expertiseId: expertiseId || "", updatedData: data },
+      await updateAllergy(
+        { allergyId: allergyId || "", updatedData: data },
         {
           onSuccess: () => {
             setIsEdit(false)
@@ -86,7 +84,7 @@ function ExpertiseDetailDialog({
         }
       )
     } catch (error) {
-      console.error("Lỗi khi cập nhật chuyên môn:", error)
+      console.error("Lỗi khi cập nhật dị ứng:", error)
       setIsLoadingSave(false)
     }
   }
@@ -99,54 +97,53 @@ function ExpertiseDetailDialog({
     setIsEdit(false)
   }
 
-  const isLoading = isExpertiseLoading
-  const hasError = expertiseError
+  const isLoading = isAllergyLoading
+  const hasError = allergyError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết chuyên môn</DialogTitle>
+          <DialogTitle>Chi tiết dị ứng</DialogTitle>
           <DialogDescription>
-            Xem và quản lý thông tin chi tiết của chuyên môn.
+            Xem thông tin chi tiết của dị ứng.
           </DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
           <LoadingDialog />
-        ) : hasError || !expertiseData ? (
+        ) : hasError || !allergyData ? (
           <ErrorDialog
-            message={expertiseError?.message || "Không thể tải dữ liệu."}
+            message={allergyError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <div className="space-y-2">
-              <Label htmlFor="expertiseId">Mã chuyên môn</Label>
+              <Label htmlFor="allergyId">Mã dị ứng</Label>
               <Input
-                id="expertiseId"
+                id="allergyId"
                 type="text"
-                value={expertiseData.expertiseId}
+                value={allergyData.allergyId}
                 readOnly
               />
             </div>
 
             <div>
               <div className="space-y-2">
-                <Label htmlFor="name">Tên chuyên môn</Label>
-
+                <Label htmlFor="name">Tên dị ứng</Label>
                 {!isEdit ? (
                   <Input
                     id="name"
                     type="text"
-                    value={expertiseData.name}
+                    value={allergyData.name}
                     readOnly
                   />
                 ) : (
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Nhập tên chuyên môn"
-                    defaultValue={expertiseData.name}
+                    placeholder="Nhập tên dị ứng"
+                    defaultValue={allergyData.name}
                     {...register("name")}
                   />
                 )}
@@ -162,20 +159,19 @@ function ExpertiseDetailDialog({
             <div className="col-span-2">
               <div className="space-y-2">
                 <Label htmlFor="description">Mô tả</Label>
-
                 {!isEdit ? (
                   <Textarea
                     id="description"
                     rows={4}
-                    value={expertiseData.description}
+                    value={allergyData.description}
                     readOnly
                   />
                 ) : (
                   <Textarea
                     id="description"
                     rows={4}
-                    placeholder="Nhập mô tả chuyên môn"
-                    defaultValue={expertiseData.description}
+                    placeholder="Nhập mô tả dị ứng"
+                    defaultValue={allergyData.description}
                     {...register("description")}
                   />
                 )}
@@ -193,7 +189,7 @@ function ExpertiseDetailDialog({
               <Input
                 id="createdAt"
                 type="text"
-                value={formatDate(expertiseData.createdAt)}
+                value={formatDate(allergyData.createdAt)}
                 readOnly
               />
             </div>
@@ -203,7 +199,7 @@ function ExpertiseDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={expertiseData.createdBy}
+                value={allergyData.createdBy || "--"}
                 readOnly
               />
             </div>
@@ -213,7 +209,7 @@ function ExpertiseDetailDialog({
               <Input
                 id="updatedAt"
                 type="text"
-                value={formatDate(expertiseData.updatedAt)}
+                value={formatDate(allergyData.updatedAt)}
                 readOnly
               />
             </div>
@@ -223,7 +219,7 @@ function ExpertiseDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={expertiseData.updatedBy}
+                value={allergyData.updatedBy || "--"}
                 readOnly
               />
             </div>
@@ -261,4 +257,4 @@ function ExpertiseDetailDialog({
   )
 }
 
-export default ExpertiseDetailDialog
+export default AllergyDetailDialog

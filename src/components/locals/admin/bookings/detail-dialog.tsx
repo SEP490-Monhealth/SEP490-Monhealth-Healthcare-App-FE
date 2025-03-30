@@ -197,7 +197,7 @@ function BookingDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={bookingData.createdBy}
+                value={bookingData.createdBy || "--"}
                 readOnly
               />
             </div>
@@ -217,7 +217,7 @@ function BookingDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={bookingData.updatedBy}
+                value={bookingData.updatedBy || "--"}
                 readOnly
               />
             </div>

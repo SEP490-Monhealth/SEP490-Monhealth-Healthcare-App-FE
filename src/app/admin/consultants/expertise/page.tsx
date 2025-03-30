@@ -6,8 +6,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
-import AddExpertiseDialog from "@/components/locals/admin/expertise/add-expertise-dialog"
-import ExpertiseDetailDialog from "@/components/locals/admin/expertise/expertise-detail-dialog"
+import AddExpertiseDialog from "@/components/locals/admin/expertise/add-dialog"
+import ExpertiseDetailDialog from "@/components/locals/admin/expertise/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"

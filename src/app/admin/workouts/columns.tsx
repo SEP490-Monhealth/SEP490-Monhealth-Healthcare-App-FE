@@ -71,23 +71,23 @@ export const createColumns = (
   },
   {
     accessorKey: "workoutId",
-    meta: { title: "Mã bài tập" },
+    meta: { title: "Mã bộ bài tập" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã bài tập" />
+      <DataTableColumnHeader column={column} title="Mã bộ bài tập" />
     )
   },
   {
     accessorKey: "name",
     meta: { title: "Tên bài tập" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tên bài tập" />
+      <DataTableColumnHeader column={column} title="Tên bộ bài tập" />
     )
   },
   {
     accessorKey: "type",
-    meta: { title: "Phân loại" },
+    meta: { title: "Loại bộ bài tập" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Phân loại" />
+      <DataTableColumnHeader column={column} title="Loại bộ bài tập" />
     ),
     cell: ({ row }) => {
       const type = row.original.type

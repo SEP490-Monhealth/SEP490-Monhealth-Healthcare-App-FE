@@ -8,8 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddUserDialog from "@/components/locals/admin/users/add-user-dialog"
-import UserDetailDialog from "@/components/locals/admin/users/user-detail-dialog"
+import AddUserDialog from "@/components/locals/admin/users/add-dialog"
+import UserDetailDialog from "@/components/locals/admin/users/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUsers } from "@/hooks/useUser"

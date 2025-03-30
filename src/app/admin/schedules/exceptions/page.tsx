@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
-import ScheduleExceptionDetailDialog from "@/components/locals/admin/shedule-exception/schedule-exception-detail-dialog"
+import ScheduleExceptionDetailDialog from "@/components/locals/admin/schedules/exceptions/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useScheduleExceptions } from "@/hooks/useScheduleException"
@@ -15,10 +15,10 @@ import LoadingPage from "../../loading"
 import { createColumns } from "./column"
 
 const DEFAULT_VISIBILITY = {
-  exceptionId: false
+  scheduleExceptionId: false
 }
 
-function ExceptionPage() {
+function ScheduleExceptionPage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -36,12 +36,14 @@ function ExceptionPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const {
-    data: exceptionsData,
+    data: scheduleExceptionsData,
     isLoading,
     error
   } = useScheduleExceptions(page, limit, debouncedSearch)
 
-  const totalPages = Math.ceil((exceptionsData?.totalItems || 1) / limit)
+  const totalPages = Math.ceil(
+    (scheduleExceptionsData?.totalItems || 1) / limit
+  )
 
   const updateParams = (
     key: string,
@@ -63,8 +65,8 @@ function ExceptionPage() {
     }
   }, [debouncedSearch, search])
 
-  const handleViewDetail = (exceptionId: string) => {
-    setSelectedException(exceptionId)
+  const handleViewDetail = (scheduleExceptionId: string) => {
+    setSelectedException(scheduleExceptionId)
     setIsDetailDialogOpen(true)
   }
 
@@ -81,7 +83,7 @@ function ExceptionPage() {
   return (
     <div>
       <DataTable
-        data={exceptionsData?.exceptions || []}
+        data={scheduleExceptionsData?.scheduleExceptions || []}
         columns={columns}
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
@@ -97,10 +99,10 @@ function ExceptionPage() {
       <ScheduleExceptionDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        exceptionId={selectedException}
+        scheduleExceptionId={selectedException}
       />
     </div>
   )
 }
 
-export default ExceptionPage
+export default ScheduleExceptionPage

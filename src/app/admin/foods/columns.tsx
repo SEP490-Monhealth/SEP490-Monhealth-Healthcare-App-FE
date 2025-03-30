@@ -75,9 +75,9 @@ export const createColumns = (
   },
   {
     accessorKey: "category",
-    meta: { title: "Danh mục" },
+    meta: { title: "Loại món ăn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Danh mục" />
+      <DataTableColumnHeader column={column} title="Loại món ăn" />
     )
   },
   {

@@ -21,7 +21,7 @@ import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import { useWorkoutById } from "@/hooks/useWorkout"
 
-import WorkoutDetailTabDialog from "./workout-detail-tab-dialog"
+import WorkoutDetailTabDialog from "./detail-tab-dialog"
 
 interface WorkoutDetailDialogProps {
   isOpen: boolean

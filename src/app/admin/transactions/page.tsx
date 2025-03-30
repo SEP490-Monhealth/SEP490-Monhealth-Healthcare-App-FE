@@ -8,7 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import TransactionDetailDialog from "@/components/locals/admin/transactions/transaction-detail-dialog"
+import TransactionDetailDialog from "@/components/locals/admin/transactions/detail-dialog"
 
 import {
   TransactionStatusEnum,

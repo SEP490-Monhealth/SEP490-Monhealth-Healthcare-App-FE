@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from "react"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,51 +16,38 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue
-} from "@/components/globals/atoms/select"
 import { Textarea } from "@/components/globals/atoms/textarea"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
-import { CategoryTypeEnum, getCategoryMeta } from "@/constants/enum/Category"
-
-import { useCategoryById, useUpdateCategory } from "@/hooks/useCategory"
+import { useExpertiseById, useUpdateExpertise } from "@/hooks/useExpertise"
 
 import {
-  CreateUpdateCategoryType,
-  createUpdateCategorySchema
-} from "@/schemas/categorySchema"
+  CreateUpdateExpertiseType,
+  createUpdateExpertiseSchema
+} from "@/schemas/expertiseSchema"
 
 import { formatDate } from "@/utils/formatters"
 
-import { categoryOptions } from "./add-category-dialog"
-
-interface CategoryDetailDialogProps {
+interface ExpertiseDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  categoryId: string | null
+  expertiseId: string | null
 }
 
-function CategoryDetailDialog({
+function ExpertiseDetailDialog({
   isOpen,
   onClose,
-  categoryId
-}: CategoryDetailDialogProps) {
+  expertiseId
+}: ExpertiseDetailDialogProps) {
   const {
-    data: categoryData,
-    isLoading: isCategoryLoading,
-    error: categoryError
-  } = useCategoryById(categoryId || "")
+    data: expertiseData,
+    isLoading: isExpertiseLoading,
+    error: expertiseError
+  } = useExpertiseById(expertiseId || "")
 
-  const { mutate: updateCategory } = useUpdateCategory()
+  const { mutate: updateExpertise } = useUpdateExpertise()
 
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isLoadingSave, setIsLoadingSave] = useState<boolean>(false)
@@ -66,26 +55,20 @@ function CategoryDetailDialog({
   const {
     register,
     setValue,
-    watch,
     handleSubmit,
     formState: { errors }
-  } = useForm<CreateUpdateCategoryType>({
-    resolver: zodResolver(createUpdateCategorySchema)
+  } = useForm<CreateUpdateExpertiseType>({
+    resolver: zodResolver(createUpdateExpertiseSchema)
   })
 
   useEffect(() => {
-    if (categoryData) {
-      setValue("type", categoryData.type)
-      setValue("name", categoryData.name || "")
-      setValue("description", categoryData.description || "")
+    if (expertiseData) {
+      setValue("name", expertiseData.name || "")
+      setValue("description", expertiseData.description || "")
     }
-  }, [categoryData, setValue])
+  }, [expertiseData, setValue])
 
-  const { label: categoryTypeLabel } = getCategoryMeta(
-    categoryData?.type || CategoryTypeEnum.Food
-  )
-
-  const onSubmit = async (data: CreateUpdateCategoryType) => {
+  const onSubmit = async (data: CreateUpdateExpertiseType) => {
     setIsEdit(false)
     setIsLoadingSave(true)
 
@@ -93,8 +76,8 @@ function CategoryDetailDialog({
     console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
     try {
-      await updateCategory(
-        { categoryId: categoryId || "", updatedData: data },
+      await updateExpertise(
+        { expertiseId: expertiseId || "", updatedData: data },
         {
           onSuccess: () => {
             setIsEdit(false)
@@ -103,7 +86,7 @@ function CategoryDetailDialog({
         }
       )
     } catch (error) {
-      console.error("Lỗi khi cập nhật danh mục:", error)
+      console.error("Lỗi khi cập nhật chuyên môn:", error)
       setIsLoadingSave(false)
     }
   }
@@ -116,98 +99,54 @@ function CategoryDetailDialog({
     setIsEdit(false)
   }
 
-  const isLoading = isCategoryLoading
-  const hasError = categoryError
+  const isLoading = isExpertiseLoading
+  const hasError = expertiseError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết danh mục</DialogTitle>
+          <DialogTitle>Chi tiết chuyên môn</DialogTitle>
           <DialogDescription>
-            Xem thông tin chi tiết của danh mục.
+            Xem và quản lý thông tin chi tiết của chuyên môn.
           </DialogDescription>
         </DialogHeader>
 
         {isLoading ? (
           <LoadingDialog />
-        ) : hasError || !categoryData ? (
+        ) : hasError || !expertiseData ? (
           <ErrorDialog
-            message={categoryError?.message || "Không thể tải dữ liệu."}
+            message={expertiseError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="categoryId">Mã danh mục</Label>
+            <div className="space-y-2">
+              <Label htmlFor="expertiseId">Mã chuyên môn</Label>
               <Input
-                id="categoryId"
+                id="expertiseId"
                 type="text"
-                value={categoryData.categoryId}
+                value={expertiseData.expertiseId}
                 readOnly
               />
             </div>
 
             <div>
               <div className="space-y-2">
-                <Label htmlFor="type">Loại danh mục</Label>
+                <Label htmlFor="name">Tên chuyên môn</Label>
 
-                {!isEdit ? (
-                  <Input
-                    id="type"
-                    type="text"
-                    value={categoryTypeLabel}
-                    readOnly
-                  />
-                ) : (
-                  <Select
-                    onValueChange={(value) => setValue("type", Number(value))}
-                    value={
-                      watch("type") !== undefined ? String(watch("type")) : ""
-                    }
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Chọn loại danh mục" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Loại danh mục</SelectLabel>
-                        {categoryOptions.map((option) => (
-                          <SelectItem
-                            key={option.value}
-                            value={String(option.value)}
-                          >
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
-
-              {errors.type && (
-                <p className="mt-1 ml-1 text-sm text-red-600">
-                  {errors.type.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <div className="space-y-2">
-                <Label htmlFor="name">Tên danh mục</Label>
                 {!isEdit ? (
                   <Input
                     id="name"
                     type="text"
-                    value={categoryData.name}
+                    value={expertiseData.name}
                     readOnly
                   />
                 ) : (
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Nhập tên danh mục"
-                    defaultValue={categoryData.name}
+                    placeholder="Nhập tên chuyên môn"
+                    defaultValue={expertiseData.name}
                     {...register("name")}
                   />
                 )}
@@ -223,19 +162,20 @@ function CategoryDetailDialog({
             <div className="col-span-2">
               <div className="space-y-2">
                 <Label htmlFor="description">Mô tả</Label>
+
                 {!isEdit ? (
                   <Textarea
                     id="description"
                     rows={4}
-                    value={categoryData.description}
+                    value={expertiseData.description}
                     readOnly
                   />
                 ) : (
                   <Textarea
                     id="description"
                     rows={4}
-                    placeholder="Nhập mô tả danh mục"
-                    defaultValue={categoryData.description}
+                    placeholder="Nhập mô tả chuyên môn"
+                    defaultValue={expertiseData.description}
                     {...register("description")}
                   />
                 )}
@@ -253,7 +193,7 @@ function CategoryDetailDialog({
               <Input
                 id="createdAt"
                 type="text"
-                value={formatDate(categoryData.createdAt)}
+                value={formatDate(expertiseData.createdAt)}
                 readOnly
               />
             </div>
@@ -263,7 +203,7 @@ function CategoryDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={categoryData.createdBy}
+                value={expertiseData.createdBy || "--"}
                 readOnly
               />
             </div>
@@ -273,7 +213,7 @@ function CategoryDetailDialog({
               <Input
                 id="updatedAt"
                 type="text"
-                value={formatDate(categoryData.updatedAt)}
+                value={formatDate(expertiseData.updatedAt)}
                 readOnly
               />
             </div>
@@ -283,7 +223,7 @@ function CategoryDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={categoryData.updatedBy}
+                value={expertiseData.updatedBy || "--"}
                 readOnly
               />
             </div>
@@ -321,4 +261,4 @@ function CategoryDetailDialog({
   )
 }
 
-export default CategoryDetailDialog
+export default ExpertiseDetailDialog

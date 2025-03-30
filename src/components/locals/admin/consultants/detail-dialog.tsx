@@ -77,7 +77,7 @@ function ConsultantDetailDialog({
               </div>
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                <div className="space-y-2">
+                <div className="col-span-2 space-y-2">
                   <Label htmlFor="consultantId">Mã chuyên viên</Label>
                   <Input
                     id="consultantId"
@@ -116,30 +116,30 @@ function ConsultantDetailDialog({
                     readOnly
                   />
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="expertise">Chuyên môn</Label>
-                  <Input
-                    id="expertise"
-                    type="text"
-                    value={consultantData.expertise}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="experience">Kinh nghiệm (năm)</Label>
-                  <Input
-                    id="experience"
-                    type="number"
-                    value={consultantData.experience}
-                    readOnly
-                  />
-                </div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="expertise">Chuyên môn</Label>
+                <Input
+                  id="expertise"
+                  type="text"
+                  value={consultantData.expertise}
+                  readOnly
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="experience">Kinh nghiệm (năm)</Label>
+                <Input
+                  id="experience"
+                  type="number"
+                  value={consultantData.experience}
+                  readOnly
+                />
+              </div>
+
               <div className="col-span-2 space-y-2">
                 <Label htmlFor="bio">Mô tả</Label>
                 <Textarea
@@ -207,7 +207,7 @@ function ConsultantDetailDialog({
                 <Input
                   id="updatedAt"
                   type="text"
-                  value={formatDate(consultantData.updatedAt)}
+                  value={formatDate(consultantData.updatedAt || "--")}
                   readOnly
                 />
               </div>

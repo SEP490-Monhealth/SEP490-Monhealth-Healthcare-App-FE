@@ -25,9 +25,9 @@ import { useGoalsByUserId } from "@/hooks/useGoal"
 import { useMetricsByUserId } from "@/hooks/useMetric"
 import { useUserById } from "@/hooks/useUser"
 
-import UserDetailTabDialog from "./user-detail-tab-dialog"
-import UserGoalTabDialog from "./user-goal-tab-dialog"
-import UserMetricTabDialog from "./user-metric-tab-dialog"
+import UserDetailTabDialog from "./detail-tab-dialog"
+import UserGoalTabDialog from "./goal-tab-dialog"
+import UserMetricTabDialog from "./metric-tab-dialog"
 
 interface UserDetailDialogProps {
   isOpen: boolean

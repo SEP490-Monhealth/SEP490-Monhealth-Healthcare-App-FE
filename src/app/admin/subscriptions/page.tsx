@@ -8,8 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddSubscriptionDialog from "@/components/locals/admin/subscriptions/add-subscription-dialog"
-import SubscriptionDetailDialog from "@/components/locals/admin/subscriptions/subscription-detail-dialog"
+import AddSubscriptionDialog from "@/components/locals/admin/subscriptions/add-dialog"
+import SubscriptionDetailDialog from "@/components/locals/admin/subscriptions/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useSubscriptions } from "@/hooks/useSubscription"

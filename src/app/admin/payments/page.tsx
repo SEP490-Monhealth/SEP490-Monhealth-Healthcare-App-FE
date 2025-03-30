@@ -8,7 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import PaymentDetailDialog from "@/components/locals/admin/payment/payment-detail-dialog"
+import PaymentDetailDialog from "@/components/locals/admin/payments/detail-dialog"
 
 import { PaymentStatusEnum } from "@/constants/enum/Payment"
 

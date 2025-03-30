@@ -8,19 +8,18 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import TransactionWithdrawalDetailDialog from "@/components/locals/admin/withdrawal-requests/withdrawal-requests-detail-dialog"
+import WithdrawalDetailDialog from "@/components/locals/admin/withdrawal-requests/detail-dialog"
 
 import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
 
 import { useDebounce } from "@/hooks/useDebounce"
-import { useTransactions } from "@/hooks/useTransaction"
 import { useWithdrawalRequests } from "@/hooks/useWithdrawalRequest"
 
 import LoadingPage from "../loading"
 import { createColumns } from "./column"
 
 const DEFAULT_VISIBILITY = {
-  transactionId: false,
+  withdrawalRequestId: false,
   createdBy: false,
   updatedBy: false
 }
@@ -35,7 +34,7 @@ function WithdrawalRequestPage() {
   const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
 
-  const typeParam =
+  const statusParam =
     status && !isNaN(Number(status)) ? Number(status) : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
@@ -50,7 +49,7 @@ function WithdrawalRequestPage() {
     data: withdrawalRequestsData,
     isLoading,
     error
-  } = useWithdrawalRequests(page, limit, debouncedSearch, typeParam)
+  } = useWithdrawalRequests(page, limit, debouncedSearch, statusParam)
 
   const totalPages = Math.ceil(
     (withdrawalRequestsData?.totalItems || 1) / limit
@@ -67,11 +66,11 @@ function WithdrawalRequestPage() {
         },
         {
           value: String(WithdrawalRequestStatusEnum.Approved),
-          label: "Đã thanh toán"
+          label: "Đã chấp nhận"
         },
         {
           value: String(WithdrawalRequestStatusEnum.Completed),
-          label: "Hoàn tất"
+          label: "Hoàn thành"
         },
         {
           value: String(WithdrawalRequestStatusEnum.Rejected),
@@ -111,8 +110,8 @@ function WithdrawalRequestPage() {
     }
   }, [debouncedSearch, search])
 
-  const handleViewDetail = (transactionId: string) => {
-    setSelectedWithdrawalRequest(transactionId)
+  const handleViewDetail = (withdrawalRequestId: string) => {
+    setSelectedWithdrawalRequest(withdrawalRequestId)
     setIsDetailDialogOpen(true)
   }
 
@@ -144,7 +143,7 @@ function WithdrawalRequestPage() {
         onClearAllFilters={clearAllFilters}
       />
 
-      <TransactionWithdrawalDetailDialog
+      <WithdrawalDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
         withdrawalRequestId={selectedWithdrawalRequest}

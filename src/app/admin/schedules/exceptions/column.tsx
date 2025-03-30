@@ -52,10 +52,10 @@ export const createColumns = (
     enableHiding: false
   },
   {
-    accessorKey: "exceptionId",
-    meta: { title: "Mã ngoại lệ" },
+    accessorKey: "scheduleExceptionId",
+    meta: { title: "Mã lịch ngoại lệ" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã ngoại lệ" />
+      <DataTableColumnHeader column={column} title="Mã lịch ngoại lệ" />
     )
   },
   {
@@ -71,9 +71,9 @@ export const createColumns = (
   },
   {
     accessorKey: "date",
-    meta: { title: "Ngày bận" },
+    meta: { title: "Ngày" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Ngày bận" />
+      <DataTableColumnHeader column={column} title="Ngày" />
     ),
     cell: ({ row }) => {
       const date = row.original.date
@@ -82,10 +82,10 @@ export const createColumns = (
   },
   {
     accessorKey: "reason",
-    header: "Ghi chú",
+    header: "Lý do",
     cell: ({ row }) => {
       const reason = row.original.reason
-      return reason ? <DataTableCellDescription description={reason} /> : "--"
+      return <DataTableCellDescription description={reason} />
     }
   },
   {
@@ -116,7 +116,7 @@ export const createColumns = (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const bookingData = row.original
+      const scheduleExceptionData = row.original
 
       return (
         <div className="flex justify-center">
@@ -132,14 +132,20 @@ export const createColumns = (
 
               <DropdownMenuItem
                 onClick={() =>
-                  navigator.clipboard.writeText(bookingData.exceptionId)
+                  navigator.clipboard.writeText(
+                    scheduleExceptionData.scheduleExceptionId
+                  )
                 }
               >
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handlers.onViewDetail(bookingData.exceptionId)}
+                onClick={() =>
+                  handlers.onViewDetail(
+                    scheduleExceptionData.scheduleExceptionId
+                  )
+                }
               >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết

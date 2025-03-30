@@ -24,8 +24,8 @@ import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 import { useFoodById } from "@/hooks/useFood"
 import { useNutritionByFoodId } from "@/hooks/useNutrition"
 
-import FoodDetailTabDialog from "./food-detail-tab-dialog"
-import FoodNutritionTabDialog from "./food-nutrition-tab-dialog"
+import FoodDetailTabDialog from "./detail-tab-dialog"
+import FoodNutritionTabDialog from "./nutrition-tab-dialog"
 
 interface FoodDetailDialogProps {
   isOpen: boolean

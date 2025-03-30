@@ -69,7 +69,6 @@ function SubscriptionDetailDialog({
       setValue("price", subscriptionData.price)
       setValue("durationDays", subscriptionData.durationDays)
       setValue("features", subscriptionData.features)
-      setValue("features", subscriptionData.features)
       setValue("bookingAllowance", subscriptionData.bookingAllowance)
     }
   }, [subscriptionData, setValue])
@@ -339,7 +338,7 @@ function SubscriptionDetailDialog({
               <Input
                 id="createdBy"
                 type="text"
-                value={subscriptionData.createdBy}
+                value={subscriptionData.createdBy || "--"}
                 readOnly
               />
             </div>
@@ -359,7 +358,7 @@ function SubscriptionDetailDialog({
               <Input
                 id="updatedBy"
                 type="text"
-                value={subscriptionData.updatedBy}
+                value={subscriptionData.updatedBy || "--"}
                 readOnly
               />
             </div>

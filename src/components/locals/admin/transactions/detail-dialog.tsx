@@ -18,7 +18,6 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
-import { Textarea } from "@/components/globals/atoms/textarea"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
@@ -79,30 +78,41 @@ function TransactionDetailDialog({
             message={transactionError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="transactionId">Mã giao dịch</Label>
-              <Input
-                id="transactionId"
-                type="text"
-                value={transactionData.transactionId}
-                readOnly
-              />
-            </div>
-
-            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-              <div className="col-span-1">
-                <div className="flex-shrink-0">
-                  <Avatar className="h-full w-48 rounded-md">
-                    <AvatarImage src={transactionData.consultant.avatarUrl} />
-                    <AvatarFallback>
-                      {getInitials(transactionData.consultant.fullName)}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <Avatar className="h-full w-48 rounded-md">
+                  <AvatarImage
+                    src={transactionData.consultant.avatarUrl}
+                    alt={getInitials(transactionData.consultant.fullName)}
+                  />
+                  <AvatarFallback>
+                    {getInitials(transactionData.consultant.fullName)}
+                  </AvatarFallback>
+                </Avatar>
               </div>
 
-              <div className="col-span-2 space-y-2">
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="transactionId">Mã giao dịch</Label>
+                  <Input
+                    id="transactionId"
+                    type="text"
+                    value={transactionData.transactionId}
+                    readOnly
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="type">Loại giao dịch</Label>
+                  <Input
+                    id="type"
+                    type="text"
+                    value={transactionTypeLabel}
+                    readOnly
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="fullName">Tên chuyên viên</Label>
                   <Input
@@ -135,13 +145,13 @@ function TransactionDetailDialog({
               </div>
             </div>
 
-            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="type">Loại giao dịch</Label>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="description">Mô tả</Label>
                 <Input
-                  id="type"
+                  id="description"
                   type="text"
-                  value={transactionTypeLabel}
+                  value={transactionData.description}
                   readOnly
                 />
               </div>
@@ -171,56 +181,46 @@ function TransactionDetailDialog({
                   readOnly
                 />
               </div>
-            </div>
 
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="description">Mô tả</Label>
-              <Input
-                id="description"
-                type="text"
-                value={transactionData.description}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="createdAt">Ngày tạo</Label>
+                <Input
+                  id="createdAt"
+                  type="text"
+                  value={formatDate(transactionData.createdAt)}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="createdAt">Ngày tạo</Label>
-              <Input
-                id="createdAt"
-                type="text"
-                value={formatDate(transactionData.createdAt)}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="createdBy">Người tạo</Label>
+                <Input
+                  id="createdBy"
+                  type="text"
+                  value={transactionData.createdBy || "--"}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="createdBy">Người tạo</Label>
-              <Input
-                id="createdBy"
-                type="text"
-                value={transactionData.createdBy}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+                <Input
+                  id="updatedAt"
+                  type="text"
+                  value={formatDate(transactionData.updatedAt)}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-              <Input
-                id="updatedAt"
-                type="text"
-                value={formatDate(transactionData.updatedAt)}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="updatedBy">Người cập nhật</Label>
-              <Input
-                id="updatedBy"
-                type="text"
-                value={transactionData.updatedBy}
-                readOnly
-              />
+              <div className="space-y-2">
+                <Label htmlFor="updatedBy">Người cập nhật</Label>
+                <Input
+                  id="updatedBy"
+                  type="text"
+                  value={transactionData.updatedBy || "--"}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
         )}

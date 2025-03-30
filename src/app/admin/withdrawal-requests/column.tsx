@@ -21,7 +21,7 @@ import DataTableTime from "@/components/globals/molecules/data-table-time"
 
 import {
   WithdrawalRequestStatusEnum,
-  getPaymentStatusMeta
+  getWithdrawalRequestStatusMeta
 } from "@/constants/enum/WithdrawalRequest"
 
 import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
@@ -81,6 +81,14 @@ export const createColumns = (
     }
   },
   {
+    accessorKey: "description",
+    header: "Mô tả",
+    cell: ({ row }) => {
+      const description = row.original.description
+      return <span className="block max-w-[320px] truncate">{description}</span>
+    }
+  },
+  {
     accessorKey: "amount",
     meta: { title: "Số tiền" },
     header: ({ column }) => (
@@ -92,23 +100,14 @@ export const createColumns = (
     }
   },
   {
-    accessorKey: "description",
-    header: "Mô tả",
-    cell: ({ row }) => {
-      const description = row.original.description
-      return <span className="block max-w-[320px] truncate">{description}</span>
-    }
-  },
-
-  {
     accessorKey: "status",
-    meta: { title: "Loại yêu cầu" },
+    meta: { title: "Trạng thái" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loại yêu cầu" center />
+      <DataTableColumnHeader column={column} title="Trạng thái" center />
     ),
     cell: ({ row }) => {
       const status = row.original.status as WithdrawalRequestStatusEnum
-      const { label, color } = getPaymentStatusMeta(status)
+      const { label, color } = getWithdrawalRequestStatusMeta(status)
 
       return (
         <div className="flex justify-center pr-4">

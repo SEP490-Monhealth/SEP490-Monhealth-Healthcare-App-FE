@@ -87,7 +87,10 @@ function PaymentDetailDialog({
             <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
               <div className="col-span-1 flex-shrink-0">
                 <Avatar className="h-full w-full rounded-md">
-                  <AvatarImage src={paymentData.member.avatarUrl} />
+                  <AvatarImage
+                    src={paymentData.member.avatarUrl}
+                    alt={getInitials(paymentData.member.fullName)}
+                  />
                   <AvatarFallback>
                     {getInitials(paymentData.member.fullName)}
                   </AvatarFallback>

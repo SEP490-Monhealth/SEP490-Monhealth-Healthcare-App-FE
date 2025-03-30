@@ -8,7 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import BookingDetailDialog from "@/components/locals/admin/bookings/booking-detail-dialog"
+import BookingDetailDialog from "@/components/locals/admin/bookings/detail-dialog"
 
 import { BookingStatusEnum } from "@/constants/enum/Booking"
 
