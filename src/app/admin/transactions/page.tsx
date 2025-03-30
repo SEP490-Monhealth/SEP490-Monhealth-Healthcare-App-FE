@@ -93,7 +93,7 @@ function TransactionPage() {
       options: [
         {
           value: String(TransactionStatusEnum.Pending),
-          label: "Chờ xử lý"
+          label: "Đang xử lý"
         },
         {
           value: String(TransactionStatusEnum.Completed),

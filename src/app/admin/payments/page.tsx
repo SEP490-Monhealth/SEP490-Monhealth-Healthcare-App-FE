@@ -58,7 +58,7 @@ function PaymentPage() {
       options: [
         {
           value: String(PaymentStatusEnum.Pending),
-          label: "Chờ xử lý"
+          label: "Đang xử lý"
         },
         {
           value: String(PaymentStatusEnum.Completed),

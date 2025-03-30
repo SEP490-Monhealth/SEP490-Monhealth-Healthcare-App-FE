@@ -44,11 +44,11 @@ const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
 
 const transactionStatusMap: Record<TransactionStatusEnum, EnumMeta> = {
   [TransactionStatusEnum.Pending]: {
-    label: "Chờ xử lý",
-    color: "#ca8a04" // yellow 600
+    label: "Đang xử lý",
+    color: "#f97316" // orange 500
   },
   [TransactionStatusEnum.Completed]: {
-    label: "Đã thanh toán",
+    label: "Hoàn thành",
     color: "#3b82f6" // blue 500
   },
   [TransactionStatusEnum.Failed]: {

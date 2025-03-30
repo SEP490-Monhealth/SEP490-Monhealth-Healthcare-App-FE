@@ -123,8 +123,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: Tag,
     children: [
-      { title: "Danh sách danh mục", path: "/admin/categories" },
-      { title: "Danh sách dị ứng", path: "/admin/allergies" }
+      { title: "Danh mục", path: "/admin/categories" },
+      { title: "Dị ứng", path: "/admin/allergies" }
     ]
   }
 ]
