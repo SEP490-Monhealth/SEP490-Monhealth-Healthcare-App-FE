@@ -3,28 +3,7 @@ import { z } from "zod"
 import { UserSubscriptionSchemaEnum } from "@/constants/enum/UserSubscription"
 
 import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
-
-const userSubscription = z.object({
-  userSubscriptionId: uuidSchema,
-  userId: uuidSchema,
-  subscriptionId: uuidSchema,
-
-  startedAt: z.string().refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
-    message: "Định dạng thời gian bắt đầu không hợp lệ"
-  }),
-  expiresAt: z.string().refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
-    message: "Định dạng thời gian kết thúc không hợp lệ"
-  }),
-
-  remainingBookings: z
-    .number({ message: "Số lần đặt lịch phải là số" })
-    .int({ message: "Số lần đặt lịch phải là số nguyên" })
-    .nonnegative({ message: "Số lần đặt lịch phải là số nguyên không âm" }),
-
-  status: UserSubscriptionSchemaEnum,
-
-  ...timestampFields
-})
+import { userSchema } from "./userSchema"
 
 export const subscriptionSchema = z.object({
   subscriptionId: uuidSchema,
@@ -71,6 +50,36 @@ export const subscriptionSchema = z.object({
   ...auditFields
 })
 
+const userSubscription = z.object({
+  userSubscriptionId: uuidSchema,
+  subscriptionId: uuidSchema,
+
+  member: z.object({
+    fullName: userSchema.shape.fullName,
+    email: userSchema.shape.email,
+    phoneNumber: userSchema.shape.phoneNumber,
+    avatarUrl: userSchema.shape.avatarUrl
+  }),
+
+  subscription: subscriptionSchema.shape.name,
+
+  startedAt: z.string().refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
+    message: "Định dạng thời gian bắt đầu không hợp lệ"
+  }),
+  expiresAt: z.string().refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
+    message: "Định dạng thời gian kết thúc không hợp lệ"
+  }),
+
+  remainingBookings: z
+    .number({ message: "Số lần đặt lịch phải là số" })
+    .int({ message: "Số lần đặt lịch phải là số nguyên" })
+    .nonnegative({ message: "Số lần đặt lịch phải là số nguyên không âm" }),
+
+  status: UserSubscriptionSchemaEnum,
+
+  ...timestampFields
+})
+
 export const createUpdateSubscriptionSchema = subscriptionSchema.pick({
   name: true,
   description: true,
@@ -80,9 +89,9 @@ export const createUpdateSubscriptionSchema = subscriptionSchema.pick({
   bookingAllowance: true
 })
 
-export type UserSubscriptionType = z.infer<typeof userSubscription>
-
 export type SubscriptionType = z.infer<typeof subscriptionSchema>
 export type CreateUpdateSubscriptionType = z.infer<
   typeof createUpdateSubscriptionSchema
 >
+
+export type UserSubscriptionType = z.infer<typeof userSubscription>

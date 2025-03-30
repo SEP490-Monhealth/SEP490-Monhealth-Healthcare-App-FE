@@ -1,17 +1,25 @@
 import { toast } from "sonner"
 
+import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
+
 import monAPI from "@/lib/monAPI"
 
 import {
-  CreateSubscriptionType,
+  CreateUpdateSubscriptionType,
   SubscriptionType,
-  UpdateSubscriptionType
+  UserSubscriptionType
 } from "@/schemas/subscriptionSchema"
 
 interface SubscriptionsResponse {
   totalPages: number
   totalItems: number
   subscriptions: SubscriptionType[]
+}
+
+interface UserSubscriptionsResponse {
+  totalPages: number
+  totalItems: number
+  subscriptions: UserSubscriptionType[]
 }
 
 export const fetchSubscriptions = async (
@@ -64,7 +72,7 @@ export const fetchSubscriptionById = async (
 }
 
 export const addSubscription = async (
-  newSubscriptionData: CreateSubscriptionType
+  newSubscriptionData: CreateUpdateSubscriptionType
 ): Promise<string> => {
   try {
     const response = await monAPI.post("/subscriptions", newSubscriptionData)
@@ -86,7 +94,7 @@ export const addSubscription = async (
 
 export const updateSubscription = async (
   subscriptionId: string,
-  updatedData: UpdateSubscriptionType
+  updatedData: CreateUpdateSubscriptionType
 ): Promise<string> => {
   try {
     const response = await monAPI.put(
@@ -127,5 +135,55 @@ export const updateSubscriptionStatus = async (
   } catch (error) {
     console.error("Error updating subscription status:", error)
     throw new Error("Failed to update subscription status")
+  }
+}
+
+export const fetchUserSubscriptions = async (
+  page: number,
+  limit: number,
+  subscription?: string,
+  status?: UserSubscriptionStatus
+): Promise<UserSubscriptionsResponse> => {
+  try {
+    const response = await monAPI.get(`/user-subscriptions`, {
+      params: { page, limit, subscription, status }
+    })
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch user subscriptions")
+    }
+
+    const { totalPages, totalItems, items: subscriptions } = data
+    return { totalPages, totalItems, subscriptions }
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch user subscriptions"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const fetchUserSubscriptionById = async (
+  userSubscriptionId: string
+): Promise<UserSubscriptionType> => {
+  try {
+    const response = await monAPI.get(
+      `/user-subscriptions/${userSubscriptionId}`
+    )
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch user subscription")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch user subscription"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
 }

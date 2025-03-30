@@ -3,7 +3,6 @@ import {
   Bell,
   Calendar,
   CreditCard,
-  Droplets,
   Dumbbell,
   LayoutDashboard,
   PieChart,
