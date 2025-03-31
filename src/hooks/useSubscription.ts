@@ -1,15 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
+import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
+
 import {
   CreateUpdateSubscriptionType,
-  SubscriptionType
+  SubscriptionType,
+  UserSubscriptionType
 } from "@/schemas/subscriptionSchema"
 
 import {
   addSubscription,
   fetchSubscriptionById,
   fetchSubscriptions,
+  fetchUserSubscriptionById,
+  fetchUserSubscriptions,
   updateSubscription,
   updateSubscriptionStatus
 } from "@/services/subscriptionService"
@@ -18,6 +23,12 @@ interface SubscriptionsResponse {
   totalPages: number
   totalItems: number
   subscriptions: SubscriptionType[]
+}
+
+interface UserSubscriptionsResponse {
+  totalPages: number
+  totalItems: number
+  subscriptions: UserSubscriptionType[]
 }
 
 export const useSubscriptions = (
@@ -86,3 +97,23 @@ export const useSubscriptionStatus = () => {
     }
   })
 }
+
+export const useUserSubscriptions = (
+  page: number,
+  limit: number,
+  subscription?: string,
+  status?: UserSubscriptionStatus
+) =>
+  useQuery<UserSubscriptionsResponse, Error>({
+    queryKey: ["user-subscriptions", page, limit, subscription, status],
+    queryFn: () => fetchUserSubscriptions(page, limit, subscription, status),
+    staleTime: 1000 * 60 * 5
+  })
+
+export const useUserSubscriptionById = (userSubscriptionId: string) =>
+  useQuery<UserSubscriptionType, Error>({
+    queryKey: ["user-subscription", userSubscriptionId],
+    queryFn: () => fetchUserSubscriptionById(userSubscriptionId),
+    enabled: !!userSubscriptionId,
+    staleTime: 1000 * 60 * 5
+  })

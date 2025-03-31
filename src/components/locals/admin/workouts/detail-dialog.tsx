@@ -47,9 +47,9 @@ function WorkoutDetailDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết bài tập</DialogTitle>
+          <DialogTitle>Chi tiết bộ bài tập</DialogTitle>
           <DialogDescription>
-            Xem thông tin chi tiết của bài tập.
+            Xem thông tin chi tiết của bộ bài tập.
           </DialogDescription>
         </DialogHeader>
 
