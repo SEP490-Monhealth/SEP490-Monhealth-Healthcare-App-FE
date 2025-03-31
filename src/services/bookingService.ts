@@ -14,7 +14,7 @@ interface BookingsResponse {
 
 export const fetchBookings = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: BookingStatusEnum
 ): Promise<BookingsResponse> => {

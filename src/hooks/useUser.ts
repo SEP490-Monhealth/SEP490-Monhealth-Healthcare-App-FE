@@ -17,7 +17,7 @@ interface UsersResponse {
 
 export const useUsers = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   role?: string,
   status?: boolean

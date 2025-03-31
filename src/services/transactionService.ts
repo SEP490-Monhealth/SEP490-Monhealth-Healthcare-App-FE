@@ -20,7 +20,7 @@ interface TransactionsResponse {
 
 export const fetchTransactions = async (
   page: number,
-  limit: number,
+  limit?: number,
   type?: TransactionTypeEnum,
   search?: string,
   status?: TransactionStatusEnum

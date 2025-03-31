@@ -12,7 +12,7 @@ interface FoodsResponse {
 
 export const useFoods = (
   page: number,
-  limit: number,
+  limit?: number,
   category?: string,
   search?: string,
   isPublic?: boolean,

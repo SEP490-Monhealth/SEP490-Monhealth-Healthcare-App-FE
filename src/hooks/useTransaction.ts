@@ -24,7 +24,7 @@ interface TransactionsResponse {
 
 export const useTransactions = (
   page: number,
-  limit: number,
+  limit?: number,
   type?: TransactionTypeEnum,
   search?: string,
   status?: TransactionStatusEnum

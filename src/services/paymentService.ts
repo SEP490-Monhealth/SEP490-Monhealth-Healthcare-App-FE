@@ -14,7 +14,7 @@ interface PaymentsResponse {
 
 export const fetchPayments = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: PaymentStatusEnum
 ): Promise<PaymentsResponse> => {

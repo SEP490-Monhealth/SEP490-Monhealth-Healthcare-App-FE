@@ -54,7 +54,7 @@ function ConsultantPage() {
     data: expertiseData,
     isLoading: isExpertiseLoading,
     error: expertiseError
-  } = useExpertise(1, 100, "")
+  } = useExpertise(1)
 
   const {
     data: consultantsData,

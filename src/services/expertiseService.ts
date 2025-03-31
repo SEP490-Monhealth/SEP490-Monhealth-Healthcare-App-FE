@@ -15,7 +15,7 @@ interface ExpertiseResponse {
 
 export const fetchExpertise = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string
 ): Promise<ExpertiseResponse> => {
   try {

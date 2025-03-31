@@ -19,7 +19,7 @@ interface WaterReminderResponse {
 
 export const useWaterReminders = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   recurring?: boolean,
   status?: boolean

@@ -24,7 +24,7 @@ interface ExercisesResponse {
 
 export const useExercises = (
   page: number,
-  limit: number,
+  limit?: number,
   type?: ExerciseTypeEnum,
   search?: string,
   status?: boolean

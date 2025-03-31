@@ -12,7 +12,7 @@ interface ScheduleExceptionsResponse {
 
 export const fetchScheduleExceptions = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string
 ): Promise<ScheduleExceptionsResponse> => {
   try {

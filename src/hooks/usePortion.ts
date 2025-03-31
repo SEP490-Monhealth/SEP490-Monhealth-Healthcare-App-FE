@@ -13,7 +13,7 @@ interface PortionsResponse {
 export const usePortionsByFoodId = (
   foodId: string,
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   sort?: string,
   order?: string

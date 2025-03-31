@@ -20,7 +20,7 @@ interface WithdrawalRequestResponse {
 
 export const useWithdrawalRequests = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: WithdrawalRequestStatusEnum
 ) =>

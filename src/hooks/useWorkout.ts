@@ -24,7 +24,7 @@ interface WorkoutsResponse {
 
 export const useWorkout = (
   page: number,
-  limit: number,
+  limit?: number,
   category?: string,
   search?: string,
   difficulty?: DifficultyLevelEnum,

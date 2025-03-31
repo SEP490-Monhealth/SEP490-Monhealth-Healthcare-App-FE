@@ -17,7 +17,7 @@ interface ConsultantsResponse {
 
 export const useConsultants = (
   page: number,
-  limit: number,
+  limit?: number,
   expertise?: string,
   search?: string,
   verified?: boolean,

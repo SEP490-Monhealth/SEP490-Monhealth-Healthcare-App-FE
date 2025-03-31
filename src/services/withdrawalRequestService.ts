@@ -14,7 +14,7 @@ interface WithdrawalRequestResponse {
 
 export const fetchWithdrawalRequests = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: WithdrawalRequestStatusEnum
 ): Promise<WithdrawalRequestResponse> => {

@@ -84,6 +84,13 @@ export const createColumns = (
     )
   },
   {
+    accessorKey: "category",
+    meta: { title: "Loại bộ bài tập" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Loại bộ bài tập" />
+    )
+  },
+  {
     accessorKey: "type",
     meta: { title: "Loại bộ bài tập" },
     header: ({ column }) => (
@@ -160,9 +167,9 @@ export const createColumns = (
   },
   {
     accessorKey: "isPublic",
-    meta: { title: "Công khai" },
+    meta: { title: "Áp dụng" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Công khai" center />
+      <DataTableColumnHeader column={column} title="Áp dụng" center />
     ),
     cell: ({ row }) => {
       const isPublic = row.original.isPublic

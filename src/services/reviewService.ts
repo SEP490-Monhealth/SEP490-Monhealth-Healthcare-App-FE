@@ -12,7 +12,7 @@ interface ReviewsResponse {
 
 export const fetchReviews = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   rating?: number
 ): Promise<ReviewsResponse> => {

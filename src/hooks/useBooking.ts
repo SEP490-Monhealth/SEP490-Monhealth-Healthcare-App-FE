@@ -14,7 +14,7 @@ interface BookingsResponse {
 
 export const useBookings = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: BookingStatusEnum
 ) =>

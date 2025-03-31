@@ -15,7 +15,7 @@ interface CertificatesResponse {
 
 export const useCertificates = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   verified?: boolean
 ) =>

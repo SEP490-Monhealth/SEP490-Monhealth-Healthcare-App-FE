@@ -62,7 +62,7 @@ function WorkoutPage() {
     data: categoriesData,
     isLoading: isCategoriesLoading,
     error: categoriesError
-  } = useCategories(1, 100, 1, "")
+  } = useCategories(1, undefined, 1)
 
   const {
     data: workoutsData,

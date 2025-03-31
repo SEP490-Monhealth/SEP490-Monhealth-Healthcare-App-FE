@@ -22,7 +22,7 @@ const DEFAULT_VISIBILITY = {
   updatedBy: false
 }
 
-function ConsultantPage() {
+function ConsultantApplicationPage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -39,7 +39,7 @@ function ConsultantPage() {
     data: expertiseData,
     isLoading: isExpertiseLoading,
     error: expertiseError
-  } = useExpertise(1, 100, "")
+  } = useExpertise(1)
 
   const {
     data: consultantsData,
@@ -118,4 +118,4 @@ function ConsultantPage() {
   )
 }
 
-export default ConsultantPage
+export default ConsultantApplicationPage

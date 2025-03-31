@@ -12,7 +12,7 @@ interface CertificatesResponse {
 
 export const fetchCertificates = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   verified?: boolean
 ): Promise<CertificatesResponse> => {

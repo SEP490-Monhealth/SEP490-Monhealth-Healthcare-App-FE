@@ -18,7 +18,7 @@ interface ExercisesResponse {
 
 export const fetchExercises = async (
   page: number,
-  limit: number,
+  limit?: number,
   type?: ExerciseTypeEnum,
   search?: string,
   status?: boolean

@@ -12,7 +12,7 @@ interface AllergiesResponse {
 
 export const fetchAllergies = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string
 ): Promise<AllergiesResponse> => {
   try {

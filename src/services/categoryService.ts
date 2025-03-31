@@ -15,7 +15,7 @@ interface CategoriesResponse {
 
 export const fetchCategories = async (
   page: number,
-  limit: number,
+  limit?: number,
   type?: number,
   search?: string
 ): Promise<CategoriesResponse> => {

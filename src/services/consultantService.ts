@@ -12,7 +12,7 @@ interface ConsultantsResponse {
 
 export const fetchConsultants = async (
   page: number,
-  limit: number,
+  limit?: number,
   expertise?: string,
   search?: string,
   verified?: boolean,

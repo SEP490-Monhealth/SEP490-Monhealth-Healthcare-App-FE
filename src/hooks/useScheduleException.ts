@@ -15,7 +15,7 @@ interface ScheduleExceptionsResponse {
 
 export const useScheduleExceptions = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string
 ) =>
   useQuery<ScheduleExceptionsResponse, Error>({

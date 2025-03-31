@@ -14,7 +14,7 @@ interface PaymentsResponse {
 
 export const usePayments = (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   status?: PaymentStatusEnum
 ) =>

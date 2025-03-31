@@ -15,7 +15,7 @@ interface AllergiesResponse {
   allergies: AllergyType[]
 }
 
-export const useAllergies = (page: number, limit: number, search?: string) =>
+export const useAllergies = (page: number, limit?: number, search?: string) =>
   useQuery<AllergiesResponse, Error>({
     queryKey: ["allergies", page, limit, search],
     queryFn: () => fetchAllergies(page, limit, search),

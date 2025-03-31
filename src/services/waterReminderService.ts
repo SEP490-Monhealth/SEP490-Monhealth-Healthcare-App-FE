@@ -15,7 +15,7 @@ interface WaterRemindersResponse {
 
 export const fetchWaterReminders = async (
   page: number,
-  limit: number,
+  limit?: number,
   search?: string,
   recurring?: boolean,
   status?: boolean

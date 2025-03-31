@@ -53,7 +53,7 @@ function FoodPage() {
     data: categoriesData,
     isLoading: isCategoriesLoading,
     error: categoriesError
-  } = useCategories(1, 100, 0, "")
+  } = useCategories(1, undefined, 0)
 
   const {
     data: foodsData,

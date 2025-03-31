@@ -18,7 +18,7 @@ interface WorkoutsResponse {
 
 export const fetchWorkouts = async (
   page: number,
-  limit: number,
+  limit?: number,
   category?: string,
   search?: string,
   difficulty?: DifficultyLevelEnum,

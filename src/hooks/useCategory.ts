@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
 
 import { CategoryTypeEnum } from "@/constants/enum/Category"
 
@@ -23,7 +22,7 @@ interface CategoriesResponse {
 
 export const useCategories = (
   page: number,
-  limit: number,
+  limit?: number,
   type?: CategoryTypeEnum,
   search?: string
 ) =>

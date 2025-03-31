@@ -19,7 +19,7 @@ interface ExpertiseResponse {
   expertise: ExpertiseType[]
 }
 
-export const useExpertise = (page: number, limit: number, search?: string) =>
+export const useExpertise = (page: number, limit?: number, search?: string) =>
   useQuery<ExpertiseResponse, Error>({
     queryKey: ["expertises", page, limit, search],
     queryFn: () => fetchExpertise(page, limit, search),
