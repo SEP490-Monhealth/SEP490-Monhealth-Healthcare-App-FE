@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/consultants/columns"
 import ConsultantDetailDialog from "@/components/locals/admin/consultants/detail-dialog"
 
 import { useConsultants } from "@/hooks/useConsultant"
@@ -17,7 +18,6 @@ import { useExpertise } from "@/hooks/useExpertise"
 import { parseBooleanParam } from "@/utils/helpers"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   consultantId: false,

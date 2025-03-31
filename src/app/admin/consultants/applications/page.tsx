@@ -8,12 +8,13 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { columns } from "@/components/locals/admin/consultants/applications/columns"
+
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
 
 import LoadingPage from "../../loading"
-import { columns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   consultantId: false,

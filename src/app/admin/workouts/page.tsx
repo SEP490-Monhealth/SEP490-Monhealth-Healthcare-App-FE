@@ -9,6 +9,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import AddWorkoutDialog from "@/components/locals/admin/workouts/add-dialog"
+import { createColumns } from "@/components/locals/admin/workouts/columns"
 import WorkoutDetailDialog from "@/components/locals/admin/workouts/detail-dialog"
 
 import { DifficultyLevelEnum } from "@/constants/enum/Workout"
@@ -20,7 +21,6 @@ import { useWorkout } from "@/hooks/useWorkout"
 import { parseBooleanParam } from "@/utils/helpers"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   workoutId: false,

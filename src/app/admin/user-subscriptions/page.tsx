@@ -8,7 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import UserSubscriptionDetailDialog from "@/components/locals/admin/user-subscription/detail-dialog"
+import { createColumns } from "@/components/locals/admin/user-subscriptions/columns"
+import UserSubscriptionDetailDialog from "@/components/locals/admin/user-subscriptions/detail-dialog"
 
 import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
 
@@ -16,7 +17,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useUserSubscriptions } from "@/hooks/useSubscription"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   userSubscriptionId: false,

@@ -8,13 +8,13 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/reviews/columns"
 import ReviewDetailDialog from "@/components/locals/admin/reviews/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useReviews } from "@/hooks/useReview"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   reviewId: false

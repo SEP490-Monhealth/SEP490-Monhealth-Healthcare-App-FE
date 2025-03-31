@@ -7,13 +7,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { DataTable } from "@/components/globals/atoms/data-table"
 
 import AddAllergyDialog from "@/components/locals/admin/allergies/add-dialog"
+import { createColumns } from "@/components/locals/admin/allergies/columns"
 import AllergyDetailDialog from "@/components/locals/admin/allergies/detail-dialog"
 
 import { useAllergies } from "@/hooks/useAllergy"
 import { useDebounce } from "@/hooks/useDebounce"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   allergyId: false,

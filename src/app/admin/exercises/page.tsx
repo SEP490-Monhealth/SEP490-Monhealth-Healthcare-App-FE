@@ -8,8 +8,9 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddExerciseDialog from "@/components/locals/admin/exercise/add-dialog"
-import ExerciseDetailDialog from "@/components/locals/admin/exercise/detail-dialog"
+import AddExerciseDialog from "@/components/locals/admin/exercises/add-dialog"
+import { createColumns } from "@/components/locals/admin/exercises/columns"
+import ExerciseDetailDialog from "@/components/locals/admin/exercises/detail-dialog"
 
 import { ExerciseTypeEnum } from "@/constants/enum/Workout"
 
@@ -19,7 +20,6 @@ import { useExercises } from "@/hooks/useExercise"
 import { parseBooleanParam } from "@/utils/helpers"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   exerciseId: false,

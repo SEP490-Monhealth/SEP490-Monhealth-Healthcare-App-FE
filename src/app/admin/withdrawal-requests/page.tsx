@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/withdrawal-requests/column"
 import WithdrawalDetailDialog from "@/components/locals/admin/withdrawal-requests/detail-dialog"
 
 import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
@@ -16,7 +17,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useWithdrawalRequests } from "@/hooks/useWithdrawalRequest"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./column"
 
 const DEFAULT_VISIBILITY = {
   withdrawalRequestId: false,

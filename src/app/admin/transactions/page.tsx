@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/transactions/columns"
 import TransactionDetailDialog from "@/components/locals/admin/transactions/detail-dialog"
 
 import {
@@ -19,7 +20,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { useTransactions } from "@/hooks/useTransaction"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   transactionId: false,

@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/water-reminders/columns"
 import WaterReminderDetailDialog from "@/components/locals/admin/water-reminders/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
@@ -16,7 +17,6 @@ import { useWaterReminders } from "@/hooks/useWaterReminder"
 import { parseBooleanParam } from "@/utils/helpers"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   waterReminderId: false,

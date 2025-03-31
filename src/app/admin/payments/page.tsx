@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/payments/columns"
 import PaymentDetailDialog from "@/components/locals/admin/payments/detail-dialog"
 
 import { PaymentStatusEnum } from "@/constants/enum/Payment"
@@ -16,7 +17,6 @@ import { useDebounce } from "@/hooks/useDebounce"
 import { usePayments } from "@/hooks/usePayment"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   paymentId: false,

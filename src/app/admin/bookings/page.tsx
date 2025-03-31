@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/bookings/columns"
 import BookingDetailDialog from "@/components/locals/admin/bookings/detail-dialog"
 
 import { BookingStatusEnum } from "@/constants/enum/Booking"
@@ -16,7 +17,6 @@ import { useBookings } from "@/hooks/useBooking"
 import { useDebounce } from "@/hooks/useDebounce"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   bookingId: false,

@@ -9,6 +9,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import AddCategoryDialog from "@/components/locals/admin/categories/add-dialog"
+import { createColumns } from "@/components/locals/admin/categories/columns"
 import CategoryDetailDialog from "@/components/locals/admin/categories/detail-dialog"
 
 import { CategoryTypeEnum } from "@/constants/enum/Category"
@@ -17,7 +18,6 @@ import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   categoryId: false,

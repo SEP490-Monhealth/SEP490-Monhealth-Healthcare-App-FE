@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import { createColumns } from "@/components/locals/admin/foods/columns"
 import FoodDetailDialog from "@/components/locals/admin/foods/detail-dialog"
 
 import { useCategories } from "@/hooks/useCategory"
@@ -17,7 +18,6 @@ import { useFoods } from "@/hooks/useFood"
 import { parseBooleanParam } from "@/utils/helpers"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   foodId: false,

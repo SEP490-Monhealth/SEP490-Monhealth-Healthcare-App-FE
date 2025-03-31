@@ -9,6 +9,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import AddSubscriptionDialog from "@/components/locals/admin/subscriptions/add-dialog"
+import { createColumns } from "@/components/locals/admin/subscriptions/columns"
 import SubscriptionDetailDialog from "@/components/locals/admin/subscriptions/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
@@ -17,7 +18,6 @@ import { useSubscriptions } from "@/hooks/useSubscription"
 import { parseBooleanParam } from "@/utils/helpers"
 
 import LoadingPage from "../loading"
-import { createColumns } from "./columns"
 
 const DEFAULT_VISIBILITY = {
   subscriptionId: false,
