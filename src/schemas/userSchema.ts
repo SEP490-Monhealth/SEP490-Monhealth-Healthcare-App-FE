@@ -9,11 +9,11 @@ export const userSchema = z.object({
 
   fullName: z
     .string()
-    .nonempty({ message: "Họ và tên không được để trống" })
-    .min(3, { message: "Họ và tên phải có ít nhất 3 ký tự" })
-    .max(255, { message: "Họ và tên không được quá 255 ký tự" })
+    .nonempty({ message: "Họ tên không được để trống" })
+    .min(3, { message: "Họ tên phải có ít nhất 3 ký tự" })
+    .max(255, { message: "Họ tên không được quá 255 ký tự" })
     .regex(/^[\p{L} ]+$/u, {
-      message: "Họ và tên chỉ được chứa chữ cái và khoảng trắng"
+      message: "Họ tên chỉ được chứa chữ cái và khoảng trắng"
     }),
   email: z.string().email({ message: "Email không hợp lệ" }),
   phoneNumber: z.string().regex(/^(0\d{9}|(\+84)\d{9})$/, {

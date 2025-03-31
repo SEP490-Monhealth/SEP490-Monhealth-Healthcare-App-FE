@@ -60,9 +60,9 @@ export const createColumns = (
   },
   {
     accessorKey: "userSubscriptionId",
-    meta: { title: "Mã đăng kí" },
+    meta: { title: "Mã đăng ký gói" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã đăng kí" />
+      <DataTableColumnHeader column={column} title="Mã đăng ký gói" />
     )
   },
   {
@@ -78,10 +78,46 @@ export const createColumns = (
   },
   {
     accessorKey: "remainingBookings",
-    meta: { title: "Số lượng đặt lịch" },
+    meta: { title: "Số lần đặt lịch" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Số lượng đặt lịch" center />
-    )
+      <DataTableColumnHeader column={column} title="Số lần đặt lịch" center />
+    ),
+    cell: ({ row }) => {
+      const remainingBookings = row.original.remainingBookings
+      return (
+        <span className="flex justify-center pr-4">{remainingBookings}</span>
+      )
+    }
+  },
+  {
+    accessorKey: "startedAt",
+    meta: { title: "Ngày bắt đầu" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày bắt đầu" center />
+    ),
+    cell: ({ row }) => {
+      const startedAt = row.original.startedAt
+      return (
+        <span className="flex justify-center pr-4">
+          {formatDatetime(startedAt)}
+        </span>
+      )
+    }
+  },
+  {
+    accessorKey: "expiresAt",
+    meta: { title: "Ngày hết hạn" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Ngày hết hạn" center />
+    ),
+    cell: ({ row }) => {
+      const expiresAt = row.original.expiresAt
+      return (
+        <span className="flex justify-center pr-4">
+          {formatDatetime(expiresAt)}
+        </span>
+      )
+    }
   },
   {
     accessorKey: "status",
@@ -99,36 +135,6 @@ export const createColumns = (
             {label}
           </Badge>
         </div>
-      )
-    }
-  },
-  {
-    accessorKey: "startedAt",
-    meta: { title: "Ngày giờ" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Ngày bắt đầu" center />
-    ),
-    cell: ({ row }) => {
-      const startedAt = row.original.startedAt
-      return (
-        <span className="flex justify-center pr-4">
-          {formatDatetime(startedAt)}
-        </span>
-      )
-    }
-  },
-  {
-    accessorKey: "expiresAt",
-    meta: { title: "Ngày giờ" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Ngày hết hạn" center />
-    ),
-    cell: ({ row }) => {
-      const expiresAt = row.original.expiresAt
-      return (
-        <span className="flex justify-center pr-4">
-          {formatDatetime(expiresAt)}
-        </span>
       )
     }
   },

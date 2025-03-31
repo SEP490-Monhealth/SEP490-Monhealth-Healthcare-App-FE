@@ -32,13 +32,14 @@ function UserSubscriptionPage() {
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const subscription = searchParams.get("subscription") || ""
+  const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
 
   const statusParam =
     status && !isNaN(Number(status)) ? Number(status) : undefined
 
   const [searchTerm, setSearchTerm] = useState<string>(subscription)
-  const debouncedSubscription = useDebounce(searchTerm, 500)
+  const debouncedSearch = useDebounce(searchTerm, 500)
 
   const [selectedUserSubscription, setSelectedUserSubscription] = useState<
     string | null
@@ -46,14 +47,36 @@ function UserSubscriptionPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const {
-    data: subscriptionsData,
+    data: userSubscriptionsData,
     isLoading,
     error
-  } = useUserSubscriptions(page, limit, debouncedSubscription, statusParam)
+  } = useUserSubscriptions(
+    page,
+    limit,
+    subscription,
+    debouncedSearch,
+    statusParam
+  )
 
-  const totalPages = Math.ceil((subscriptionsData?.totalItems || 1) / limit)
+  const totalPages = Math.ceil((userSubscriptionsData?.totalItems || 1) / limit)
 
   const filters: DataTableFilterProps[] = [
+    {
+      name: "subscription",
+      label: "Gói đăng ký",
+      options: [
+        {
+          value: "Gói Nâng Cao",
+          label: "Gói Nâng Cao"
+        },
+        {
+          value: "Gói Cao Cấp",
+          label: "Gói Cao Cấp"
+        }
+      ],
+      value: subscription !== undefined ? String(subscription) : "",
+      onChange: (value: string) => updateParams("subscription", value)
+    },
     {
       name: "status",
       label: "Trạng thái",
@@ -87,16 +110,19 @@ function UserSubscriptionPage() {
 
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
+
+    params.delete("subscription")
     params.delete("status")
+
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
   useEffect(() => {
-    if (debouncedSubscription !== subscription) {
-      updateParams("subscription", debouncedSubscription)
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSubscription, subscription])
+  }, [debouncedSearch, search])
 
   const handleViewDetail = (userSubscriptionId: string) => {
     setSelectedUserSubscription(userSubscriptionId)
@@ -116,12 +142,12 @@ function UserSubscriptionPage() {
   return (
     <div>
       <DataTable
-        data={subscriptionsData?.subscriptions || []}
+        data={userSubscriptionsData?.userSubscriptions || []}
         columns={columns}
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm gói đăng kí hoặc người dùng..."
+        placeholder="Tìm kiếm người dùng..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}

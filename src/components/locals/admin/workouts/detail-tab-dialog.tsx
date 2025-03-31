@@ -23,7 +23,6 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
   const { label: workoutTypeLabel } = getWorkoutTypeMeta(
     workoutData?.type || WorkoutTypeEnum.Warmup
   )
-
   const { label: difficultyTypeLabel } = getDifficultyLevelMeta(
     workoutData?.difficultyLevel || DifficultyLevelEnum.Easy
   )
@@ -62,7 +61,7 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="exercises">Số lượng</Label>
+          <Label htmlFor="exercises">Số lượng bài tập</Label>
           <Input
             id="exercises"
             type="text"
@@ -72,7 +71,7 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="durationMinutes">Thời gian</Label>
+          <Label htmlFor="durationMinutes">Thời gian (phút)</Label>
           <div className="relative">
             <Input
               id="durationMinutes"
@@ -87,7 +86,7 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="caloriesBurned">Năng lượng</Label>
+          <Label htmlFor="caloriesBurned">Năng lượng đốt (kcal)</Label>
           <div className="relative">
             <Input
               id="caloriesBurned"

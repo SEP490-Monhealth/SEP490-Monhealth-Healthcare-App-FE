@@ -29,7 +29,6 @@ export const consultantSchema = z.object({
   views: z.number().default(0),
 
   isVerified: z.boolean().default(false),
-
   status: z.boolean(),
 
   ...timestampFields

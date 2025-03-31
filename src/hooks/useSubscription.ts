@@ -28,7 +28,7 @@ interface SubscriptionsResponse {
 interface UserSubscriptionsResponse {
   totalPages: number
   totalItems: number
-  subscriptions: UserSubscriptionType[]
+  userSubscriptions: UserSubscriptionType[]
 }
 
 export const useSubscriptions = (
@@ -102,11 +102,13 @@ export const useUserSubscriptions = (
   page: number,
   limit: number,
   subscription?: string,
+  search?: string,
   status?: UserSubscriptionStatus
 ) =>
   useQuery<UserSubscriptionsResponse, Error>({
-    queryKey: ["user-subscriptions", page, limit, subscription, status],
-    queryFn: () => fetchUserSubscriptions(page, limit, subscription, status),
+    queryKey: ["user-subscriptions", page, limit, subscription, search, status],
+    queryFn: () =>
+      fetchUserSubscriptions(page, limit, subscription, search, status),
     staleTime: 1000 * 60 * 5
   })
 

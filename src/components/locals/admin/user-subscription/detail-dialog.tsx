@@ -73,19 +73,9 @@ function UserSubscriptionDetailDialog({
             message={subscriptionError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="userSubscriptionId">Mã người đăng ký gói</Label>
-              <Input
-                id="userSubscriptionId"
-                type="text"
-                value={subscriptionData.userSubscriptionId}
-                readOnly
-              />
-            </div>
-
-            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-              <div className="col-span-1 flex-shrink-0">
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
                 <Avatar className="h-full w-full rounded-md">
                   <AvatarImage src={subscriptionData.member.avatarUrl} />
                   <AvatarFallback>
@@ -94,54 +84,65 @@ function UserSubscriptionDetailDialog({
                 </Avatar>
               </div>
 
-              <div className="col-span-2">
-                <div className="space-y-2">
-                  <Label htmlFor="member.fullName">Tên người dùng</Label>
+              <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="userSubscriptionId">Mã đăng ký gói</Label>
+
                   <Input
-                    id="member.fullName"
+                    id="userSubscriptionId"
                     type="text"
-                    value={subscriptionData.member.fullName}
+                    value={subscriptionData.userSubscriptionId}
                     readOnly
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="member.email">Email người dùng</Label>
+                  <Label htmlFor="subscription">Gói đăng ký</Label>
                   <Input
-                    id="member.email"
-                    type="email"
-                    value={subscriptionData.member.email}
+                    id="subscription"
+                    type="text"
+                    value={subscriptionData.subscription}
                     readOnly
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="member.phoneNumber">
-                    Số điện thoại người dùng
-                  </Label>
-                  <Input
-                    id="member.phoneNumber"
-                    type="text"
-                    value={subscriptionData.member.phoneNumber}
-                    readOnly
-                  />
+                <div className="col-span-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="member.fullName">Họ và tên</Label>
+                    <Input
+                      id="member.fullName"
+                      type="text"
+                      value={subscriptionData.member.fullName}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="member.email">Email</Label>
+                    <Input
+                      id="member.email"
+                      type="email"
+                      value={subscriptionData.member.email}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="member.phoneNumber">Số điện thoại</Label>
+                    <Input
+                      id="member.phoneNumber"
+                      type="text"
+                      value={subscriptionData.member.phoneNumber}
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
               <div className="space-y-2">
-                <Label htmlFor="subscription">Gói đăng ký</Label>
-                <Input
-                  id="subscription"
-                  type="text"
-                  value={subscriptionData.subscription}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="remainingBookings">Số lượt đặt lịch</Label>
+                <Label htmlFor="remainingBookings">Số lần đặt lịch</Label>
                 <Input
                   id="remainingBookings"
                   type="text"
@@ -159,46 +160,46 @@ function UserSubscriptionDetailDialog({
                   readOnly
                 />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="startedAt">Ngày bắt đầu</Label>
-              <Input
-                id="startedAt"
-                type="text"
-                value={formatDate(subscriptionData.startedAt)}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="startedAt">Ngày bắt đầu</Label>
+                <Input
+                  id="startedAt"
+                  type="text"
+                  value={formatDate(subscriptionData.startedAt)}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="expiresAt">Ngày kết thúc</Label>
-              <Input
-                id="expiresAt"
-                type="text"
-                value={formatDate(subscriptionData.expiresAt)}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="expiresAt">Ngày kết thúc</Label>
+                <Input
+                  id="expiresAt"
+                  type="text"
+                  value={formatDate(subscriptionData.expiresAt)}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="createdAt">Ngày tạo</Label>
-              <Input
-                id="createdAt"
-                type="text"
-                value={formatDate(subscriptionData.createdAt)}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="createdAt">Ngày tạo</Label>
+                <Input
+                  id="createdAt"
+                  type="text"
+                  value={formatDate(subscriptionData.createdAt)}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-              <Input
-                id="updatedAt"
-                type="text"
-                value={formatDate(subscriptionData.updatedAt)}
-                readOnly
-              />
+              <div className="space-y-2">
+                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+                <Input
+                  id="updatedAt"
+                  type="text"
+                  value={formatDate(subscriptionData.updatedAt)}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
         )}

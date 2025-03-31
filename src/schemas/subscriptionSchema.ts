@@ -52,6 +52,7 @@ export const subscriptionSchema = z.object({
 
 const userSubscription = z.object({
   userSubscriptionId: uuidSchema,
+  userId: uuidSchema,
   subscriptionId: uuidSchema,
 
   member: z.object({
@@ -63,17 +64,18 @@ const userSubscription = z.object({
 
   subscription: subscriptionSchema.shape.name,
 
-  startedAt: z.string().refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
-    message: "Định dạng thời gian bắt đầu không hợp lệ"
+  startedAt: z.string().nonempty({
+    message: "Ngày bắt đầu không được để trống"
   }),
-  expiresAt: z.string().refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
-    message: "Định dạng thời gian kết thúc không hợp lệ"
+  expiresAt: z.string().nonempty({
+    message: "Ngày hết hạn không được để trống"
   }),
-
   remainingBookings: z
-    .number({ message: "Số lần đặt lịch phải là số" })
-    .int({ message: "Số lần đặt lịch phải là số nguyên" })
-    .nonnegative({ message: "Số lần đặt lịch phải là số nguyên không âm" }),
+    .number({ message: "Số lần đặt lịch còn lại phải là số" })
+    .int({ message: "Số lần đặt lịch còn lại phải là số nguyên" })
+    .nonnegative({
+      message: "Số lần đặt lịch còn lại phải là số nguyên không âm"
+    }),
 
   status: UserSubscriptionSchemaEnum,
 

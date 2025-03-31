@@ -99,11 +99,11 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
         <div className="grid grid-cols-1 gap-x-6 gap-y-4">
           <div>
             <div className="space-y-2">
-              <Label htmlFor="fullName">Họ và tên</Label>
+              <Label htmlFor="fullName">Họ tên</Label>
               <Input
                 id="fullName"
                 type="text"
-                placeholder="Nhập họ và tên"
+                placeholder="Nhập họ tên"
                 {...register("fullName")}
               />
             </div>

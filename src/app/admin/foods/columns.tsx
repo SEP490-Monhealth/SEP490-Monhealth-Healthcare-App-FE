@@ -101,16 +101,16 @@ export const createColumns = (
   },
   {
     accessorKey: "isPublic",
-    meta: { title: "Công khai" },
+    meta: { title: "Áp dụng" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Công khai" center />
+      <DataTableColumnHeader column={column} title="Áp dụng" center />
     ),
     cell: ({ row }) => {
       const isPublic = row.original.isPublic
       return (
-        <span className="flex justify-center pr-4">
-          {isPublic ? <BadgeCheck fill="#16a34a" color="white" /> : null}
-        </span>
+        <div className="flex justify-center pr-4">
+          <Badge variant="outline">{isPublic ? "Công khai" : "Riêng tư"}</Badge>
+        </div>
       )
     }
   },

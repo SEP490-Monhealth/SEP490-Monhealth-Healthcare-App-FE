@@ -114,7 +114,7 @@ function TransactionDetailDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="fullName">Tên chuyên viên</Label>
+                  <Label htmlFor="fullName">Họ tên</Label>
                   <Input
                     id="fullName"
                     type="text"

@@ -167,9 +167,9 @@ export const createColumns = (
     cell: ({ row }) => {
       const isPublic = row.original.isPublic
       return (
-        <span className="flex justify-center pr-4">
-          {isPublic ? <BadgeCheck fill="#16a34a" color="white" /> : null}
-        </span>
+        <div className="flex justify-center pr-4">
+          <Badge variant="outline">{isPublic ? "Công khai" : "Riêng tư"}</Badge>
+        </div>
       )
     }
   },

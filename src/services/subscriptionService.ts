@@ -19,7 +19,7 @@ interface SubscriptionsResponse {
 interface UserSubscriptionsResponse {
   totalPages: number
   totalItems: number
-  subscriptions: UserSubscriptionType[]
+  userSubscriptions: UserSubscriptionType[]
 }
 
 export const fetchSubscriptions = async (
@@ -142,11 +142,12 @@ export const fetchUserSubscriptions = async (
   page: number,
   limit: number,
   subscription?: string,
+  search?: string,
   status?: UserSubscriptionStatus
 ): Promise<UserSubscriptionsResponse> => {
   try {
     const response = await monAPI.get(`/user-subscriptions`, {
-      params: { page, limit, subscription, status }
+      params: { page, limit, subscription, search, status }
     })
 
     const { success, message, data } = response.data
@@ -155,8 +156,8 @@ export const fetchUserSubscriptions = async (
       throw new Error(message || "Failed to fetch user subscriptions")
     }
 
-    const { totalPages, totalItems, items: subscriptions } = data
-    return { totalPages, totalItems, subscriptions }
+    const { totalPages, totalItems, items: userSubscriptions } = data
+    return { totalPages, totalItems, userSubscriptions }
   } catch (error: any) {
     const errorMessage =
       error.response?.data?.message || "Failed to fetch user subscriptions"
