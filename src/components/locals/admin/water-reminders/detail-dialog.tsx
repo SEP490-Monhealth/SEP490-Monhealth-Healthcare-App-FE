@@ -59,7 +59,7 @@ function WaterReminderDetailDialog({
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-2 space-y-2">
+            <div className="space-y-2">
               <Label htmlFor="waterReminderId">Mã nhắc nhở</Label>
               <Input
                 id="waterReminderId"
