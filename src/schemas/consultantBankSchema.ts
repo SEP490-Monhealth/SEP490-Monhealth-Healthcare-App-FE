@@ -21,8 +21,7 @@ const consultantBankSchema = z.object({
     .max(50, { message: "Tên tài khoản không được quá 50 ký tự" }),
 
   isDefault: z.boolean(),
-  isVerified: z.boolean().default(false),
-  status: z.string().optional(),
+  status: z.boolean(),
 
   ...timestampFields
 })
