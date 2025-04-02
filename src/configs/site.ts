@@ -6,6 +6,7 @@ import {
   Dumbbell,
   Ham,
   LayoutDashboard,
+  MessageCircle,
   PieChart,
   ShoppingCart,
   Tag,
@@ -26,6 +27,15 @@ export const sidebarItems: SidebarItem[] = [
     path: "/admin/dashboard",
     icon: LayoutDashboard,
     children: []
+  },
+  {
+    title: "Nhắn tin",
+    path: "#",
+    icon: MessageCircle,
+    children: [
+      { title: "Chatbox", path: "/admin/chats" },
+      { title: "Mon AI", path: "/admin/chats/mon-ai" }
+    ]
   },
   {
     title: "Thống kê & Báo cáo",
