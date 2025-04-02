@@ -4,20 +4,20 @@ import React from "react"
 
 import { Activity, CreditCard, DollarSign, Users } from "lucide-react"
 
-import StatsCard from "./stats-card"
+import StatsCard from "@/components/globals/molecules/stats-card"
 
 function DashboardStatsCard() {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       <StatsCard
-        title="Tổng số người dùng"
+        title="Tổng người dùng"
         icon={<Users />}
         value="2,853"
         description="+18% so với tháng trước"
       />
 
       <StatsCard
-        title="Gói đăng ký đang hoạt động"
+        title="Gói đăng ký hoạt động"
         icon={<CreditCard />}
         value="1,429"
         description="+12% so với tháng trước"
@@ -31,7 +31,7 @@ function DashboardStatsCard() {
       />
 
       <StatsCard
-        title="Tư vấn viên đang hoạt động"
+        title="Tổng chuyên viên hoạt động"
         icon={<Activity />}
         value="42"
         description="+4 so với tháng trước"
