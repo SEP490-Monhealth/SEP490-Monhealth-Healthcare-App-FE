@@ -29,10 +29,32 @@ export const fetchPortionsByFoodId = async (
       throw new Error(message || "Failed to fetch portions")
     }
 
-    return data
+    const { totalPages, totalItems, items: portions } = data
+    return { totalPages, totalItems, portions }
   } catch (error: any) {
     const errorMessage =
       error.response?.data?.message || "Failed to fetch portions"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const fetchPortionById = async (
+  portionId: string
+): Promise<PortionType> => {
+  try {
+    const response = await monAPI.get(`/portions/${portionId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch portion")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch portion"
     toast.error(errorMessage)
     throw new Error(errorMessage)
   }

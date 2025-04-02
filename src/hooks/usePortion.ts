@@ -2,7 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { CreatePortionType, PortionType } from "@/schemas/portionSchema"
 
-import { addPortion, fetchPortionsByFoodId } from "@/services/portionService"
+import {
+  addPortion,
+  fetchPortionById,
+  fetchPortionsByFoodId
+} from "@/services/portionService"
 
 interface PortionsResponse {
   totalPages: number
@@ -23,6 +27,14 @@ export const usePortionsByFoodId = (
     queryFn: () =>
       fetchPortionsByFoodId(foodId, page, limit, search, sort, order),
     enabled: !!foodId,
+    staleTime: 1000 * 60 * 5
+  })
+
+export const usePortionById = (portionId: string) =>
+  useQuery<PortionType, Error>({
+    queryKey: ["portion", portionId],
+    queryFn: () => fetchPortionById(portionId),
+    enabled: !!portionId,
     staleTime: 1000 * 60 * 5
   })
 

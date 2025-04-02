@@ -9,13 +9,13 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
 import { createColumns } from "@/components/locals/admin/foods/portions/columns"
-import AddUserDialog from "@/components/locals/admin/users/add-dialog"
-import UserDetailDialog from "@/components/locals/admin/users/detail-dialog"
+import PortionDetailDialog from "@/components/locals/admin/foods/portions/detail-dialog"
+import AddPortionDialog from "@/components/locals/admin/users/add-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { usePortionsByFoodId } from "@/hooks/usePortion"
 
-import LoadingPage from "../../loading"
+import LoadingPage from "../../../loading"
 
 const DEFAULT_VISIBILITY = {
   portionId: false,
@@ -28,7 +28,8 @@ function PortionPage() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const foodId = searchParams.get("foodId") || ""
+  const foodId = pathname.split("/")[3] || ""
+
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
@@ -128,8 +129,6 @@ function PortionPage() {
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
 
-  console.log("ahihi", JSON.stringify(portionsData, null, 2))
-
   return (
     <div>
       <DataTable
@@ -150,14 +149,16 @@ function PortionPage() {
         onAddNew={handleAddPortion}
       />
 
-      <UserDetailDialog
+      <PortionDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        // userId={selectedPortion}
-        userId={"3b1a8845-765f-4d91-984a-4e8a9d7d376e"}
+        portionId={selectedPortion}
       />
 
-      <AddUserDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />
+      <AddPortionDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
+      />
     </div>
   )
 }

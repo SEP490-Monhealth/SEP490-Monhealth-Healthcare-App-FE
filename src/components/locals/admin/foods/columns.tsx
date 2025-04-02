@@ -7,7 +7,8 @@ import {
   Circle,
   Copy,
   Eye,
-  MoreHorizontal
+  MoreHorizontal,
+  Utensils
 } from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
@@ -30,6 +31,7 @@ import { FoodType } from "@/schemas/foodSchema"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (foodId: string) => void
+  onViewPortion: (foodId: string) => void
 }
 
 export const createColumns = (
@@ -198,6 +200,12 @@ export const createColumns = (
               >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handlers.onViewPortion(foodData.foodId)}
+              >
+                <Utensils className="h-4 w-4" />
+                Xem khẩu phần
               </DropdownMenuItem>
 
               <Separator />

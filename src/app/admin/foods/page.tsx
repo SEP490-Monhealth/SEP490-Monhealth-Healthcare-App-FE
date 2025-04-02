@@ -147,6 +147,10 @@ function FoodPage() {
     setTimeout(() => setSelectedFood(null), 300)
   }
 
+  const handleViewPortion = (foodId: string) => {
+    router.push(`/admin/foods/${foodId}/portions`)
+  }
+
   const handleAddFood = () => {
     setIsAddDialogOpen(true)
   }
@@ -156,7 +160,10 @@ function FoodPage() {
     setTimeout(() => setSelectedFood(null), 300)
   }
 
-  const columns = createColumns({ onViewDetail: handleViewDetail })
+  const columns = createColumns({
+    onViewDetail: handleViewDetail,
+    onViewPortion: handleViewPortion
+  })
 
   if (isCategoriesLoading || isFoodsLoading) return <LoadingPage />
   if (categoriesError || foodsError)

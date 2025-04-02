@@ -4,13 +4,13 @@ import {
   Calendar,
   CreditCard,
   Dumbbell,
+  Ham,
   LayoutDashboard,
   PieChart,
   ShoppingCart,
   Tag,
   UserCheck,
-  Users,
-  Utensils
+  Users
 } from "lucide-react"
 
 interface SidebarItem {
@@ -33,10 +33,9 @@ export const sidebarItems: SidebarItem[] = [
     icon: BarChart3,
     children: [
       { title: "Tổng quan", path: "/admin/analytics/overview" },
-      { title: "Doanh thu", path: "/admin/analytics/revenue" },
       { title: "Người dùng", path: "/admin/analytics/users" },
-      { title: "Chuyên viên", path: "/admin/analytics/consultants" },
-      { title: "Gói đăng ký", path: "/admin/analytics/subscriptions" }
+      { title: "Gói đăng ký", path: "/admin/analytics/subscriptions" },
+      { title: "Chuyên viên", path: "/admin/analytics/activities" }
     ]
   },
   {
@@ -68,7 +67,7 @@ export const sidebarItems: SidebarItem[] = [
   {
     title: "Thực phẩm",
     path: "/admin/foods",
-    icon: Utensils,
+    icon: Ham,
     children: []
   },
   {

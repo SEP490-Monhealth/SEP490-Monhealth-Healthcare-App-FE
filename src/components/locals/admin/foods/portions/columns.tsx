@@ -61,21 +61,33 @@ export const createColumns = (
     meta: { title: "Tên khẩu phần" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tên khẩu phần" />
-    )
+    ),
+    cell: ({ row }) => {
+      const size = row.original.size
+      return <span className="capitalize">{size}</span>
+    }
   },
   {
     accessorKey: "weight",
     meta: { title: "Định lượng" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Định lượng" />
-    )
+      <DataTableColumnHeader column={column} title="Định lượng" center />
+    ),
+    cell: ({ row }) => {
+      const weight = row.original.weight
+      return <span className="flex justify-center pr-4">{weight}</span>
+    }
   },
   {
     accessorKey: "unit",
     meta: { title: "Đơn vị" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Đơn vị" />
-    )
+      <DataTableColumnHeader column={column} title="Đơn vị (g/ml)" center />
+    ),
+    cell: ({ row }) => {
+      const unit = row.original.unit
+      return <span className="flex justify-center pr-4">{unit}</span>
+    }
   },
   {
     accessorKey: "createdAt",
