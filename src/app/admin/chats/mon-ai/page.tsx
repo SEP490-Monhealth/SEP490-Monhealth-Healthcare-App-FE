@@ -33,7 +33,7 @@ function SignalRChatTest() {
 
   const createHubConnection = async () => {
     const hubConnection = new HubConnectionBuilder()
-      .withUrl("http://localhost:8081/hubs/chat")
+      .withUrl(`${process.env.NEXT_PUBLIC_API_URL}/chatbox`)
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)
       .build()

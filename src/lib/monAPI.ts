@@ -1,7 +1,10 @@
 import axios from "axios"
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || ""
+const apiVersion = process.env.NEXT_PUBLIC_API_VERSION || ""
+
 const monAPI = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: `${apiUrl}/${apiVersion}`,
   timeout: 3000,
   headers: {
     "Content-Type": "application/json"

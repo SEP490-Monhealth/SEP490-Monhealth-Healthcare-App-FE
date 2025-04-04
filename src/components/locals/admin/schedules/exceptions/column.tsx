@@ -100,6 +100,13 @@ export const createColumns = (
     }
   },
   {
+    accessorKey: "createdBy",
+    meta: { title: "Người tạo" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người tạo" />
+    )
+  },
+  {
     accessorKey: "updatedAt",
     meta: { title: "Ngày cập nhật" },
     header: ({ column }) => (
@@ -109,6 +116,13 @@ export const createColumns = (
       const updatedAt = row.original.updatedAt
       return <DataTableTime time={updatedAt} />
     }
+  },
+  {
+    accessorKey: "updatedBy",
+    meta: { title: "Người cập nhật" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Người cập nhật" />
+    )
   },
   {
     id: "actions",

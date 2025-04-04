@@ -8,8 +8,7 @@ import { userSchema } from "./userSchema"
 
 const paymentSchema = z.object({
   paymentId: uuidSchema,
-  userId: uuidSchema,
-  subscriptionId: uuidSchema,
+  userSubscriptionId: uuidSchema,
 
   member: z.object({
     fullName: userSchema.shape.fullName,

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 import { userSchema } from "./userSchema"
 
 const scheduleExceptionSchema = z.object({
@@ -24,7 +24,7 @@ const scheduleExceptionSchema = z.object({
       message: "Lý do phải có ít nhất 10 ký tự"
     }),
 
-  ...timestampFields
+  ...auditFields
 })
 
 export type ScheduleExceptionType = z.infer<typeof scheduleExceptionSchema>
