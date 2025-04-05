@@ -88,7 +88,7 @@ function ScheduleExceptionPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm lịch ngoại lệ hoặc chuyên viên..."
+        placeholder="Tìm kiếm lịch nghỉ hoặc chuyên viên..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}

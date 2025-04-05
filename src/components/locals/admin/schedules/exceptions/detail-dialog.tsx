@@ -51,9 +51,9 @@ function ScheduleExceptionDetailDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết lịch ngoại lệ</DialogTitle>
+          <DialogTitle>Chi tiết lịch nghỉ</DialogTitle>
           <DialogDescription>
-            Xem thông tin chi tiết của lịch ngoại lệ.
+            Xem thông tin chi tiết của lịch nghỉ.
           </DialogDescription>
         </DialogHeader>
 
@@ -66,7 +66,7 @@ function ScheduleExceptionDetailDialog({
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="scheduleExceptionId">Mã lịch ngoại lệ</Label>
+              <Label htmlFor="scheduleExceptionId">Mã lịch nghỉ</Label>
               <Input
                 id="scheduleExceptionId"
                 type="text"
@@ -126,7 +126,7 @@ function ScheduleExceptionDetailDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="date">Lịch ngoại lệ</Label>
+              <Label htmlFor="date">Lịch nghỉ</Label>
               <Input
                 id="date"
                 type="text"

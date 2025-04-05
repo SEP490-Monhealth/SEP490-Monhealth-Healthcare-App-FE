@@ -71,7 +71,7 @@ export const sidebarItems: SidebarItem[] = [
     icon: Calendar,
     children: [
       { title: "Lịch hẹn", path: "/admin/bookings" },
-      { title: "Lịch ngoại lệ", path: "/admin/schedules/exceptions" }
+      { title: "Lịch nghỉ", path: "/admin/schedules/exceptions" }
     ]
   },
   {

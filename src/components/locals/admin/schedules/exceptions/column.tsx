@@ -53,9 +53,9 @@ export const createColumns = (
   },
   {
     accessorKey: "scheduleExceptionId",
-    meta: { title: "Mã lịch ngoại lệ" },
+    meta: { title: "Mã lịch nghỉ" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã lịch ngoại lệ" />
+      <DataTableColumnHeader column={column} title="Mã lịch nghỉ" />
     )
   },
   {

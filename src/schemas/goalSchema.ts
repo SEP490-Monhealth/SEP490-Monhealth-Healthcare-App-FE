@@ -30,8 +30,8 @@ const goalSchema = z.object({
 
   waterIntakesGoal: z.number().default(0),
 
-  workoutDurationGoal: z.number().default(0),
   caloriesBurnedGoal: z.number().default(0),
+  workoutDurationGoal: z.number().default(0),
 
   status: GoalStatusSchemaEnum,
 
