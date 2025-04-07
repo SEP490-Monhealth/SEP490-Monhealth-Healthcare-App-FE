@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 import { bankSchema } from "./bankSchema"
-import { timestampFields, uuidSchema } from "./baseSchema"
+import { auditFields, uuidSchema } from "./baseSchema"
 
 const consultantBankSchema = z.object({
   consultantBankId: uuidSchema,
@@ -9,6 +9,7 @@ const consultantBankSchema = z.object({
   bankId: uuidSchema,
 
   bank: z.object({
+    name: bankSchema.shape.name,
     shortName: bankSchema.shape.shortName,
     logoUrl: bankSchema.shape.logoUrl
   }),
@@ -23,7 +24,7 @@ const consultantBankSchema = z.object({
   isDefault: z.boolean(),
   status: z.boolean(),
 
-  ...timestampFields
+  ...auditFields
 })
 
 export type ConsultantBankType = z.infer<typeof consultantBankSchema>
