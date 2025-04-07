@@ -8,6 +8,7 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import AddFoodDialog from "@/components/locals/admin/foods/add-dialog"
 import { createColumns } from "@/components/locals/admin/foods/columns"
 import FoodDetailDialog from "@/components/locals/admin/foods/detail-dialog"
 
@@ -194,6 +195,8 @@ function FoodPage() {
         onClose={handleCloseDetailDialog}
         foodId={selectedFood}
       />
+
+      <AddFoodDialog isOpen={isAddDialogOpen} onClose={handleCloseAddDialog} />
     </div>
   )
 }
