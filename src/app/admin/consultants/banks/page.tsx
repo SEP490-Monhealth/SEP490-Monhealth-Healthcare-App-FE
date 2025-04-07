@@ -93,7 +93,7 @@ function ConsultantBankPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm người dùng hoặc chuyên viên..."
+        placeholder="Tìm kiếm chuyên viên..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}
