@@ -98,9 +98,9 @@ export const createColumns = (
   },
   {
     accessorKey: "bio",
-    meta: { title: "Mô tả" },
+    meta: { title: "Mô tả ngắn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mô tả" />
+      <DataTableColumnHeader column={column} title="Mô tả ngắn" />
     ),
     cell: ({ row }) => {
       const bio = row.original.bio

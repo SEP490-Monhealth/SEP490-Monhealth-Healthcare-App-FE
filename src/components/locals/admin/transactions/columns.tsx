@@ -17,7 +17,7 @@ import {
 import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
-import DataTableTime from "@/components/globals/molecules/data-table-time"
+import DataTableDateTime from "@/components/globals/molecules/date-table-date-time"
 
 import {
   TransactionStatusEnum,
@@ -147,7 +147,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <DataTableTime time={createdAt} />
+      return <DataTableDateTime datetime={createdAt} />
     }
   },
   {
@@ -165,7 +165,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <DataTableTime time={updatedAt} />
+      return <DataTableDateTime datetime={updatedAt} />
     }
   },
   {

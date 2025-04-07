@@ -33,7 +33,7 @@ interface ExceptionDetailDialogProps {
   scheduleExceptionId: string | null
 }
 
-function ScheduleExceptionDetailDialog({
+function ExceptionDetailDialog({
   isOpen,
   onClose,
   scheduleExceptionId
@@ -175,4 +175,4 @@ function ScheduleExceptionDetailDialog({
   )
 }
 
-export default ScheduleExceptionDetailDialog
+export default ExceptionDetailDialog

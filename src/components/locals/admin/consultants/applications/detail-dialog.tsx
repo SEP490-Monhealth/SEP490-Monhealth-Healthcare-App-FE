@@ -28,17 +28,17 @@ import { useConsultantById } from "@/hooks/useConsultant"
 import { formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
-interface ConsultantDetailDialogProps {
+interface ApplicationDetailDialogProps {
   isOpen: boolean
   onClose: () => void
   consultantId: string | null
 }
 
-function ConsultantDetailDialog({
+function ApplicationDetailDialog({
   isOpen,
   onClose,
   consultantId
-}: ConsultantDetailDialogProps) {
+}: ApplicationDetailDialogProps) {
   const {
     data: consultantData,
     isLoading: isConsultantLoading,
@@ -151,63 +151,11 @@ function ConsultantDetailDialog({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="bookingCount">Số lượt đặt lịch</Label>
-                <Input
-                  id="bookingCount"
-                  type="number"
-                  value={consultantData.bookingCount || 0}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="ratingCount">Số lượt đánh giá</Label>
-                <Input
-                  id="ratingCount"
-                  type="number"
-                  value={consultantData.ratingCount || 0}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="averageRating">Đánh giá trung bình</Label>
-                <Input
-                  id="averageRating"
-                  type="number"
-                  value={consultantData.averageRating || 0}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="status">Trạng thái</Label>
-                <Input
-                  id="status"
-                  type="text"
-                  value={
-                    consultantData.status ? "Hoạt động" : "Ngừng hoạt động"
-                  }
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="createdAt">Ngày tạo</Label>
                 <Input
                   id="createdAt"
                   type="text"
                   value={formatDate(consultantData.createdAt)}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-                <Input
-                  id="updatedAt"
-                  type="text"
-                  value={formatDate(consultantData.updatedAt || "--")}
                   readOnly
                 />
               </div>
@@ -223,4 +171,4 @@ function ConsultantDetailDialog({
   )
 }
 
-export default ConsultantDetailDialog
+export default ApplicationDetailDialog
