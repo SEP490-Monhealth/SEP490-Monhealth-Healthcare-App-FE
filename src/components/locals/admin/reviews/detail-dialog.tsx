@@ -69,12 +69,12 @@ function ReviewDetailDialog({
           <div className="flex flex-col gap-4">
             <div className="flex gap-6">
               <div className="flex-shrink-0">
-                <Avatar className="h-full w-48 rounded-md">
+                <Avatar className="h-full w-48 rounded-xl">
                   <AvatarImage
                     src={reviewData.member.avatarUrl}
                     alt={getInitials(reviewData.member.fullName)}
                   />
-                  <AvatarFallback>
+                  <AvatarFallback className="rounded-xl">
                     {getInitials(reviewData.member.fullName)}
                   </AvatarFallback>
                 </Avatar>

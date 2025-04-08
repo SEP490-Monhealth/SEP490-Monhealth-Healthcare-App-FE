@@ -169,7 +169,7 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
           </div>
         </div>
 
-        <DialogFooter className="mt-6 gap-4">
+        <DialogFooter className="space-x-4">
           <Button variant="secondary" size="lg" onClick={onClose}>
             Hủy
           </Button>

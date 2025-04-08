@@ -99,11 +99,7 @@ export const createColumns = (
   },
   {
     accessorKey: "description",
-    header: "Mô tả",
-    cell: ({ row }) => {
-      const description = row.original.description
-      return <DataTableCellDescription description={description} />
-    }
+    header: "Mô tả"
   },
   {
     accessorKey: "amount",

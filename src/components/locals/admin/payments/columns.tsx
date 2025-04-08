@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableCellPrice from "@/components/globals/molecules/data-table-cell-price"
 import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
@@ -81,11 +82,15 @@ export const createColumns = (
     }
   },
   {
-    accessorKey: "subscriptionName",
+    accessorKey: "subscription",
     meta: { title: "Gói đăng ký" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Gói đăng ký" />
     )
+  },
+  {
+    accessorKey: "description",
+    header: "Mô tả"
   },
   {
     accessorKey: "amount",

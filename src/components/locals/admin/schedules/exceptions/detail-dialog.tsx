@@ -78,14 +78,14 @@ function ExceptionDetailDialog({
             <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
               <div className="col-span-1">
                 <div className="flex-shrink-0">
-                  <Avatar className="h-full w-48 rounded-md">
+                  <Avatar className="h-full w-48 rounded-xl">
                     <AvatarImage
                       src={scheduleExceptionData.consultant.avatarUrl}
                       alt={getInitials(
                         scheduleExceptionData.consultant.fullName
                       )}
                     />
-                    <AvatarFallback>
+                    <AvatarFallback className="rounded-xl">
                       {getInitials(scheduleExceptionData.consultant.fullName)}
                     </AvatarFallback>
                   </Avatar>

@@ -73,35 +73,45 @@ function PaymentDetailDialog({
             message={paymentError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="paymentId">Mã thanh toán</Label>
-              <Input
-                id="paymentId"
-                type="text"
-                value={paymentData.paymentId}
-                readOnly
-              />
-            </div>
-
-            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-              <div className="col-span-1 flex-shrink-0">
-                <Avatar className="h-full w-full rounded-md">
+          <div className="flex flex-col gap-4">
+            <div className="flex gap-6">
+              <div className="flex-shrink-0">
+                <Avatar className="h-full w-48 rounded-xl">
                   <AvatarImage
                     src={paymentData.member.avatarUrl}
                     alt={getInitials(paymentData.member.fullName)}
                   />
-                  <AvatarFallback>
+                  <AvatarFallback className="rounded-xl">
                     {getInitials(paymentData.member.fullName)}
                   </AvatarFallback>
                 </Avatar>
               </div>
 
-              <div className="col-span-2 space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="member.fullName">Tên người dùng</Label>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="paymentId">Mã thanh toán</Label>
                   <Input
-                    id="member.fullName"
+                    id="paymentId"
+                    type="text"
+                    value={paymentData.paymentId}
+                    readOnly
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="subscription">Gói đăng ký</Label>
+                  <Input
+                    id="type"
+                    type="text"
+                    value={paymentData.subscription}
+                    readOnly
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Họ tên</Label>
+                  <Input
+                    id="fullName"
                     type="text"
                     value={paymentData.member.fullName}
                     readOnly
@@ -109,21 +119,19 @@ function PaymentDetailDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="member.email">Email người dùng</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
-                    id="member.email"
-                    type="email"
+                    id="email"
+                    type="text"
                     value={paymentData.member.email}
                     readOnly
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="member.phoneNumber">
-                    Số điện thoại người dùng
-                  </Label>
+                  <Label htmlFor="phoneNumber">Số điện thoại</Label>
                   <Input
-                    id="member.phoneNumber"
+                    id="phoneNumber"
                     type="text"
                     value={paymentData.member.phoneNumber}
                     readOnly
@@ -132,24 +140,24 @@ function PaymentDetailDialog({
               </div>
             </div>
 
-            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="subscriptionName">Gói đăng ký</Label>
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="description">Mô tả</Label>
                 <Input
-                  id="subscriptionName"
+                  id="description"
                   type="text"
-                  value={paymentData.subscriptionName}
+                  value={paymentData.description}
                   readOnly
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="amount">Thanh toán</Label>
+                <Label htmlFor="price">Số tiền</Label>
 
                 <div className="relative">
                   <Input
-                    id="amount"
-                    type="number"
+                    id="price"
+                    type="text"
                     value={formatCurrency(paymentData.amount)}
                     readOnly
                   />
@@ -168,26 +176,46 @@ function PaymentDetailDialog({
                   readOnly
                 />
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="createdAt">Ngày tạo</Label>
-              <Input
-                id="createdAt"
-                type="text"
-                value={formatDate(paymentData.createdAt)}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="createdAt">Ngày tạo</Label>
+                <Input
+                  id="createdAt"
+                  type="text"
+                  value={formatDate(paymentData.createdAt)}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-              <Input
-                id="updatedAt"
-                type="text"
-                value={formatDate(paymentData.updatedAt)}
-                readOnly
-              />
+              <div className="space-y-2">
+                <Label htmlFor="createdBy">Người tạo</Label>
+                <Input
+                  id="createdBy"
+                  type="text"
+                  value={paymentData.createdBy || "--"}
+                  readOnly
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+                <Input
+                  id="updatedAt"
+                  type="text"
+                  value={formatDate(paymentData.updatedAt)}
+                  readOnly
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="updatedBy">Người cập nhật</Label>
+                <Input
+                  id="updatedBy"
+                  type="text"
+                  value={paymentData.updatedBy || "--"}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
         )}

@@ -76,9 +76,9 @@ function UserSubscriptionDetailDialog({
           <div className="flex flex-col gap-4">
             <div className="flex gap-6">
               <div className="flex-shrink-0">
-                <Avatar className="h-full w-full rounded-md">
+                <Avatar className="h-full w-full rounded-xl">
                   <AvatarImage src={subscriptionData.member.avatarUrl} />
-                  <AvatarFallback>
+                  <AvatarFallback className="rounded-xl">
                     {getInitials(subscriptionData.member.fullName)}
                   </AvatarFallback>
                 </Avatar>

@@ -81,12 +81,12 @@ function TransactionDetailDialog({
           <div className="flex flex-col gap-4">
             <div className="flex gap-6">
               <div className="flex-shrink-0">
-                <Avatar className="h-full w-48 rounded-md">
+                <Avatar className="h-full w-48 rounded-xl">
                   <AvatarImage
                     src={transactionData.consultant.avatarUrl}
                     alt={getInitials(transactionData.consultant.fullName)}
                   />
-                  <AvatarFallback>
+                  <AvatarFallback className="rounded-xl">
                     {getInitials(transactionData.consultant.fullName)}
                   </AvatarFallback>
                 </Avatar>
