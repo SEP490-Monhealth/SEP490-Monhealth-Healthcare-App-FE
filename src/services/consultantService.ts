@@ -16,11 +16,12 @@ export const fetchConsultants = async (
   expertise?: string,
   search?: string,
   verified?: boolean,
+  popular?: boolean,
   status?: boolean
 ): Promise<ConsultantsResponse> => {
   try {
     const response = await monAPI.get(`/consultants`, {
-      params: { page, limit, expertise, search, verified, status }
+      params: { page, limit, expertise, search, verified, popular, status }
     })
 
     const { success, message, data } = response.data

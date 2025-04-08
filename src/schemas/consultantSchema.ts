@@ -1,12 +1,13 @@
 import { z } from "zod"
 
+import { VerificationStatusSchemaEnum } from "@/constants/enum/Consultant"
+
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { expertiseSchema } from "./expertiseSchema"
 import { userSchema } from "./userSchema"
 
 export const consultantSchema = z.object({
   consultantId: uuidSchema,
-  userId: uuidSchema,
   expertiseId: uuidSchema,
 
   fullName: userSchema.shape.fullName,
@@ -28,7 +29,7 @@ export const consultantSchema = z.object({
 
   views: z.number().default(0),
 
-  isVerified: z.boolean().default(false),
+  verificationStatus: VerificationStatusSchemaEnum,
   status: z.boolean(),
 
   ...timestampFields

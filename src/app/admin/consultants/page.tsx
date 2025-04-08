@@ -11,6 +11,8 @@ import { DataTableFilterProps } from "@/components/globals/molecules/data-table-
 import { createColumns } from "@/components/locals/admin/consultants/columns"
 import ConsultantDetailDialog from "@/components/locals/admin/consultants/detail-dialog"
 
+import { VerificationStatus } from "@/constants/enum/Consultant"
+
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
@@ -66,6 +68,7 @@ function ConsultantPage() {
     expertise,
     debouncedSearch,
     true,
+    false,
     parsedStatus
   )
 

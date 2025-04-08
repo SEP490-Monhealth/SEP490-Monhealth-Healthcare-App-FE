@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
@@ -21,12 +20,30 @@ export const useConsultants = (
   expertise?: string,
   search?: string,
   verified?: boolean,
+  popular?: boolean,
   status?: boolean
 ) =>
   useQuery<ConsultantsResponse, Error>({
-    queryKey: ["consultants", page, limit, expertise, search, verified, status],
+    queryKey: [
+      "consultants",
+      page,
+      limit,
+      expertise,
+      search,
+      verified,
+      popular,
+      status
+    ],
     queryFn: () =>
-      fetchConsultants(page, limit, expertise, search, verified, status),
+      fetchConsultants(
+        page,
+        limit,
+        expertise,
+        search,
+        verified,
+        popular,
+        status
+      ),
     staleTime: 1000 * 60 * 5
   })
 

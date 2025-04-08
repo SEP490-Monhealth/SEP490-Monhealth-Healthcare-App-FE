@@ -48,7 +48,7 @@ function Topbar() {
               <AvatarFallback>{getInitials("Van Huu Toan")}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          {/* <DropdownMenuContent align="end">
             <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
 
             <DropdownMenuItem>
@@ -69,7 +69,7 @@ function Topbar() {
               <LogOut className="h-4 w-4" />
               Đăng xuất
             </DropdownMenuItem>
-          </DropdownMenuContent>
+          </DropdownMenuContent> */}
         </DropdownMenu>
       </div>
     </div>

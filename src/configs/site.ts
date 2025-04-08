@@ -28,15 +28,15 @@ export const sidebarItems: SidebarItem[] = [
     icon: LayoutDashboard,
     children: []
   },
-  {
-    title: "Nhắn tin",
-    path: "#",
-    icon: MessageCircle,
-    children: [
-      { title: "Chatbox", path: "/admin/chats" },
-      { title: "Mon AI", path: "/admin/chats/mon-ai" }
-    ]
-  },
+  // {
+  //   title: "Nhắn tin",
+  //   path: "#",
+  //   icon: MessageCircle,
+  //   children: [
+  //     { title: "Chatbox", path: "/admin/chats" },
+  //     { title: "Mon AI", path: "/admin/chats/mon-ai" }
+  //   ]
+  // },
   {
     title: "Thống kê & Báo cáo",
     path: "#",
