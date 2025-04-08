@@ -5,7 +5,9 @@ import { ConsultantType } from "@/schemas/consultantSchema"
 import {
   fetchConsultantById,
   fetchConsultants,
-  updateConsultantStatus
+  rejectConsultant,
+  updateConsultantStatus,
+  verifyConsultant
 } from "@/services/consultantService"
 
 interface ConsultantsResponse {
@@ -47,7 +49,7 @@ export const useConsultants = (
     staleTime: 1000 * 60 * 5
   })
 
-export const useConsultantById = (consultantId: string) =>
+export const useConsultantById = (consultantId: string | undefined) =>
   useQuery<ConsultantType, Error>({
     queryKey: ["consultant", consultantId],
     queryFn: () => fetchConsultantById(consultantId),
@@ -55,10 +57,32 @@ export const useConsultantById = (consultantId: string) =>
     staleTime: 1000 * 60 * 5
   })
 
+export const useVerifyConsultant = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { consultantId: string | undefined }>({
+    mutationFn: ({ consultantId }) => verifyConsultant(consultantId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["consultants"] })
+    }
+  })
+}
+
+export const useRejectConsultant = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { consultantId: string | undefined }>({
+    mutationFn: ({ consultantId }) => rejectConsultant(consultantId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["consultants"] })
+    }
+  })
+}
+
 export const useConsultantStatus = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { consultantId: string }>({
+  return useMutation<void, Error, { consultantId: string | undefined }>({
     mutationFn: ({ consultantId }) => updateConsultantStatus(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })

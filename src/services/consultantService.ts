@@ -41,7 +41,7 @@ export const fetchConsultants = async (
 }
 
 export const fetchConsultantById = async (
-  consultantId: string
+  consultantId: string | undefined
 ): Promise<ConsultantType> => {
   try {
     const response = await monAPI.get(`/consultants/${consultantId}`)
@@ -61,8 +61,52 @@ export const fetchConsultantById = async (
   }
 }
 
+export const verifyConsultant = async (
+  consultantId: string | undefined
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(`/consultants/${consultantId}/verify`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to verify consultant")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to verify consultant"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const rejectConsultant = async (
+  consultantId: string | undefined
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(`/consultants/${consultantId}/reject`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to reject consultant")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to reject consultant"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
 export const updateConsultantStatus = async (
-  consultantId: string
+  consultantId: string | undefined
 ): Promise<void> => {
   try {
     const response = await monAPI.patch(`/consultants/${consultantId}/status`)

@@ -26,7 +26,13 @@ import { ConsultantType } from "@/schemas/consultantSchema"
 
 import { formatPhoneNumber } from "@/utils/formatters"
 
-export const columns: ColumnDef<ConsultantType>[] = [
+export type ColumnActionsHandlers = {
+  onViewDetail: (consultantId: string) => void
+}
+
+export const createColumns = (
+  handlers: ColumnActionsHandlers
+): ColumnDef<ConsultantType>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -163,7 +169,11 @@ export const columns: ColumnDef<ConsultantType>[] = [
                 <Copy className="h-4 w-4" />
                 Sao chép mã
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  handlers.onViewDetail(consultantData.consultantId)
+                }
+              >
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>

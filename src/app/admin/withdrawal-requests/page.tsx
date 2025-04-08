@@ -133,7 +133,7 @@ function WithdrawalRequestPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm yêu cầu..."
+        placeholder="Tìm kiếm yêu cầu rút tiền..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}

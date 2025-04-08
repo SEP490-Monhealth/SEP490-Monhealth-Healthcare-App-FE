@@ -8,7 +8,8 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import { columns } from "@/components/locals/admin/consultants/applications/columns"
+import { createColumns } from "@/components/locals/admin/consultants/applications/columns"
+import ApplicationDetailDialog from "@/components/locals/admin/consultants/applications/detail-dialog"
 
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
@@ -35,6 +36,11 @@ function ConsultantApplicationPage() {
 
   const [searchTerm, setSearchTerm] = useState<string>(search)
   const debouncedSearch = useDebounce(searchTerm, 500)
+
+  const [selectedConsultant, setSelectedConsultant] = useState<string | null>(
+    null
+  )
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const {
     data: expertiseData,
@@ -94,6 +100,18 @@ function ConsultantApplicationPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
+  const handleViewDetail = (consultantId: string) => {
+    setSelectedConsultant(consultantId)
+    setIsDetailDialogOpen(true)
+  }
+
+  const handleCloseDetailDialog = () => {
+    setIsDetailDialogOpen(false)
+    setTimeout(() => setSelectedConsultant(null), 300)
+  }
+
+  const columns = createColumns({ onViewDetail: handleViewDetail })
+
   if (isExpertiseLoading || isConsultantLoading) return <LoadingPage />
   if (expertiseError || consultantsError)
     return <p>Error: {expertiseError?.message || consultantsError?.message}</p>
@@ -114,6 +132,12 @@ function ConsultantApplicationPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={clearAllFilters}
+      />
+
+      <ApplicationDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={handleCloseDetailDialog}
+        consultantId={selectedConsultant}
       />
     </div>
   )

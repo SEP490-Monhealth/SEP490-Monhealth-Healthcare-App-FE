@@ -11,8 +11,6 @@ import { DataTableFilterProps } from "@/components/globals/molecules/data-table-
 import { createColumns } from "@/components/locals/admin/consultants/columns"
 import ConsultantDetailDialog from "@/components/locals/admin/consultants/detail-dialog"
 
-import { VerificationStatus } from "@/constants/enum/Consultant"
-
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
@@ -61,7 +59,7 @@ function ConsultantPage() {
   const {
     data: consultantsData,
     isLoading: isConsultantLoading,
-    error: consultantError
+    error: consultantsError
   } = useConsultants(
     page,
     limit,
@@ -113,6 +111,13 @@ function ConsultantPage() {
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
+  useEffect(() => {
+    if (debouncedSearch !== search) {
+      updateParams("search", debouncedSearch)
+      updateParams("page", 1)
+    }
+  }, [debouncedSearch])
+
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())
 
@@ -121,13 +126,6 @@ function ConsultantPage() {
 
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
-
-  useEffect(() => {
-    if (debouncedSearch !== search) {
-      updateParams("search", debouncedSearch)
-      updateParams("page", 1)
-    }
-  }, [debouncedSearch])
 
   const handleViewDetail = (consultantId: string) => {
     setSelectedConsultant(consultantId)
@@ -142,8 +140,8 @@ function ConsultantPage() {
   const columns = createColumns({ onViewDetail: handleViewDetail })
 
   if (isExpertiseLoading || isConsultantLoading) return <LoadingPage />
-  if (expertiseError || consultantError)
-    return <p>Error: {expertiseError?.message || consultantError?.message}</p>
+  if (expertiseError || consultantsError)
+    return <p>Error: {expertiseError?.message || consultantsError?.message}</p>
 
   return (
     <div>
