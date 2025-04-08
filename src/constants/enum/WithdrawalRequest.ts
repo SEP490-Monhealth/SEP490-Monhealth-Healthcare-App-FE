@@ -18,7 +18,7 @@ const withdrawalRequestStatusMap: Record<
   EnumMeta
 > = {
   [WithdrawalRequestStatusEnum.Pending]: {
-    label: "Đang xử lý",
+    label: "Chờ xử lý",
     color: "#f97316" // orange 500
   },
   [WithdrawalRequestStatusEnum.Approved]: {
@@ -26,12 +26,12 @@ const withdrawalRequestStatusMap: Record<
     color: "#16a34a" // green 600
   },
   [WithdrawalRequestStatusEnum.Completed]: {
-    label: "Hoàn thành",
+    label: "Đã thanh toán",
     color: "#3b82f6" // blue 500
   },
   [WithdrawalRequestStatusEnum.Rejected]: {
-    label: "Hoàn trả",
-    color: "#f97316" // orange 500
+    label: "Đã từ chối",
+    color: "#ef4444" // red 500
   }
 }
 

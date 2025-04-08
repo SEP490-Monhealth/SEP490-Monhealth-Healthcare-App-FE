@@ -4,7 +4,10 @@ import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
 
 import monAPI from "@/lib/monAPI"
 
-import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
+import {
+  WithdrawalRequestQrCodeType,
+  WithdrawalRequestType
+} from "@/schemas/withdrawalRequestSchema"
 
 interface WithdrawalRequestResponse {
   totalPages: number
@@ -62,6 +65,30 @@ export const fetchWithdrawalRequestById = async (
   }
 }
 
+export const fetchWithdrawalRequestQrCodeById = async (
+  withdrawalRequestId: string
+): Promise<WithdrawalRequestQrCodeType> => {
+  try {
+    const response = await monAPI.get(
+      `/withdrawal-requests/${withdrawalRequestId}/qr-code`
+    )
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch withdrawal request QR code")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message ||
+      "Failed to fetch withdrawal request QR code"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
 export const updateWithdrawalRequestStatus = async (
   withdrawalRequestId: string
 ): Promise<void> => {
@@ -91,7 +118,7 @@ export const approveWithdrawalRequest = async (
   withdrawalRequestId: string
 ): Promise<void> => {
   try {
-    const response = await monAPI.delete(
+    const response = await monAPI.patch(
       `/withdrawal-requests/${withdrawalRequestId}/approve`
     )
 
@@ -112,11 +139,13 @@ export const approveWithdrawalRequest = async (
 }
 
 export const rejectWithdrawalRequest = async (
-  withdrawalRequestId: string
+  withdrawalRequestId: string,
+  reason: string
 ): Promise<void> => {
   try {
-    const response = await monAPI.delete(
-      `/withdrawal-requests/${withdrawalRequestId}/reject`
+    const response = await monAPI.put(
+      `/withdrawal-requests/${withdrawalRequestId}/reject`,
+      { reason }
     )
 
     const { success, message } = response.data
