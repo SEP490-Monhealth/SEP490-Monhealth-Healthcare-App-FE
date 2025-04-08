@@ -3,7 +3,7 @@ import { z } from "zod"
 import { auditFields, uuidSchema } from "./baseSchema"
 import { foodSchema } from "./foodSchema"
 
-const portionSchema = z.object({
+export const portionSchema = z.object({
   portionId: uuidSchema,
 
   size: z.string().nonempty({ message: "Kích thước phần ăn không được trống" }),
@@ -18,6 +18,12 @@ const portionSchema = z.object({
   ...auditFields
 })
 
+const FoodPortionSchema = portionSchema.pick({
+  size: true,
+  weight: true,
+  unit: true
+})
+
 export const createPortionSchema = portionSchema
   .pick({
     size: true,
@@ -30,3 +36,4 @@ export const createPortionSchema = portionSchema
 
 export type PortionType = z.infer<typeof portionSchema>
 export type CreatePortionType = z.infer<typeof createPortionSchema>
+export type FoodPortionType = z.infer<typeof FoodPortionSchema>

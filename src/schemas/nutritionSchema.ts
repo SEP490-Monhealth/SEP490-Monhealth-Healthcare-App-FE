@@ -36,5 +36,30 @@ const updateNutrition = nutritionSchema.omit({
   updatedAt: true
 })
 
+const foodNutritionSchema = nutritionSchema.pick({
+  calories: true,
+  protein: true,
+  carbs: true,
+  fat: true,
+  fiber: true,
+  sugar: true,
+
+  saturatedFat: true,
+  unsaturatedFat: true,
+  cholesterol: true,
+  sodium: true,
+  potassium: true,
+  calcium: true,
+  iron: true,
+  vitaminA: true,
+  vitaminB1: true,
+  vitaminB2: true,
+  vitaminB3: true,
+  vitaminC: true,
+  vitaminD: true,
+  vitaminE: true
+})
+
 export type NutritionType = z.infer<typeof nutritionSchema>
 export type UpdateNutritionType = z.infer<typeof updateNutrition>
+export type FoodNutritionType = z.infer<typeof foodNutritionSchema>
