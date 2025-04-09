@@ -24,7 +24,7 @@ import {
 
 import { useBookingById } from "@/hooks/useBooking"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, formatTime } from "@/utils/formatters"
 
 interface BookingDetailDialogProps {
   isOpen: boolean
@@ -89,11 +89,31 @@ function BookingDetailDialog({
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="consultant.fullName">Tên chuyên viên</Label>
+              <Input
+                id="consultant.fullName"
+                type="text"
+                value={bookingData.consultant.fullName}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
               <Label htmlFor="member.email">Email người dùng</Label>
               <Input
                 id="member.email"
                 type="email"
                 value={bookingData.member.email}
+                readOnly
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="consultant.email">Email chuyên viên</Label>
+              <Input
+                id="consultant.email"
+                type="email"
+                value={bookingData.consultant.email}
                 readOnly
               />
             </div>
@@ -111,26 +131,6 @@ function BookingDetailDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="consultant.fullName">Tên chuyên viên</Label>
-              <Input
-                id="consultant.fullName"
-                type="text"
-                value={bookingData.consultant.fullName}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="consultant.email">Email chuyên viên</Label>
-              <Input
-                id="consultant.email"
-                type="email"
-                value={bookingData.consultant.email}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="consultant.phoneNumber">
                 Số điện thoại chuyên viên
               </Label>
@@ -143,11 +143,13 @@ function BookingDetailDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="date">Ngày giờ</Label>
+              <Label htmlFor="datetime">Ngày giờ</Label>
               <Input
-                id="date"
+                id="datetime"
                 type="text"
-                value={formatDate(bookingData.date)}
+                value={`${formatDate(bookingData.date)}, ${formatTime(bookingData.startTime)} - ${formatTime(
+                  bookingData.endTime
+                )}`}
                 readOnly
               />
             </div>

@@ -18,7 +18,7 @@ import { Separator } from "@/components/globals/atoms/separator"
 import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
-import DataTableTime from "@/components/globals/molecules/data-table-time"
+import DataTableDate from "@/components/globals/molecules/data-table-date"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
@@ -188,7 +188,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <DataTableTime time={createdAt} />
+      return <DataTableDate date={createdAt} />
     }
   },
   {
@@ -199,7 +199,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <DataTableTime time={updatedAt} />
+      return <DataTableDate date={updatedAt} />
     }
   },
   {

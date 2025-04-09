@@ -25,7 +25,7 @@ import { Separator } from "@/components/globals/atoms/separator"
 
 import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
-import DataTableTime from "@/components/globals/molecules/data-table-time"
+import DataTableDate from "@/components/globals/molecules/data-table-date"
 
 import { FoodType } from "@/schemas/foodSchema"
 
@@ -141,7 +141,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <DataTableTime time={createdAt} />
+      return <DataTableDate date={createdAt} />
     }
   },
   {
@@ -159,7 +159,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <DataTableTime time={updatedAt} />
+      return <DataTableDate date={updatedAt} />
     }
   },
   {

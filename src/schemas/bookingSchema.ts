@@ -25,6 +25,8 @@ const bookingSchema = z.object({
   }),
 
   date: z.string().nonempty({ message: "Ngày không được để trống" }),
+  startTime: z.string().nonempty({ message: "Thời gian bắt đầu không được để trống" }),
+  endTime: z.string().nonempty({ message: "Thời gian kết thúc không được để trống" }),
 
   notes: z.string().optional(),
   cancellationReason: z.string().optional(),

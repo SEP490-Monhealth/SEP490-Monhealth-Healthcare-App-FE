@@ -51,6 +51,22 @@ export function formatDate(date: Date | string): string {
 }
 
 /**
+ * Định dạng thời gian theo định dạng "XhY".
+ * @param time - Chuỗi thời gian cần định dạng (định dạng "HH:mm:ss").
+ * @returns Chuỗi thời gian đã được định dạng.
+ *
+ * @example
+ * formatTime("08:30:00") => "8h30"
+ * formatTime("08:00:00") => "8h00"
+ */
+export function formatTime(time: string): string {
+  if (!time) return ""
+
+  const [hours, minutes] = time.split(":")
+  return `${parseInt(hours, 10)}h${minutes}`
+}
+
+/**
  * Định dạng ngày giờ theo định dạng "dd/mm/yyyy HH:mm:ss".
  * @param dateTime - Ngày giờ cần định dạng (có thể là đối tượng Date hoặc chuỗi ngày).
  * @returns Chuỗi ngày giờ đã được định dạng.

@@ -17,7 +17,7 @@ import {
 import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
-import DataTableTime from "@/components/globals/molecules/data-table-time"
+import DataTableDate from "@/components/globals/molecules/data-table-date"
 
 import {
   BookingStatusEnum,
@@ -26,7 +26,7 @@ import {
 
 import { BookingType } from "@/schemas/bookingSchema"
 
-import { formatDatetime } from "@/utils/formatters"
+import { formatDate, formatDatetime, formatTime } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (bookingId: string) => void
@@ -115,8 +115,13 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const date = row.original.date
+      const startTime = row.original.startTime
+      const endTime = row.original.endTime
+
       return (
-        <span className="flex justify-center pr-4">{formatDatetime(date)}</span>
+        <span className="flex justify-center pr-4">
+          {formatDate(date)}, {formatTime(startTime)} - {formatTime(endTime)}
+        </span>
       )
     }
   },
@@ -148,7 +153,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <DataTableTime time={createdAt} />
+      return <DataTableDate date={createdAt} />
     }
   },
   {
@@ -166,7 +171,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <DataTableTime time={updatedAt} />
+      return <DataTableDate date={updatedAt} />
     }
   },
   {

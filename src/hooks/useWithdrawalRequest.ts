@@ -61,6 +61,7 @@ export const useWithdrawalRequestStatus = () => {
       queryClient.invalidateQueries({
         queryKey: ["withdrawal-request", variables.withdrawalRequestId]
       })
+      queryClient.invalidateQueries({ queryKey: ["transactions"] })
     }
   })
 }
@@ -76,6 +77,7 @@ export const useApproveWithdrawalRequest = () => {
       queryClient.invalidateQueries({
         queryKey: ["withdrawal-request", variables.withdrawalRequestId]
       })
+      queryClient.invalidateQueries({ queryKey: ["transactions"] })
     }
   })
 }
@@ -95,6 +97,7 @@ export const useRejectWithdrawalRequest = () => {
       queryClient.invalidateQueries({
         queryKey: ["withdrawal-request", variables.withdrawalRequestId]
       })
+      queryClient.invalidateQueries({ queryKey: ["transactions"] })
     }
   })
 }
