@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Pie, PieChart } from "recharts"
 
 import {
@@ -18,24 +17,40 @@ import {
   ChartTooltipContent
 } from "@/components/globals/atoms/chart"
 
-const chartData = [
-  { subscription: "basic", visitors: 275, fill: "var(--primary)" },
-  { subscription: "advanced", visitors: 200, fill: "var(--primary)" },
-  { subscription: "premium", visitors: 187, fill: "var(--primary)" }
+import {
+  getRangeOfLastSixMonths,
+  transformSubscriptionData
+} from "@/utils/helpers"
+
+const data = [
+  {
+    subscription: "Gói cơ bản",
+    visitors: 500
+  },
+  {
+    subscription: "Gói nâng cao",
+    visitors: 300
+  },
+  {
+    subscription: "Gói cao cấp",
+    visitors: 187
+  }
 ]
+
+const chartData = transformSubscriptionData(data)
 
 const chartConfig = {
   basic: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))"
+    label: "Gói cơ bản",
+    color: "var(--secondary)"
   },
   advanced: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))"
+    label: "Gói nâng cao",
+    color: "var(--sidebar-ring)"
   },
   premium: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))"
+    label: "Gói cao cấp",
+    color: "var(--primary)"
   }
 } satisfies ChartConfig
 
@@ -43,8 +58,8 @@ function SubscriptionChart() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Pie Chart - Custom Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Biểu đồ nâng cấp gói</CardTitle>
+        <CardDescription>{getRangeOfLastSixMonths()}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer
@@ -82,12 +97,8 @@ function SubscriptionChart() {
       <CardFooter>
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
-            <div className="flex items-center gap-2 leading-none font-medium">
-              Tăng trưởng 5.2% trong tháng này{" "}
-              <TrendingUp className="h-4 w-4" />
-            </div>
             <div className="text-muted-foreground flex items-center gap-2 leading-none">
-              Hiển thị tổng số lượt truy cập trong 6 tháng gần đây
+              Hiển thị tổng số gói đã được đăng ký trong 6 tháng gần đây
             </div>
           </div>
         </div>
