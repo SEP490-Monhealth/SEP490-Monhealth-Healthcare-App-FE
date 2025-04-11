@@ -23,7 +23,7 @@ const goalTypeMetaMapping: Record<GoalTypeEnum, EnumMeta> = {
     label: "Giảm cân"
   },
   [GoalTypeEnum.Maintenance]: {
-    label: "Duy trì"
+    label: "Duy trì cân nặng"
   },
   [GoalTypeEnum.WeightGain]: {
     label: "Tăng cân"

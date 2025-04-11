@@ -1,5 +1,9 @@
 import React from "react"
 
+import { AvatarFallback } from "@radix-ui/react-avatar"
+
+import { getInitials } from "@/utils/helpers"
+
 import { Avatar, AvatarImage } from "../atoms/avatar"
 
 interface DataTableCellBankProps {
@@ -12,9 +16,10 @@ interface DataTableCellBankProps {
 
 function DataTableCellBank({ bank }: DataTableCellBankProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4">
       <Avatar>
-        <AvatarImage src={bank.logoUrl} alt={bank.shortName} />
+        <AvatarImage src={bank.logoUrl || ""} alt={bank.shortName} />
+        <AvatarFallback>{getInitials(bank.name)}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col">
         <span className="capitalize">{bank.shortName}</span>

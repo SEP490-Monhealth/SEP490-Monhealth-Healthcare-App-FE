@@ -5,9 +5,9 @@ import { EnumMeta } from "@/configs/enum"
 export enum TransactionTypeEnum {
   Earning,
   Withdrawal,
-  Refund,
   Fee,
-  Bonus
+  Bonus,
+  Refund
 }
 
 export enum TransactionStatusEnum {
@@ -28,10 +28,6 @@ const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
     label: "Rút tiền",
     color: "#f97316" // orange 500
   },
-  [TransactionTypeEnum.Refund]: {
-    label: "Hoàn tiền",
-    color: "#3b82f6" // blue 500
-  },
   [TransactionTypeEnum.Fee]: {
     label: "Phí",
     color: "#ef4444" // red 500
@@ -39,6 +35,10 @@ const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
   [TransactionTypeEnum.Bonus]: {
     label: "Tiền thưởng",
     color: "#ca8a04" // yellow 600
+  },
+  [TransactionTypeEnum.Refund]: {
+    label: "Hoàn tiền",
+    color: "#3b82f6" // blue 500
   }
 }
 

@@ -14,7 +14,7 @@ interface DataTableCellUserProps {
 
 function DataTableCellUser({ user }: DataTableCellUserProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4">
       <Avatar>
         <AvatarImage
           src={user.avatarUrl || ""}

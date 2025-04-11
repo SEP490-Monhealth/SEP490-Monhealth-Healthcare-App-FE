@@ -15,8 +15,9 @@ import {
 } from "@/components/globals/atoms/dropdown-menu"
 
 import DataTableCellBank from "@/components/globals/molecules/data-table-cell-bank"
+import DataTableTime from "@/components/globals/molecules/data-table-cell-time"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
-import DataTableTime from "@/components/globals/molecules/data-table-time"
+import DataTableDate from "@/components/globals/molecules/data-table-date"
 
 import { ConsultantBankType } from "@/schemas/consultantBankSchema"
 
@@ -78,27 +79,10 @@ export const createColumns = (
   },
   {
     accessorKey: "name",
-    meta: { title: "Tên tư vấn viên" },
+    meta: { title: "Tên tài khoản" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tên tư vấn viên" />
+      <DataTableColumnHeader column={column} title="Tên tài khoản" />
     )
-  },
-  {
-    accessorKey: "isDefault",
-    meta: { title: "Trạng thái" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Trạng thái" center />
-    ),
-    cell: ({ row }) => {
-      const isDefault = row.original.isDefault
-      return (
-        <div className="flex justify-center pr-4">
-          <Badge variant={isDefault ? "default" : "secondary"}>
-            {isDefault ? "Mặc định" : "Tùy chỉnh"}
-          </Badge>
-        </div>
-      )
-    }
   },
   {
     accessorKey: "createdAt",
@@ -108,15 +92,8 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const createdAt = row.original.createdAt
-      return <DataTableTime time={createdAt} />
+      return <DataTableDate date={createdAt} />
     }
-  },
-  {
-    accessorKey: "createdBy",
-    meta: { title: "Người tạo" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người tạo" />
-    )
   },
   {
     accessorKey: "updatedAt",
@@ -126,15 +103,8 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updatedAt
-      return <DataTableTime time={updatedAt} />
+      return <DataTableDate date={updatedAt} />
     }
-  },
-  {
-    accessorKey: "updatedBy",
-    meta: { title: "Người cập nhật" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Người cập nhật" />
-    )
   },
   {
     id: "actions",

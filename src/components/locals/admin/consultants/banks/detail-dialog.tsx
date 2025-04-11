@@ -47,7 +47,7 @@ function ConsultantBankDetailDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-w-[700px]">
+      <DialogContent className="min-w-[500px]">
         <DialogHeader>
           <DialogTitle>Chi tiết ngân hàng</DialogTitle>
           <DialogDescription>
@@ -73,48 +73,32 @@ function ConsultantBankDetailDialog({
               />
             </div>
 
-            <Card className="col-span-2 px-6 py-4">
-              <div className="flex items-center gap-4">
-                <Image
-                  src={consultantBank.bank.logoUrl}
-                  alt={consultantBank.bank.shortName}
-                  width={60}
-                  height={60}
-                />
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="bank">Ngân hàng</Label>
 
-                <div className="flex w-full flex-col">
-                  <div className="flex items-center justify-between">
-                    <span className="capitalize">
+              <Card className="px-6 py-4">
+                <div className="flex items-center gap-4">
+                  <Image
+                    src={consultantBank.bank.logoUrl}
+                    alt={consultantBank.bank.shortName}
+                    width={60}
+                    height={60}
+                  />
+
+                  <div className="flex w-full flex-col">
+                    <span className="font-medium capitalize">
                       {consultantBank.bank.shortName}
                     </span>
 
-                    <Badge
-                      variant={
-                        consultantBank.isDefault ? "default" : "secondary"
-                      }
-                    >
-                      {consultantBank.isDefault ? "Mặc định" : "Tùy chỉnh"}
-                    </Badge>
+                    <span className="text-muted-foreground text-sm">
+                      {consultantBank.name}
+                    </span>
+                    <span className="text-muted-foreground text-sm">
+                      {consultantBank.number}
+                    </span>
                   </div>
-
-                  <span className="text-muted-foreground text-sm">
-                    {consultantBank.bank.name}
-                  </span>
-                  <span className="text-muted-foreground text-sm">
-                    {consultantBank.number}
-                  </span>
                 </div>
-              </div>
-            </Card>
-
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="fullName">Tên chuyên viên</Label>
-              <Input
-                id="fullName"
-                type="text"
-                value={consultantBank.name}
-                readOnly
-              />
+              </Card>
             </div>
 
             <div className="space-y-2">
@@ -128,31 +112,11 @@ function ConsultantBankDetailDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="createdBy">Người tạo</Label>
-              <Input
-                id="createdBy"
-                type="text"
-                value={consultantBank.createdBy || "--"}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="updatedAt">Ngày cập nhật</Label>
               <Input
                 id="updatedAt"
                 type="text"
                 value={formatDate(consultantBank.updatedAt)}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="updatedBy">Người cập nhật</Label>
-              <Input
-                id="updatedBy"
-                type="text"
-                value={consultantBank.updatedBy || "--"}
                 readOnly
               />
             </div>
