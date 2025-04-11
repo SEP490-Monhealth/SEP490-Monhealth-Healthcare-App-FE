@@ -20,19 +20,45 @@ import {
   ChartTooltipContent
 } from "@/components/globals/atoms/chart"
 
-const chartData = [
-  { month: "Tháng 1", desktop: 186 },
-  { month: "Tháng 2", desktop: 305 },
-  { month: "Tháng 3", desktop: 237 },
-  { month: "Tháng 4", desktop: 73 },
-  { month: "Tháng 5", desktop: 209 },
-  { month: "Tháng 6", desktop: 214 }
+import {
+  calculateGrowthRate,
+  getRangeOfLastSixMonths,
+  transformUserData
+} from "@/utils/helpers"
+
+const data = [
+  {
+    month: "2024-11",
+    count: 340
+  },
+  {
+    month: "2024-12",
+    count: 150
+  },
+  {
+    month: "2025-1",
+    count: 200
+  },
+  {
+    month: "2025-2",
+    count: 200
+  },
+  {
+    month: "2025-3",
+    count: 209
+  },
+  {
+    month: "2025-4",
+    count: 214
+  }
 ]
 
+const countUsers = transformUserData(data)
+
 const chartConfig = {
-  desktop: {
-    label: "Máy tính để bàn",
-    color: "hsl(var(--chart-1))"
+  count: {
+    label: "Người dùng",
+    color: "var(--primary)"
   }
 } satisfies ChartConfig
 
@@ -49,10 +75,10 @@ function UserGrowthChart() {
         <ChartContainer config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={chartData}
+            data={countUsers}
             margin={{
-              left: 24,
-              right: 12
+              left: 28,
+              right: 16
             }}
           >
             <CartesianGrid vertical={false} />
@@ -67,7 +93,7 @@ function UserGrowthChart() {
               content={<ChartTooltipContent indicator="line" />}
             />
             <Area
-              dataKey="desktop"
+              dataKey="count"
               type="natural"
               fill="var(--primary)"
               fillOpacity={1}
@@ -80,11 +106,11 @@ function UserGrowthChart() {
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
             <div className="flex items-center gap-2 leading-none font-medium">
-              Tăng trưởng 5.2% trong tháng này{" "}
+              {calculateGrowthRate(countUsers)}
               <TrendingUp className="h-4 w-4" />
             </div>
             <div className="text-muted-foreground flex items-center gap-2 leading-none">
-              Tháng 1 - Tháng 6 năm 2024
+              {getRangeOfLastSixMonths()}
             </div>
           </div>
         </div>
