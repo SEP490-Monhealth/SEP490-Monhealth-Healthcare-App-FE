@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import { CertificateType } from "@/schemas/certificateSchema"
 
 import {
+  fetchCertificateByConsultantId,
   fetchCertificateById,
   fetchCertificates
 } from "@/services/certificateService"
@@ -30,5 +31,13 @@ export const useCertificateById = (certificateId: string) =>
     queryKey: ["certificate", certificateId],
     queryFn: () => fetchCertificateById(certificateId),
     enabled: !!certificateId,
+    staleTime: 1000 * 60 * 5
+  })
+
+export const useCertificateByConsultantId = (consultantId: string) =>
+  useQuery<CertificateType[], Error>({
+    queryKey: ["certificate-consultant", consultantId],
+    queryFn: () => fetchCertificateByConsultantId(consultantId),
+    enabled: !!consultantId,
     staleTime: 1000 * 60 * 5
   })

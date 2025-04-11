@@ -33,7 +33,7 @@ const data = [
   },
   {
     month: "2024-12",
-    count: 500
+    count: 150
   },
   {
     month: "2025-1",
@@ -41,7 +41,7 @@ const data = [
   },
   {
     month: "2025-2",
-    count: 600
+    count: 200
   },
   {
     month: "2025-3",

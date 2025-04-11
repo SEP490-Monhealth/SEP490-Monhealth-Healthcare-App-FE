@@ -57,3 +57,26 @@ export const fetchCertificateById = async (
     throw new Error(errorMessage)
   }
 }
+
+export const fetchCertificateByConsultantId = async (
+  consultantId: string
+): Promise<CertificateType[]> => {
+  try {
+    const response = await monAPI.get(
+      `/certificates/consultant/${consultantId}`
+    )
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch certificate")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch certificate"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
