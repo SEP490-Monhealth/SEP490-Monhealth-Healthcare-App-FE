@@ -139,18 +139,20 @@ function RecentSubscriptions() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent Subscriptions</CardTitle>
-        <CardDescription>Latest subscription purchases</CardDescription>
+        <CardTitle>Nâng cấp gói gần đây</CardTitle>
+        <CardDescription>
+          Danh sách người dùng nâng cấp gói gần đây
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Subscription</TableHead>
-              <TableHead>Start Date</TableHead>
-              <TableHead>Expiry Date</TableHead>
-              <TableHead className="text-right">Status</TableHead>
+              <TableHead>Người dùng</TableHead>
+              <TableHead>Gói đăng ký</TableHead>
+              <TableHead>Ngày bắt đầu</TableHead>
+              <TableHead>Ngày kết thúc</TableHead>
+              <TableHead className="text-center">Trạng thái</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -180,13 +182,13 @@ function RecentSubscriptions() {
                 <TableCell>{subscription.subscription}</TableCell>
                 <TableCell>{formatDate(subscription.startedAt)}</TableCell>
                 <TableCell>{formatDate(subscription.expiresAt)}</TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-center">
                   <Badge
                     variant={
                       subscription.status === 0 ? "default" : "destructive"
                     }
                   >
-                    {subscription.status === 0 ? "Active" : "Expired"}
+                    {subscription.status === 0 ? "Hoạt động" : "Hết hạn"}
                   </Badge>
                 </TableCell>
               </TableRow>

@@ -2,6 +2,7 @@
 
 import React from "react"
 
+import LoadingPage from "@/app/admin/loading"
 import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
@@ -20,40 +21,40 @@ import {
   ChartTooltipContent
 } from "@/components/globals/atoms/chart"
 
+import { useUserGrowth } from "@/hooks/useAnalysis"
+
 import {
   calculateGrowthRate,
   getRangeOfLastSixMonths,
   transformUserData
 } from "@/utils/helpers"
 
-const data = [
-  {
-    month: "2024-11",
-    count: 340
-  },
-  {
-    month: "2024-12",
-    count: 150
-  },
-  {
-    month: "2025-1",
-    count: 200
-  },
-  {
-    month: "2025-2",
-    count: 200
-  },
-  {
-    month: "2025-3",
-    count: 209
-  },
-  {
-    month: "2025-4",
-    count: 214
-  }
-]
-
-const countUsers = transformUserData(data)
+// const data = [
+//   {
+//     month: "2024-11",
+//     count: 340
+//   },
+//   {
+//     month: "2024-12",
+//     count: 150
+//   },
+//   {
+//     month: "2025-1",
+//     count: 200
+//   },
+//   {
+//     month: "2025-2",
+//     count: 200
+//   },
+//   {
+//     month: "2025-3",
+//     count: 209
+//   },
+//   {
+//     month: "2025-4",
+//     count: 214
+//   }
+// ]
 
 const chartConfig = {
   count: {
@@ -63,12 +64,22 @@ const chartConfig = {
 } satisfies ChartConfig
 
 function UserGrowthChart() {
+  const { data: growthUserData, isLoading, error } = useUserGrowth()
+
+  if (isLoading) return <LoadingPage />
+  if (error) return <p>Error: {error.message}</p>
+  if (!growthUserData) {
+    return <p>No data available</p>
+  }
+
+  const countUsers = transformUserData(growthUserData)
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Biểu đồ tăng trưởng</CardTitle>
         <CardDescription>
-          Hiển thị tổng số lượt truy cập trong 6 tháng gần đây
+          Hiển thị tổng số người dùng trong vòng 6 tháng gần đây
         </CardDescription>
       </CardHeader>
       <CardContent>

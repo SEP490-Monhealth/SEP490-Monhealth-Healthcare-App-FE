@@ -70,8 +70,8 @@ function RecentUsers() {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Recent Users</CardTitle>
-        <CardDescription>Latest user registrations</CardDescription>
+        <CardTitle>Người dùng mới</CardTitle>
+        <CardDescription>Người dùng đăng ký gần đây</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-8">

@@ -27,7 +27,7 @@ export const fetchUserStats = async (): Promise<UserStatType> => {
   }
 }
 
-export const fetchUserGrowth = async (): Promise<UserGrowthType> => {
+export const fetchUserGrowth = async (): Promise<UserGrowthType[]> => {
   try {
     const response = await monAPI.get(`/six-month-users/users`)
 
@@ -46,22 +46,23 @@ export const fetchUserGrowth = async (): Promise<UserGrowthType> => {
   }
 }
 
-export const fetchSubscriptionUpgraded =
-  async (): Promise<SubscriptionUpgradedType> => {
-    try {
-      const response = await monAPI.get(`/six-month-subscriptions/users`)
+export const fetchSubscriptionUpgraded = async (): Promise<
+  SubscriptionUpgradedType[]
+> => {
+  try {
+    const response = await monAPI.get(`/six-month-subscriptions/users`)
 
-      const { success, message, data } = response.data
+    const { success, message, data } = response.data
 
-      if (!success) {
-        throw new Error(message || "Failed to fetch subscriptions")
-      }
-
-      return data
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch subscriptions"
-      toast.error(errorMessage)
-      throw new Error(errorMessage)
+    if (!success) {
+      throw new Error(message || "Failed to fetch subscriptions")
     }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch subscriptions"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
   }
+}
