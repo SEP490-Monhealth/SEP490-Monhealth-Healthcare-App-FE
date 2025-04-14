@@ -33,6 +33,25 @@ const subscriptionUpgradedSchema = z.object({
   visitors: z.number().min(0, { message: "Số lượt nâng cấp phải là số dương" })
 })
 
+const analysisOverviewSchema = z.object({
+  totalUsers: z.object({
+    count: z.number().min(1, { message: "Tổng số người dùng phải lớn hơn 1" }),
+    growthRate: z.number()
+  }),
+  totalSubscriptions: z.object({
+    count: z.number().min(0, { message: "Số người dùng mới phải là số dương" }),
+    growthRate: z.number()
+  }),
+  totalRevenue: z.object({
+    count: z.number().min(0, { message: "Lượt truy cập phải là số dương" }),
+    growthRate: z.number()
+  }),
+  totalConsultants: z.object({
+    count: z.number(),
+    growthRate: z.number()
+  })
+})
+
 export type UserStatType = z.infer<typeof userStatSchema>
 
 export type UserGrowthType = z.infer<typeof userGrowthSchema>
@@ -40,3 +59,5 @@ export type UserGrowthType = z.infer<typeof userGrowthSchema>
 export type SubscriptionUpgradedType = z.infer<
   typeof subscriptionUpgradedSchema
 >
+
+export type AnalysisOverviewType = z.infer<typeof analysisOverviewSchema>

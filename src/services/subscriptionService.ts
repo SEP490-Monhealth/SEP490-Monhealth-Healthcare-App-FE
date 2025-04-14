@@ -143,11 +143,13 @@ export const fetchUserSubscriptions = async (
   limit?: number,
   subscription?: string,
   search?: string,
+  sort?: string,
+  order?: string,
   status?: UserSubscriptionStatus
 ): Promise<UserSubscriptionsResponse> => {
   try {
     const response = await monAPI.get(`/user-subscriptions`, {
-      params: { page, limit, subscription, search, status }
+      params: { page, limit, subscription, search, sort, order, status }
     })
 
     const { success, message, data } = response.data

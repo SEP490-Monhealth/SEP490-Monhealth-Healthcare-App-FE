@@ -103,12 +103,31 @@ export const useUserSubscriptions = (
   limit?: number,
   subscription?: string,
   search?: string,
+  sort?: string,
+  order?: string,
   status?: UserSubscriptionStatus
 ) =>
   useQuery<UserSubscriptionsResponse, Error>({
-    queryKey: ["user-subscriptions", page, limit, subscription, search, status],
+    queryKey: [
+      "user-subscriptions",
+      page,
+      limit,
+      subscription,
+      search,
+      sort,
+      order,
+      status
+    ],
     queryFn: () =>
-      fetchUserSubscriptions(page, limit, subscription, search, status),
+      fetchUserSubscriptions(
+        page,
+        limit,
+        subscription,
+        search,
+        sort,
+        order,
+        status
+      ),
     staleTime: 1000 * 60 * 5
   })
 

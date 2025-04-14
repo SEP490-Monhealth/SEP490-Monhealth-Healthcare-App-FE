@@ -15,11 +15,13 @@ export const fetchUsers = async (
   limit?: number,
   search?: string,
   role?: string,
+  sort?: string,
+  order?: string,
   status?: boolean
 ): Promise<UsersResponse> => {
   try {
     const response = await monAPI.get(`/users`, {
-      params: { page, limit, search, role, status }
+      params: { page, limit, search, role, sort, order, status }
     })
 
     const { success, message, data } = response.data

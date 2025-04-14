@@ -1,6 +1,7 @@
 "use client"
 
-import { Pie, PieChart } from "recharts"
+import LoadingPage from "@/app/admin/loading"
+import { Cell, Pie, PieChart } from "recharts"
 
 import {
   Card,
@@ -17,44 +18,57 @@ import {
   ChartTooltipContent
 } from "@/components/globals/atoms/chart"
 
+import { useSubscriptionUpgraded } from "@/hooks/useAnalysis"
+
 import {
   getRangeOfLastSixMonths,
   transformSubscriptionData
 } from "@/utils/helpers"
 
-const data = [
-  {
-    subscription: "Gói cơ bản",
-    visitors: 500
-  },
-  {
-    subscription: "Gói nâng cao",
-    visitors: 300
-  },
-  {
-    subscription: "Gói cao cấp",
-    visitors: 187
-  }
-]
-
-const chartData = transformSubscriptionData(data)
+// const SubscriptionUpgradedData = [
+//   {
+//     subscription: "Gói Cơ Bản",
+//     visitors: 500
+//   },
+//   {
+//     subscription: "Gói Nâng Cao",
+//     visitors: 300
+//   },
+//   {
+//     subscription: "Gói Cao Cấp",
+//     visitors: 187
+//   }
+// ]
 
 const chartConfig = {
   basic: {
-    label: "Gói cơ bản",
+    label: "Gói Cơ Bản",
     color: "var(--secondary)"
   },
   advanced: {
-    label: "Gói nâng cao",
+    label: "Gói Nâng Cao",
     color: "var(--sidebar-ring)"
   },
   premium: {
-    label: "Gói cao cấp",
+    label: "Gói Cao Cấp",
     color: "var(--primary)"
   }
 } satisfies ChartConfig
 
 function SubscriptionChart() {
+  const {
+    data: SubscriptionUpgradedData,
+    isLoading,
+    error
+  } = useSubscriptionUpgraded()
+
+  if (isLoading) return <LoadingPage />
+  if (error) return <p>Error: {error.message}</p>
+  if (!SubscriptionUpgradedData) {
+    return <p>No data available</p>
+  }
+
+  const chartData = transformSubscriptionData(SubscriptionUpgradedData)
   return (
     <Card>
       <CardHeader>
@@ -90,7 +104,18 @@ function SubscriptionChart() {
                 )
               }}
               nameKey="subscription"
-            />
+            >
+              {chartData.map((entry, index) => {
+                const color =
+                  entry.subscription === chartConfig.basic.label
+                    ? chartConfig.basic.color
+                    : entry.subscription === chartConfig.advanced.label
+                      ? chartConfig.advanced.color
+                      : chartConfig.premium.color
+
+                return <Cell key={`cell-${index}`} fill={color} />
+              })}
+            </Pie>
           </PieChart>
         </ChartContainer>
       </CardContent>

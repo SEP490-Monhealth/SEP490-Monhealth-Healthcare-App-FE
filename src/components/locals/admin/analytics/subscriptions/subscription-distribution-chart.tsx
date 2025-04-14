@@ -2,6 +2,8 @@
 
 import React from "react"
 
+import LoadingPage from "@/app/admin/loading"
+
 import {
   Card,
   CardContent,
@@ -11,23 +13,39 @@ import {
 } from "@/components/globals/atoms/card"
 import { Progress } from "@/components/globals/atoms/progress"
 
-const data = [
-  {
-    subscription: "Gói cơ bản",
-    visitors: 500
-  },
-  {
-    subscription: "Gói nâng cao",
-    visitors: 300
-  },
-  {
-    subscription: "Gói cao cấp",
-    visitors: 187
-  }
-]
+import { useSubscriptionUpgraded } from "@/hooks/useAnalysis"
+
+// const data = [
+//   {
+//     subscription: "Gói cơ bản",
+//     visitors: 500
+//   },
+//   {
+//     subscription: "Gói nâng cao",
+//     visitors: 300
+//   },
+//   {
+//     subscription: "Gói cao cấp",
+//     visitors: 187
+//   }
+// ]
 
 function SubscriptionDistributionChart() {
-  const total = data.reduce((sum, item) => sum + item.visitors, 0)
+  const {
+    data: SubscriptionUpgradedData,
+    isLoading,
+    error
+  } = useSubscriptionUpgraded()
+
+  if (isLoading) return <LoadingPage />
+  if (error) return <p>Error: {error.message}</p>
+  if (!SubscriptionUpgradedData) {
+    return <p>No data available</p>
+  }
+  const total = SubscriptionUpgradedData.reduce(
+    (sum, item) => sum + item.visitors,
+    0
+  )
 
   return (
     <Card className="h-full">
@@ -37,7 +55,7 @@ function SubscriptionDistributionChart() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {data.map((item) => {
+          {SubscriptionUpgradedData.map((item) => {
             const percentage = ((item.visitors / total) * 100).toFixed(2)
 
             return (
