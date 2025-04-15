@@ -3,6 +3,7 @@ import { toast } from "sonner"
 import monAPI from "@/lib/monAPI"
 
 import {
+  AnalysisOverviewType,
   SubscriptionUpgradedType,
   UserGrowthType,
   UserStatType
@@ -27,9 +28,9 @@ export const fetchUserStats = async (): Promise<UserStatType> => {
   }
 }
 
-export const fetchUserGrowth = async (): Promise<UserGrowthType> => {
+export const fetchUserGrowth = async (): Promise<UserGrowthType[]> => {
   try {
-    const response = await monAPI.get(`/six-month-users/users`)
+    const response = await monAPI.get(`analysis/users/user-six-months`)
 
     const { success, message, data } = response.data
 
@@ -46,21 +47,63 @@ export const fetchUserGrowth = async (): Promise<UserGrowthType> => {
   }
 }
 
-export const fetchSubscriptionUpgraded =
-  async (): Promise<SubscriptionUpgradedType> => {
+export const fetchSubscriptionUpgraded = async (): Promise<
+  SubscriptionUpgradedType[]
+> => {
+  try {
+    const response = await monAPI.get(
+      `analysis/users/user-subscription-six-months`
+    )
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch subscriptions")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch subscriptions"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const fetchTotalAccounts = async (): Promise<UserGrowthType[]> => {
+  try {
+    const response = await monAPI.get(`analysis/users/total-accounts`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch users")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch users"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const fetchAnalysisOverview =
+  async (): Promise<AnalysisOverviewType> => {
     try {
-      const response = await monAPI.get(`/six-month-subscriptions/users`)
+      const response = await monAPI.get(`/analysis/dashboard/overview`)
 
       const { success, message, data } = response.data
 
       if (!success) {
-        throw new Error(message || "Failed to fetch subscriptions")
+        throw new Error(message || "Failed to fetch overview")
       }
 
       return data
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message || "Failed to fetch subscriptions"
+        error.response?.data?.message || "Failed to fetch overview"
       toast.error(errorMessage)
       throw new Error(errorMessage)
     }

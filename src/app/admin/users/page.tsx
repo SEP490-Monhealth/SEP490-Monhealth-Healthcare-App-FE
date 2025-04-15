@@ -50,7 +50,15 @@ function UserPage() {
     data: usersData,
     isLoading,
     error
-  } = useUsers(page, limit, debouncedSearch, role, parsedStatus)
+  } = useUsers(
+    page,
+    limit,
+    debouncedSearch,
+    role,
+    undefined,
+    undefined,
+    parsedStatus
+  )
 
   const totalPages = Math.ceil((usersData?.totalItems || 1) / limit)
 

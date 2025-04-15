@@ -169,7 +169,8 @@ export const transformSubscriptionData = (data: InputData[]): OutputData[] => {
  * @returns Chuỗi đã định dạng kèm phần trăm và nội dung mô tả
  */
 export const formatGrowthRate = (rate: number) => {
-  return `${rate > 0 ? "+" : ""}${rate}% so với tháng trước`
+  const formattedRate = rate.toFixed(2) // Format to 2 decimal places
+  return `${rate > 0 ? "+" : ""}${formattedRate}% so với tháng trước`
 }
 
 /**
