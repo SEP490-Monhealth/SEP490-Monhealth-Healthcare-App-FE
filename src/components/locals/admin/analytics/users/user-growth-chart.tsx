@@ -66,11 +66,8 @@ const chartConfig = {
 function UserGrowthChart() {
   const { data: growthUserData, isLoading, error } = useUserGrowth()
 
-  if (isLoading) return <LoadingPage />
+  if (!growthUserData || isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
-  if (!growthUserData) {
-    return <p>No data available</p>
-  }
 
   const countUsers = transformUserData(growthUserData)
 

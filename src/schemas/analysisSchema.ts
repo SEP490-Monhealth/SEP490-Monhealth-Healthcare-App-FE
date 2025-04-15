@@ -2,15 +2,15 @@ import { z } from "zod"
 
 const userStatSchema = z.object({
   totalUsers: z.object({
-    count: z.number().min(1, { message: "Tổng số người dùng phải lớn hơn 1" }),
+    count: z.number(),
     growthRate: z.number()
   }),
   newUsers: z.object({
-    count: z.number().min(0, { message: "Số người dùng mới phải là số dương" }),
+    count: z.number(),
     growthRate: z.number()
   }),
   totalVisits: z.object({
-    count: z.number().min(0, { message: "Lượt truy cập phải là số dương" }),
+    count: z.number(),
     growthRate: z.number()
   }),
   conversionRate: z.object({
@@ -20,30 +20,26 @@ const userStatSchema = z.object({
 })
 
 const userGrowthSchema = z.object({
-  month: z
-    .string()
-    .nonempty({ message: "Tháng không được để trống không được để trống" }),
-  count: z.number().min(1, { message: "Số người dùng phải lớn hơn 1" })
+  month: z.string(),
+  count: z.number()
 })
 
 const subscriptionUpgradedSchema = z.object({
-  subscription: z.string().nonempty({
-    message: "Gói đăng ký không được để trống không được để trống"
-  }),
-  visitors: z.number().min(0, { message: "Số lượt nâng cấp phải là số dương" })
+  subscription: z.string(),
+  visitors: z.number()
 })
 
 const analysisOverviewSchema = z.object({
   totalUsers: z.object({
-    count: z.number().min(1, { message: "Tổng số người dùng phải lớn hơn 1" }),
+    count: z.number(),
     growthRate: z.number()
   }),
   totalSubscriptions: z.object({
-    count: z.number().min(0, { message: "Số người dùng mới phải là số dương" }),
+    count: z.number(),
     growthRate: z.number()
   }),
   totalRevenue: z.object({
-    count: z.number().min(0, { message: "Lượt truy cập phải là số dương" }),
+    count: z.number(),
     growthRate: z.number()
   }),
   totalConsultants: z.object({
@@ -53,11 +49,8 @@ const analysisOverviewSchema = z.object({
 })
 
 export type UserStatType = z.infer<typeof userStatSchema>
-
 export type UserGrowthType = z.infer<typeof userGrowthSchema>
-
 export type SubscriptionUpgradedType = z.infer<
   typeof subscriptionUpgradedSchema
 >
-
 export type AnalysisOverviewType = z.infer<typeof analysisOverviewSchema>
