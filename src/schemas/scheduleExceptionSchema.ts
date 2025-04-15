@@ -1,19 +1,14 @@
 import { z } from "zod"
 
 import { auditFields, uuidSchema } from "./baseSchema"
-import { userSchema } from "./userSchema"
+import { userInfoSchema } from "./userSchema"
 
 const scheduleExceptionSchema = z.object({
   scheduleExceptionId: uuidSchema,
   scheduleId: uuidSchema,
   consultantId: uuidSchema,
 
-  consultant: z.object({
-    fullName: userSchema.shape.fullName,
-    email: userSchema.shape.email,
-    phoneNumber: userSchema.shape.phoneNumber,
-    avatarUrl: userSchema.shape.avatarUrl
-  }),
+  consultant: userInfoSchema,
 
   date: z.string().nonempty({ message: "Ngày không được để trống" }),
 

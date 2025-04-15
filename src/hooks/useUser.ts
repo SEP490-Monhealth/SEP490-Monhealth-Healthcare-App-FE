@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { CreateUpdateUserType, UserType } from "@/schemas/userSchema"
+import { CreateUserType, UserType } from "@/schemas/userSchema"
 
 import {
   addUser,
@@ -39,7 +39,7 @@ export const useUserById = (userId: string) =>
 export const useAddUser = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<string, Error, CreateUpdateUserType>({
+  return useMutation<string, Error, CreateUserType>({
     mutationFn: addUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })

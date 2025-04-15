@@ -30,8 +30,8 @@ import { Switch } from "@/components/globals/atoms/switch"
 import { useAddUser } from "@/hooks/useUser"
 
 import {
-  CreateUpdateUserType,
-  createUpdateUserSchema,
+  CreateUserType,
+  createUserSchema,
   roles
 } from "@/schemas/userSchema"
 
@@ -52,8 +52,8 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<CreateUpdateUserType>({
-    resolver: zodResolver(createUpdateUserSchema),
+  } = useForm<CreateUserType>({
+    resolver: zodResolver(createUserSchema),
     defaultValues: {
       fullName: "Van Huu Toan",
       email: "vanhuutoan27@gmail.com",
@@ -64,7 +64,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
     }
   })
 
-  const onSubmit = async (data: CreateUpdateUserType) => {
+  const onSubmit = async (data: CreateUserType) => {
     setIsLoading(true)
 
     try {

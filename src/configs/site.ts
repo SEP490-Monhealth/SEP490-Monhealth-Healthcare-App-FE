@@ -109,7 +109,7 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: CreditCard,
     children: [
-      { title: "Thanh toán gói", path: "/admin/payments" },
+      { title: "Thanh toán", path: "/admin/payments" },
       { title: "Giao dịch", path: "/admin/transactions" },
       { title: "Yêu cầu rút tiền", path: "/admin/withdrawal-requests" }
     ]

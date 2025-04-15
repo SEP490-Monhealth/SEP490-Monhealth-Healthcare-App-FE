@@ -81,22 +81,22 @@ export const createColumns = (
       return <span>{label}</span>
     }
   },
-  {
-    accessorKey: "consultant",
-    meta: { title: "Chuyên viên" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Chuyên viên" />
-    ),
-    cell: ({ row }) => {
-      const consultant = {
-        fullName: row.original.consultant.fullName,
-        email: row.original.consultant.email,
-        avatarUrl: row.original.consultant.avatarUrl
-      }
+  // {
+  //   accessorKey: "consultant",
+  //   meta: { title: "Chuyên viên" },
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Chuyên viên" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const consultant = {
+  //       fullName: row.original.consultant.fullName,
+  //       email: row.original.consultant.email,
+  //       avatarUrl: row.original.consultant.avatarUrl
+  //     }
 
-      return <DataTableCellUser user={consultant} />
-    }
-  },
+  //     return <DataTableCellUser user={consultant} />
+  //   }
+  // },
   {
     accessorKey: "description",
     header: "Mô tả"

@@ -40,7 +40,7 @@ export const userSchema = z.object({
   ...auditFields
 })
 
-export const createUpdateUserSchema = userSchema.pick({
+export const createUserSchema = userSchema.pick({
   fullName: true,
   email: true,
   phoneNumber: true,
@@ -49,12 +49,19 @@ export const createUpdateUserSchema = userSchema.pick({
   status: true
 })
 
+export const userInfoSchema = userSchema.pick({
+  fullName: true,
+  email: true,
+  phoneNumber: true,
+  avatarUrl: true
+})
+
 export const loginUserSchema = userSchema.pick({
   email: true,
   password: true
 })
 
 export type UserType = z.infer<typeof userSchema>
-export type CreateUpdateUserType = z.infer<typeof createUpdateUserSchema>
+export type CreateUserType = z.infer<typeof createUserSchema>
 
 export type LoginUserType = z.infer<typeof loginUserSchema>

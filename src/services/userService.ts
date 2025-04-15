@@ -2,7 +2,7 @@ import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
 
-import { CreateUpdateUserType, UserType } from "@/schemas/userSchema"
+import { CreateUserType, UserType } from "@/schemas/userSchema"
 
 interface UsersResponse {
   totalPages: number
@@ -57,7 +57,7 @@ export const fetchUserById = async (userId: string): Promise<UserType> => {
 }
 
 export const addUser = async (
-  newData: CreateUpdateUserType
+  newData: CreateUserType
 ): Promise<string> => {
   try {
     const response = await monAPI.post("/users", newData)

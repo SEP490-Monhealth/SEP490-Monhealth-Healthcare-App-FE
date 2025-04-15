@@ -4,7 +4,7 @@ export enum NotificationTypeEnum {
   System,
   Reminder,
   Goal,
-  Payment,
+  Transaction,
   Booking,
   Message
 }

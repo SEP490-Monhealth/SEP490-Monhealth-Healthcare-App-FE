@@ -3,7 +3,7 @@ import { z } from "zod"
 import { UserSubscriptionSchemaEnum } from "@/constants/enum/UserSubscription"
 
 import { auditFields, timestampFields, uuidSchema } from "./baseSchema"
-import { userSchema } from "./userSchema"
+import { userInfoSchema } from "./userSchema"
 
 export const subscriptionSchema = z.object({
   subscriptionId: uuidSchema,
@@ -55,12 +55,7 @@ const userSubscription = z.object({
   userId: uuidSchema,
   subscriptionId: uuidSchema,
 
-  member: z.object({
-    fullName: userSchema.shape.fullName,
-    email: userSchema.shape.email,
-    phoneNumber: userSchema.shape.phoneNumber,
-    avatarUrl: userSchema.shape.avatarUrl
-  }),
+  member: userInfoSchema,
 
   subscription: subscriptionSchema.shape.name,
 
