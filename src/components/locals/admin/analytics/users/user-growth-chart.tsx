@@ -2,7 +2,6 @@
 
 import React from "react"
 
-import LoadingPage from "@/app/admin/loading"
 import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
@@ -21,13 +20,7 @@ import {
   ChartTooltipContent
 } from "@/components/globals/atoms/chart"
 
-import { useUserGrowth } from "@/hooks/useAnalysis"
-
-import {
-  calculateGrowthRate,
-  getRangeOfLastSixMonths,
-  transformUserData
-} from "@/utils/helpers"
+import { calculateGrowthRate, getRangeOfLastSixMonths } from "@/utils/helpers"
 
 // const data = [
 //   {
@@ -63,14 +56,14 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-function UserGrowthChart() {
-  const { data: growthUserData, isLoading, error } = useUserGrowth()
+interface UserGrowthChartProps {
+  countUsers: {
+    month: string
+    count: number
+  }[]
+}
 
-  if (!growthUserData || isLoading) return <LoadingPage />
-  if (error) return <p>Error: {error.message}</p>
-
-  const countUsers = transformUserData(growthUserData)
-
+function UserGrowthChart({ countUsers }: UserGrowthChartProps) {
   return (
     <Card>
       <CardHeader>

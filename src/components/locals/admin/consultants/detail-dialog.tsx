@@ -50,6 +50,8 @@ function UserDetailDialog({
     error: certificateError
   } = useCertificateByConsultantId(consultantId || "")
 
+  console.log(JSON.stringify(certificateData, null, 2))
+
   const currentCertificate = certificateData?.[0]
 
   const isLoading = isConsultantLoading || isCertificateLoading
@@ -90,11 +92,12 @@ function UserDetailDialog({
                 Chứng chỉ
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="consultant-detail" className="w-full">
+
+            <TabsContent value="consultant-detail" className="mt-2 w-full">
               <ConsultantDetailTabDialog consultantData={userData} />
             </TabsContent>
 
-            <TabsContent value="consultant-certificate" className="w-full">
+            <TabsContent value="consultant-certificate" className="mt-2 w-full">
               {currentCertificate && (
                 <CertificateTabDialog certificateData={currentCertificate} />
               )}

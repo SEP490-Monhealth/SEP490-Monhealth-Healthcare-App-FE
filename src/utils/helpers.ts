@@ -123,6 +123,14 @@ export const transformUserData = (
   data: UserCount[]
 ): TransformedUserCount[] => {
   return data.map((item) => {
+    // Kiểm tra nếu item.month tồn tại
+    if (!item || !item.month) {
+      return {
+        month: "",
+        count: item?.count || 0
+      }
+    }
+
     const monthNumber = item.month.split("-")[1]
     return {
       month: `Tháng ${parseInt(monthNumber, 10)}`,

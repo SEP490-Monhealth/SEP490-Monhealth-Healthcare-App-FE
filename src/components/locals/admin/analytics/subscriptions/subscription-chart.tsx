@@ -1,6 +1,5 @@
 "use client"
 
-import LoadingPage from "@/app/admin/loading"
 import { Cell, Pie, PieChart } from "recharts"
 
 import {
@@ -18,14 +17,9 @@ import {
   ChartTooltipContent
 } from "@/components/globals/atoms/chart"
 
-import { useSubscriptionUpgraded } from "@/hooks/useAnalysis"
+import { getRangeOfLastSixMonths } from "@/utils/helpers"
 
-import {
-  getRangeOfLastSixMonths,
-  transformSubscriptionData
-} from "@/utils/helpers"
-
-// const SubscriptionUpgradedData = [
+// const subscriptionUpgradedData = [
 //   {
 //     subscription: "Gói Cơ Bản",
 //     visitors: 500
@@ -55,20 +49,14 @@ const chartConfig = {
   }
 } satisfies ChartConfig
 
-function SubscriptionChart() {
-  const {
-    data: SubscriptionUpgradedData,
-    isLoading,
-    error
-  } = useSubscriptionUpgraded()
+interface SubscriptionChartProps {
+  chartData: {
+    subscription: string
+    visitors: number
+  }[]
+}
 
-  if (isLoading) return <LoadingPage />
-  if (error) return <p>Error: {error.message}</p>
-  if (!SubscriptionUpgradedData) {
-    return <p>No data available</p>
-  }
-
-  const chartData = transformSubscriptionData(SubscriptionUpgradedData)
+function SubscriptionChart({ chartData }: SubscriptionChartProps) {
   return (
     <Card>
       <CardHeader>

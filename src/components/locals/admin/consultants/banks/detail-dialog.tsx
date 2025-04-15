@@ -2,11 +2,7 @@
 
 import React from "react"
 
-import Image from "next/image"
-
-import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
-import { Card } from "@/components/globals/atoms/card"
 import {
   Dialog,
   DialogContent,
@@ -18,6 +14,7 @@ import {
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
+import BankInformationCard from "@/components/globals/molecules/bank-information-card"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
@@ -75,30 +72,7 @@ function ConsultantBankDetailDialog({
 
             <div className="col-span-2 space-y-2">
               <Label htmlFor="bank">Ngân hàng</Label>
-
-              <Card className="px-6 py-4">
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={consultantBank.bank.logoUrl}
-                    alt={consultantBank.bank.shortName}
-                    width={60}
-                    height={60}
-                  />
-
-                  <div className="flex w-full flex-col">
-                    <span className="font-medium capitalize">
-                      {consultantBank.bank.shortName}
-                    </span>
-
-                    <span className="text-muted-foreground text-sm">
-                      {consultantBank.name}
-                    </span>
-                    <span className="text-muted-foreground text-sm">
-                      {consultantBank.number}
-                    </span>
-                  </div>
-                </div>
-              </Card>
+              <BankInformationCard consultantBankData={consultantBank} />
             </div>
 
             <div className="space-y-2">

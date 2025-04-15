@@ -1,6 +1,14 @@
+"use client"
+
 import React from "react"
 
-import ImageSlider from "@/components/globals/atoms/image-slider"
+import Image from "next/image"
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem
+} from "@/components/globals/atoms/carousel"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
@@ -8,39 +16,40 @@ import { CertificateType } from "@/schemas/certificateSchema"
 
 import { formatDate } from "@/utils/formatters"
 
-interface ConsultantCertificateTabDialogProps {
+interface CertificateTabDialogProps {
   certificateData: CertificateType
 }
 
-function CertificateTabDialog({
-  certificateData
-}: ConsultantCertificateTabDialogProps) {
+function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-3 gap-x-6 gap-y-4">
-        <div className="col-span-1">
-          <div className="rounded-xl">
-            <ImageSlider images={certificateData.imageUrls} />
-          </div>
+      <div className="grid grid-cols-7 gap-x-6 gap-y-4">
+        <div className="col-span-4">
+          <Carousel>
+            <CarouselContent>
+              {certificateData.imageUrls.map((imageUrl, index) => (
+                <CarouselItem key={index} className="h-full w-full">
+                  <div className="h-64 w-full">
+                    <Image
+                      src={imageUrl}
+                      fill
+                      alt={imageUrl}
+                      className="object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
 
-        <div className="col-span-2 grid grid-cols-2 gap-x-6 gap-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="number">Mã chứng chỉ</Label>
+        <div className="col-span-3 grid grid-cols-2 gap-x-6 gap-y-4">
+          <div className="col-span-2 space-y-2">
+            <Label htmlFor="number">Số chứng chỉ</Label>
             <Input
               id="number"
               type="text"
               value={certificateData.number}
-              readOnly
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="isVerified">Trạng thái</Label>
-            <Input
-              id="isVerified"
-              type="text"
-              value={certificateData.isVerified ? "Xác thực" : "Chưa xác thực"}
               readOnly
             />
           </div>
@@ -69,6 +78,16 @@ function CertificateTabDialog({
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
         <div className="space-y-2">
+          <Label htmlFor="isVerified">Trạng thái</Label>
+          <Input
+            id="isVerified"
+            type="text"
+            value={certificateData.isVerified ? "Xác thực" : "Chưa xác thực"}
+            readOnly
+          />
+        </div>
+
+        <div className="space-y-2">
           <Label htmlFor="issueDate">Ngày cấp</Label>
           <Input
             id="issueDate"
@@ -94,16 +113,6 @@ function CertificateTabDialog({
             id="createdAt"
             type="text"
             value={formatDate(certificateData.createdAt)}
-            readOnly
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-          <Input
-            id="updatedAt"
-            type="text"
-            value={formatDate(certificateData.updatedAt || "--")}
             readOnly
           />
         </div>

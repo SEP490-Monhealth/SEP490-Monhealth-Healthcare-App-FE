@@ -2,8 +2,6 @@
 
 import React from "react"
 
-import LoadingPage from "@/app/admin/loading"
-
 import {
   Card,
   CardContent,
@@ -12,8 +10,6 @@ import {
   CardTitle
 } from "@/components/globals/atoms/card"
 import { Progress } from "@/components/globals/atoms/progress"
-
-import { useSubscriptionUpgraded } from "@/hooks/useAnalysis"
 
 // const data = [
 //   {
@@ -30,23 +26,18 @@ import { useSubscriptionUpgraded } from "@/hooks/useAnalysis"
 //   }
 // ]
 
-function SubscriptionDistributionChart() {
-  const {
-    data: SubscriptionUpgradedData,
-    isLoading,
-    error
-  } = useSubscriptionUpgraded()
+interface SubscriptionDistributionChartProps {
+  subscriptionUpgradedData: {
+    subscription: string
+    visitors: number
+  }[]
+  totalVisitors: number
+}
 
-  if (isLoading) return <LoadingPage />
-  if (error) return <p>Error: {error.message}</p>
-  if (!SubscriptionUpgradedData) {
-    return <p>No data available</p>
-  }
-  const total = SubscriptionUpgradedData.reduce(
-    (sum, item) => sum + item.visitors,
-    0
-  )
-
+function SubscriptionDistributionChart({
+  subscriptionUpgradedData,
+  totalVisitors
+}: SubscriptionDistributionChartProps) {
   return (
     <Card className="h-full">
       <CardHeader>
@@ -55,11 +46,13 @@ function SubscriptionDistributionChart() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {SubscriptionUpgradedData.map((item) => {
-            const percentage = ((item.visitors / total) * 100).toFixed(2)
+          {subscriptionUpgradedData.map((item, index) => {
+            const percentage = ((item.visitors / totalVisitors) * 100).toFixed(
+              2
+            )
 
             return (
-              <div key={item.subscription} className="space-y-1">
+              <div key={`${item.subscription}-${index}`} className="space-y-1">
                 <div className="flex justify-between">
                   <span>{item.subscription}</span>
                   <span>{percentage}%</span>

@@ -42,10 +42,8 @@ export const sidebarItems: SidebarItem[] = [
     path: "#",
     icon: BarChart3,
     children: [
-      { title: "Tổng quan", path: "/admin/analytics/overview" },
       { title: "Người dùng", path: "/admin/analytics/users" },
-      { title: "Gói đăng ký", path: "/admin/analytics/subscriptions" },
-      { title: "Chuyên viên", path: "/admin/analytics/activities" }
+      { title: "Gói đăng ký", path: "/admin/analytics/subscriptions" }
     ]
   },
   {

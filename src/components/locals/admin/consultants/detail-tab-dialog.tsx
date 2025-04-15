@@ -55,16 +55,6 @@ function ConsultantDetailTabDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={consultantData.email}
-              readOnly
-            />
-          </div>
-
-          <div className="space-y-2">
             <Label htmlFor="phoneNumber">Số điện thoại</Label>
             <Input
               id="phoneNumber"
@@ -74,19 +64,19 @@ function ConsultantDetailTabDialog({
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="status">Trạng thái</Label>
+          <div className="col-span-2 space-y-2">
+            <Label htmlFor="email">Email</Label>
             <Input
-              id="status"
-              type="text"
-              value={consultantData.status ? "Hoạt động" : "Ngừng hoạt động"}
+              id="email"
+              type="email"
+              value={consultantData.email}
               readOnly
             />
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+      <div className="grid grid-cols-3 gap-x-6 gap-y-4">
         <div className="space-y-2">
           <Label htmlFor="expertise">Chuyên môn</Label>
           <Input
@@ -107,6 +97,18 @@ function ConsultantDetailTabDialog({
           />
         </div>
 
+        <div className="space-y-2">
+          <Label htmlFor="status">Trạng thái</Label>
+          <Input
+            id="status"
+            type="text"
+            value={consultantData.status ? "Hoạt động" : "Ngừng hoạt động"}
+            readOnly
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-x-6 gap-y-4">
         <div className="col-span-2 space-y-2">
           <Label htmlFor="bio">Mô tả ngắn</Label>
           <Textarea id="bio" rows={6} value={consultantData.bio} readOnly />

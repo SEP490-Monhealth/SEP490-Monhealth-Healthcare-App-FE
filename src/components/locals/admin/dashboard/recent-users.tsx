@@ -78,7 +78,7 @@ function RecentUsers() {
     data: usersData,
     isLoading,
     error
-  } = useUsers(1, 9, undefined, undefined, sortUser, orderUser, undefined)
+  } = useUsers(1, 7, undefined, undefined, sortUser, orderUser, undefined)
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>

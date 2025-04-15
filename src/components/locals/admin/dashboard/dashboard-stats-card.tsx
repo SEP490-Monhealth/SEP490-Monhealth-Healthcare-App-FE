@@ -58,14 +58,14 @@ function DashboardStatsCard() {
       />
 
       <StatsCard
-        title="Doanh thu"
+        title="Doanh thu tháng"
         icon={<DollarSign />}
         value={formatNumberCustom(overviewData.totalRevenue.count)}
         description={formatGrowthRate(overviewData.totalRevenue.growthRate)}
       />
 
       <StatsCard
-        title="Tổng chuyên viên hoạt động"
+        title="Tổng chuyên viên"
         icon={<Activity />}
         value={formatNumberCustom(overviewData.totalConsultants.count)}
         description={formatGrowthRate(overviewData.totalConsultants.growthRate)}

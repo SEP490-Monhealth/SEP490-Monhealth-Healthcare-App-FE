@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
 
   images: {
-    domains: ["img.vietqr.io"]
+    domains: ["firebasestorage.googleapis.com", "img.vietqr.io"]
   },
 
   async redirects() {

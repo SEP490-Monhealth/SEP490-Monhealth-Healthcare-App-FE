@@ -113,7 +113,12 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
 
       <div className="space-y-2">
         <Label htmlFor="createdBy">Người tạo</Label>
-        <Input id="createdBy" type="text" value={foodData.createdBy || "--"} readOnly />
+        <Input
+          id="createdBy"
+          type="text"
+          value={foodData.createdBy || "--"}
+          readOnly
+        />
       </div>
 
       <div className="space-y-2">
@@ -128,7 +133,12 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
 
       <div className="space-y-2">
         <Label htmlFor="updatedBy">Người cập nhật</Label>
-        <Input id="updatedBy" type="text" value={foodData.updatedBy || "--"} readOnly />
+        <Input
+          id="updatedBy"
+          type="text"
+          value={foodData.updatedBy || "--"}
+          readOnly
+        />
       </div>
     </div>
   )

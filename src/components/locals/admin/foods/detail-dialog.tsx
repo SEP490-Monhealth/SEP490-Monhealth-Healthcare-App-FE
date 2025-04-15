@@ -84,11 +84,11 @@ function FoodDetailDialog({ isOpen, onClose, foodId }: FoodDetailDialogProps) {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="food-detail" className="w-full">
+            <TabsContent value="food-detail" className="mt-2 w-full">
               <FoodDetailTabDialog foodData={foodData} />
             </TabsContent>
 
-            <TabsContent value="food-nutrition" className="w-full">
+            <TabsContent value="food-nutrition" className="mt-2 w-full">
               {nutritionData && (
                 <FoodNutritionTabDialog nutritionData={nutritionData} />
               )}

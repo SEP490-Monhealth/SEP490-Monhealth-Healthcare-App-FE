@@ -2,12 +2,9 @@
 
 import React from "react"
 
-import LoadingPage from "@/app/admin/loading"
 import { ChartColumn, UserCheck, UserPlus, Users } from "lucide-react"
 
 import StatsCard from "@/components/globals/molecules/stats-card"
-
-import { useUserStats } from "@/hooks/useAnalysis"
 
 import { formatGrowthRate, formatNumberCustom } from "@/utils/helpers"
 
@@ -30,15 +27,28 @@ import { formatGrowthRate, formatNumberCustom } from "@/utils/helpers"
 //   }
 // }
 
-function UserStatsCard() {
-  const { data: userStatsData, isLoading, error } = useUserStats()
-
-  if (isLoading) return <LoadingPage />
-  if (error) return <p>Error: {error.message}</p>
-  if (!userStatsData) {
-    return <p>No data available</p>
+interface UserStatsCardProps {
+  userStatsData: {
+    totalUsers: {
+      count: number
+      growthRate: number
+    }
+    newUsers: {
+      count: number
+      growthRate: number
+    }
+    totalVisits: {
+      count: number
+      growthRate: number
+    }
+    conversionRate: {
+      count: number
+      growthRate: number
+    }
   }
+}
 
+function UserStatsCard({ userStatsData }: UserStatsCardProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
       <StatsCard
