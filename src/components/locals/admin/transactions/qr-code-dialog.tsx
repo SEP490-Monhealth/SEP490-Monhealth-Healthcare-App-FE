@@ -19,30 +19,26 @@ import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import {
-  useWithdrawalRequestQrCodeById,
-  useWithdrawalRequestStatus
-} from "@/hooks/useWithdrawalRequest"
+  useCompleteTransaction,
+  useTransactionQrCodeById
+} from "@/hooks/useTransaction"
 
 interface QrCodeDialogProps {
   isOpen: boolean
   onClose: () => void
-  withdrawalRequestId: string
+  transactionId: string
 }
 
-function QrCodeDialog({
-  isOpen,
-  onClose,
-  withdrawalRequestId
-}: QrCodeDialogProps) {
+function QrCodeDialog({ isOpen, onClose, transactionId }: QrCodeDialogProps) {
   const [openConfirmComplete, setOpenConfirmComplete] = useState<boolean>(false)
 
-  const { mutate: completeWithdrawalRequest } = useWithdrawalRequestStatus()
+  const { mutate: completeTransaction } = useCompleteTransaction()
 
   const {
     data: qrCodeData,
     isLoading: isQrCodeLoading,
     error: qrCodeError
-  } = useWithdrawalRequestQrCodeById(isOpen ? withdrawalRequestId : "")
+  } = useTransactionQrCodeById(isOpen ? transactionId : "")
 
   const handleOpenConfirmComplete = () => {
     setOpenConfirmComplete(true)
@@ -53,8 +49,8 @@ function QrCodeDialog({
   }
 
   const handleCompletePayment = () => {
-    completeWithdrawalRequest(
-      { withdrawalRequestId },
+    completeTransaction(
+      { transactionId },
       {
         onSuccess: () => {
           setOpenConfirmComplete(false)
@@ -83,7 +79,7 @@ function QrCodeDialog({
             <div className="flex justify-center">
               <Image
                 src={qrCodeData.qrCodeUrl}
-                alt={withdrawalRequestId || "QR Code"}
+                alt={transactionId || "QR Code"}
                 width={384}
                 height={384}
               />

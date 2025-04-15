@@ -4,10 +4,7 @@ import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
 
 import monAPI from "@/lib/monAPI"
 
-import {
-  WithdrawalRequestQrCodeType,
-  WithdrawalRequestType
-} from "@/schemas/withdrawalRequestSchema"
+import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
 
 interface WithdrawalRequestResponse {
   totalPages: number
@@ -60,30 +57,6 @@ export const fetchWithdrawalRequestById = async (
   } catch (error: any) {
     const errorMessage =
       error.response?.data?.message || "Failed to fetch withdrawal request"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
-  }
-}
-
-export const fetchWithdrawalRequestQrCodeById = async (
-  withdrawalRequestId: string
-): Promise<WithdrawalRequestQrCodeType> => {
-  try {
-    const response = await monAPI.get(
-      `/withdrawal-requests/${withdrawalRequestId}/qr-code`
-    )
-
-    const { success, message, data } = response.data
-
-    if (!success) {
-      throw new Error(message || "Failed to fetch withdrawal request QR code")
-    }
-
-    return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message ||
-      "Failed to fetch withdrawal request QR code"
     toast.error(errorMessage)
     throw new Error(errorMessage)
   }

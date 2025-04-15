@@ -5,8 +5,10 @@ import {
   TransactionTypeSchemaEnum
 } from "@/constants/enum/Transaction"
 
+import { bankSchema } from "./bankSchema"
 import { auditFields, uuidSchema } from "./baseSchema"
-import { userSchema } from "./userSchema"
+import { consultantBankSchema } from "./consultantBankSchema"
+import { userInfoSchema } from "./userSchema"
 
 const transactionSchema = z.object({
   transactionId: uuidSchema,
@@ -16,12 +18,8 @@ const transactionSchema = z.object({
 
   type: TransactionTypeSchemaEnum,
 
-  consultant: z.object({
-    fullName: userSchema.shape.fullName,
-    email: userSchema.shape.email,
-    phoneNumber: userSchema.shape.phoneNumber,
-    avatarUrl: userSchema.shape.avatarUrl
-  }),
+  member: userInfoSchema,
+  consultant: userInfoSchema,
 
   description: z
     .string()
@@ -46,15 +44,20 @@ export const createTransactionSchema = transactionSchema.pick({
   amount: true
 })
 
-export const updateTransactionSchema = transactionSchema.pick({
-  consultantId: true,
-
-  type: true,
-
-  description: true,
-  amount: true
+const transactionQrCodeSchema = z.object({
+  qrCodeUrl: z.string().nonempty({ message: "Mã QR không được để trống" }),
+  bankName: bankSchema.shape.name,
+  accountName: consultantBankSchema.shape.name,
+  description: z
+    .string()
+    .nonempty({ message: "Mô tả yêu cầu không được để trống" })
+    .min(10, { message: "Mô tả yêu cầu phải có ít nhất 10 ký tự" }),
+  amount: z
+    .number({ message: "Số tiền yêu cầu phải là một số" })
+    .positive({ message: "Số tiền yêu cầu phải lớn hơn 0" })
 })
 
 export type TransactionType = z.infer<typeof transactionSchema>
 export type CreateTransactionType = z.infer<typeof createTransactionSchema>
-export type UpdateTransactionType = z.infer<typeof updateTransactionSchema>
+
+export type TransactionQrCodeType = z.infer<typeof transactionQrCodeSchema>

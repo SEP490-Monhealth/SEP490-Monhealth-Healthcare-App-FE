@@ -8,8 +8,8 @@ import {
 import monAPI from "@/lib/monAPI"
 
 import {
-  TransactionType,
-  UpdateTransactionType
+  TransactionQrCodeType,
+  TransactionType
 } from "@/schemas/transactionSchema"
 
 interface TransactionsResponse {
@@ -67,14 +67,33 @@ export const fetchTransactionById = async (
   }
 }
 
-export const updateTransactionStatus = async (
-  transactionId: string,
-  updatedData: UpdateTransactionType
+export const fetchTransactionQrCodeById = async (
+  transactionId: string
+): Promise<TransactionQrCodeType> => {
+  try {
+    const response = await monAPI.get(`/transactions/${transactionId}/qr-code`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch transaction QR code")
+    }
+
+    return data
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to fetch transaction QR code"
+    toast.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+}
+
+export const completeTransaction = async (
+  transactionId: string
 ): Promise<string> => {
   try {
-    const response = await monAPI.put(
-      `/transactions/${transactionId}/status`,
-      updatedData
+    const response = await monAPI.patch(
+      `/transactions/${transactionId}/completed`
     )
 
     const { success, message } = response.data

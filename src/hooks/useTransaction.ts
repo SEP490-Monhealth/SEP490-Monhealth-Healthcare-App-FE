@@ -6,14 +6,15 @@ import {
 } from "@/constants/enum/Transaction"
 
 import {
-  TransactionType,
-  UpdateTransactionType
+  TransactionQrCodeType,
+  TransactionType
 } from "@/schemas/transactionSchema"
 
 import {
+  completeTransaction,
   fetchTransactionById,
-  fetchTransactions,
-  updateTransactionStatus
+  fetchTransactionQrCodeById,
+  fetchTransactions
 } from "@/services/transactionService"
 
 interface TransactionsResponse {
@@ -43,16 +44,19 @@ export const useTransactionById = (transactionId: string) =>
     staleTime: 1000 * 60 * 5
   })
 
-export const useUpdateTransactionStatus = () => {
+export const useTransactionQrCodeById = (transactionId: string) =>
+  useQuery<TransactionQrCodeType, Error>({
+    queryKey: ["transaction-qr-code", transactionId],
+    queryFn: () => fetchTransactionQrCodeById(transactionId),
+    enabled: !!transactionId,
+    staleTime: 1000 * 60 * 5
+  })
+
+export const useCompleteTransaction = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<
-    string,
-    Error,
-    { transactionId: string; updatedData: UpdateTransactionType }
-  >({
-    mutationFn: ({ transactionId, updatedData }) =>
-      updateTransactionStatus(transactionId, updatedData),
+  return useMutation<string, Error, { transactionId: string }>({
+    mutationFn: ({ transactionId }) => completeTransaction(transactionId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] })
       queryClient.invalidateQueries({ queryKey: ["transaction"] })

@@ -2,15 +2,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { WithdrawalRequestStatusEnum } from "@/constants/enum/WithdrawalRequest"
 
-import {
-  WithdrawalRequestQrCodeType,
-  WithdrawalRequestType
-} from "@/schemas/withdrawalRequestSchema"
+import { WithdrawalRequestType } from "@/schemas/withdrawalRequestSchema"
 
 import {
   approveWithdrawalRequest,
   fetchWithdrawalRequestById,
-  fetchWithdrawalRequestQrCodeById,
   fetchWithdrawalRequests,
   rejectWithdrawalRequest,
   updateWithdrawalRequestStatus
@@ -38,14 +34,6 @@ export const useWithdrawalRequestById = (withdrawalRequestId: string) =>
   useQuery<WithdrawalRequestType, Error>({
     queryKey: ["withdrawal-request", withdrawalRequestId],
     queryFn: () => fetchWithdrawalRequestById(withdrawalRequestId),
-    enabled: !!withdrawalRequestId,
-    staleTime: 1000 * 60 * 5
-  })
-
-export const useWithdrawalRequestQrCodeById = (withdrawalRequestId: string) =>
-  useQuery<WithdrawalRequestQrCodeType, Error>({
-    queryKey: ["withdrawal-request-qr-code", withdrawalRequestId],
-    queryFn: () => fetchWithdrawalRequestQrCodeById(withdrawalRequestId),
     enabled: !!withdrawalRequestId,
     staleTime: 1000 * 60 * 5
   })

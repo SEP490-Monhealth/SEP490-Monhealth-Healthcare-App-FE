@@ -2,8 +2,6 @@
 
 import React, { useState } from "react"
 
-import Image from "next/image"
-
 import {
   Avatar,
   AvatarFallback,
@@ -39,7 +37,6 @@ import {
 import { formatCurrency, formatDate } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
-import QrCodeDialog from "./qr-code-dialog"
 import RejectDialog from "./reject-dialog"
 
 interface WithdrawalRequestDetailDialogProps {
@@ -54,7 +51,6 @@ function WithdrawalRequestDetailDialog({
   withdrawalRequestId
 }: WithdrawalRequestDetailDialogProps) {
   const [openAlert, setOpenAlert] = useState<boolean>(false)
-  const [openQrCodeModal, setOpenQrCodeModal] = useState<boolean>(false)
   const [openRejectDialog, setOpenRejectDialog] = useState<boolean>(false)
   const [alertContent, setAlertContent] = useState<{
     title: string
@@ -102,14 +98,6 @@ function WithdrawalRequestDetailDialog({
 
   const handleCloseAlert = () => {
     setOpenAlert(false)
-  }
-
-  const handleOpenQrCodeModal = () => {
-    setOpenQrCodeModal(true)
-  }
-
-  const handleCloseQrCodeModal = () => {
-    setOpenQrCodeModal(false)
   }
 
   const handleApprove = () => {
@@ -303,7 +291,7 @@ function WithdrawalRequestDetailDialog({
           <DialogFooter>
             <div className="flex w-full justify-between">
               {withdrawalRequestData?.status !==
-                WithdrawalRequestStatusEnum.Completed && (
+                WithdrawalRequestStatusEnum.Approved && (
                 <Button variant="outline" onClick={onClose}>
                   Đóng
                 </Button>
@@ -332,22 +320,10 @@ function WithdrawalRequestDetailDialog({
                   </Button>
                 </div>
               )}
-
-              {withdrawalRequestData?.status ===
-                WithdrawalRequestStatusEnum.Approved && (
-                <Button
-                  onClick={handleOpenQrCodeModal}
-                  disabled={
-                    isWithdrawalRequestLoading || !withdrawalRequestData
-                  }
-                >
-                  Thanh toán
-                </Button>
-              )}
             </div>
 
             {withdrawalRequestData?.status ===
-              WithdrawalRequestStatusEnum.Completed && (
+              WithdrawalRequestStatusEnum.Approved && (
               <Button onClick={onClose}>Đóng</Button>
             )}
           </DialogFooter>
@@ -367,14 +343,6 @@ function WithdrawalRequestDetailDialog({
         onClose={() => setOpenRejectDialog(false)}
         onReject={handleReject}
       />
-
-      {withdrawalRequestId && (
-        <QrCodeDialog
-          isOpen={openQrCodeModal}
-          onClose={handleCloseQrCodeModal}
-          withdrawalRequestId={withdrawalRequestId}
-        />
-      )}
     </>
   )
 }
