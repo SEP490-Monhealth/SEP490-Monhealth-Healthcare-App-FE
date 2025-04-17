@@ -20,7 +20,7 @@ function AnalyticSubscriptionPage() {
   const chartData = transformSubscriptionData(subscriptionUpgradedData)
 
   const totalVisitors = subscriptionUpgradedData.reduce(
-    (sum, item) => sum + item.visitors,
+    (sum, item) => sum + (item.visitors || 0),
     0
   )
 

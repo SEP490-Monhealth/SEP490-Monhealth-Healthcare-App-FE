@@ -5,6 +5,7 @@ import TopLoader from "nextjs-toploader"
 
 import { Toaster } from "@/components/globals/atoms/sonner"
 
+import { AuthProvider } from "@/providers/AuthProvider"
 import { QueryProvider } from "@/providers/QueryProvider"
 
 import "../styles/globals.css"
@@ -28,10 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
-        <TopLoader color="var(--primary)" height={4} showSpinner={false} />
-        <QueryProvider>
-          <main>{children}</main>
-        </QueryProvider>
+        {/* <TopLoader color="var(--primary)" height={4} showSpinner={false} /> */}
+        <AuthProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>

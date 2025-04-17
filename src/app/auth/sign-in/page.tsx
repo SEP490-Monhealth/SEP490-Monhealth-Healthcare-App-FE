@@ -2,6 +2,8 @@
 
 import React, { useState } from "react"
 
+import { useRouter } from "next/navigation"
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeOff } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -18,9 +20,15 @@ import {
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 import { LoginUserType, loginUserSchema } from "@/schemas/userSchema"
 
 function SignInPage() {
+  const router = useRouter()
+
+  const { login } = useAuth()
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isVisible, setIsVisible] = useState<boolean>(false)
 
@@ -45,9 +53,8 @@ function SignInPage() {
       const finalData = data
       console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      console.log("Đăng nhập thành công!")
+      login(finalData.email, finalData.password)
+      router.push("/admin/dashboard")
     } catch (error) {
       console.error("Lỗi khi đăng nhập:", error)
     } finally {
@@ -55,11 +62,11 @@ function SignInPage() {
     }
   }
 
-  console.log(errors)
+  // console.log(errors)
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <Card className="w-[400px] py-12">
+      <Card className="w-[520px] py-12">
         <CardHeader>
           <CardTitle>Chào mừng trở lại</CardTitle>
           <CardDescription>

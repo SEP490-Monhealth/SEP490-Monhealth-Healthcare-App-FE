@@ -9,6 +9,8 @@ import { Button } from "@/components/globals/atoms/button"
 
 import { sidebarItems } from "@/configs/site"
 
+import { useAuth } from "@/contexts/AuthContext"
+
 interface SidebarItem {
   title: string
   path: string
@@ -196,6 +198,8 @@ const SidebarFooter = ({
   toggleCollapse: () => void
   animationsEnabled: boolean
 }) => {
+  const { logout } = useAuth()
+
   const footerItems: SidebarItem[] = [
     {
       title: "Thu gọn",
@@ -207,7 +211,7 @@ const SidebarFooter = ({
       title: "Đăng xuất",
       path: "#",
       icon: LogOut,
-      onClick: () => console.log("Logout clicked")
+      onClick: logout
     }
   ]
 

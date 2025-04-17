@@ -1,6 +1,6 @@
 import React from "react"
 
-import { Bell, LogOut, Settings, User } from "lucide-react"
+import { Bell } from "lucide-react"
 
 import { getInitials } from "@/utils/helpers"
 
@@ -13,12 +13,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "../atoms/dropdown-menu"
-import { Separator } from "../atoms/separator"
 
 function Topbar() {
   return (
     <div className="sticky top-0 z-50 flex items-center justify-between bg-white px-6 py-2 shadow-sm">
-      <h3 className="text-primary text-lg font-semibold select-none">Admin</h3>
+      <h3 className="text-primary text-lg font-semibold select-none">SEP490</h3>
 
       <div className="flex items-center gap-6">
         <DropdownMenu>
