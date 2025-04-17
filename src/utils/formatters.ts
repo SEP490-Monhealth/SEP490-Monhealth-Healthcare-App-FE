@@ -32,6 +32,25 @@ export function formatCurrency(value: number): string {
 }
 
 /**
+ * Định dạng phần trăm theo chuẩn Việt Nam với số chữ số thập phân tùy chọn.
+ * @param value - Giá trị phần trăm cần định dạng (đã ở dạng thập phân, ví dụ: 0.75 là 75%).
+ * @param decimalPlaces - Số chữ số thập phân (mặc định là 2).
+ * @returns Chuỗi phần trăm đã được định dạng, kèm ký hiệu %.
+ *
+ * @example
+ * formatPercent(0.75) => "75,00%"
+ * formatPercent(0.75, 0) => "75%"
+ * formatPercent(0.12345, 3) => "12,345%"
+ */
+export function formatPercent(value: number, decimalPlaces = 2): string {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "percent",
+    minimumFractionDigits: decimalPlaces,
+    maximumFractionDigits: decimalPlaces
+  }).format(value)
+}
+
+/**
  * Định dạng ngày theo định dạng "dd/mm/yyyy".
  * @param date - Ngày cần định dạng (có thể là đối tượng Date hoặc chuỗi ngày).
  * @returns Chuỗi ngày đã được định dạng.

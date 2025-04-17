@@ -47,9 +47,7 @@ function SubscriptionDistributionChart({
       <CardContent>
         <div className="space-y-4">
           {subscriptionUpgradedData.map((item, index) => {
-            const percentage = ((item.visitors / totalVisitors) * 100).toFixed(
-              2
-            )
+            const percentage = (item.visitors / totalVisitors) * 100
 
             return (
               <div key={`${item.subscription}-${index}`} className="space-y-1">
@@ -57,7 +55,7 @@ function SubscriptionDistributionChart({
                   <span>{item.subscription}</span>
                   <span>{percentage}%</span>
                 </div>
-                <Progress value={parseFloat(percentage)} />
+                <Progress value={percentage} />
               </div>
             )
           })}

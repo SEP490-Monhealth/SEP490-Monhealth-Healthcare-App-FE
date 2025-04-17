@@ -34,7 +34,7 @@ import {
   useWithdrawalRequestById
 } from "@/hooks/useWithdrawalRequest"
 
-import { formatCurrency, formatDate } from "@/utils/formatters"
+import { formatCurrency, formatDateTime } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 import RejectDialog from "./reject-dialog"
@@ -187,21 +187,21 @@ function WithdrawalRequestDetailDialog({
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="text"
-                      value={withdrawalRequestData.consultant.email}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="space-y-2">
                     <Label htmlFor="phoneNumber">Số điện thoại</Label>
                     <Input
                       id="phoneNumber"
                       type="text"
                       value={withdrawalRequestData.consultant.phoneNumber}
+                      readOnly
+                    />
+                  </div>
+
+                  <div className="col-span-2 space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="text"
+                      value={withdrawalRequestData.consultant.email}
                       readOnly
                     />
                   </div>
@@ -250,17 +250,7 @@ function WithdrawalRequestDetailDialog({
                   <Input
                     id="createdAt"
                     type="text"
-                    value={formatDate(withdrawalRequestData.createdAt)}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="createdBy">Người tạo</Label>
-                  <Input
-                    id="createdBy"
-                    type="text"
-                    value={withdrawalRequestData.createdBy || "--"}
+                    value={formatDateTime(withdrawalRequestData.createdAt)}
                     readOnly
                   />
                 </div>
@@ -270,17 +260,7 @@ function WithdrawalRequestDetailDialog({
                   <Input
                     id="updatedAt"
                     type="text"
-                    value={formatDate(withdrawalRequestData.updatedAt)}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="updatedBy">Người cập nhật</Label>
-                  <Input
-                    id="updatedBy"
-                    type="text"
-                    value={withdrawalRequestData.updatedBy || "--"}
+                    value={formatDateTime(withdrawalRequestData.updatedAt)}
                     readOnly
                   />
                 </div>

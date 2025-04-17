@@ -31,7 +31,7 @@ import {
 
 import { useTransactionById } from "@/hooks/useTransaction"
 
-import { formatCurrency, formatDate } from "@/utils/formatters"
+import { formatCurrency, formatDateTime } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 interface PaymentDetailDialogProps {
@@ -51,7 +51,7 @@ function PaymentDetailDialog({
     error: transactionError
   } = useTransactionById(transactionId || "")
 
-  //   console.log(JSON.stringify(transactionData, null, 2))
+  console.log(JSON.stringify(transactionData, null, 2))
 
   const { label: transactionTypeLabel } = getTransactionTypeMeta(
     transactionData?.type || TransactionTypeEnum.Earning
@@ -106,16 +106,6 @@ function PaymentDetailDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="type">Loại giao dịch</Label>
-                  <Input
-                    id="type"
-                    type="text"
-                    value={transactionTypeLabel}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
                   <Label htmlFor="fullName">Họ tên</Label>
                   <Input
                     id="fullName"
@@ -126,21 +116,21 @@ function PaymentDetailDialog({
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="text"
-                    value={transactionData.member.email}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
                   <Label htmlFor="phoneNumber">Số điện thoại</Label>
                   <Input
                     id="phoneNumber"
                     type="text"
                     value={transactionData.member.phoneNumber}
+                    readOnly
+                  />
+                </div>
+
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="text"
+                    value={transactionData.member.email}
                     readOnly
                   />
                 </div>
@@ -189,7 +179,7 @@ function PaymentDetailDialog({
                 <Input
                   id="createdAt"
                   type="text"
-                  value={formatDate(transactionData.createdAt)}
+                  value={formatDateTime(transactionData.createdAt)}
                   readOnly
                 />
               </div>
@@ -199,7 +189,7 @@ function PaymentDetailDialog({
                 <Input
                   id="updatedAt"
                   type="text"
-                  value={formatDate(transactionData.updatedAt)}
+                  value={formatDateTime(transactionData.updatedAt)}
                   readOnly
                 />
               </div>

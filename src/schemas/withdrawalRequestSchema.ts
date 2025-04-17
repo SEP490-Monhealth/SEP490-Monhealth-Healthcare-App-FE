@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { WithdrawalRequestStatusSchemaEnum } from "@/constants/enum/WithdrawalRequest"
 
-import { auditFields, uuidSchema } from "./baseSchema"
+import { timestampFields, uuidSchema } from "./baseSchema"
 import { userInfoSchema } from "./userSchema"
 
 const withdrawalRequestSchema = z.object({
@@ -21,7 +21,7 @@ const withdrawalRequestSchema = z.object({
 
   status: WithdrawalRequestStatusSchemaEnum,
 
-  ...auditFields
+  ...timestampFields
 })
 
 export type WithdrawalRequestType = z.infer<typeof withdrawalRequestSchema>

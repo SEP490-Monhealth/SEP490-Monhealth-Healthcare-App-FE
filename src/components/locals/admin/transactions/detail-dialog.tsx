@@ -34,7 +34,7 @@ import {
   useTransactionById
 } from "@/hooks/useTransaction"
 
-import { formatCurrency, formatDate } from "@/utils/formatters"
+import { formatCurrency, formatDateTime } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 import QrCodeDialog from "./qr-code-dialog"
@@ -216,7 +216,7 @@ function TransactionDetailDialog({
                   <Input
                     id="createdAt"
                     type="text"
-                    value={formatDate(transactionData.createdAt)}
+                    value={formatDateTime(transactionData.createdAt)}
                     readOnly
                   />
                 </div>
@@ -236,7 +236,7 @@ function TransactionDetailDialog({
                   <Input
                     id="updatedAt"
                     type="text"
-                    value={formatDate(transactionData.updatedAt)}
+                    value={formatDateTime(transactionData.updatedAt)}
                     readOnly
                   />
                 </div>

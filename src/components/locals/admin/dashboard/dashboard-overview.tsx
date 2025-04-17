@@ -45,6 +45,7 @@ function DashboardOverview() {
   }
 
   const countUsers = transformUserData(totalAccountsData)
+
   return (
     <Card className="h-full">
       <CardHeader>
@@ -55,13 +56,7 @@ function DashboardOverview() {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart
-            accessibilityLayer
-            data={countUsers}
-            margin={{
-              top: 20
-            }}
-          >
+          <BarChart accessibilityLayer data={countUsers} margin={{ top: 20 }}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"

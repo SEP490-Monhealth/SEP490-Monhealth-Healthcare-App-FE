@@ -19,9 +19,7 @@ import { useWithdrawalRequests } from "@/hooks/useWithdrawalRequest"
 import LoadingPage from "../loading"
 
 const DEFAULT_VISIBILITY = {
-  withdrawalRequestId: false,
-  createdBy: false,
-  updatedBy: false
+  withdrawalRequestId: false
 }
 
 function WithdrawalRequestPage() {
@@ -67,10 +65,6 @@ function WithdrawalRequestPage() {
         {
           value: String(WithdrawalRequestStatusEnum.Approved),
           label: "Đã chấp nhận"
-        },
-        {
-          value: String(WithdrawalRequestStatusEnum.Completed),
-          label: "Hoàn thành"
         },
         {
           value: String(WithdrawalRequestStatusEnum.Rejected),
