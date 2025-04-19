@@ -90,7 +90,7 @@ function ConsultantApplicationPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch])
+  }, [debouncedSearch, search, updateParams])
 
   const clearAllFilters = () => {
     const params = new URLSearchParams(searchParams.toString())

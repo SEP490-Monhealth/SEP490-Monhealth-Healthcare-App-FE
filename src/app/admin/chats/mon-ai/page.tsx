@@ -29,7 +29,7 @@ function SignalRChatTest() {
         hubConnection.stop()
       }
     }
-  }, [])
+  }, [hubConnection])
 
   const createHubConnection = async () => {
     const hubConnection = new HubConnectionBuilder()

@@ -1,15 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import {
-  BadgeCheck,
-  Ban,
-  Circle,
-  Copy,
-  Eye,
-  MoreHorizontal,
-  Utensils
-} from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal, Utensils } from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"

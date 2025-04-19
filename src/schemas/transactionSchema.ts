@@ -44,7 +44,7 @@ export const createTransactionSchema = transactionSchema.pick({
   amount: true
 })
 
-const transactionQrCodeSchema = z.object({
+export const transactionQrCodeSchema = z.object({
   qrCodeUrl: z.string().nonempty({ message: "Mã QR không được để trống" }),
   bankName: bankSchema.shape.name,
   accountName: consultantBankSchema.shape.name,

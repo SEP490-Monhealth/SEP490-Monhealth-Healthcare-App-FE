@@ -3,7 +3,7 @@ import { z } from "zod"
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { userInfoSchema } from "./userSchema"
 
-const reviewSchema = z.object({
+export const reviewSchema = z.object({
   reviewId: uuidSchema,
   userId: uuidSchema,
   bookingId: uuidSchema,

@@ -108,7 +108,7 @@ function PaymentPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (transactionId: string) => {
     setSelectedTransaction(transactionId)

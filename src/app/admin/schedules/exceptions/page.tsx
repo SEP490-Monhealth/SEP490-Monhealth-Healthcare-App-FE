@@ -63,7 +63,7 @@ function ScheduleExceptionPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (scheduleExceptionId: string) => {
     setSelectedException(scheduleExceptionId)

@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
 
-const certificateSchema = z.object({
+export const certificateSchema = z.object({
   certificateId: uuidSchema,
   expertiseId: uuidSchema,
   consultantId: uuidSchema,

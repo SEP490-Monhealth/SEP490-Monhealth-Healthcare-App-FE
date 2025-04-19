@@ -122,7 +122,7 @@ function UserSubscriptionPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (userSubscriptionId: string) => {
     setSelectedUserSubscription(userSubscriptionId)

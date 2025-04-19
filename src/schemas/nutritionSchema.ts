@@ -30,7 +30,7 @@ export const nutritionSchema = z.object({
   ...timestampFields
 })
 
-const updateNutrition = nutritionSchema.omit({
+export const updateNutrition = nutritionSchema.omit({
   nutritionId: true,
   createdAt: true,
   updatedAt: true

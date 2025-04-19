@@ -3,7 +3,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
-import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
 import {
@@ -15,7 +14,6 @@ import {
 } from "@/components/globals/atoms/dropdown-menu"
 
 import DataTableCellBank from "@/components/globals/molecules/data-table-cell-bank"
-import DataTableTime from "@/components/globals/molecules/data-table-cell-time"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
 

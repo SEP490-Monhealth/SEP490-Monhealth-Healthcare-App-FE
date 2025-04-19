@@ -135,7 +135,7 @@ function FoodPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (foodId: string) => {
     setSelectedFood(foodId)

@@ -5,7 +5,7 @@ import { WithdrawalRequestStatusSchemaEnum } from "@/constants/enum/WithdrawalRe
 import { timestampFields, uuidSchema } from "./baseSchema"
 import { userInfoSchema } from "./userSchema"
 
-const withdrawalRequestSchema = z.object({
+export const withdrawalRequestSchema = z.object({
   withdrawalRequestId: uuidSchema,
   consultantId: uuidSchema,
 

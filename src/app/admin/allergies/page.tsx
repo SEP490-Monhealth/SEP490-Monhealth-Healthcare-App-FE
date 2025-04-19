@@ -68,7 +68,7 @@ function AllergyPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (bookingId: string) => {
     setSelectedAllergy(bookingId)

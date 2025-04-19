@@ -50,7 +50,7 @@ export const subscriptionSchema = z.object({
   ...auditFields
 })
 
-const userSubscription = z.object({
+export const userSubscription = z.object({
   userSubscriptionId: uuidSchema,
   userId: uuidSchema,
   subscriptionId: uuidSchema,

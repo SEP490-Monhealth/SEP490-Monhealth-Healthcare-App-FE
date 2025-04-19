@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const userStatSchema = z.object({
+export const userStatSchema = z.object({
   totalUsers: z.object({
     count: z.number(),
     growthRate: z.number()
@@ -19,17 +19,17 @@ const userStatSchema = z.object({
   })
 })
 
-const userGrowthSchema = z.object({
+export const userGrowthSchema = z.object({
   month: z.string(),
   count: z.number()
 })
 
-const subscriptionUpgradedSchema = z.object({
+export const subscriptionUpgradedSchema = z.object({
   subscription: z.string(),
   visitors: z.number()
 })
 
-const analysisOverviewSchema = z.object({
+export const analysisOverviewSchema = z.object({
   totalUsers: z.object({
     count: z.number(),
     growthRate: z.number()

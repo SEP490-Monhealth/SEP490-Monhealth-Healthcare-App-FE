@@ -5,7 +5,7 @@ import { BookingStatusSchemaEnum } from "@/constants/enum/Booking"
 import { auditFields, uuidSchema } from "./baseSchema"
 import { userInfoSchema } from "./userSchema"
 
-const bookingSchema = z.object({
+export const bookingSchema = z.object({
   bookingId: uuidSchema,
   userId: uuidSchema,
   consultantId: uuidSchema,

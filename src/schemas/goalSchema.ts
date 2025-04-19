@@ -6,7 +6,7 @@ import { timestampFields, uuidSchema } from "./baseSchema"
 
 const caloriesRatios = [0.9, 0.8, 0.7, 1, 1.1, 1.2, 1.3]
 
-const goalSchema = z.object({
+export const goalSchema = z.object({
   goalId: uuidSchema,
   userId: uuidSchema,
 

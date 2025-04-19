@@ -1,12 +1,10 @@
 import {
   BarChart3,
-  Bell,
   Calendar,
   CreditCard,
   Dumbbell,
   Ham,
   LayoutDashboard,
-  MessageCircle,
   PieChart,
   ShoppingCart,
   Tag,
@@ -118,12 +116,12 @@ export const sidebarItems: SidebarItem[] = [
     icon: PieChart,
     children: []
   },
-  {
-    title: "Thông báo",
-    path: "/admin/notifications",
-    icon: Bell,
-    children: []
-  },
+  // {
+  //   title: "Thông báo",
+  //   path: "/admin/notifications",
+  //   icon: Bell,
+  //   children: []
+  // },
   {
     title: "Phân loại",
     path: "#",

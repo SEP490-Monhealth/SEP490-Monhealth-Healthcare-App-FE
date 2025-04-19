@@ -102,7 +102,7 @@ function WithdrawalRequestPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (withdrawalRequestId: string) => {
     setSelectedWithdrawalRequest(withdrawalRequestId)

@@ -78,7 +78,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         password
       })
 
-      const { accessToken, refreshToken, expiredAt } = response.data.data
+      const { accessToken } = response.data.data
 
       Cookies.set("accessToken", accessToken, {
         expires: 7,

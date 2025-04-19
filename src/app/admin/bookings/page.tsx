@@ -91,7 +91,7 @@ function BookingPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (bookingId: string) => {
     setSelectedBooking(bookingId)

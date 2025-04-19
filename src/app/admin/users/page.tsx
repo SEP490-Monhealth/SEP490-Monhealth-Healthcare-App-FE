@@ -115,7 +115,7 @@ function UserPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (userId: string) => {
     setSelectedUser(userId)

@@ -26,7 +26,7 @@ import {
 
 import { BookingType } from "@/schemas/bookingSchema"
 
-import { formatDate, formatDatetime, formatTime } from "@/utils/formatters"
+import { formatDate, formatTime } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (bookingId: string) => void

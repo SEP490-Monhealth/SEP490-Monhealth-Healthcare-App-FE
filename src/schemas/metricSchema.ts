@@ -6,7 +6,7 @@ import { timestampFields, uuidSchema } from "@/schemas/baseSchema"
 
 const activityLevels = [1.2, 1.375, 1.55, 1.725, 1.9]
 
-const metricSchema = z.object({
+export const metricSchema = z.object({
   metricId: uuidSchema,
   userId: uuidSchema,
 

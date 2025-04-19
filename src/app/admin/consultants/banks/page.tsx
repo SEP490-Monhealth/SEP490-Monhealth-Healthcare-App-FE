@@ -68,7 +68,7 @@ function ConsultantBankPage() {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
 
   const handleViewDetail = (consultantBankId: string) => {
     setSelectedConsultantBank(consultantBankId)

@@ -3,7 +3,7 @@ import { z } from "zod"
 import { auditFields, uuidSchema } from "./baseSchema"
 import { userInfoSchema } from "./userSchema"
 
-const scheduleExceptionSchema = z.object({
+export const scheduleExceptionSchema = z.object({
   scheduleExceptionId: uuidSchema,
   scheduleId: uuidSchema,
   consultantId: uuidSchema,
