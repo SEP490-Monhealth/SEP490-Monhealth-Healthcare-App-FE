@@ -34,7 +34,7 @@ function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
                       src={imageUrl}
                       alt={`certificate-${index}`}
                       width={400}
-                      height={100}
+                      height={200}
                       className="object-cover"
                     />
                   </div>

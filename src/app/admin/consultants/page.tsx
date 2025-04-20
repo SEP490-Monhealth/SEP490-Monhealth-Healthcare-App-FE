@@ -78,7 +78,7 @@ function ConsultantPage() {
       label: "Chuyên môn",
       options:
         expertiseData?.expertise.map((item) => ({
-          value: item.expertiseId,
+          value: item.name,
           label: item.name
         })) || [],
       value: expertise,
