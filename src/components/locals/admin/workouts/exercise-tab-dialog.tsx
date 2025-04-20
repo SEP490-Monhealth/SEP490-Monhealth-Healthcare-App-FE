@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 
 import { Label } from "@/components/globals/atoms/label"
@@ -6,15 +8,13 @@ import ExerciseCard from "@/components/globals/molecules/exercise-card"
 
 import { WorkoutExercisesType } from "@/schemas/exerciseSchema"
 
-interface WorkoutExercisesTabDialogProps {
+interface WorkoutExerciseTabDialogProps {
   exercisesData: WorkoutExercisesType
 }
 
-function WorkoutExercisesTabDialog({
+function WorkoutExerciseTabDialog({
   exercisesData
-}: WorkoutExercisesTabDialogProps) {
-  console.log(JSON.stringify(exercisesData, null, 2))
-
+}: WorkoutExerciseTabDialogProps) {
   return (
     <div className="mb-1 space-y-6">
       <div className="space-y-4">
@@ -38,4 +38,4 @@ function WorkoutExercisesTabDialog({
   )
 }
 
-export default WorkoutExercisesTabDialog
+export default WorkoutExerciseTabDialog

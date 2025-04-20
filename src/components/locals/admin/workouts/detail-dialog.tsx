@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 
 import { Button } from "@/components/globals/atoms/button"
@@ -24,7 +26,7 @@ import { useExercisesByWorkoutId } from "@/hooks/useExercise"
 import { useWorkoutById } from "@/hooks/useWorkout"
 
 import WorkoutDetailTabDialog from "./detail-tab-dialog"
-import WorkoutExercisesTabDialog from "./exercise-tab-dialog"
+import WorkoutExerciseTabDialog from "./exercise-tab-dialog"
 
 interface WorkoutDetailDialogProps {
   isOpen: boolean
@@ -94,7 +96,7 @@ function WorkoutDetailDialog({
             <TabsContent value="workout-exercises" className="mt-2 w-full">
               <ScrollArea className="h-[60vh] overflow-hidden">
                 {exercisesData && (
-                  <WorkoutExercisesTabDialog exercisesData={exercisesData} />
+                  <WorkoutExerciseTabDialog exercisesData={exercisesData} />
                 )}
               </ScrollArea>
             </TabsContent>
