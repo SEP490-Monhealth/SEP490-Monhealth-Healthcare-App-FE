@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -14,6 +14,7 @@ import FoodDetailDialog from "@/components/locals/admin/foods/detail-dialog"
 import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useFoods } from "@/hooks/useFood"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import { parseBooleanParam } from "@/utils/helpers"
 
@@ -29,8 +30,8 @@ const DEFAULT_VISIBILITY = {
 
 function FoodPage() {
   const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -44,7 +45,6 @@ function FoodPage() {
 
   const [selectedFood, setSelectedFood] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedIsPublic = parseBooleanParam(isPublic)
   const parsedStatus = parseBooleanParam(status)
@@ -105,37 +105,16 @@ function FoodPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | undefined
-  ): void => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("category")
-    params.delete("isPublic")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
   }, [debouncedSearch, search, updateParams])
+
+  const handleClearAllFilters = () => {
+    clearAllFilters(["category", "isPublic", "status"])
+  }
 
   const handleViewDetail = (foodId: string) => {
     setSelectedFood(foodId)
@@ -149,15 +128,6 @@ function FoodPage() {
 
   const handleViewPortion = (foodId: string) => {
     router.push(`/admin/foods/${foodId}/portions`)
-  }
-
-  const handleAddFood = () => {
-    setIsAddDialogOpen(true)
-  }
-
-  const handleCloseAddDialog = () => {
-    setIsAddDialogOpen(false)
-    setTimeout(() => setSelectedFood(null), 300)
   }
 
   const columns = createColumns({
@@ -184,9 +154,8 @@ function FoodPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
         addNewButton
-        onAddNew={handleAddFood}
       />
 
       <FoodDetailDialog

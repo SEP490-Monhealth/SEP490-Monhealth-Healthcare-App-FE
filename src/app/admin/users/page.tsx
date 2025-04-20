@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -13,7 +13,8 @@ import { createColumns } from "@/components/locals/admin/users/columns"
 import UserDetailDialog from "@/components/locals/admin/users/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
-import { useUsers } from "@/hooks/useUser"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
+import { useUserStatus, useUsers } from "@/hooks/useUser"
 
 import { parseBooleanParam } from "@/utils/helpers"
 
@@ -27,9 +28,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function UserPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -45,6 +45,8 @@ function UserPage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedStatus = parseBooleanParam(status)
+
+  const { mutate: updateUserStatus } = useUserStatus()
 
   const {
     data: usersData,
@@ -86,30 +88,6 @@ function UserPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("role")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
@@ -117,9 +95,17 @@ function UserPage() {
     }
   }, [debouncedSearch, search, updateParams])
 
+  const handleClearAllFilters = () => {
+    clearAllFilters(["search", "status", "role"])
+  }
+
   const handleViewDetail = (userId: string) => {
     setSelectedUser(userId)
     setIsDetailDialogOpen(true)
+  }
+
+  const handleUpdateStatus = (userId: string) => {
+    updateUserStatus({ userId })
   }
 
   const handleCloseDetailDialog = () => {
@@ -136,7 +122,10 @@ function UserPage() {
     setTimeout(() => setSelectedUser(null), 300)
   }
 
-  const columns = createColumns({ onViewDetail: handleViewDetail })
+  const columns = createColumns({
+    onViewDetail: handleViewDetail,
+    onUpdateStatus: handleUpdateStatus
+  })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
@@ -156,7 +145,7 @@ function UserPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
         addNewButton
         onAddNew={handleAddUser}
       />

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -11,6 +11,7 @@ import ScheduleExceptionDetailDialog from "@/components/locals/admin/schedules/e
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useScheduleExceptions } from "@/hooks/useScheduleException"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import LoadingPage from "../../loading"
 
@@ -19,9 +20,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function ScheduleExceptionPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -44,19 +44,6 @@ function ScheduleExceptionPage() {
   const totalPages = Math.ceil(
     (scheduleExceptionsData?.totalItems || 1) / limit
   )
-
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (value !== null && value !== undefined && value !== "") {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
 
   useEffect(() => {
     if (debouncedSearch !== search) {

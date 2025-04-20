@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -13,7 +13,11 @@ import { createColumns } from "@/components/locals/admin/subscriptions/columns"
 import SubscriptionDetailDialog from "@/components/locals/admin/subscriptions/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
-import { useSubscriptions } from "@/hooks/useSubscription"
+import {
+  useSubscriptionStatus,
+  useSubscriptions
+} from "@/hooks/useSubscription"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import { parseBooleanParam } from "@/utils/helpers"
 
@@ -28,9 +32,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function SubscriptionPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -49,6 +52,8 @@ function SubscriptionPage() {
 
   const parsedSort = parseBooleanParam(sort)
   const parsedStatus = parseBooleanParam(status)
+
+  const { mutate: updateSubscriptionStatus } = useSubscriptionStatus()
 
   const {
     data: subscriptionsData,
@@ -81,30 +86,6 @@ function SubscriptionPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("sort")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
@@ -112,9 +93,17 @@ function SubscriptionPage() {
     }
   }, [debouncedSearch, search, updateParams])
 
+  const handleClearAllFilters = () => {
+    clearAllFilters(["sort", "status"])
+  }
+
   const handleViewDetail = (subscriptionId: string) => {
     setSelectedSubscription(subscriptionId)
     setIsDetailDialogOpen(true)
+  }
+
+  const handleUpdateStatus = (subscriptionId: string) => {
+    updateSubscriptionStatus({ subscriptionId })
   }
 
   const handleCloseDetailDialog = () => {
@@ -131,7 +120,10 @@ function SubscriptionPage() {
     setTimeout(() => setSelectedSubscription(null), 300)
   }
 
-  const columns = createColumns({ onViewDetail: handleViewDetail })
+  const columns = createColumns({
+    onViewDetail: handleViewDetail,
+    onUpdateStatus: handleUpdateStatus
+  })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
@@ -151,7 +143,7 @@ function SubscriptionPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
         addNewButton
         onAddNew={handleAddSubscription}
       />

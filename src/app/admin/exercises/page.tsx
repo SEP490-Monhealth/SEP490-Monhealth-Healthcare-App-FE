@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -15,7 +15,8 @@ import ExerciseDetailDialog from "@/components/locals/admin/exercises/detail-dia
 import { ExerciseTypeEnum } from "@/constants/enum/Workout"
 
 import { useDebounce } from "@/hooks/useDebounce"
-import { useExercises } from "@/hooks/useExercise"
+import { useExerciseStatus, useExercises } from "@/hooks/useExercise"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import { parseBooleanParam } from "@/utils/helpers"
 
@@ -28,9 +29,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function ExercisePage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -48,6 +48,8 @@ function ExercisePage() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedStatus = parseBooleanParam(status)
+
+  const { mutate: updateExerciseStatus } = useExerciseStatus()
 
   const {
     data: exercisesData,
@@ -80,38 +82,24 @@ function ExercisePage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (value !== null && value !== undefined && value !== "") {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("type")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch, search])
+  }, [debouncedSearch, search, updateParams])
+
+  const handleClearAllFilters = () => {
+    clearAllFilters(["type", "status"])
+  }
 
   const handleViewDetail = (bookingId: string) => {
     setSelectedExercise(bookingId)
     setIsDetailDialogOpen(true)
+  }
+
+  const handleUpdateStatus = (exerciseId: string) => {
+    updateExerciseStatus({ exerciseId })
   }
 
   const handleCloseDetailDialog = () => {
@@ -128,7 +116,10 @@ function ExercisePage() {
     setTimeout(() => setSelectedExercise(null), 300)
   }
 
-  const columns = createColumns({ onViewDetail: handleViewDetail })
+  const columns = createColumns({
+    onViewDetail: handleViewDetail,
+    onUpdateStatus: handleUpdateStatus
+  })
 
   if (isLoading) return <LoadingPage />
   if (error) return <p>Error: {error.message}</p>
@@ -148,7 +139,7 @@ function ExercisePage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
         addNewButton
         onAddNew={handleAddExercise}
       />

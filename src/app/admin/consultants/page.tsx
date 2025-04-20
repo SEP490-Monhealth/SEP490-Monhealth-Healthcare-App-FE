@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -14,6 +14,7 @@ import ConsultantDetailDialog from "@/components/locals/admin/consultants/detail
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import { parseBooleanParam } from "@/utils/helpers"
 
@@ -30,9 +31,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function ConsultantPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -96,21 +96,6 @@ function ConsultantPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
@@ -118,13 +103,8 @@ function ConsultantPage() {
     }
   }, [debouncedSearch, search, updateParams])
 
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("expertise")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+  const handleClearAllFilters = () => {
+    clearAllFilters(["expertise", "status"])
   }
 
   const handleViewDetail = (consultantId: string) => {
@@ -158,7 +138,7 @@ function ConsultantPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
       />
 
       <ConsultantDetailDialog

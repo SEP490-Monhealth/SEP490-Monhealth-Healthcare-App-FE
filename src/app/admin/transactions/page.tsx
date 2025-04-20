@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -18,6 +18,7 @@ import {
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useTransactions } from "@/hooks/useTransaction"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import LoadingPage from "../loading"
 
@@ -28,9 +29,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function TransactionPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -106,34 +106,16 @@ function TransactionPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (value !== null && value !== undefined && value !== "") {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("type")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
   }, [debouncedSearch, search, updateParams])
+
+  const handleClearAllFilters = () => {
+    clearAllFilters(["type", "status"])
+  }
 
   const handleViewDetail = (transactionId: string) => {
     setSelectedTransaction(transactionId)
@@ -165,7 +147,7 @@ function TransactionPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
       />
 
       <TransactionDetailDialog

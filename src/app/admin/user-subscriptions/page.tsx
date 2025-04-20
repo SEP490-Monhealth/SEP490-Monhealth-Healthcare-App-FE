@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -15,6 +15,7 @@ import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
 
 import { useDebounce } from "@/hooks/useDebounce"
 import { useUserSubscriptions } from "@/hooks/useSubscription"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import LoadingPage from "../loading"
 
@@ -25,9 +26,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function UserSubscriptionPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -55,6 +55,8 @@ function UserSubscriptionPage() {
     limit,
     subscription,
     debouncedSearch,
+    undefined,
+    undefined,
     statusParam
   )
 
@@ -95,34 +97,16 @@ function UserSubscriptionPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-    if (value !== null && value !== undefined && value !== "") {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("subscription")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
   }, [debouncedSearch, search, updateParams])
+
+  const handleClearAllFilters = () => {
+    clearAllFilters(["subscription", "status"])
+  }
 
   const handleViewDetail = (userSubscriptionId: string) => {
     setSelectedUserSubscription(userSubscriptionId)
@@ -154,7 +138,7 @@ function UserSubscriptionPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
       />
 
       <UserSubscriptionDetailDialog

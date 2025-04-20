@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -12,6 +12,7 @@ import { createColumns } from "@/components/locals/admin/water-reminders/columns
 import WaterReminderDetailDialog from "@/components/locals/admin/water-reminders/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 import { useWaterReminders } from "@/hooks/useWaterReminder"
 
 import { parseBooleanParam } from "@/utils/helpers"
@@ -25,9 +26,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function WaterReminderPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -83,36 +83,16 @@ function WaterReminderPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("recurring")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
   }, [debouncedSearch, search, updateParams])
+
+  const handleClearAllFilters = () => {
+    clearAllFilters(["recurring", "status"])
+  }
 
   const handleViewDetail = (waterReminderId: string) => {
     setSelectedWaterReminder(waterReminderId)
@@ -144,7 +124,7 @@ function WaterReminderPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
       />
 
       <WaterReminderDetailDialog

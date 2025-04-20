@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
@@ -14,6 +14,7 @@ import ApplicationDetailDialog from "@/components/locals/admin/consultants/appli
 import { useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import LoadingPage from "../../loading"
 
@@ -25,9 +26,8 @@ const DEFAULT_VISIBILITY = {
 }
 
 function ConsultantApplicationPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
@@ -70,21 +70,6 @@ function ConsultantApplicationPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
@@ -92,12 +77,8 @@ function ConsultantApplicationPage() {
     }
   }, [debouncedSearch, search, updateParams])
 
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("expertise")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+  const handleClearAllFilters = () => {
+    clearAllFilters(["expertise"])
   }
 
   const handleViewDetail = (consultantId: string) => {
@@ -131,7 +112,7 @@ function ConsultantApplicationPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
       />
 
       <ApplicationDetailDialog
