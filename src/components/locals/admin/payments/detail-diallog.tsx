@@ -24,9 +24,7 @@ import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
 import {
   TransactionStatusEnum,
-  TransactionTypeEnum,
-  getTransactionStatusMeta,
-  getTransactionTypeMeta
+  getTransactionStatusMeta
 } from "@/constants/enum/Transaction"
 
 import { useTransactionById } from "@/hooks/useTransaction"
@@ -53,9 +51,6 @@ function PaymentDetailDialog({
 
   console.log(JSON.stringify(transactionData, null, 2))
 
-  const { label: transactionTypeLabel } = getTransactionTypeMeta(
-    transactionData?.type || TransactionTypeEnum.Earning
-  )
   const { label: transactionStatusLabel } = getTransactionStatusMeta(
     transactionData?.status || TransactionStatusEnum.Pending
   )

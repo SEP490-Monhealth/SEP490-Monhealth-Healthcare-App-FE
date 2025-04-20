@@ -14,13 +14,13 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
     }
 
     window.addEventListener(
-      "sidebarToggle" as any,
+      "sidebarToggle",
       handleSidebarToggle as EventListener
     )
 
     return () => {
       window.removeEventListener(
-        "sidebarToggle" as any,
+        "sidebarToggle",
         handleSidebarToggle as EventListener
       )
     }

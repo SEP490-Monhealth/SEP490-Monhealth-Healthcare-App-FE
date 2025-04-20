@@ -1,9 +1,10 @@
 "use client"
 
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, useCallback, useEffect, useState } from "react"
 
 import { useRouter } from "next/navigation"
 
+import axios from "axios"
 import Cookies from "js-cookie"
 
 import { AuthContext } from "@/contexts/AuthContext"
@@ -31,7 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [error, setError] = useState<string | null>(null)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
-  const fetchUserData = async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       const response = await monAPI.get("/auth/me")
       setUser(response.data.user)
@@ -39,10 +40,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return response.data.user
     } catch (error) {
       console.error("Failed to fetch user data:", error)
-      logout()
       throw error
     }
-  }
+  }, [])
 
   useEffect(() => {
     const checkUserSession = async () => {
@@ -66,7 +66,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     checkUserSession()
-  }, [])
+  }, [fetchUserData])
 
   const login = async (email: string, password: string) => {
     try {
@@ -91,10 +91,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await fetchUserData()
 
       return response.data
-    } catch (error: any) {
-      const errorMsg = error.response?.data?.message || "Đăng nhập thất bại"
-      setError(errorMsg)
-      throw new Error(errorMsg)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message || "Đăng nhập thất bại"
+        setError(errorMessage)
+        throw new Error(errorMessage)
+      }
+
+      setError("An unknown error occurred")
+      throw new Error("An unknown error occurred")
     } finally {
       setLoading(false)
     }

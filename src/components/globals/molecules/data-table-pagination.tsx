@@ -67,8 +67,8 @@ function DataTablePagination({
         pages.push("...")
       }
 
-      let start = Math.max(2, page - 1)
-      let end = Math.min(totalPages - 1, page + 1)
+      const start = Math.max(2, page - 1)
+      const end = Math.min(totalPages - 1, page + 1)
 
       for (let i = start; i <= end; i++) {
         pages.push(i)

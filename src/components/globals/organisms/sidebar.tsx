@@ -176,10 +176,7 @@ const SidebarMenu = ({
       {sidebarItems.map((item) => (
         <div key={item.title}>
           <SidebarItemComponent
-            title={item.title}
-            path={item.path}
-            icon={item.icon}
-            children={item.children}
+            {...item}
             isCollapsed={isCollapsed}
             animationsEnabled={animationsEnabled}
           />
@@ -237,10 +234,8 @@ interface SidebarProps {
 function Sidebar({ onToggleCollapse }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [animationsEnabled, setAnimationsEnabled] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    setIsMounted(true)
     const timer = setTimeout(() => {
       setAnimationsEnabled(true)
     }, 500)
