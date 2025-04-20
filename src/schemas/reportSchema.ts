@@ -8,6 +8,7 @@ import { userInfoSchema } from "./userSchema"
 export const reportSchema = z.object({
   reportId: uuidSchema,
   bookingId: uuidSchema,
+  userId: uuidSchema,
   consultantId: uuidSchema,
 
   member: userInfoSchema,
@@ -19,7 +20,6 @@ export const reportSchema = z.object({
     .min(10, {
       message: "Lý do phải có ít nhất 10 ký tự"
     }),
-
   imageUrls: z
     .array(
       z
@@ -28,6 +28,16 @@ export const reportSchema = z.object({
         .nonempty("Đường dẫn ảnh không được để trống")
     )
     .min(1, { message: "Cần ít nhất một hình ảnh" }),
+
+  date: z.string().nonempty({ message: "Ngày không được để trống" }),
+  startTime: z
+    .string()
+    .nonempty({ message: "Thời gian bắt đầu không được để trống" }),
+  endTime: z
+    .string()
+    .nonempty({ message: "Thời gian kết thúc không được để trống" }),
+
+  notes: z.string().optional(),
 
   status: ReportStatusSchemaEnum,
 
