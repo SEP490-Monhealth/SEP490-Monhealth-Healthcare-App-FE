@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
@@ -23,16 +24,21 @@ export const fetchConsultantBanks = async (
     const { success, message, data } = response.data
 
     if (!success) {
-      throw new Error(message || "Failed to fetch consultantBanks")
+      throw new Error(message || "Failed to fetch consultant banks")
     }
 
     const { totalPages, totalItems, items: consultantBanks } = data
     return { totalPages, totalItems, consultantBanks }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch consultantBanks"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch consultant banks"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -49,10 +55,15 @@ export const fetchConsultantBankById = async (
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch consultant bank"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch consultant bank"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }

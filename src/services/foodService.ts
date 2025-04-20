@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
@@ -32,11 +33,16 @@ export const fetchFoods = async (
 
     const { totalPages, totalItems, items: foods } = data
     return { totalPages, totalItems, foods }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch foods"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch foods"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -51,9 +57,15 @@ export const fetchFoodById = async (foodId: string): Promise<FoodType> => {
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message || "Failed to fetch food"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch food"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }

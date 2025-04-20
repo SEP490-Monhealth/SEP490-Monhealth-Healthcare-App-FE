@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
@@ -28,11 +29,16 @@ export const fetchAllergies = async (
 
     const { totalPages, totalItems, items: allergies } = data
     return { totalPages, totalItems, allergies }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch allergies"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch allergies"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -49,11 +55,16 @@ export const fetchAllergyById = async (
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch allergy"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch allergy"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -71,11 +82,16 @@ export const addAllergy = async (
 
     toast.success(message)
     return message
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to add allergy"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to add allergy"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -94,10 +110,15 @@ export const updateAllergy = async (
 
     toast.success(message)
     return message
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to update allergy"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update allergy"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }

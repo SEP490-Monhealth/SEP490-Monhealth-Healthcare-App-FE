@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
@@ -29,11 +30,16 @@ export const fetchCertificates = async (
 
     const { totalPages, totalItems, items: certificates } = data
     return { totalPages, totalItems, certificates }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch certificates"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch certificates"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -50,11 +56,16 @@ export const fetchCertificateById = async (
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch certificate"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch certificate"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -73,10 +84,15 @@ export const fetchCertificateByConsultantId = async (
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch certificate"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch certificate"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }

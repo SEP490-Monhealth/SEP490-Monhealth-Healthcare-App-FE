@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
@@ -20,11 +21,16 @@ export const fetchUserStats = async (): Promise<UserStatType> => {
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch users"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch users"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -39,11 +45,16 @@ export const fetchUserGrowth = async (): Promise<UserGrowthType[]> => {
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch users"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch users"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -62,11 +73,16 @@ export const fetchSubscriptionUpgraded = async (): Promise<
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch subscriptions"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch subscriptions"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -81,11 +97,16 @@ export const fetchTotalAccounts = async (): Promise<UserGrowthType[]> => {
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch users"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch users"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -101,10 +122,15 @@ export const fetchAnalysisOverview =
       }
 
       return data
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to fetch overview"
-      toast.error(errorMessage)
-      throw new Error(errorMessage)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const errorMessage =
+          error.response?.data?.message || "Failed to fetch overview"
+        toast.error(errorMessage)
+        throw new Error(errorMessage)
+      }
+
+      toast.error("An unknown error occurred")
+      throw new Error("An unknown error occurred")
     }
   }

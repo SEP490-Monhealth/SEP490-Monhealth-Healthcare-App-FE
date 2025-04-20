@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import { UserSubscriptionStatus } from "@/constants/enum/UserSubscription"
@@ -42,11 +43,16 @@ export const fetchSubscriptions = async (
 
     const { totalPages, totalItems, items: subscriptions } = data
     return { totalPages, totalItems, subscriptions }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch subscriptions"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch subscriptions"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -63,11 +69,16 @@ export const fetchSubscriptionById = async (
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch subscription"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch subscription"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -84,11 +95,16 @@ export const addSubscription = async (
     }
 
     return message
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to add subscription"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to add subscription"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -111,8 +127,15 @@ export const updateSubscription = async (
     toast.success(message)
     return message
   } catch (error) {
-    console.error("Error updating subscription:", error)
-    throw new Error("Failed to update subscription")
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update subscription"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -133,8 +156,15 @@ export const updateSubscriptionStatus = async (
     toast.success(message)
     return message
   } catch (error) {
-    console.error("Error updating subscription status:", error)
-    throw new Error("Failed to update subscription status")
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update subscription status"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -160,11 +190,16 @@ export const fetchUserSubscriptions = async (
 
     const { totalPages, totalItems, items: userSubscriptions } = data
     return { totalPages, totalItems, userSubscriptions }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch user subscriptions"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch user subscriptions"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -183,10 +218,15 @@ export const fetchUserSubscriptionById = async (
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch user subscription"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch user subscription"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }

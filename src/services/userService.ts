@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
@@ -32,11 +33,16 @@ export const fetchUsers = async (
 
     const { totalPages, totalItems, items: users } = data
     return { totalPages, totalItems, users }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch users"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch users"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -51,16 +57,20 @@ export const fetchUserById = async (userId: string): Promise<UserType> => {
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message || "Failed to fetch user"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch user"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
-export const addUser = async (
-  newData: CreateUserType
-): Promise<string> => {
+export const addUser = async (newData: CreateUserType): Promise<string> => {
   try {
     const response = await monAPI.post("/users", newData)
 
@@ -72,10 +82,15 @@ export const addUser = async (
 
     toast.success(message)
     return message
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.message || "Failed to add user"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data?.message || "Failed to add user"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -91,10 +106,15 @@ export const updateUserStatus = async (userId: string): Promise<void> => {
 
     toast.success(message)
     return message
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to update user status"
-    toast.error(errorMessage)
-    throw new Error("Failed to update user status")
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update user status"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
