@@ -5,13 +5,15 @@ import { ExerciseTypeEnum } from "@/constants/enum/Workout"
 import {
   CreateExerciseType,
   ExerciseType,
-  UpdateExerciseType
+  UpdateExerciseType,
+  WorkoutExercisesType
 } from "@/schemas/exerciseSchema"
 
 import {
   addExercise,
   fetchExerciseById,
   fetchExercises,
+  fetchExercisesByWorkoutId,
   updateExercise,
   updateExerciseStatus
 } from "@/services/exerciseService"
@@ -32,6 +34,14 @@ export const useExercises = (
   useQuery<ExercisesResponse, Error>({
     queryKey: ["exercises", page, limit, type, search, status],
     queryFn: () => fetchExercises(page, limit, type, search, status),
+    staleTime: 1000 * 60 * 5
+  })
+
+export const useExercisesByWorkoutId = (workoutId: string) =>
+  useQuery<WorkoutExercisesType, Error>({
+    queryKey: ["workout-exercises", workoutId],
+    queryFn: () => fetchExercisesByWorkoutId(workoutId),
+    enabled: !!workoutId,
     staleTime: 1000 * 60 * 5
   })
 

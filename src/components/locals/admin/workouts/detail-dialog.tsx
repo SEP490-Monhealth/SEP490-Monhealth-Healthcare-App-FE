@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/globals/atoms/dialog"
+import { ScrollArea } from "@/components/globals/atoms/scroll-area"
 import {
   Tabs,
   TabsContent,
@@ -19,9 +20,11 @@ import {
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
+import { useExercisesByWorkoutId } from "@/hooks/useExercise"
 import { useWorkoutById } from "@/hooks/useWorkout"
 
 import WorkoutDetailTabDialog from "./detail-tab-dialog"
+import WorkoutExercisesTabDialog from "./exercise-tab-dialog"
 
 interface WorkoutDetailDialogProps {
   isOpen: boolean
@@ -40,8 +43,16 @@ function WorkoutDetailDialog({
     error: workoutError
   } = useWorkoutById(workoutId || "")
 
-  const isLoading = isWorkoutLoading
-  const hasError = workoutError
+  const {
+    data: exercisesData,
+    isLoading: isExercisesLoading,
+    error: exercisesError
+  } = useExercisesByWorkoutId(workoutId || "")
+
+  // console.log(JSON.stringify(exercisesData, null, 2));
+
+  const isLoading = isWorkoutLoading || isExercisesLoading
+  const hasError = workoutError || exercisesError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -69,20 +80,24 @@ function WorkoutDetailDialog({
                 Thông tin
               </TabsTrigger>
               <TabsTrigger
-                value="workout-exercise"
+                value="workout-exercises"
                 className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
               >
                 Bài tập
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="workout-detail" className="w-full">
+
+            <TabsContent value="workout-detail" className="mt-2 w-full">
               <WorkoutDetailTabDialog workoutData={workoutData} />
             </TabsContent>
 
-            <TabsContent
-              value="workout-exercise"
-              className="w-full"
-            ></TabsContent>
+            <TabsContent value="workout-exercises" className="mt-2 w-full">
+              <ScrollArea className="h-[60vh] overflow-hidden">
+                {exercisesData && (
+                  <WorkoutExercisesTabDialog exercisesData={exercisesData} />
+                )}
+              </ScrollArea>
+            </TabsContent>
           </Tabs>
         )}
 

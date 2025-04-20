@@ -29,7 +29,7 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
 
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-      <div className="col-span-2 space-y-2">
+      <div className="space-y-2">
         <Label htmlFor="workoutId">Mã bộ bài tập</Label>
         <Input
           id="workoutId"
@@ -49,17 +49,17 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         <Input id="type" type="text" value={workoutTypeLabel} readOnly />
       </div>
 
-      <div className="col-span-2 grid grid-cols-4 gap-x-6 gap-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="difficultyLevel">Độ khó</Label>
-          <Input
-            id="difficultyLevel"
-            type="text"
-            value={difficultyTypeLabel}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="difficultyLevel">Độ khó</Label>
+        <Input
+          id="difficultyLevel"
+          type="text"
+          value={difficultyTypeLabel}
+          readOnly
+        />
+      </div>
 
+      <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
         <div className="space-y-2">
           <Label htmlFor="exercises">Số lượng bài tập</Label>
           <Input
@@ -71,7 +71,7 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="durationMinutes">Thời gian (phút)</Label>
+          <Label htmlFor="durationMinutes">Thời gian</Label>
           <div className="relative">
             <Input
               id="durationMinutes"
@@ -86,7 +86,7 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="caloriesBurned">Năng lượng đốt (kcal)</Label>
+          <Label htmlFor="caloriesBurned">Năng lượng đốt</Label>
           <div className="relative">
             <Input
               id="caloriesBurned"
@@ -111,31 +111,24 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         />
       </div>
 
-      <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="isPublic">Áp dụng</Label>
-          <Input
-            id="isPublic"
-            type="text"
-            value={workoutData.isPublic ? "Công khai" : "Riêng tư"}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="isPublic">Áp dụng</Label>
+        <Input
+          id="isPublic"
+          type="text"
+          value={workoutData.isPublic ? "Công khai" : "Riêng tư"}
+          readOnly
+        />
+      </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="views">Lượt xem</Label>
-          <Input id="views" type="text" value={workoutData.views} readOnly />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="status">Trạng thái</Label>
-          <Input
-            id="status"
-            type="text"
-            value={workoutData.status ? "Hoạt động" : "Ngừng hoạt động"}
-            readOnly
-          />
-        </div>
+      <div className="space-y-2">
+        <Label htmlFor="status">Trạng thái</Label>
+        <Input
+          id="status"
+          type="text"
+          value={workoutData.status ? "Hoạt động" : "Ngừng hoạt động"}
+          readOnly
+        />
       </div>
 
       <div className="space-y-2">

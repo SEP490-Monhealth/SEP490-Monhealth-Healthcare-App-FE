@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
-        {/* <TopLoader color="var(--primary)" height={4} showSpinner={false} /> */}
+        <TopLoader color="var(--primary)" height={4} showSpinner={false} />
         <AuthProvider>
           <QueryProvider>{children}</QueryProvider>
         </AuthProvider>

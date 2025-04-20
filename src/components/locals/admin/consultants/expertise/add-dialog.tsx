@@ -68,7 +68,7 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
     }
   }
 
-  console.log(errors)
+  // console.log(errors)
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

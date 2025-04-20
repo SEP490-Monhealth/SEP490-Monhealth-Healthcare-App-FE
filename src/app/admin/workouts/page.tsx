@@ -2,13 +2,12 @@
 
 import React, { useEffect, useState } from "react"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
-import AddWorkoutDialog from "@/components/locals/admin/workouts/add-dialog"
 import { createColumns } from "@/components/locals/admin/workouts/columns"
 import WorkoutDetailDialog from "@/components/locals/admin/workouts/detail-dialog"
 
@@ -16,7 +15,8 @@ import { DifficultyLevelEnum } from "@/constants/enum/Workout"
 
 import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useWorkout } from "@/hooks/useWorkout"
+import { useUpdateParams } from "@/hooks/useUpdateParams"
+import { useWorkout, useWorkoutStatus } from "@/hooks/useWorkout"
 
 import { parseBooleanParam } from "@/utils/helpers"
 
@@ -33,16 +33,14 @@ const DEFAULT_VISIBILITY = {
 }
 
 function WorkoutPage() {
-  const router = useRouter()
-  const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { updateParams, clearAllFilters } = useUpdateParams()
 
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const category = searchParams.get("category") || ""
 
   const search = searchParams.get("search") || ""
-  const popular = searchParams.get("popular") || ""
   const difficulty = searchParams.get("difficulty") || ""
   const status = searchParams.get("status") || ""
 
@@ -51,12 +49,13 @@ function WorkoutPage() {
 
   const [selectedWorkout, setSelectedWorkout] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const difficultyParam =
     difficulty && !isNaN(Number(difficulty)) ? Number(difficulty) : undefined
 
   const parsedStatus = parseBooleanParam(status)
+
+  const { mutate: updateWorkoutStatus } = useWorkoutStatus()
 
   const {
     data: categoriesData,
@@ -115,41 +114,24 @@ function WorkoutPage() {
     }
   ]
 
-  const updateParams = (
-    key: string,
-    value: string | number | boolean | null
-  ) => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    if (value) {
-      params.set(key, String(value))
-    } else {
-      params.delete(key)
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
-  const clearAllFilters = () => {
-    const params = new URLSearchParams(searchParams.toString())
-
-    params.delete("category")
-    params.delete("difficulty")
-    params.delete("status")
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
-  }
-
   useEffect(() => {
     if (debouncedSearch !== search) {
       updateParams("search", debouncedSearch)
       updateParams("page", 1)
     }
-  }, [debouncedSearch])
+  }, [debouncedSearch, search, updateParams])
+
+  const handleClearAllFilters = () => {
+    clearAllFilters(["category", "difficulty", "status"])
+  }
 
   const handleViewDetail = (workoutId: string) => {
     setSelectedWorkout(workoutId)
     setIsDetailDialogOpen(true)
+  }
+
+  const handleUpdateStatus = (workoutId: string) => {
+    updateWorkoutStatus({ workoutId })
   }
 
   const handleCloseDetailDialog = () => {
@@ -157,16 +139,10 @@ function WorkoutPage() {
     setTimeout(() => setSelectedWorkout(null), 300)
   }
 
-  const handleAddWorkout = () => {
-    setIsAddDialogOpen(true)
-  }
-
-  const handleCloseAddDialog = () => {
-    setIsAddDialogOpen(false)
-    setTimeout(() => setSelectedWorkout(null), 300)
-  }
-
-  const columns = createColumns({ onViewDetail: handleViewDetail })
+  const columns = createColumns({
+    onViewDetail: handleViewDetail,
+    onUpdateStatus: handleUpdateStatus
+  })
 
   if (isCategoriesLoading || isWorkoutsLoading) return <LoadingPage />
   if (categoriesError || workoutsError)
@@ -187,20 +163,14 @@ function WorkoutPage() {
         limit={limit}
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
-        onClearAllFilters={clearAllFilters}
+        onClearAllFilters={handleClearAllFilters}
         addNewButton
-        onAddNew={handleAddWorkout}
       />
 
       <WorkoutDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
         workoutId={selectedWorkout}
-      />
-
-      <AddWorkoutDialog
-        isOpen={isAddDialogOpen}
-        onClose={handleCloseAddDialog}
       />
     </div>
   )
