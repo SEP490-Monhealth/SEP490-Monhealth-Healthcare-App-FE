@@ -80,15 +80,13 @@ function UserDetailDialog({
 
   const handleConfirm = () => {
     if (!consultantId || !alertType) return
+
     if (alertType === "verify") {
       verifyConsultant(
         { consultantId },
         {
           onSuccess: () => {
             onClose()
-          },
-          onError: (error) => {
-            console.error("Error verifying consultant:", error)
           }
         }
       )
@@ -98,9 +96,6 @@ function UserDetailDialog({
         {
           onSuccess: () => {
             onClose()
-          },
-          onError: (error) => {
-            console.error("Error rejecting consultant:", error)
           }
         }
       )

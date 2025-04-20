@@ -50,7 +50,7 @@ function UserDetailDialog({
     error: certificateError
   } = useCertificateByConsultantId(consultantId || "")
 
-  console.log(JSON.stringify(certificateData, null, 2))
+  // console.log(JSON.stringify(certificateData, null, 2))
 
   const currentCertificate = certificateData?.[0]
 
