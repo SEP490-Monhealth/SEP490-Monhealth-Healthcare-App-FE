@@ -1,28 +1,14 @@
 "use client"
 
-import { useState } from "react"
-
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
-import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger
-} from "@/components/globals/atoms/dropdown-menu"
-import { Separator } from "@/components/globals/atoms/separator"
 
-import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
+import DataTableActionsCell from "@/components/globals/molecules/data-table-action-cell"
 import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
-
-import { useSubscriptionStatus } from "@/hooks/useSubscription"
 
 import { SubscriptionType } from "@/schemas/subscriptionSchema"
 
@@ -30,6 +16,7 @@ import { formatCurrency } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (subscriptionId: string) => void
+  onUpdateStatus: (subscriptionId: string) => void
 }
 
 export const createColumns = (
@@ -188,86 +175,20 @@ export const createColumns = (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const { mutate: updateSubscriptionStatus } = useSubscriptionStatus()
-
       const subscriptionData = row.original
-      const isActive = subscriptionData.status
-
-      const [openAlert, setOpenAlert] = useState<boolean>(false)
-
-      const handleOpenAlert = (e: React.MouseEvent) => {
-        e.stopPropagation()
-        setOpenAlert(true)
-      }
-
-      const handleCloseAlert = () => {
-        setOpenAlert(false)
-      }
-
-      const handleConfirm = () => {
-        updateSubscriptionStatus({
-          subscriptionId: subscriptionData.subscriptionId
-        })
-        setOpenAlert(false)
-      }
 
       return (
-        <div className="flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(subscriptionData.subscriptionId)
-                }
-              >
-                <Copy className="h-4 w-4" />
-                Sao chép mã
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() =>
-                  handlers.onViewDetail(subscriptionData.subscriptionId)
-                }
-              >
-                <Eye className="h-4 w-4" />
-                Xem chi tiết
-              </DropdownMenuItem>
-              <Separator />
-              <DropdownMenuItem
-                variant={isActive ? "destructive" : "default"}
-                onClick={handleOpenAlert}
-              >
-                {isActive ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng hoạt động
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Kích hoạt
-                  </>
-                )}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <ConfirmAlertDialog
-            open={openAlert}
-            onOpenChange={handleCloseAlert}
-            onConfirm={handleConfirm}
-            title="Xác nhận thay đổi trạng thái"
-            description={`Bạn có chắc muốn ${
-              isActive ? "ngừng hoạt động" : "kích hoạt"
-            } gói đăng ký này?`}
-          />
-        </div>
+        <DataTableActionsCell
+          id={subscriptionData.subscriptionId}
+          isActive={subscriptionData.status}
+          onViewDetail={handlers.onViewDetail}
+          onUpdateStatus={(subscriptionId) =>
+            handlers.onUpdateStatus?.(subscriptionId)
+          }
+          getConfirmDescription={(isActive) =>
+            `Bạn có chắc muốn ${isActive ? "ngừng hoạt động" : "kích hoạt"} gói đăng ký này?`
+          }
+        />
       )
     },
     enableSorting: false,

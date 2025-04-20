@@ -1,33 +1,20 @@
 "use client"
 
-import { useState } from "react"
-
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
-import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger
-} from "@/components/globals/atoms/dropdown-menu"
-import { Separator } from "@/components/globals/atoms/separator"
 
-import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
+import DataTableActionsCell from "@/components/globals/molecules/data-table-action-cell"
 import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
-
-import { useExerciseStatus } from "@/hooks/useExercise"
 
 import { ExerciseType } from "@/schemas/exerciseSchema"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (exerciseId: string) => void
+  onUpdateStatus: (exerciseId: string) => void
 }
 
 export const createColumns = (
@@ -155,82 +142,18 @@ export const createColumns = (
       <span className="flex items-center justify-center">Thao tác</span>
     ),
     cell: ({ row }) => {
-      const { mutate: updateExerciseStatus } = useExerciseStatus()
-
       const exerciseData = row.original
-      const isActive = exerciseData.status
-
-      const [openAlert, setOpenAlert] = useState<boolean>(false)
-
-      const handleOpenAlert = (e: React.MouseEvent) => {
-        e.stopPropagation()
-        setOpenAlert(true)
-      }
-
-      const handleCloseAlert = () => {
-        setOpenAlert(false)
-      }
-
-      const handleConfirm = () => {
-        updateExerciseStatus({ exerciseId: exerciseData.exerciseId })
-        setOpenAlert(false)
-      }
 
       return (
-        <div className="flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(exerciseData.exerciseId)
-                }
-              >
-                <Copy className="h-4 w-4" />
-                Sao chép mã
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handlers.onViewDetail(exerciseData.exerciseId)}
-              >
-                <Eye className="h-4 w-4" />
-                Xem chi tiết
-              </DropdownMenuItem>
-              <Separator />
-              <DropdownMenuItem
-                variant={isActive ? "destructive" : "default"}
-                onClick={handleOpenAlert}
-              >
-                {isActive ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng hoạt động
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Kích hoạt
-                  </>
-                )}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <ConfirmAlertDialog
-            open={openAlert}
-            onOpenChange={handleCloseAlert}
-            onConfirm={handleConfirm}
-            title="Xác nhận thay đổi trạng thái"
-            description={`Bạn có chắc muốn ${
-              isActive ? "ngừng hoạt động" : "kích hoạt"
-            } bài tập này?`}
-          />
-        </div>
+        <DataTableActionsCell
+          id={exerciseData.exerciseId}
+          isActive={exerciseData.status}
+          onViewDetail={handlers.onViewDetail}
+          onUpdateStatus={(exerciseId) => handlers.onUpdateStatus?.(exerciseId)}
+          getConfirmDescription={(isActive) =>
+            `Bạn có chắc muốn ${isActive ? "ngừng hoạt động" : "kích hoạt"} bài tập này?`
+          }
+        />
       )
     },
     enableSorting: false,
