@@ -6,9 +6,9 @@ import { Badge } from "@/components/globals/atoms/badge"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
 
 import DataTableActionsCell from "@/components/globals/molecules/data-table-action-cell"
-import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
 
 import {
   getDifficultyLevelMeta,

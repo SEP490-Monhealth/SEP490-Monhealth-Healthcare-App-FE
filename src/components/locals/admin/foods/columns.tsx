@@ -15,9 +15,9 @@ import {
 } from "@/components/globals/atoms/dropdown-menu"
 import { Separator } from "@/components/globals/atoms/separator"
 
-import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
 
 import { FoodType } from "@/schemas/foodSchema"
 

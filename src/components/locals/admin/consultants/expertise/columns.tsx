@@ -13,9 +13,9 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
-import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
 
 import { ExpertiseType } from "@/schemas/expertiseSchema"
 

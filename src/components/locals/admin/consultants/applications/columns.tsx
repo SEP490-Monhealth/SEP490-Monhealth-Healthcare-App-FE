@@ -18,9 +18,9 @@ import {
   HoverCardTrigger
 } from "@/components/globals/atoms/hover-card"
 
-import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
+import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 

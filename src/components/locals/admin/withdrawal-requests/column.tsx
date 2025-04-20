@@ -14,9 +14,9 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
-import DataTableCellPrice from "@/components/globals/molecules/data-table-cell-price"
-import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
+import DataTableCellPrice from "@/components/globals/molecules/data-table-price-cell"
+import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
 import DataTableDateTime from "@/components/globals/molecules/date-table-date-time"
 
 import {

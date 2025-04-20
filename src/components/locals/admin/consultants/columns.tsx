@@ -15,10 +15,10 @@ import {
 } from "@/components/globals/atoms/dropdown-menu"
 import { Separator } from "@/components/globals/atoms/separator"
 
-import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
-import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
+import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 

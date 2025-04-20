@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
-import DataTableCellBank from "@/components/globals/molecules/data-table-cell-bank"
+import DataTableCellBank from "@/components/globals/molecules/data-table-bank-cell"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
 
