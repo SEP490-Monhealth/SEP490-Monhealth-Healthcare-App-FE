@@ -58,3 +58,28 @@ export const fetchScheduleExceptionById = async (
     throw new Error(errorMessage)
   }
 }
+
+export const updateScheduleExceptionStatus = async (
+  scheduleExceptionId: string
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(
+      `/schedule-exceptions/${scheduleExceptionId}/status`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update schedule exception status")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message ||
+      "Failed to update schedule exception status"
+    toast.error(errorMessage)
+    throw new Error("Failed to update schedule exception status")
+  }
+}

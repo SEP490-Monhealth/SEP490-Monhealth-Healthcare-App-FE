@@ -3,6 +3,7 @@ import {
   Calendar,
   CreditCard,
   Dumbbell,
+  Flag,
   Ham,
   LayoutDashboard,
   PieChart,
@@ -60,6 +61,12 @@ export const sidebarItems: SidebarItem[] = [
       { title: "Hồ sơ đăng ký", path: "/admin/consultants/applications" },
       { title: "Thông tin thanh toán", path: "/admin/consultants/banks" }
     ]
+  },
+  {
+    title: "Báo cáo",
+    path: "/admin/reports",
+    icon: Flag,
+    children: []
   },
   {
     title: "Lịch hẹn",

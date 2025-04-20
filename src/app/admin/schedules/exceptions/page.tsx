@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DataTable } from "@/components/globals/atoms/data-table"
 
-import { createColumns } from "@/components/locals/admin/schedules/exceptions/column"
+import { createColumns } from "@/components/locals/admin/schedules/exceptions/columns"
 import ScheduleExceptionDetailDialog from "@/components/locals/admin/schedules/exceptions/detail-dialog"
 
 import { useDebounce } from "@/hooks/useDebounce"
@@ -15,7 +15,9 @@ import { useScheduleExceptions } from "@/hooks/useScheduleException"
 import LoadingPage from "../../loading"
 
 const DEFAULT_VISIBILITY = {
-  scheduleExceptionId: false
+  scheduleExceptionId: false,
+  createdBy: false,
+  updatedBy: false
 }
 
 function ScheduleExceptionPage() {
