@@ -11,7 +11,7 @@ import { DataTableFilterProps } from "@/components/globals/molecules/data-table-
 import { createColumns } from "@/components/locals/admin/consultants/columns"
 import ConsultantDetailDialog from "@/components/locals/admin/consultants/detail-dialog"
 
-import { useConsultants } from "@/hooks/useConsultant"
+import { useConsultantStatus, useConsultants } from "@/hooks/useConsultant"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useExpertise } from "@/hooks/useExpertise"
 import { useUpdateParams } from "@/hooks/useUpdateParams"
@@ -49,6 +49,8 @@ function ConsultantPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
 
   const parsedStatus = parseBooleanParam(status)
+
+  const { mutate: updateConsultantStatus } = useConsultantStatus()
 
   const {
     data: expertiseData,
@@ -112,12 +114,19 @@ function ConsultantPage() {
     setIsDetailDialogOpen(true)
   }
 
+  const handleUpdateStatus = (consultantId: string) => {
+    updateConsultantStatus({ consultantId })
+  }
+
   const handleCloseDetailDialog = () => {
     setIsDetailDialogOpen(false)
     setTimeout(() => setSelectedConsultant(null), 300)
   }
 
-  const columns = createColumns({ onViewDetail: handleViewDetail })
+  const columns = createColumns({
+    onViewDetail: handleViewDetail,
+    onUpdateStatus: handleUpdateStatus
+  })
 
   if (isExpertiseLoading || isConsultantLoading) return <LoadingPage />
   if (expertiseError || consultantsError)

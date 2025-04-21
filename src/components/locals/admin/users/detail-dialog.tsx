@@ -88,32 +88,42 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
               >
                 Thông tin
               </TabsTrigger>
-              <TabsTrigger
-                value="user-metric"
-                className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                Sức khỏe
-              </TabsTrigger>
-              <TabsTrigger
-                value="user-goal"
-                className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                Mục tiêu
-              </TabsTrigger>
+
+              {userData.role != "Admin" && (
+                <>
+                  <TabsTrigger
+                    value="user-metric"
+                    className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                  >
+                    Sức khỏe
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="user-goal"
+                    className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                  >
+                    Mục tiêu
+                  </TabsTrigger>
+                </>
+              )}
             </TabsList>
+
             <TabsContent value="user-detail" className="w-full">
               <UserDetailTabDialog userData={userData} />
             </TabsContent>
 
-            <TabsContent value="user-metric" className="w-full">
-              {currentMetric && (
-                <UserMetricTabDialog metricData={currentMetric} />
-              )}
-            </TabsContent>
+            {userData.role != "Admin" && (
+              <>
+                <TabsContent value="user-metric" className="w-full">
+                  {currentMetric && (
+                    <UserMetricTabDialog metricData={currentMetric} />
+                  )}
+                </TabsContent>
 
-            <TabsContent value="user-goal" className="w-full">
-              {currentGoal && <UserGoalTabDialog goalData={currentGoal} />}
-            </TabsContent>
+                <TabsContent value="user-goal" className="w-full">
+                  {currentGoal && <UserGoalTabDialog goalData={currentGoal} />}
+                </TabsContent>
+              </>
+            )}
           </Tabs>
         )}
 

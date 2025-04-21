@@ -22,6 +22,8 @@ import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dia
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
+import { VerificationStatusEnum } from "@/constants/enum/Consultant"
+
 import { useCertificateByConsultantId } from "@/hooks/useCertificate"
 import {
   useConsultantById,
@@ -46,7 +48,7 @@ function UserDetailDialog({
   consultantId
 }: ConsultantDetailDialogProps) {
   const {
-    data: userData,
+    data: consultantData,
     isLoading: isConsultantLoading,
     error: userError
   } = useConsultantById(consultantId || "")
@@ -116,7 +118,7 @@ function UserDetailDialog({
 
           {isLoading ? (
             <LoadingDialog />
-          ) : hasError || !userData ? (
+          ) : hasError || !consultantData ? (
             <ErrorDialog
               message={
                 (userError || certificateError)?.message ||
@@ -141,7 +143,7 @@ function UserDetailDialog({
               </TabsList>
 
               <TabsContent value="consultant-detail" className="mt-2 w-full">
-                <DetailTabDialog consultantData={userData} />
+                <DetailTabDialog consultantData={consultantData} />
               </TabsContent>
 
               <TabsContent
@@ -161,18 +163,21 @@ function UserDetailDialog({
                 Đóng
               </Button>
 
-              <div className="space-x-4">
-                <Button
-                  variant="destructive"
-                  onClick={() => openConfirmDialog("reject")}
-                >
-                  Từ chối
-                </Button>
+              {consultantData?.verificationStatus ===
+                VerificationStatusEnum.Pending && (
+                <div className="space-x-4">
+                  <Button
+                    variant="destructive"
+                    onClick={() => openConfirmDialog("reject")}
+                  >
+                    Từ chối
+                  </Button>
 
-                <Button onClick={() => openConfirmDialog("verify")}>
-                  Xác nhận
-                </Button>
-              </div>
+                  <Button onClick={() => openConfirmDialog("verify")}>
+                    Xác nhận
+                  </Button>
+                </div>
+              )}
             </div>
           </DialogFooter>
         </DialogContent>

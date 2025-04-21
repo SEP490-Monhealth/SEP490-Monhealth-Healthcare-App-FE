@@ -1,20 +1,11 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
-import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger
-} from "@/components/globals/atoms/dropdown-menu"
-import { Separator } from "@/components/globals/atoms/separator"
 
+import DataTableActionsCell from "@/components/globals/molecules/data-table-action-cell"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
 import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
@@ -26,6 +17,7 @@ import { formatPhoneNumber } from "@/utils/formatters"
 
 export type ColumnActionsHandlers = {
   onViewDetail: (consultantId: string) => void
+  onUpdateStatus: (consultantId: string) => void
 }
 
 export const createColumns = (
@@ -209,54 +201,19 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const consultantData = row.original
-      const isActive = consultantData.status
 
       return (
-        <div className="flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() =>
-                  navigator.clipboard.writeText(consultantData.consultantId)
-                }
-              >
-                <Copy className="h-4 w-4" />
-                Sao chép mã
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() =>
-                  handlers.onViewDetail(consultantData.consultantId)
-                }
-              >
-                <Eye className="h-4 w-4" />
-                Xem chi tiết
-              </DropdownMenuItem>
-
-              <Separator />
-
-              <DropdownMenuItem variant={isActive ? "destructive" : "default"}>
-                {isActive ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng hoạt động
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Kích hoạt
-                  </>
-                )}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <DataTableActionsCell
+          id={consultantData.consultantId}
+          isActive={consultantData.status}
+          onViewDetail={handlers.onViewDetail}
+          onUpdateStatus={(consultantId) =>
+            handlers.onUpdateStatus?.(consultantId)
+          }
+          getConfirmDescription={(isActive) =>
+            `Bạn có chắc muốn ${isActive ? "ngừng hoạt động" : "kích hoạt"} chuyên viên này?`
+          }
+        />
       )
     },
     enableSorting: false,
