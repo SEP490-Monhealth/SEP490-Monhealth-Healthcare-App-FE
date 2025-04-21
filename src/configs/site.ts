@@ -63,12 +63,6 @@ export const sidebarItems: SidebarItem[] = [
     ]
   },
   {
-    title: "Báo cáo",
-    path: "/admin/reports",
-    icon: Flag,
-    children: []
-  },
-  {
     title: "Lịch hẹn",
     path: "#",
     icon: Calendar,
@@ -118,10 +112,13 @@ export const sidebarItems: SidebarItem[] = [
     ]
   },
   {
-    title: "Đánh giá",
-    path: "/admin/reviews",
+    title: "Phản hồi",
+    path: "#",
     icon: PieChart,
-    children: []
+    children: [
+      { title: "Đánh giá", path: "/admin/reviews" },
+      { title: "Báo cáo", path: "/admin/reports" }
+    ]
   },
   // {
   //   title: "Thông báo",

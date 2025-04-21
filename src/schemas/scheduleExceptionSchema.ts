@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { ScheduleExceptionStatusSchemaEnum } from "@/constants/enum/Schedule"
+
 import { auditFields, uuidSchema } from "./baseSchema"
 import { userInfoSchema } from "./userSchema"
 
@@ -19,7 +21,7 @@ export const scheduleExceptionSchema = z.object({
       message: "Lý do phải có ít nhất 10 ký tự"
     }),
 
-  status: z.boolean(),
+  status: ScheduleExceptionStatusSchemaEnum,
 
   ...auditFields
 })

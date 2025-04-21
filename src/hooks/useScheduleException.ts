@@ -1,11 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 import { ScheduleExceptionType } from "@/schemas/scheduleExceptionSchema"
 
 import {
   fetchScheduleExceptionById,
-  fetchScheduleExceptions,
-  updateScheduleExceptionStatus
+  fetchScheduleExceptions
 } from "@/services/scheduleExceptionService"
 
 interface ScheduleExceptionsResponse {
@@ -32,15 +31,3 @@ export const useScheduleExceptionById = (scheduleExceptionId: string) =>
     enabled: !!scheduleExceptionId,
     staleTime: 1000 * 60 * 5
   })
-
-export const useScheduleExceptionStatus = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation<void, Error, { scheduleExceptionId: string }>({
-    mutationFn: ({ scheduleExceptionId }) =>
-      updateScheduleExceptionStatus(scheduleExceptionId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["schedule-exceptions"] })
-    }
-  })
-}

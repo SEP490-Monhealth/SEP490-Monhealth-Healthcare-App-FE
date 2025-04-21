@@ -1,7 +1,7 @@
 import React from "react"
 
-function DetailDialog() {
-  return <div>DetailDialog</div>
+function ReportDetailDialog() {
+  return <div>ReportDetailDialog</div>
 }
 
-export default DetailDialog
+export default ReportDetailDialog

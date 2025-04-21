@@ -21,9 +21,19 @@ export enum ScheduleTimeSlotStatusEnum {
   Booked
 }
 
+export enum ScheduleExceptionStatusEnum {
+  Pending,
+  Approved,
+  Rejected
+}
+
 export const ScheduleTypeSchemaEnum = z.nativeEnum(ScheduleTypeEnum)
 export const RecurringDaySchemaEnum = z.nativeEnum(RecurringDayEnum)
 
 export const ScheduleTimeSlotStatusSchemaEnum = z.nativeEnum(
   ScheduleTimeSlotStatusEnum
+)
+
+export const ScheduleExceptionStatusSchemaEnum = z.nativeEnum(
+  ScheduleExceptionStatusEnum
 )

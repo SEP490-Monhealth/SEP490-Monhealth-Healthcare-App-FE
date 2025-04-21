@@ -16,12 +16,10 @@ import {
 } from "@/components/globals/atoms/dropdown-menu"
 
 import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
-import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
-import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
-
-import { useScheduleExceptionStatus } from "@/hooks/useScheduleException"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
+import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
 
 import { ScheduleExceptionType } from "@/schemas/scheduleExceptionSchema"
 
@@ -137,9 +135,6 @@ export const createColumns = (
     cell: ({ row }) => {
       const scheduleExceptionData = row.original
 
-      const { mutate: updateScheduleExceptionStatus } =
-        useScheduleExceptionStatus()
-
       const isConfirm = scheduleExceptionData.status
 
       const [openAlert, setOpenAlert] = useState<boolean>(false)
@@ -154,9 +149,6 @@ export const createColumns = (
       }
 
       const handleConfirm = () => {
-        updateScheduleExceptionStatus({
-          scheduleExceptionId: scheduleExceptionData.scheduleExceptionId
-        })
         setOpenAlert(false)
       }
 
