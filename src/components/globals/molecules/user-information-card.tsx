@@ -2,15 +2,13 @@
 
 import React from "react"
 
-import Image from "next/image"
-
+import { formatPhoneNumber } from "@/utils/formatters"
 import { getInitials } from "@/utils/helpers"
 
 import { Avatar, AvatarFallback, AvatarImage } from "../atoms/avatar"
 import { Badge } from "../atoms/badge"
 import { Card } from "../atoms/card"
 import { Input } from "../atoms/input"
-import { formatPhoneNumber } from "@/utils/formatters"
 
 interface UserInformationCardProps {
   role: string
@@ -26,14 +24,17 @@ function UserInformationCard({ role, userData }: UserInformationCardProps) {
   return (
     <Card className="px-6 py-4">
       <div className="flex items-center gap-4">
-        <Avatar className="h-44 w-40 rounded-lg">
-          <AvatarImage src={userData.avatarUrl} />
-          <AvatarFallback className="rounded-lg">
+        <Avatar className="h-full w-48 rounded-xl">
+          <AvatarImage
+            src={userData.avatarUrl}
+            alt={getInitials(userData.fullName)}
+          />
+          <AvatarFallback className="rounded-xl">
             {getInitials(userData.fullName)}
           </AvatarFallback>
         </Avatar>
 
-        <div className="flex w-full flex-col gap-4">
+        <div className="w-full space-y-4">
           <Badge variant="outline">{role}</Badge>
 
           <Input

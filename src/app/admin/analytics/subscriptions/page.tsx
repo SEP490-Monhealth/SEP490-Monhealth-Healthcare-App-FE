@@ -141,7 +141,7 @@ function AnalyticSubscriptionPage() {
                   >
                     <div className="flex justify-between">
                       <span>{item.subscription}</span>
-                      <span>{percentage}%</span>
+                      <span>{percentage || 0}%</span>
                     </div>
 
                     <Progress value={percentage} />

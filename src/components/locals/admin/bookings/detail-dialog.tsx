@@ -78,6 +78,7 @@ function BookingDetailDialog({
                 readOnly
               />
             </div>
+
             <div className="col-span-2">
               <UserInformationCard
                 role="Member"
