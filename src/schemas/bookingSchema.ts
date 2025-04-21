@@ -33,4 +33,11 @@ export const bookingSchema = z.object({
   ...auditFields
 })
 
+export const bookingDetailSchema = bookingSchema.pick({
+  date: true,
+  startTime: true,
+  endTime: true,
+  notes: true
+})
+
 export type BookingType = z.infer<typeof bookingSchema>

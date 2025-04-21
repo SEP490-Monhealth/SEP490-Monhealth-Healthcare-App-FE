@@ -72,7 +72,7 @@ function BookingTabDialog({ reportData }: UserTabDialogProps) {
           <Label htmlFor="notes">Ghi chú (nếu có)</Label>
           <Textarea
             id="notes"
-            rows={5}
+            rows={6}
             value={reportData.booking.notes || "--"}
             readOnly
           />
@@ -80,8 +80,8 @@ function BookingTabDialog({ reportData }: UserTabDialogProps) {
       </div>
 
       <div className="col-span-7 space-y-2">
-        <Label htmlFor="reason">Lý do báo cáo</Label>
-        <Textarea id="reason" rows={5} value={reportData.reason} readOnly />
+        <Label htmlFor="reason">Lý do</Label>
+        <Textarea id="reason" rows={6} value={reportData.reason} readOnly />
       </div>
 
       <div className="col-span-7 space-y-2">

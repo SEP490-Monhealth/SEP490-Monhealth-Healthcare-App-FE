@@ -31,7 +31,7 @@ import {
 } from "@/hooks/useReport"
 
 import BookingTabDialog from "./booking-tab-dialog"
-import UserTabDialog from "./user-tab-dialog"
+import MemberTabDialog from "./member-tab-dialog"
 
 interface ReportDetailDialogProps {
   isOpen: boolean
@@ -115,7 +115,7 @@ function ReportDetailDialog({
             </TabsList>
 
             <TabsContent value="user-information" className="mt-2 w-full">
-              <UserTabDialog reportData={reportData} />
+              <MemberTabDialog reportData={reportData} />
             </TabsContent>
 
             <TabsContent value="booking-information" className="mt-2 w-full">

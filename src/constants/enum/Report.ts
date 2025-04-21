@@ -12,15 +12,15 @@ export const ReportStatusSchemaEnum = z.nativeEnum(ReportStatusEnum)
 
 const ReportStatusMap: Record<ReportStatusEnum, EnumMeta> = {
   [ReportStatusEnum.Pending]: {
-    label: "Chờ xác nhận",
+    label: "Chờ duyệt",
     color: "#ca8a04" // yellow 600
   },
   [ReportStatusEnum.Approved]: {
-    label: "Hoàn thành",
+    label: "Đã duyệt",
     color: "#16a34a" // green 600
   },
   [ReportStatusEnum.Rejected]: {
-    label: "Từ chối",
+    label: "Đã từ chối",
     color: "#ef4444" // red 500
   }
 }

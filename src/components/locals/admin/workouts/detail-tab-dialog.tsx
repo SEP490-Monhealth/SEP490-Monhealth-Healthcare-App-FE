@@ -107,7 +107,7 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
         <Label htmlFor="description">Mô tả</Label>
         <Textarea
           id="description"
-          rows={3}
+          rows={4}
           value={workoutData.description}
           readOnly
         />
