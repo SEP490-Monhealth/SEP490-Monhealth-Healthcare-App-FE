@@ -5,7 +5,7 @@ import React from "react"
 import UserGrowthChart from "@/components/locals/admin/analytics/users/user-growth-chart"
 import UserStatsCard from "@/components/locals/admin/analytics/users/user-stats-card"
 
-import { useUserGrowth, useUserStats } from "@/hooks/useAnalysis"
+import { useUserGrowth, useUserStats } from "@/hooks/useAnalytic"
 
 import { transformUserData } from "@/utils/helpers"
 

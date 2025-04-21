@@ -7,7 +7,7 @@ import { Activity, CreditCard, DollarSign, Users } from "lucide-react"
 
 import StatsCard from "@/components/globals/molecules/stats-card"
 
-import { useAnalysisOverview } from "@/hooks/useAnalysis"
+import { useAnalysisOverview } from "@/hooks/useAnalytic"
 
 import { formatGrowthRate, formatNumberCustom } from "@/utils/helpers"
 

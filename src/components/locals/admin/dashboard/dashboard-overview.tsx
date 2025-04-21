@@ -17,7 +17,7 @@ import {
   ChartTooltipContent
 } from "@/components/globals/atoms/chart"
 
-import { useTotalAccounts } from "@/hooks/useAnalysis"
+import { useTotalAccounts } from "@/hooks/useAnalytic"
 
 import { transformUserData } from "@/utils/helpers"
 

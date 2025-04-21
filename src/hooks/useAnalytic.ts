@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 
 import {
-  AnalysisOverviewType,
+  AnalyticOverviewType,
   SubscriptionUpgradedType,
   UserGrowthType,
   UserStatType
-} from "@/schemas/analysisSchema"
+} from "@/schemas/analyticSchema"
 
 import {
   fetchAnalysisOverview,
@@ -13,7 +13,7 @@ import {
   fetchTotalAccounts,
   fetchUserGrowth,
   fetchUserStats
-} from "@/services/analysisService"
+} from "@/services/analyticService"
 
 export const useUserStats = () => {
   return useQuery<UserStatType, Error>({
@@ -48,7 +48,7 @@ export const useTotalAccounts = () => {
 }
 
 export const useAnalysisOverview = () => {
-  return useQuery<AnalysisOverviewType, Error>({
+  return useQuery<AnalyticOverviewType, Error>({
     queryKey: ["analysis-overview"],
     queryFn: fetchAnalysisOverview,
     staleTime: 1000 * 60 * 5

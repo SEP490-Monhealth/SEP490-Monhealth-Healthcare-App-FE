@@ -4,15 +4,15 @@ import { toast } from "sonner"
 import monAPI from "@/lib/monAPI"
 
 import {
-  AnalysisOverviewType,
+  AnalyticOverviewType,
   SubscriptionUpgradedType,
   UserGrowthType,
   UserStatType
-} from "@/schemas/analysisSchema"
+} from "@/schemas/analyticSchema"
 
 export const fetchUserStats = async (): Promise<UserStatType> => {
   try {
-    const response = await monAPI.get(`/analysis/users`)
+    const response = await monAPI.get(`/analytics/users/summary`)
 
     const { success, message, data } = response.data
 
@@ -36,7 +36,7 @@ export const fetchUserStats = async (): Promise<UserStatType> => {
 
 export const fetchUserGrowth = async (): Promise<UserGrowthType[]> => {
   try {
-    const response = await monAPI.get(`analysis/users/user-six-months`)
+    const response = await monAPI.get(`analytics/users/registrations`)
 
     const { success, message, data } = response.data
 
@@ -62,9 +62,7 @@ export const fetchSubscriptionUpgraded = async (): Promise<
   SubscriptionUpgradedType[]
 > => {
   try {
-    const response = await monAPI.get(
-      `analysis/users/user-subscription-six-months`
-    )
+    const response = await monAPI.get(`analytics/users/subscriptions`)
 
     const { success, message, data } = response.data
 
@@ -88,7 +86,7 @@ export const fetchSubscriptionUpgraded = async (): Promise<
 
 export const fetchTotalAccounts = async (): Promise<UserGrowthType[]> => {
   try {
-    const response = await monAPI.get(`analysis/users/total-accounts`)
+    const response = await monAPI.get(`analytics/users/total-accounts`)
 
     const { success, message, data } = response.data
 
@@ -111,9 +109,9 @@ export const fetchTotalAccounts = async (): Promise<UserGrowthType[]> => {
 }
 
 export const fetchAnalysisOverview =
-  async (): Promise<AnalysisOverviewType> => {
+  async (): Promise<AnalyticOverviewType> => {
     try {
-      const response = await monAPI.get(`/analysis/dashboard/overview`)
+      const response = await monAPI.get(`/analytics/overview`)
 
       const { success, message, data } = response.data
 

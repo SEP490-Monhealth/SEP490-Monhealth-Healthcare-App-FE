@@ -29,7 +29,7 @@ export const subscriptionUpgradedSchema = z.object({
   visitors: z.number()
 })
 
-export const analysisOverviewSchema = z.object({
+export const analyticOverviewSchema = z.object({
   totalUsers: z.object({
     count: z.number(),
     growthRate: z.number()
@@ -53,4 +53,4 @@ export type UserGrowthType = z.infer<typeof userGrowthSchema>
 export type SubscriptionUpgradedType = z.infer<
   typeof subscriptionUpgradedSchema
 >
-export type AnalysisOverviewType = z.infer<typeof analysisOverviewSchema>
+export type AnalyticOverviewType = z.infer<typeof analyticOverviewSchema>
