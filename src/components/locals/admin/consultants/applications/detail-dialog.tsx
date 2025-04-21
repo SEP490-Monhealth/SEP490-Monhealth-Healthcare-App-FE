@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/globals/atoms/dialog"
+import { ScrollArea } from "@/components/globals/atoms/scroll-area"
 import {
   Tabs,
   TabsContent,
@@ -143,7 +144,9 @@ function ConsultantApplicationDetailDialog({
               </TabsList>
 
               <TabsContent value="consultant-detail" className="mt-2 w-full">
-                <DetailTabDialog consultantData={consultantData} />
+                <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+                  <DetailTabDialog consultantData={consultantData} />
+                </ScrollArea>
               </TabsContent>
 
               <TabsContent

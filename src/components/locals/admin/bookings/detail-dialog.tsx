@@ -13,6 +13,7 @@ import {
 } from "@/components/globals/atoms/dialog"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
+import { ScrollArea } from "@/components/globals/atoms/scroll-area"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
@@ -68,93 +69,95 @@ function BookingDetailDialog({
             message={bookingError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-2 space-y-2">
-              <Label htmlFor="bookingId">Mã lịch hẹn</Label>
-              <Input
-                id="bookingId"
-                type="text"
-                value={bookingData.bookingId}
-                readOnly
-              />
-            </div>
+          <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="bookingId">Mã lịch hẹn</Label>
+                <Input
+                  id="bookingId"
+                  type="text"
+                  value={bookingData.bookingId}
+                  readOnly
+                />
+              </div>
 
-            <div className="col-span-2">
-              <UserInformationCard
-                role="Member"
-                userData={bookingData.member}
-              />
-            </div>
+              <div className="col-span-2">
+                <UserInformationCard
+                  role="Member"
+                  userData={bookingData.member}
+                />
+              </div>
 
-            <div className="col-span-2">
-              <UserInformationCard
-                role="Consultant"
-                userData={bookingData.consultant}
-              />
-            </div>
+              <div className="col-span-2">
+                <UserInformationCard
+                  role="Consultant"
+                  userData={bookingData.consultant}
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="datetime">Ngày giờ</Label>
-              <Input
-                id="datetime"
-                type="text"
-                value={`${formatDate(bookingData.date)}, ${formatTime(bookingData.startTime)} - ${formatTime(
-                  bookingData.endTime
-                )}`}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="datetime">Ngày giờ</Label>
+                <Input
+                  id="datetime"
+                  type="text"
+                  value={`${formatDate(bookingData.date)}, ${formatTime(bookingData.startTime)} - ${formatTime(
+                    bookingData.endTime
+                  )}`}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="notes">Ghi chú (nếu có)</Label>
-              <Input
-                id="notes"
-                type="text"
-                value={bookingData.notes || "--"}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="status">Trạng thái</Label>
+                <Input
+                  id="status"
+                  type="text"
+                  value={bookingStatusLabel}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="cancellationReason">Lý do hủy (nếu có)</Label>
-              <Input
-                id="cancellationReason"
-                type="text"
-                value={bookingData.cancellationReason || "--"}
-                readOnly
-              />
-            </div>
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="notes">Ghi chú (nếu có)</Label>
+                <Input
+                  id="notes"
+                  type="text"
+                  value={bookingData.notes || "--"}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="status">Trạng thái</Label>
-              <Input
-                id="status"
-                type="text"
-                value={bookingStatusLabel}
-                readOnly
-              />
-            </div>
+              <div className="col-span-2 space-y-2">
+                <Label htmlFor="cancellationReason">Lý do hủy (nếu có)</Label>
+                <Input
+                  id="cancellationReason"
+                  type="text"
+                  value={bookingData.cancellationReason || "--"}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="createdAt">Ngày tạo</Label>
-              <Input
-                id="createdAt"
-                type="text"
-                value={formatDate(bookingData.createdAt)}
-                readOnly
-              />
-            </div>
+              <div className="space-y-2">
+                <Label htmlFor="createdAt">Ngày tạo</Label>
+                <Input
+                  id="createdAt"
+                  type="text"
+                  value={formatDate(bookingData.createdAt)}
+                  readOnly
+                />
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-              <Input
-                id="updatedAt"
-                type="text"
-                value={formatDate(bookingData.updatedAt)}
-                readOnly
-              />
-            </div>
-          </div>
+              <div className="space-y-2">
+                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
+                <Input
+                  id="updatedAt"
+                  type="text"
+                  value={formatDate(bookingData.updatedAt)}
+                  readOnly
+                />
+              </div>
+            </div>{" "}
+          </ScrollArea>
         )}
 
         <DialogFooter>

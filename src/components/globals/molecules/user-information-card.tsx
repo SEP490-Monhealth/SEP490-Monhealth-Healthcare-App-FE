@@ -24,12 +24,12 @@ function UserInformationCard({ role, userData }: UserInformationCardProps) {
   return (
     <Card className="px-6 py-4 shadow-xs">
       <div className="flex items-center gap-6">
-        <Avatar className="h-36 w-48 rounded-lg">
+        <Avatar className="h-48 w-48 rounded-lg">
           <AvatarImage
             src={userData.avatarUrl}
             alt={getInitials(userData.fullName)}
           />
-          <AvatarFallback className="rounded-lg">
+          <AvatarFallback className="h-full rounded-lg">
             {getInitials(userData.fullName)}
           </AvatarFallback>
         </Avatar>

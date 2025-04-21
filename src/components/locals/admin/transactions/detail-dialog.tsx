@@ -2,11 +2,6 @@
 
 import React, { useState } from "react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
@@ -21,6 +16,7 @@ import { Label } from "@/components/globals/atoms/label"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
+import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
 import {
   TransactionStatusEnum,
@@ -35,7 +31,6 @@ import {
 } from "@/hooks/useTransaction"
 
 import { formatCurrency, formatDateTime } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
 
 import QrCodeDialog from "./qr-code-dialog"
 
@@ -67,11 +62,6 @@ function TransactionDetailDialog({
     transactionData?.status || TransactionStatusEnum.Pending
   )
 
-  const userInfo =
-    transactionData?.member?.fullName !== null
-      ? transactionData?.member
-      : transactionData?.consultant
-
   const handleCompleteEarning = async () => {
     await completeTransaction({
       transactionId: transactionData?.transactionId || ""
@@ -88,6 +78,20 @@ function TransactionDetailDialog({
 
   const isLoading = isTransactionLoading
   const hasError = transactionError
+
+  const hasValidMember =
+    transactionData?.member &&
+    Object.values(transactionData.member).some((value) => value != null)
+
+  const hasValidConsultant =
+    transactionData?.consultant &&
+    Object.values(transactionData.consultant).some((value) => value != null)
+
+  const dataInfo = hasValidMember
+    ? { role: "Member", userData: transactionData.member }
+    : hasValidConsultant
+      ? { role: "Consultant", userData: transactionData.consultant }
+      : null
 
   return (
     <>
@@ -108,28 +112,51 @@ function TransactionDetailDialog({
             />
           ) : (
             <div className="flex flex-col gap-4">
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <Avatar className="h-full w-48 rounded-xl">
-                    <AvatarImage
-                      src={userInfo?.avatarUrl}
-                      alt={getInitials(userInfo?.fullName || "")}
-                    />
-                    <AvatarFallback className="rounded-xl">
-                      {getInitials(userInfo?.fullName || "")}
-                    </AvatarFallback>
-                  </Avatar>
+              <div className="space-y-2">
+                <Label htmlFor="transactionId">Mã giao dịch</Label>
+                <Input
+                  id="transactionId"
+                  type="text"
+                  value={transactionData.transactionId}
+                  readOnly
+                />
+              </div>
+
+              {dataInfo && (
+                <div>
+                  <UserInformationCard
+                    role={dataInfo.role}
+                    userData={dataInfo.userData}
+                  />
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="description">Mô tả</Label>
+                  <Input
+                    id="description"
+                    type="text"
+                    value={transactionData.description}
+                    readOnly
+                  />
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                  <div className="col-span-2 space-y-2">
-                    <Label htmlFor="transactionId">Mã giao dịch</Label>
-                    <Input
-                      id="transactionId"
-                      type="text"
-                      value={transactionData.transactionId}
-                      readOnly
-                    />
+                <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="price">Số tiền</Label>
+
+                    <div className="relative">
+                      <Input
+                        id="price"
+                        type="text"
+                        value={formatCurrency(transactionData.amount)}
+                        readOnly
+                      />
+                      <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                        VND
+                      </span>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
@@ -143,72 +170,14 @@ function TransactionDetailDialog({
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="fullName">Họ tên</Label>
+                    <Label htmlFor="status">Trạng thái</Label>
                     <Input
-                      id="fullName"
+                      id="status"
                       type="text"
-                      value={userInfo?.fullName}
+                      value={transactionStatusLabel}
                       readOnly
                     />
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="text"
-                      value={userInfo?.email}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                    <Input
-                      id="phoneNumber"
-                      type="text"
-                      value={userInfo?.phoneNumber}
-                      readOnly
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                <div className="col-span-2 space-y-2">
-                  <Label htmlFor="description">Mô tả</Label>
-                  <Input
-                    id="description"
-                    type="text"
-                    value={transactionData.description}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="price">Số tiền</Label>
-
-                  <div className="relative">
-                    <Input
-                      id="price"
-                      type="text"
-                      value={formatCurrency(transactionData.amount)}
-                      readOnly
-                    />
-                    <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
-                      VND
-                    </span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="status">Trạng thái</Label>
-                  <Input
-                    id="status"
-                    type="text"
-                    value={transactionStatusLabel}
-                    readOnly
-                  />
                 </div>
 
                 <div className="space-y-2">

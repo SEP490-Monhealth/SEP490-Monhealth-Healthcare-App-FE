@@ -43,7 +43,10 @@ function ConsultantDetailTabDialog({
       </div>
 
       <div className="col-span-2">
-        <UserInformationCard userData={consultantInformationData} />
+        <UserInformationCard
+          role="Consultant"
+          userData={consultantInformationData}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">

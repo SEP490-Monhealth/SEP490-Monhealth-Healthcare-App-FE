@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
+import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
 import {
@@ -21,6 +22,11 @@ import {
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
 import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
+
+import {
+  VerificationStatusEnum,
+  getConsultantVerificationMeta
+} from "@/constants/enum/Consultant"
 
 import { ConsultantType } from "@/schemas/consultantSchema"
 
@@ -118,6 +124,27 @@ export const createColumns = (
     cell: ({ row }) => {
       const experience = row.original.experience
       return <span className="flex justify-center pr-4">{experience}</span>
+    }
+  },
+
+  {
+    accessorKey: "verificationStatus",
+    meta: { title: "Trạng thái" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Trạng thái" center />
+    ),
+    cell: ({ row }) => {
+      const verificationStatus = row.original
+        .verificationStatus as VerificationStatusEnum
+      const { label, color } = getConsultantVerificationMeta(verificationStatus)
+
+      return (
+        <div className="flex justify-center pr-4">
+          <Badge className="text-white" style={{ backgroundColor: color }}>
+            {label}
+          </Badge>
+        </div>
+      )
     }
   },
   {

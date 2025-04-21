@@ -29,7 +29,7 @@ const transactionTypeMap: Record<TransactionTypeEnum, EnumMeta> = {
     color: "#f97316" // orange 500
   },
   [TransactionTypeEnum.Fee]: {
-    label: "Phí",
+    label: "Thanh toán",
     color: "#ef4444" // red 500
   },
   [TransactionTypeEnum.Bonus]: {

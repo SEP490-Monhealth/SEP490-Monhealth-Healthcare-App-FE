@@ -2,11 +2,6 @@
 
 import React, { useState } from "react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
@@ -22,6 +17,7 @@ import { Label } from "@/components/globals/atoms/label"
 import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
+import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
 import {
   WithdrawalRequestStatusEnum,
@@ -35,7 +31,6 @@ import {
 } from "@/hooks/useWithdrawalRequest"
 
 import { formatCurrency, formatDateTime } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
 
 import RejectDialog from "./reject-dialog"
 
@@ -150,62 +145,21 @@ function WithdrawalRequestDetailDialog({
             />
           ) : (
             <div className="flex flex-col gap-4">
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <Avatar className="h-full w-48 rounded-xl">
-                    <AvatarImage
-                      src={withdrawalRequestData.consultant.avatarUrl}
-                      alt={getInitials(
-                        withdrawalRequestData.consultant.fullName
-                      )}
-                    />
-                    <AvatarFallback className="rounded-xl">
-                      {getInitials(withdrawalRequestData.consultant.fullName)}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="withdrawalRequestId">Mã yêu cầu</Label>
+                <Input
+                  id="withdrawalRequestId"
+                  type="text"
+                  value={withdrawalRequestData.withdrawalRequestId}
+                  readOnly
+                />
+              </div>
 
-                <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                  <div className="col-span-2 space-y-2">
-                    <Label htmlFor="withdrawalRequestId">Mã yêu cầu</Label>
-                    <Input
-                      id="withdrawalRequestId"
-                      type="text"
-                      value={withdrawalRequestData.withdrawalRequestId}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="fullName">Tên chuyên viên</Label>
-                    <Input
-                      id="fullName"
-                      type="text"
-                      value={withdrawalRequestData.consultant.fullName}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                    <Input
-                      id="phoneNumber"
-                      type="text"
-                      value={withdrawalRequestData.consultant.phoneNumber}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="col-span-2 space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="text"
-                      value={withdrawalRequestData.consultant.email}
-                      readOnly
-                    />
-                  </div>
-                </div>
+              <div>
+                <UserInformationCard
+                  role="Consultant"
+                  userData={withdrawalRequestData.consultant}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
