@@ -3,6 +3,7 @@ import { z } from "zod"
 import { ReportStatusSchemaEnum } from "@/constants/enum/Report"
 
 import { timestampFields, uuidSchema } from "./baseSchema"
+import { bookingDetailSchema } from "./bookingSchema"
 import { userInfoSchema } from "./userSchema"
 
 export const reportSchema = z.object({
@@ -12,17 +13,7 @@ export const reportSchema = z.object({
   member: userInfoSchema,
   consultant: userInfoSchema,
 
-  booking: z.object({
-    date: z.string().nonempty({ message: "Ngày không được để trống" }),
-    startTime: z
-      .string()
-      .nonempty({ message: "Thời gian bắt đầu không được để trống" }),
-    endTime: z
-      .string()
-      .nonempty({ message: "Thời gian kết thúc không được để trống" }),
-
-    notes: z.string().optional()
-  }),
+  booking: bookingDetailSchema,
 
   reason: z
     .string()

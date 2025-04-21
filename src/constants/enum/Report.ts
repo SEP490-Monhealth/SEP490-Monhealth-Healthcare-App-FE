@@ -20,7 +20,7 @@ const ReportStatusMap: Record<ReportStatusEnum, EnumMeta> = {
     color: "#16a34a" // green 600
   },
   [ReportStatusEnum.Rejected]: {
-    label: "Đã hủy",
+    label: "Từ chối",
     color: "#ef4444" // red 500
   }
 }
