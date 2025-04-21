@@ -75,7 +75,7 @@ function ExceptionDetailDialog({
               />
             </div>
 
-            <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
+            {/* <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
               <div className="col-span-1">
                 <div className="flex-shrink-0">
                   <Avatar className="h-full w-48 rounded-xl">
@@ -123,7 +123,7 @@ function ExceptionDetailDialog({
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div className="space-y-2">
               <Label htmlFor="date">Lịch nghỉ</Label>
@@ -136,6 +136,18 @@ function ExceptionDetailDialog({
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="status">Trạng thái</Label>
+              <Input
+                id="status"
+                type="text"
+                value={
+                  scheduleExceptionData.status ? "Xác nhận" : "Chưa xác nhận"
+                }
+                readOnly
+              />
+            </div>
+
+            <div className="col-span-2 space-y-2">
               <Label htmlFor="reason">Lý do</Label>
               <Input
                 id="reason"

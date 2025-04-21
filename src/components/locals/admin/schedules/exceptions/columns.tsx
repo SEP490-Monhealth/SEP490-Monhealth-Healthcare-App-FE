@@ -1,7 +1,9 @@
 "use client"
 
+import { useState } from "react"
+
 import { ColumnDef } from "@tanstack/react-table"
-import { Copy, Eye, MoreHorizontal } from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
@@ -13,10 +15,13 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
+import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
+import DataTableCellDescription from "@/components/globals/molecules/data-table-cell-description"
+import DataTableCellUser from "@/components/globals/molecules/data-table-cell-user"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
-import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
-import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
+
+import { useScheduleExceptionStatus } from "@/hooks/useScheduleException"
 
 import { ScheduleExceptionType } from "@/schemas/scheduleExceptionSchema"
 
@@ -58,17 +63,17 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Mã lịch nghỉ" />
     )
   },
-  {
-    accessorKey: "consultant",
-    meta: { title: "Chuyên viên" },
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Chuyên viên" />
-    ),
-    cell: ({ row }) => {
-      const consultant = row.original.consultant
-      return <DataTableCellUser user={consultant} />
-    }
-  },
+  // {
+  //   accessorKey: "consultant",
+  //   meta: { title: "Chuyên viên" },
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Chuyên viên" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const consultant = row.original.consultant
+  //     return <DataTableCellUser user={consultant} />
+  //   }
+  // },
   {
     accessorKey: "date",
     meta: { title: "Ngày" },
@@ -132,6 +137,29 @@ export const createColumns = (
     cell: ({ row }) => {
       const scheduleExceptionData = row.original
 
+      const { mutate: updateScheduleExceptionStatus } =
+        useScheduleExceptionStatus()
+
+      const isConfirm = scheduleExceptionData.status
+
+      const [openAlert, setOpenAlert] = useState<boolean>(false)
+
+      const handleOpenAlert = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        setOpenAlert(true)
+      }
+
+      const handleCloseAlert = () => {
+        setOpenAlert(false)
+      }
+
+      const handleConfirm = () => {
+        updateScheduleExceptionStatus({
+          scheduleExceptionId: scheduleExceptionData.scheduleExceptionId
+        })
+        setOpenAlert(false)
+      }
+
       return (
         <div className="flex justify-center">
           <DropdownMenu>
@@ -164,8 +192,35 @@ export const createColumns = (
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>
+
+              <DropdownMenuItem
+                variant={isConfirm ? "destructive" : "default"}
+                onClick={handleOpenAlert}
+              >
+                {isConfirm ? (
+                  <>
+                    <Ban className="h-4 w-4" />
+                    Ngừng xác nhận
+                  </>
+                ) : (
+                  <>
+                    <Circle className="h-4 w-4" />
+                    Xác nhận
+                  </>
+                )}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <ConfirmAlertDialog
+            open={openAlert}
+            onOpenChange={handleCloseAlert}
+            onConfirm={handleConfirm}
+            title="Xác nhận thay đổi trạng thái"
+            description={`Bạn có chắc muốn ${
+              isConfirm ? "ngừng xác nhận" : "xác nhận"
+            } lịch nghỉ này?`}
+          />
         </div>
       )
     },
