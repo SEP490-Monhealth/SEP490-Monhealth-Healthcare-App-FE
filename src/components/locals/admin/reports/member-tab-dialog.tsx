@@ -11,11 +11,11 @@ import { ReportType } from "@/schemas/reportSchema"
 
 import { formatDate } from "@/utils/formatters"
 
-interface UserTabDialogProps {
+interface MemberTabDialogProps {
   reportData: ReportType
 }
 
-function UserTabDialog({ reportData }: UserTabDialogProps) {
+function MemberTabDialog({ reportData }: MemberTabDialogProps) {
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="col-span-2 space-y-2">
@@ -57,4 +57,4 @@ function UserTabDialog({ reportData }: UserTabDialogProps) {
   )
 }
 
-export default UserTabDialog
+export default MemberTabDialog
