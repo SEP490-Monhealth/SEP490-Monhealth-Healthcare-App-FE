@@ -77,6 +77,13 @@ export const createColumns = (
     }
   },
   {
+    accessorKey: "subscription",
+    meta: { title: "Gói đăng ký" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Gói đăng ký" />
+    )
+  },
+  {
     accessorKey: "remainingBookings",
     meta: { title: "Số lần đặt lịch" },
     header: ({ column }) => (

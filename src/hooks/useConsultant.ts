@@ -64,6 +64,7 @@ export const useVerifyConsultant = () => {
     mutationFn: ({ consultantId }) => verifyConsultant(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })
+      queryClient.invalidateQueries({ queryKey: ["consultant"] })
     }
   })
 }
@@ -75,6 +76,7 @@ export const useRejectConsultant = () => {
     mutationFn: ({ consultantId }) => rejectConsultant(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })
+      queryClient.invalidateQueries({ queryKey: ["consultant"] })
     }
   })
 }
@@ -86,6 +88,7 @@ export const useConsultantStatus = () => {
     mutationFn: ({ consultantId }) => updateConsultantStatus(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })
+      queryClient.invalidateQueries({ queryKey: ["consultant"] })
     }
   })
 }

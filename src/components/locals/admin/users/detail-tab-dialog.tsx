@@ -5,6 +5,8 @@ import React from "react"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
+import UserInformationCard from "@/components/globals/molecules/user-information-card"
+
 import { UserType } from "@/schemas/userSchema"
 
 import { formatDate, formatPhoneNumber } from "@/utils/formatters"
@@ -14,39 +16,25 @@ interface UserDetailTabDialogProps {
 }
 
 function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
+  const userCard = {
+    email: userData.email,
+    phoneNumber: userData.phoneNumber,
+    fullName: userData.fullName,
+    avatarUrl: userData.avatarUrl
+  }
+
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-      <div className="space-y-2">
+      <div className="col-span-2 space-y-2">
         <Label htmlFor="userId">Mã người dùng</Label>
         <Input id="userId" type="text" value={userData.userId} readOnly />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="fullName">Họ tên</Label>
-        <Input id="fullName" type="text" value={userData.fullName} readOnly />
+      <div className="col-span-2">
+        <UserInformationCard role={userData.role} userData={userCard} />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" value={userData.email} readOnly />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="phoneNumber">Số điện thoại</Label>
-        <Input
-          id="phoneNumber"
-          type="text"
-          value={formatPhoneNumber(userData.phoneNumber)}
-          readOnly
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="role">Vai trò</Label>
-        <Input id="role" type="text" value={userData.role} readOnly />
-      </div>
-
-      <div className="space-y-2">
+      <div className="col-span-2 space-y-2">
         <Label htmlFor="status">Trạng thái</Label>
         <Input
           id="status"

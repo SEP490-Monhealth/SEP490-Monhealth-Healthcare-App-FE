@@ -2,11 +2,6 @@
 
 import React from "react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
@@ -21,6 +16,7 @@ import { Label } from "@/components/globals/atoms/label"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
+import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
 import {
   UserSubscriptionStatus,
@@ -30,7 +26,6 @@ import {
 import { useUserSubscriptionById } from "@/hooks/useSubscription"
 
 import { formatDate } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
 
 interface UserSubscriptionDetailDialogProps {
   isOpen: boolean
@@ -73,7 +68,7 @@ function UserSubscriptionDetailDialog({
             message={subscriptionError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <div className="col-span-2 grid grid-cols-2 gap-x-6 gap-y-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4">
             <div className="col-span-2 space-y-2">
               <Label htmlFor="userSubscriptionId">Mã đăng ký gói</Label>
 
@@ -86,47 +81,11 @@ function UserSubscriptionDetailDialog({
             </div>
 
             <div className="col-span-2 flex flex-col gap-4">
-              <div className="flex gap-6">
-                <div className="flex-shrink-0">
-                  <Avatar className="h-full w-full rounded-xl">
-                    <AvatarImage src={subscriptionData.member.avatarUrl} />
-                    <AvatarFallback className="rounded-xl">
-                      {getInitials(subscriptionData.member.fullName)}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-
-                <div className="flex w-full flex-col gap-x-6 gap-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="member.fullName">Họ và tên</Label>
-                    <Input
-                      id="member.fullName"
-                      type="text"
-                      value={subscriptionData.member.fullName}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="member.email">Email</Label>
-                    <Input
-                      id="member.email"
-                      type="email"
-                      value={subscriptionData.member.email}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="member.phoneNumber">Số điện thoại</Label>
-                    <Input
-                      id="member.phoneNumber"
-                      type="text"
-                      value={subscriptionData.member.phoneNumber}
-                      readOnly
-                    />
-                  </div>
-                </div>
+              <div>
+                <UserInformationCard
+                  role="Subscription Member"
+                  userData={subscriptionData.member}
+                />
               </div>
 
               <div className="grid grid-cols-3 gap-x-6 gap-y-4">
