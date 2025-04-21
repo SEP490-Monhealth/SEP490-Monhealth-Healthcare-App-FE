@@ -19,7 +19,8 @@ export const reportSchema = z.object({
       .nonempty({ message: "Thời gian bắt đầu không được để trống" }),
     endTime: z
       .string()
-      .nonempty({ message: "Thời gian kết thúc không được để trống" })
+      .nonempty({ message: "Thời gian kết thúc không được để trống" }),
+    notes: z.string().optional()
   }),
 
   reason: z
@@ -36,8 +37,6 @@ export const reportSchema = z.object({
         .nonempty("Đường dẫn ảnh không được để trống")
     )
     .min(1, { message: "Cần ít nhất một hình ảnh" }),
-
-  notes: z.string().optional(),
 
   status: ReportStatusSchemaEnum,
 

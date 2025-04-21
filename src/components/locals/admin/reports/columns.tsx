@@ -55,7 +55,7 @@ export const createColumns = (
     enableHiding: false
   },
   {
-    accessorKey: "scheduleExceptionId",
+    accessorKey: "reportId",
     meta: { title: "Mã báo cáo" },
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Mã báo cáo" />

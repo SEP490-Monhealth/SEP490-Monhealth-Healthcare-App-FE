@@ -56,6 +56,7 @@ export const useUserStatus = () => {
     mutationFn: ({ userId }) => updateUserStatus(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] })
+      queryClient.invalidateQueries({ queryKey: ["user"] })
     }
   })
 }

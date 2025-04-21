@@ -44,6 +44,7 @@ export const useApproveReport = () => {
     mutationFn: ({ reportId }) => approveReport(reportId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] })
+      queryClient.invalidateQueries({ queryKey: ["report"] })
     }
   })
 }
@@ -55,6 +56,7 @@ export const useRejectReport = () => {
     mutationFn: ({ reportId }) => rejectReport(reportId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] })
+      queryClient.invalidateQueries({ queryKey: ["report"] })
     }
   })
 }
