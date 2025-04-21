@@ -16,6 +16,7 @@ import { Label } from "@/components/globals/atoms/label"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
+import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
 import {
   BookingStatusEnum,
@@ -77,68 +78,17 @@ function BookingDetailDialog({
                 readOnly
               />
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="member.fullName">Tên người dùng</Label>
-              <Input
-                id="member.fullName"
-                type="text"
-                value={bookingData.member.fullName}
-                readOnly
+            <div className="col-span-2">
+              <UserInformationCard
+                role="Member"
+                userData={bookingData.member}
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="consultant.fullName">Tên chuyên viên</Label>
-              <Input
-                id="consultant.fullName"
-                type="text"
-                value={bookingData.consultant.fullName}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="member.email">Email người dùng</Label>
-              <Input
-                id="member.email"
-                type="email"
-                value={bookingData.member.email}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="consultant.email">Email chuyên viên</Label>
-              <Input
-                id="consultant.email"
-                type="email"
-                value={bookingData.consultant.email}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="member.phoneNumber">
-                Số điện thoại người dùng
-              </Label>
-              <Input
-                id="member.phoneNumber"
-                type="text"
-                value={bookingData.member.phoneNumber}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="consultant.phoneNumber">
-                Số điện thoại chuyên viên
-              </Label>
-              <Input
-                id="consultant.phoneNumber"
-                type="text"
-                value={bookingData.consultant.phoneNumber}
-                readOnly
+            <div className="col-span-2">
+              <UserInformationCard
+                role="Consultant"
+                userData={bookingData.consultant}
               />
             </div>
 
@@ -195,31 +145,11 @@ function BookingDetailDialog({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="createdBy">Người tạo</Label>
-              <Input
-                id="createdBy"
-                type="text"
-                value={bookingData.createdBy || "--"}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="updatedAt">Ngày cập nhật</Label>
               <Input
                 id="updatedAt"
                 type="text"
                 value={formatDate(bookingData.updatedAt)}
-                readOnly
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="updatedBy">Người cập nhật</Label>
-              <Input
-                id="updatedBy"
-                type="text"
-                value={bookingData.updatedBy || "--"}
                 readOnly
               />
             </div>
