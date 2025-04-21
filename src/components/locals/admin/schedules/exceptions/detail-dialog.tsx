@@ -2,11 +2,6 @@
 
 import React from "react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Button } from "@/components/globals/atoms/button"
 import {
   Dialog,
@@ -25,7 +20,6 @@ import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 import { useScheduleExceptionById } from "@/hooks/useScheduleException"
 
 import { formatDate } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
 
 interface ExceptionDetailDialogProps {
   isOpen: boolean

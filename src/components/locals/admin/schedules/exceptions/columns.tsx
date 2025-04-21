@@ -19,7 +19,6 @@ import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dia
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
 import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
-import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
 
 import { ScheduleExceptionType } from "@/schemas/scheduleExceptionSchema"
 

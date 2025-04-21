@@ -1,10 +1,5 @@
 import React from "react"
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from "@/components/globals/atoms/avatar"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 import { Textarea } from "@/components/globals/atoms/textarea"
@@ -16,7 +11,6 @@ import { getConsultantVerificationMeta } from "@/constants/enum/Consultant"
 import { ConsultantType } from "@/schemas/consultantSchema"
 
 import { formatDate } from "@/utils/formatters"
-import { getInitials } from "@/utils/helpers"
 
 interface ConsultantDetailTabDialogProps {
   consultantData: ConsultantType
@@ -29,7 +23,7 @@ function ConsultantDetailTabDialog({
     consultantData?.verificationStatus
   )
 
-  const consultantCard = {
+  const consultantInformationData = {
     email: consultantData.email,
     phoneNumber: consultantData.phoneNumber,
     fullName: consultantData.fullName,
@@ -49,7 +43,7 @@ function ConsultantDetailTabDialog({
       </div>
 
       <div className="col-span-2">
-        <UserInformationCard role="Consultant" userData={consultantCard} />
+        <UserInformationCard userData={consultantInformationData} />
       </div>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -64,13 +58,19 @@ function ConsultantDetailTabDialog({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="experience">Kinh nghiệm (năm)</Label>
-          <Input
-            id="experience"
-            type="number"
-            value={consultantData.experience}
-            readOnly
-          />
+          <Label htmlFor="experience">Kinh nghiệm</Label>
+
+          <div className="relative">
+            <Input
+              id="experience"
+              type="number"
+              value={consultantData.experience}
+              readOnly
+            />
+            <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+              năm
+            </span>
+          </div>
         </div>
       </div>
 
@@ -86,9 +86,9 @@ function ConsultantDetailTabDialog({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="verification">Xác thực</Label>
+          <Label htmlFor="verificationStatus">Xác thực</Label>
           <Input
-            id="verification"
+            id="verificationStatus"
             type="text"
             value={consultantVerificationLabel}
             readOnly

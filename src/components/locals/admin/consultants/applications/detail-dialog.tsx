@@ -37,12 +37,12 @@ import DetailTabDialog from "./detail-tab-dialog"
 interface ConsultantDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  consultantId: string | null
+  consultantId: string | undefined
 }
 
 type AlertType = "verify" | "reject" | null
 
-function UserDetailDialog({
+function ConsultantApplicationDetailDialog({
   isOpen,
   onClose,
   consultantId
@@ -50,7 +50,7 @@ function UserDetailDialog({
   const {
     data: consultantData,
     isLoading: isConsultantLoading,
-    error: userError
+    error: consultantError
   } = useConsultantById(consultantId || "")
 
   const {
@@ -62,7 +62,7 @@ function UserDetailDialog({
   const currentCertificate = certificateData?.[0]
 
   const isLoading = isConsultantLoading || isCertificateLoading
-  const hasError = userError || certificateError
+  const hasError = consultantError || certificateError
 
   const { mutate: verifyConsultant } = useVerifyConsultant()
   const { mutate: rejectConsultant } = useRejectConsultant()
@@ -121,7 +121,7 @@ function UserDetailDialog({
           ) : hasError || !consultantData ? (
             <ErrorDialog
               message={
-                (userError || certificateError)?.message ||
+                (consultantError || certificateError)?.message ||
                 "Không thể tải dữ liệu."
               }
             />
@@ -182,6 +182,7 @@ function UserDetailDialog({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
       <ConfirmAlertDialog
         open={openAlert}
         onOpenChange={handleCloseAlert}
@@ -201,4 +202,4 @@ function UserDetailDialog({
   )
 }
 
-export default UserDetailDialog
+export default ConsultantApplicationDetailDialog

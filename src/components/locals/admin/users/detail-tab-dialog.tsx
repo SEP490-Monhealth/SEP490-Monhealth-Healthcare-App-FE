@@ -9,14 +9,14 @@ import UserInformationCard from "@/components/globals/molecules/user-information
 
 import { UserType } from "@/schemas/userSchema"
 
-import { formatDate, formatPhoneNumber } from "@/utils/formatters"
+import { formatDate } from "@/utils/formatters"
 
 interface UserDetailTabDialogProps {
   userData: UserType
 }
 
 function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
-  const userCard = {
+  const userInformationData = {
     email: userData.email,
     phoneNumber: userData.phoneNumber,
     fullName: userData.fullName,
@@ -31,7 +31,10 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
       </div>
 
       <div className="col-span-2">
-        <UserInformationCard role={userData.role} userData={userCard} />
+        <UserInformationCard
+          role={userData.role}
+          userData={userInformationData}
+        />
       </div>
 
       <div className="col-span-2 space-y-2">

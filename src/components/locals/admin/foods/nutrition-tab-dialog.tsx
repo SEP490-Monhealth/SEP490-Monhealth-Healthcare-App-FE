@@ -18,6 +18,7 @@ function FoodNutritionTabDialog({
     <div className="grid grid-cols-3 gap-x-6 gap-y-4">
       <div className="space-y-2">
         <Label htmlFor="calories">Năng lượng</Label>
+
         <div className="relative">
           <Input
             id="calories"
@@ -33,6 +34,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="protein">Chất đạm</Label>
+
         <div className="relative">
           <Input
             id="protein"
@@ -48,6 +50,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="carbs">Tinh bột</Label>
+
         <div className="relative">
           <Input
             id="carbs"
@@ -63,6 +66,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="fat">Chất béo</Label>
+
         <div className="relative">
           <Input
             id="fat"
@@ -78,6 +82,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="fiber">Chất xơ</Label>
+
         <div className="relative">
           <Input
             id="fiber"
@@ -93,6 +98,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="sugar">Đường</Label>
+
         <div className="relative">
           <Input
             id="sugar"
@@ -108,6 +114,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="saturatedFat">Chất béo bão hòa</Label>
+
         <div className="relative">
           <Input
             id="saturatedFat"
@@ -123,6 +130,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="unsaturatedFat">Chất béo không bão hòa</Label>
+
         <div className="relative">
           <Input
             id="unsaturatedFat"
@@ -138,6 +146,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="cholesterol">Cholesterol</Label>
+
         <div className="relative">
           <Input
             id="cholesterol"
@@ -153,6 +162,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="sodium">Natri</Label>
+
         <div className="relative">
           <Input
             id="sodium"
@@ -168,6 +178,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="potassium">Kali</Label>
+
         <div className="relative">
           <Input
             id="potassium"
@@ -183,6 +194,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="calcium">Canxi</Label>
+
         <div className="relative">
           <Input
             id="calcium"
@@ -198,6 +210,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="iron">Sắt</Label>
+
         <div className="relative">
           <Input
             id="iron"
@@ -213,6 +226,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="vitaminA">Vitamin A</Label>
+
         <div className="relative">
           <Input
             id="vitaminA"
@@ -228,6 +242,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="vitaminB1">Vitamin B1</Label>
+
         <div className="relative">
           <Input
             id="vitaminB1"
@@ -243,6 +258,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="vitaminB2">Vitamin B2</Label>
+
         <div className="relative">
           <Input
             id="vitaminB2"
@@ -258,6 +274,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="vitaminB3">Vitamin B3</Label>
+
         <div className="relative">
           <Input
             id="vitaminB3"
@@ -273,6 +290,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="vitaminC">Vitamin C</Label>
+
         <div className="relative">
           <Input
             id="vitaminC"
@@ -288,6 +306,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="vitaminD">Vitamin D</Label>
+
         <div className="relative">
           <Input
             id="vitaminD"
@@ -303,6 +322,7 @@ function FoodNutritionTabDialog({
 
       <div className="space-y-2">
         <Label htmlFor="vitaminE">Vitamin E</Label>
+
         <div className="relative">
           <Input
             id="vitaminE"

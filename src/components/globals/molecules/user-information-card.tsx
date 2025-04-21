@@ -11,7 +11,7 @@ import { Card } from "../atoms/card"
 import { Input } from "../atoms/input"
 
 interface UserInformationCardProps {
-  role: string
+  role?: string
   userData: {
     email: string
     phoneNumber: string
@@ -22,20 +22,20 @@ interface UserInformationCardProps {
 
 function UserInformationCard({ role, userData }: UserInformationCardProps) {
   return (
-    <Card className="px-6 py-4">
-      <div className="flex items-center gap-4">
-        <Avatar className="h-full w-48 rounded-xl">
+    <Card className="px-6 py-4 shadow-xs">
+      <div className="flex items-center gap-6">
+        <Avatar className="h-36 w-48 rounded-lg">
           <AvatarImage
             src={userData.avatarUrl}
             alt={getInitials(userData.fullName)}
           />
-          <AvatarFallback className="rounded-xl">
+          <AvatarFallback className="rounded-lg">
             {getInitials(userData.fullName)}
           </AvatarFallback>
         </Avatar>
 
         <div className="w-full space-y-4">
-          <Badge variant="outline">{role}</Badge>
+          {role && <Badge variant="outline">{role}</Badge>}
 
           <Input
             id="fullName"

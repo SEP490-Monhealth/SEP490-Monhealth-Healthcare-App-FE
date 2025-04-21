@@ -3,7 +3,6 @@ import {
   Calendar,
   CreditCard,
   Dumbbell,
-  Flag,
   Ham,
   LayoutDashboard,
   PieChart,

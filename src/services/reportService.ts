@@ -1,3 +1,4 @@
+import axios from "axios"
 import { toast } from "sonner"
 
 import { ReportStatusEnum } from "@/constants/enum/Report"
@@ -31,11 +32,16 @@ export const fetchReports = async (
 
     const { totalPages, totalItems, items: reports } = data
     return { totalPages, totalItems, reports }
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch reports"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch reports"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -52,11 +58,16 @@ export const fetchReportById = async (
     }
 
     return data
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to fetch report"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch report"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -69,16 +80,21 @@ export const approveReport = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw new Error(message || "Failed to approved report")
+      throw new Error(message || "Failed to approve report")
     }
 
     toast.success(message)
     return message
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to approved report"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to approve report"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
 
@@ -96,10 +112,15 @@ export const rejectReport = async (
 
     toast.success(message)
     return message
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to reject report"
-    toast.error(errorMessage)
-    throw new Error(errorMessage)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to reject report"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
   }
 }
