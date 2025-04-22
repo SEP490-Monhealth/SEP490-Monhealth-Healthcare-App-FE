@@ -157,6 +157,7 @@ function WithdrawalRequestDetailDialog({
 
               <div>
                 <UserInformationCard
+                  role="Consultant"
                   userData={withdrawalRequestData.consultant}
                 />
               </div>

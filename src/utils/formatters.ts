@@ -150,3 +150,15 @@ export function formatDatetime(dateTime: Date | string): string {
 
   return `${hours}:${minutes}, ${day}/${month}/${year}`
 }
+
+/**
+ * Định dạng số đầu vào:
+ * - Nếu là số nguyên, giữ nguyên.
+ * - Nếu là số thập phân, làm tròn đến 2 chữ số sau dấu phẩy.
+ *
+ * @param {number} value - Số đầu vào cần định dạng
+ * @returns {number} - Số đã được định dạng
+ */
+export function roundIfDecimal(value: number) {
+  return Number.isInteger(value) ? value : parseFloat(value.toFixed(2))
+}

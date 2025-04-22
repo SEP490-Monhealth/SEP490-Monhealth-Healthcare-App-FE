@@ -9,7 +9,7 @@ import { getGenderMeta } from "@/constants/enum/Metric"
 
 import { MetricType } from "@/schemas/metricSchema"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, roundIfDecimal } from "@/utils/formatters"
 
 interface UserMetricTabDialogProps {
   metricData: MetricType
@@ -57,22 +57,42 @@ function UserMetricTabDialog({ metricData }: UserMetricTabDialogProps) {
 
       <div className="space-y-2">
         <Label htmlFor="bmi">BMI (Chỉ số khối cơ thể)</Label>
-        <Input id="bmi" type="number" value={metricData.bmi} readOnly />
+        <Input
+          id="bmi"
+          type="number"
+          value={roundIfDecimal(metricData.bmi)}
+          readOnly
+        />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="bmr">BMR (Chỉ số trao đổi chất cơ bản)</Label>
-        <Input id="bmr" type="number" value={metricData.bmr} readOnly />
+        <Input
+          id="bmr"
+          type="number"
+          value={roundIfDecimal(metricData.bmr)}
+          readOnly
+        />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="tdee">TDEE (Tổng năng lượng tiêu thụ hàng ngày)</Label>
-        <Input id="tdee" type="number" value={metricData.tdee} readOnly />
+        <Label htmlFor="tdee">TDEE (Năng lượng tiêu thụ hàng ngày)</Label>
+        <Input
+          id="tdee"
+          type="number"
+          value={roundIfDecimal(metricData.tdee)}
+          readOnly
+        />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="ibw">IBW (Cân nặng lý tưởng)</Label>
-        <Input id="ibw" type="number" value={metricData.ibw} readOnly />
+        <Input
+          id="ibw"
+          type="number"
+          value={roundIfDecimal(metricData.ibw)}
+          readOnly
+        />
       </div>
 
       <div className="space-y-2">

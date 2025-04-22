@@ -107,19 +107,19 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
               )}
             </TabsList>
 
-            <TabsContent value="user-detail" className="w-full">
+            <TabsContent value="user-detail" className="mt-2 w-full">
               <UserDetailTabDialog userData={userData} />
             </TabsContent>
 
             {userData.role != "Admin" && (
               <>
-                <TabsContent value="user-metric" className="w-full">
+                <TabsContent value="user-metric" className="mt-2 w-full">
                   {currentMetric && (
                     <UserMetricTabDialog metricData={currentMetric} />
                   )}
                 </TabsContent>
 
-                <TabsContent value="user-goal" className="w-full">
+                <TabsContent value="user-goal" className="mt-2 w-full">
                   {currentGoal && <UserGoalTabDialog goalData={currentGoal} />}
                 </TabsContent>
               </>

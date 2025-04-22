@@ -6,6 +6,7 @@ import Image from "next/image"
 
 import { ConsultantBankType } from "@/schemas/consultantBankSchema"
 
+import { Badge } from "../atoms/badge"
 import { Card } from "../atoms/card"
 
 interface BankInformationCardProps {
@@ -24,9 +25,15 @@ function BankInformationCard({ consultantBankData }: BankInformationCardProps) {
         />
 
         <div className="flex w-full flex-col">
-          <span className="font-medium capitalize">
-            {consultantBankData.bank.shortName}
-          </span>
+          <div className="flex items-center justify-between gap-4">
+            <span className="font-medium capitalize">
+              {consultantBankData.bank.shortName}
+            </span>
+
+            {consultantBankData.isDefault && (
+              <Badge variant="outline">Mặc định</Badge>
+            )}
+          </div>
 
           <span className="text-muted-foreground text-sm">
             {consultantBankData.name}

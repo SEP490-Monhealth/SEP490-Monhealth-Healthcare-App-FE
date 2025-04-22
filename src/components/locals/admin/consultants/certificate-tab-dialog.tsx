@@ -2,15 +2,10 @@
 
 import React from "react"
 
-import Image from "next/image"
-
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem
-} from "@/components/globals/atoms/carousel"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
+
+import CarouselImage from "@/components/globals/molecules/carousel-image"
 
 import { CertificateType } from "@/schemas/certificateSchema"
 
@@ -24,37 +19,21 @@ function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
   return (
     <div className="flex flex-col gap-4">
       <div className="grid grid-cols-7 gap-x-6 gap-y-4">
+        <div className="col-span-7 space-y-2">
+          <Label htmlFor="number">Số chứng chỉ</Label>
+          <Input
+            id="number"
+            type="text"
+            value={certificateData.number}
+            readOnly
+          />
+        </div>
+
         <div className="col-span-4">
-          <Carousel>
-            <CarouselContent>
-              {certificateData.imageUrls.map((imageUrl, index) => (
-                <CarouselItem key={index} className="h-64 w-full">
-                  <div className="h-full w-full">
-                    <Image
-                      src={imageUrl}
-                      alt={`certificate-${index}`}
-                      width={400}
-                      height={100}
-                      className="object-cover"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
+          <CarouselImage images={certificateData.imageUrls} />
         </div>
 
         <div className="col-span-3 grid grid-cols-2 gap-x-6 gap-y-4">
-          <div className="col-span-2 space-y-2">
-            <Label htmlFor="number">Số chứng chỉ</Label>
-            <Input
-              id="number"
-              type="text"
-              value={certificateData.number}
-              readOnly
-            />
-          </div>
-
           <div className="col-span-2 space-y-2">
             <Label htmlFor="name">Tên chứng chỉ</Label>
             <Input

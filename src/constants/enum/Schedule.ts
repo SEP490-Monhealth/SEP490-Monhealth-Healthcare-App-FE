@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { EnumMeta } from "@/configs/enum"
+
 export enum ScheduleTypeEnum {
   OneTime,
   Recurring
@@ -37,3 +39,27 @@ export const ScheduleTimeSlotStatusSchemaEnum = z.nativeEnum(
 export const ScheduleExceptionStatusSchemaEnum = z.nativeEnum(
   ScheduleExceptionStatusEnum
 )
+
+const ScheduleExceptionStatusMap: Record<
+  ScheduleExceptionStatusEnum,
+  EnumMeta
+> = {
+  [ScheduleExceptionStatusEnum.Pending]: {
+    label: "Chờ duyệt",
+    color: "#ca8a04" // yellow 600
+  },
+  [ScheduleExceptionStatusEnum.Approved]: {
+    label: "Đã duyệt",
+    color: "#16a34a" // green 600
+  },
+  [ScheduleExceptionStatusEnum.Rejected]: {
+    label: "Đã từ chối",
+    color: "#ef4444" // red 500
+  }
+}
+
+export function getScheduleExceptionStatusMeta(
+  status: ScheduleExceptionStatusEnum
+): EnumMeta {
+  return ScheduleExceptionStatusMap[status]
+}

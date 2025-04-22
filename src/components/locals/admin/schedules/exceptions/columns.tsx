@@ -1,10 +1,9 @@
 "use client"
 
-import { useState } from "react"
-
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
+import { Copy, Eye, MoreHorizontal } from "lucide-react"
 
+import { Badge } from "@/components/globals/atoms/badge"
 import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
 import {
@@ -15,10 +14,15 @@ import {
   DropdownMenuTrigger
 } from "@/components/globals/atoms/dropdown-menu"
 
-import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
 import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
+import DataTableCellUser from "@/components/globals/molecules/data-table-user-cell"
+
+import {
+  ScheduleExceptionStatusEnum,
+  getScheduleExceptionStatusMeta
+} from "@/constants/enum/Schedule"
 
 import { ScheduleExceptionType } from "@/schemas/scheduleExceptionSchema"
 
@@ -60,17 +64,17 @@ export const createColumns = (
       <DataTableColumnHeader column={column} title="Mã lịch nghỉ" />
     )
   },
-  // {
-  //   accessorKey: "consultant",
-  //   meta: { title: "Chuyên viên" },
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Chuyên viên" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const consultant = row.original.consultant
-  //     return <DataTableCellUser user={consultant} />
-  //   }
-  // },
+  {
+    accessorKey: "consultant",
+    meta: { title: "Chuyên viên" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Chuyên viên" />
+    ),
+    cell: ({ row }) => {
+      const consultant = row.original.consultant
+      return <DataTableCellUser user={consultant} />
+    }
+  },
   {
     accessorKey: "date",
     meta: { title: "Ngày" },
@@ -88,6 +92,25 @@ export const createColumns = (
     cell: ({ row }) => {
       const reason = row.original.reason
       return <DataTableCellDescription description={reason} />
+    }
+  },
+  {
+    accessorKey: "status",
+    meta: { title: "Trạng thái" },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Trạng thái" center />
+    ),
+    cell: ({ row }) => {
+      const status = row.original.status as ScheduleExceptionStatusEnum
+      const { label, color } = getScheduleExceptionStatusMeta(status)
+
+      return (
+        <div className="flex justify-center pr-4">
+          <Badge className="text-white" style={{ backgroundColor: color }}>
+            {label}
+          </Badge>
+        </div>
+      )
     }
   },
   {
@@ -134,23 +157,6 @@ export const createColumns = (
     cell: ({ row }) => {
       const scheduleExceptionData = row.original
 
-      const isConfirm = scheduleExceptionData.status
-
-      const [openAlert, setOpenAlert] = useState<boolean>(false)
-
-      const handleOpenAlert = (e: React.MouseEvent) => {
-        e.stopPropagation()
-        setOpenAlert(true)
-      }
-
-      const handleCloseAlert = () => {
-        setOpenAlert(false)
-      }
-
-      const handleConfirm = () => {
-        setOpenAlert(false)
-      }
-
       return (
         <div className="flex justify-center">
           <DropdownMenu>
@@ -183,35 +189,8 @@ export const createColumns = (
                 <Eye className="h-4 w-4" />
                 Xem chi tiết
               </DropdownMenuItem>
-
-              <DropdownMenuItem
-                variant={isConfirm ? "destructive" : "default"}
-                onClick={handleOpenAlert}
-              >
-                {isConfirm ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng xác nhận
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Xác nhận
-                  </>
-                )}
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <ConfirmAlertDialog
-            open={openAlert}
-            onOpenChange={handleCloseAlert}
-            onConfirm={handleConfirm}
-            title="Xác nhận thay đổi trạng thái"
-            description={`Bạn có chắc muốn ${
-              isConfirm ? "ngừng xác nhận" : "xác nhận"
-            } lịch nghỉ này?`}
-          />
         </div>
       )
     },

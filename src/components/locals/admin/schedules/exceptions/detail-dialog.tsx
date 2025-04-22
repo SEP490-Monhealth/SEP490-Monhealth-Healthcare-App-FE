@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 
 import { Button } from "@/components/globals/atoms/button"
 import {
@@ -14,10 +14,21 @@ import {
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
+import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
+import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
-import { useScheduleExceptionById } from "@/hooks/useScheduleException"
+import {
+  ScheduleExceptionStatusEnum,
+  getScheduleExceptionStatusMeta
+} from "@/constants/enum/Schedule"
+
+import {
+  useApproveScheduleException,
+  useRejectScheduleException,
+  useScheduleExceptionById
+} from "@/hooks/useScheduleException"
 
 import { formatDate } from "@/utils/formatters"
 
@@ -38,8 +49,41 @@ function ExceptionDetailDialog({
     error: exceptionError
   } = useScheduleExceptionById(scheduleExceptionId || "")
 
+  const { mutate: approveScheduleException } = useApproveScheduleException()
+  const { mutate: rejectScheduleException } = useRejectScheduleException()
+
   const isLoading = isExceptionLoading
   const hasError = exceptionError
+
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
+
+  const [typeAction, setTypeAction] = useState<"approve" | "reject">()
+
+  const handleActionReport = (type: "approve" | "reject") => {
+    setTypeAction(type)
+    setOpenAlert(true)
+  }
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false)
+  }
+
+  const handleConfirm = async () => {
+    if (typeAction === "approve") {
+      await approveScheduleException({
+        scheduleExceptionId: scheduleExceptionData?.scheduleExceptionId || ""
+      })
+    } else {
+      await rejectScheduleException({
+        scheduleExceptionId: scheduleExceptionData?.scheduleExceptionId || ""
+      })
+    }
+  }
+
+  const { label: scheduleExceptionStatusLabel } =
+    getScheduleExceptionStatusMeta(
+      scheduleExceptionData?.status || ScheduleExceptionStatusEnum.Pending
+    )
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -69,55 +113,12 @@ function ExceptionDetailDialog({
               />
             </div>
 
-            {/* <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-              <div className="col-span-1">
-                <div className="flex-shrink-0">
-                  <Avatar className="h-full w-48 rounded-xl">
-                    <AvatarImage
-                      src={scheduleExceptionData.consultant.avatarUrl}
-                      alt={getInitials(
-                        scheduleExceptionData.consultant.fullName
-                      )}
-                    />
-                    <AvatarFallback className="rounded-xl">
-                      {getInitials(scheduleExceptionData.consultant.fullName)}
-                    </AvatarFallback>
-                  </Avatar>
-                </div>
-              </div>
-
-              <div className="col-span-2 space-y-2">
-                <div className="space-y-2">
-                  <Label htmlFor="fullName">Tên chuyên viên</Label>
-                  <Input
-                    id="fullName"
-                    type="text"
-                    value={scheduleExceptionData.consultant.fullName}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="text"
-                    value={scheduleExceptionData.consultant.email}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="phoneNumber">Số điện thoại</Label>
-                  <Input
-                    id="phoneNumber"
-                    type="text"
-                    value={scheduleExceptionData.consultant.phoneNumber}
-                    readOnly
-                  />
-                </div>
-              </div>
-            </div> */}
+            <div className="col-span-2">
+              <UserInformationCard
+                role="Consultant"
+                userData={scheduleExceptionData.consultant}
+              />
+            </div>
 
             <div className="space-y-2">
               <Label htmlFor="date">Lịch nghỉ</Label>
@@ -134,9 +135,7 @@ function ExceptionDetailDialog({
               <Input
                 id="status"
                 type="text"
-                value={
-                  scheduleExceptionData.status ? "Xác nhận" : "Chưa xác nhận"
-                }
+                value={scheduleExceptionStatusLabel}
                 readOnly
               />
             </div>
@@ -174,9 +173,39 @@ function ExceptionDetailDialog({
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
+          <div className={"flex w-full items-end justify-between"}>
+            <Button variant="outline" onClick={onClose}>
+              Đóng
+            </Button>
+            {scheduleExceptionData?.status ===
+              ScheduleExceptionStatusEnum.Pending && (
+              <div className="space-x-4">
+                <Button
+                  variant="destructive"
+                  onClick={() => handleActionReport("reject")}
+                >
+                  Từ chối
+                </Button>
+
+                <Button
+                  variant="default"
+                  onClick={() => handleActionReport("approve")}
+                >
+                  Phê duyệt
+                </Button>
+              </div>
+            )}
+          </div>
         </DialogFooter>
       </DialogContent>
+
+      <ConfirmAlertDialog
+        open={openAlert}
+        onOpenChange={handleCloseAlert}
+        onConfirm={handleConfirm}
+        title={"Xác nhận lịch nghỉ"}
+        description={`Bạn có chắc chắn muốn ${typeAction === "approve" ? "phê duyệt" : "từ chối"}  lịch nghỉ này?`}
+      />
     </Dialog>
   )
 }

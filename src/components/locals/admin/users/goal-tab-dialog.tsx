@@ -9,7 +9,7 @@ import { getGoalStatusMeta, getGoalTypeMeta } from "@/constants/enum/Goal"
 
 import { GoalType } from "@/schemas/goalSchema"
 
-import { formatDate } from "@/utils/formatters"
+import { formatDate, roundIfDecimal } from "@/utils/formatters"
 
 interface UserGoalTabDialogProps {
   goalData: GoalType
@@ -51,7 +51,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="caloriesGoal"
           type="number"
-          value={goalData.caloriesGoal}
+          value={roundIfDecimal(goalData.caloriesGoal)}
           readOnly
         />
       </div>
@@ -61,7 +61,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="proteinGoal"
           type="number"
-          value={goalData.proteinGoal}
+          value={roundIfDecimal(goalData.proteinGoal)}
           readOnly
         />
       </div>
@@ -71,14 +71,19 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="carbsGoal"
           type="number"
-          value={goalData.carbsGoal}
+          value={roundIfDecimal(goalData.carbsGoal)}
           readOnly
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="fatGoal">Chất béo</Label>
-        <Input id="fatGoal" type="number" value={goalData.fatGoal} readOnly />
+        <Input
+          id="fatGoal"
+          type="number"
+          value={roundIfDecimal(goalData.fatGoal)}
+          readOnly
+        />
       </div>
 
       <div className="space-y-2">
@@ -86,7 +91,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="fiberGoal"
           type="number"
-          value={goalData.fiberGoal}
+          value={roundIfDecimal(goalData.fiberGoal)}
           readOnly
         />
       </div>
@@ -96,7 +101,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="sugarGoal"
           type="number"
-          value={goalData.sugarGoal}
+          value={roundIfDecimal(goalData.sugarGoal)}
           readOnly
         />
       </div>
@@ -106,7 +111,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="waterIntakesGoal"
           type="number"
-          value={goalData.waterIntakesGoal}
+          value={roundIfDecimal(goalData.waterIntakesGoal)}
           readOnly
         />
       </div>
@@ -116,7 +121,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="workoutDurationGoal"
           type="number"
-          value={goalData.workoutDurationGoal}
+          value={roundIfDecimal(goalData.workoutDurationGoal)}
           readOnly
         />
       </div>
@@ -126,7 +131,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
         <Input
           id="caloriesBurnedGoal"
           type="number"
-          value={goalData.caloriesBurnedGoal}
+          value={roundIfDecimal(goalData.caloriesBurnedGoal)}
           readOnly
         />
       </div>

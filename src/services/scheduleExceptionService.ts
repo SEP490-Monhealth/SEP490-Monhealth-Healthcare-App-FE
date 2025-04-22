@@ -69,3 +69,61 @@ export const fetchScheduleExceptionById = async (
     throw new Error("An unknown error occurred")
   }
 }
+
+export const approveScheduleException = async (
+  scheduleExceptionId: string | undefined
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(
+      `/schedule-exceptions/${scheduleExceptionId}/approved`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to approve schedule exception")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to approve schedule exception"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
+  }
+}
+
+export const rejectScheduleException = async (
+  scheduleExceptionId: string | undefined
+): Promise<void> => {
+  try {
+    const response = await monAPI.patch(
+      `/schedule-exceptions/${scheduleExceptionId}/rejected`
+    )
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to reject schedule exception")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to reject schedule exception"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
+  }
+}
