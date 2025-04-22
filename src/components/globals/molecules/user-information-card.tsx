@@ -24,7 +24,7 @@ function UserInformationCard({ role, userData }: UserInformationCardProps) {
   return (
     <Card className="px-6 py-4 shadow-xs">
       <div className="flex items-center gap-6">
-        <Avatar className="h-48 w-48 rounded-lg">
+        <Avatar className={`w-48 rounded-lg ${role ? "h-48" : "h-36"}`}>
           <AvatarImage
             src={userData.avatarUrl}
             alt={getInitials(userData.fullName)}

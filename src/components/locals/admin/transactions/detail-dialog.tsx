@@ -79,17 +79,17 @@ function TransactionDetailDialog({
   const isLoading = isTransactionLoading
   const hasError = transactionError
 
-  const hasValidMember =
+  const validMember =
     transactionData?.member &&
     Object.values(transactionData.member).some((value) => value != null)
 
-  const hasValidConsultant =
+  const validConsultant =
     transactionData?.consultant &&
     Object.values(transactionData.consultant).some((value) => value != null)
 
-  const dataInfo = hasValidMember
+  const dataInfo = validMember
     ? { role: "Member", userData: transactionData.member }
-    : hasValidConsultant
+    : validConsultant
       ? { role: "Consultant", userData: transactionData.consultant }
       : null
 

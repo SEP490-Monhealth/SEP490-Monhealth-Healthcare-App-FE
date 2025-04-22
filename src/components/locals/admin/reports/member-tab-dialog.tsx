@@ -24,12 +24,12 @@ function MemberTabDialog({ reportData }: MemberTabDialogProps) {
       </div>
 
       <div className="col-span-2">
-        <UserInformationCard role="member" userData={reportData.member} />
+        <UserInformationCard role="Member" userData={reportData.member} />
       </div>
 
       <div className="col-span-2">
         <UserInformationCard
-          role="consultant"
+          role="Consultant"
           userData={reportData.consultant}
         />
       </div>
