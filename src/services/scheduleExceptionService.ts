@@ -72,7 +72,7 @@ export const fetchScheduleExceptionById = async (
 
 export const approveScheduleException = async (
   scheduleExceptionId: string | undefined
-): Promise<void> => {
+): Promise<string> => {
   try {
     const response = await monAPI.patch(
       `/schedule-exceptions/${scheduleExceptionId}/approved`
@@ -101,7 +101,7 @@ export const approveScheduleException = async (
 
 export const rejectScheduleException = async (
   scheduleExceptionId: string | undefined
-): Promise<void> => {
+): Promise<string> => {
   try {
     const response = await monAPI.patch(
       `/schedule-exceptions/${scheduleExceptionId}/rejected`

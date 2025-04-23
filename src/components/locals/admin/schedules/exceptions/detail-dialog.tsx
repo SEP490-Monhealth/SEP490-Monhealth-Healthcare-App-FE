@@ -43,24 +43,25 @@ function ExceptionDetailDialog({
   onClose,
   scheduleExceptionId
 }: ExceptionDetailDialogProps) {
-  const {
-    data: scheduleExceptionData,
-    isLoading: isExceptionLoading,
-    error: exceptionError
-  } = useScheduleExceptionById(scheduleExceptionId || "")
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
+  const [alertType, setAlertType] = useState<"approve" | "reject">()
 
   const { mutate: approveScheduleException } = useApproveScheduleException()
   const { mutate: rejectScheduleException } = useRejectScheduleException()
 
-  const isLoading = isExceptionLoading
-  const hasError = exceptionError
+  const {
+    data: scheduleExceptionData,
+    isLoading: isScheduleExceptionLoading,
+    error: scheduleExceptionError
+  } = useScheduleExceptionById(scheduleExceptionId || "")
 
-  const [openAlert, setOpenAlert] = useState<boolean>(false)
-
-  const [typeAction, setTypeAction] = useState<"approve" | "reject">()
+  const { label: scheduleExceptionStatusLabel } =
+    getScheduleExceptionStatusMeta(
+      scheduleExceptionData?.status || ScheduleExceptionStatusEnum.Pending
+    )
 
   const handleActionReport = (type: "approve" | "reject") => {
-    setTypeAction(type)
+    setAlertType(type)
     setOpenAlert(true)
   }
 
@@ -69,7 +70,7 @@ function ExceptionDetailDialog({
   }
 
   const handleConfirm = async () => {
-    if (typeAction === "approve") {
+    if (alertType === "approve") {
       await approveScheduleException({
         scheduleExceptionId: scheduleExceptionData?.scheduleExceptionId || ""
       })
@@ -80,10 +81,8 @@ function ExceptionDetailDialog({
     }
   }
 
-  const { label: scheduleExceptionStatusLabel } =
-    getScheduleExceptionStatusMeta(
-      scheduleExceptionData?.status || ScheduleExceptionStatusEnum.Pending
-    )
+  const isLoading = isScheduleExceptionLoading
+  const hasError = scheduleExceptionError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -99,7 +98,9 @@ function ExceptionDetailDialog({
           <LoadingDialog />
         ) : hasError || !scheduleExceptionData ? (
           <ErrorDialog
-            message={exceptionError?.message || "Không thể tải dữ liệu."}
+            message={
+              scheduleExceptionError?.message || "Không thể tải dữ liệu."
+            }
           />
         ) : (
           <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -204,7 +205,7 @@ function ExceptionDetailDialog({
         onOpenChange={handleCloseAlert}
         onConfirm={handleConfirm}
         title={"Xác nhận lịch nghỉ"}
-        description={`Bạn có chắc chắn muốn ${typeAction === "approve" ? "phê duyệt" : "từ chối"}  lịch nghỉ này?`}
+        description={`Bạn có chắc chắn muốn ${alertType === "approve" ? "phê duyệt" : "từ chối"}  lịch nghỉ này?`}
       />
     </Dialog>
   )

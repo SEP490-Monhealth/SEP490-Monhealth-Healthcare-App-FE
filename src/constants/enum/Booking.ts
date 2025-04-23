@@ -3,7 +3,7 @@ import { z } from "zod"
 import { EnumMeta } from "@/configs/enum"
 
 export enum BookingStatusEnum {
-  Pending,
+  Booked,
   Completed,
   Cancelled
 }
@@ -11,7 +11,7 @@ export enum BookingStatusEnum {
 export const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
 
 const bookingStatusMap: Record<BookingStatusEnum, EnumMeta> = {
-  [BookingStatusEnum.Pending]: {
+  [BookingStatusEnum.Booked]: {
     label: "Đã đặt",
     color: "#ca8a04" // yellow 600
   },

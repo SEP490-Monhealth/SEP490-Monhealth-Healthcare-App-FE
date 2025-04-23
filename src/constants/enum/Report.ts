@@ -10,7 +10,7 @@ export enum ReportStatusEnum {
 
 export const ReportStatusSchemaEnum = z.nativeEnum(ReportStatusEnum)
 
-const ReportStatusMap: Record<ReportStatusEnum, EnumMeta> = {
+const reportStatusMap: Record<ReportStatusEnum, EnumMeta> = {
   [ReportStatusEnum.Pending]: {
     label: "Chờ duyệt",
     color: "#ca8a04" // yellow 600
@@ -26,5 +26,5 @@ const ReportStatusMap: Record<ReportStatusEnum, EnumMeta> = {
 }
 
 export function getReportStatusMeta(status: ReportStatusEnum): EnumMeta {
-  return ReportStatusMap[status]
+  return reportStatusMap[status]
 }

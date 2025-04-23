@@ -37,7 +37,11 @@ export const useScheduleExceptionById = (scheduleExceptionId: string) =>
 export const useApproveScheduleException = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { scheduleExceptionId: string | undefined }>({
+  return useMutation<
+    string,
+    Error,
+    { scheduleExceptionId: string | undefined }
+  >({
     mutationFn: ({ scheduleExceptionId }) =>
       approveScheduleException(scheduleExceptionId),
     onSuccess: () => {
@@ -50,7 +54,11 @@ export const useApproveScheduleException = () => {
 export const useRejectScheduleException = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { scheduleExceptionId: string | undefined }>({
+  return useMutation<
+    string,
+    Error,
+    { scheduleExceptionId: string | undefined }
+  >({
     mutationFn: ({ scheduleExceptionId }) =>
       rejectScheduleException(scheduleExceptionId),
     onSuccess: () => {

@@ -35,12 +35,11 @@ export const RecurringDaySchemaEnum = z.nativeEnum(RecurringDayEnum)
 export const ScheduleTimeSlotStatusSchemaEnum = z.nativeEnum(
   ScheduleTimeSlotStatusEnum
 )
-
 export const ScheduleExceptionStatusSchemaEnum = z.nativeEnum(
   ScheduleExceptionStatusEnum
 )
 
-const ScheduleExceptionStatusMap: Record<
+const scheduleExceptionStatusMap: Record<
   ScheduleExceptionStatusEnum,
   EnumMeta
 > = {
@@ -61,5 +60,5 @@ const ScheduleExceptionStatusMap: Record<
 export function getScheduleExceptionStatusMeta(
   status: ScheduleExceptionStatusEnum
 ): EnumMeta {
-  return ScheduleExceptionStatusMap[status]
+  return scheduleExceptionStatusMap[status]
 }
