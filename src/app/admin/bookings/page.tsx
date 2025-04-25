@@ -57,8 +57,8 @@ function BookingPage() {
       name: "status",
       label: "Trạng thái",
       options: [
-        { value: String(BookingStatusEnum.Pending), label: "Đang chờ" },
-        { value: String(BookingStatusEnum.Completed), label: "Hoàn thành" },
+        { value: String(BookingStatusEnum.Booked), label: "Đã đặt" },
+        { value: String(BookingStatusEnum.Completed), label: "Đã hoàn thành" },
         { value: String(BookingStatusEnum.Cancelled), label: "Đã hủy" }
       ],
       value: status !== undefined ? String(status) : "",

@@ -46,7 +46,7 @@ function BookingDetailDialog({
   } = useBookingById(bookingId || "")
 
   const { label: bookingStatusLabel } = getBookingStatusMeta(
-    bookingData?.status || BookingStatusEnum.Pending
+    bookingData?.status || BookingStatusEnum.Booked
   )
 
   const isLoading = isBookingLoading
