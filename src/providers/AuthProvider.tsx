@@ -4,6 +4,7 @@ import { ReactNode, useCallback, useEffect, useState } from "react"
 
 import { useRouter } from "next/navigation"
 
+import LoadingPage from "@/app/admin/loading"
 import axios from "axios"
 import Cookies from "js-cookie"
 
@@ -68,6 +69,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkUserSession()
   }, [fetchUserData])
 
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push("/auth/sign-in")
+    }
+  }, [loading, isAuthenticated, router])
+
   const login = async (email: string, password: string) => {
     try {
       setLoading(true)
@@ -112,6 +119,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null)
     setIsAuthenticated(false)
     router.push("/auth/sign-in")
+  }
+
+  if (loading) {
+    return <LoadingPage />
   }
 
   const value = {
