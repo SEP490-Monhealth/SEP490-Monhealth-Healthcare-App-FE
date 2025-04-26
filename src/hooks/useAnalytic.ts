@@ -41,7 +41,7 @@ export const useSubscriptionUpgraded = () => {
 
 export const useTotalAccounts = () => {
   return useQuery<UserGrowthType[], Error>({
-    queryKey: ["subscription-upgraded"],
+    queryKey: ["total-accounts"],
     queryFn: fetchTotalAccounts,
     staleTime: 1000 * 60 * 5
   })
