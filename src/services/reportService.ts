@@ -124,3 +124,29 @@ export const rejectReport = async (
     throw new Error("An unknown error occurred")
   }
 }
+
+export const fetchReportByBookingId = async (
+  bookingId: string
+): Promise<ReportType[]> => {
+  try {
+    const response = await monAPI.get(`/reports/booking/${bookingId}`)
+
+    const { success, message, data } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to fetch report")
+    }
+
+    return data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to fetch report"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
+  }
+}

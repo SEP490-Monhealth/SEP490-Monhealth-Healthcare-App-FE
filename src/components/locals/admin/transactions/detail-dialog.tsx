@@ -79,19 +79,28 @@ function TransactionDetailDialog({
   const isLoading = isTransactionLoading
   const hasError = transactionError
 
-  const validMember =
-    transactionData?.member &&
-    Object.values(transactionData.member).some((value) => value != null)
+  const roleMapping = {
+    [TransactionTypeEnum.Earning]: {
+      role: "Consultant",
+      user: transactionData?.consultant
+    },
+    [TransactionTypeEnum.Bonus]: {
+      role: "Consultant",
+      user: transactionData?.consultant
+    },
+    [TransactionTypeEnum.Refund]: {
+      role: "Consultant",
+      user: transactionData?.consultant
+    },
+    [TransactionTypeEnum.Withdrawal]: {
+      role: "Consultant",
+      user: transactionData?.consultant
+    },
+    [TransactionTypeEnum.Fee]: { role: "Member", user: transactionData?.member }
+  }
 
-  const validConsultant =
-    transactionData?.consultant &&
-    Object.values(transactionData.consultant).some((value) => value != null)
-
-  const dataInfo = validMember
-    ? { role: "Member", userData: transactionData.member }
-    : validConsultant
-      ? { role: "Consultant", userData: transactionData.consultant }
-      : null
+  const userInfo =
+    roleMapping[transactionData?.type || TransactionTypeEnum.Earning]
 
   return (
     <>
@@ -122,13 +131,11 @@ function TransactionDetailDialog({
                 />
               </div>
 
-              {dataInfo && (
-                <div>
-                  <UserInformationCard
-                    role={dataInfo.role}
-                    userData={dataInfo.userData}
-                  />
-                </div>
+              {userInfo && userInfo.user && (
+                <UserInformationCard
+                  role={userInfo.role}
+                  userData={userInfo.user}
+                />
               )}
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">

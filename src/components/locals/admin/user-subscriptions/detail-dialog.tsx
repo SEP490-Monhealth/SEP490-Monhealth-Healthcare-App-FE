@@ -82,7 +82,10 @@ function UserSubscriptionDetailDialog({
 
             <div className="col-span-2 flex flex-col gap-4">
               <div className="col-span-2">
-                <UserInformationCard userData={subscriptionData.member} />
+                <UserInformationCard
+                  role="Member"
+                  userData={subscriptionData.member}
+                />
               </div>
 
               <div className="grid grid-cols-3 gap-x-6 gap-y-4">

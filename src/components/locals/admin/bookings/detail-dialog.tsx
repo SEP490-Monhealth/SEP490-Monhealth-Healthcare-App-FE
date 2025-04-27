@@ -11,22 +11,23 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/globals/atoms/dialog"
-import { Input } from "@/components/globals/atoms/input"
-import { Label } from "@/components/globals/atoms/label"
 import { ScrollArea } from "@/components/globals/atoms/scroll-area"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from "@/components/globals/atoms/tabs"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
-import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
-import {
-  BookingStatusEnum,
-  getBookingStatusMeta
-} from "@/constants/enum/Booking"
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 
 import { useBookingById } from "@/hooks/useBooking"
 
-import { formatDate, formatTime } from "@/utils/formatters"
+import BookingTabDialog from "./booking-tab-dialog"
+import EvidenceDialogTab from "./evidence-tab-dialog"
 
 interface BookingDetailDialogProps {
   isOpen: boolean
@@ -44,10 +45,6 @@ function BookingDetailDialog({
     isLoading: isBookingLoading,
     error: bookingError
   } = useBookingById(bookingId || "")
-
-  const { label: bookingStatusLabel } = getBookingStatusMeta(
-    bookingData?.status || BookingStatusEnum.Booked
-  )
 
   const isLoading = isBookingLoading
   const hasError = bookingError
@@ -69,95 +66,38 @@ function BookingDetailDialog({
             message={bookingError?.message || "Không thể tải dữ liệu."}
           />
         ) : (
-          <ScrollArea className="h-[60vh] overflow-hidden pr-4">
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-              <div className="col-span-2 space-y-2">
-                <Label htmlFor="bookingId">Mã lịch hẹn</Label>
-                <Input
-                  id="bookingId"
-                  type="text"
-                  value={bookingData.bookingId}
-                  readOnly
-                />
-              </div>
+          <Tabs defaultValue="booking-information">
+            <TabsList className="h-auto w-full rounded-none border-b bg-transparent p-0">
+              <TabsTrigger
+                value="booking-information"
+                className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              >
+                Thông tin
+              </TabsTrigger>
 
-              <div className="col-span-2">
-                <UserInformationCard
-                  role="Member"
-                  userData={bookingData.member}
-                />
-              </div>
+              {bookingData.status === BookingStatusEnum.Completed && (
+                <TabsTrigger
+                  value="evidence-information"
+                  className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                >
+                  Hình ảnh
+                </TabsTrigger>
+              )}
+            </TabsList>
 
-              <div className="col-span-2">
-                <UserInformationCard
-                  role="Consultant"
-                  userData={bookingData.consultant}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="datetime">Ngày giờ</Label>
-                <Input
-                  id="datetime"
-                  type="text"
-                  value={`${formatDate(bookingData.date)}, ${formatTime(bookingData.startTime)} - ${formatTime(
-                    bookingData.endTime
-                  )}`}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="status">Trạng thái</Label>
-                <Input
-                  id="status"
-                  type="text"
-                  value={bookingStatusLabel}
-                  readOnly
-                />
-              </div>
-
-              <div className="col-span-2 space-y-2">
-                <Label htmlFor="notes">Ghi chú (nếu có)</Label>
-                <Input
-                  id="notes"
-                  type="text"
-                  value={bookingData.notes || "--"}
-                  readOnly
-                />
-              </div>
-
-              <div className="col-span-2 space-y-2">
-                <Label htmlFor="cancellationReason">Lý do hủy (nếu có)</Label>
-                <Input
-                  id="cancellationReason"
-                  type="text"
-                  value={bookingData.cancellationReason || "--"}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="createdAt">Ngày tạo</Label>
-                <Input
-                  id="createdAt"
-                  type="text"
-                  value={formatDate(bookingData.createdAt)}
-                  readOnly
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-                <Input
-                  id="updatedAt"
-                  type="text"
-                  value={formatDate(bookingData.updatedAt)}
-                  readOnly
-                />
-              </div>
-            </div>{" "}
-          </ScrollArea>
+            <TabsContent value="booking-information" className="mt-2 w-full">
+              <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+                <BookingTabDialog bookingData={bookingData} />
+              </ScrollArea>
+            </TabsContent>
+            {bookingData.status === BookingStatusEnum.Completed && (
+              <TabsContent value="evidence-information" className="mt-2 w-full">
+                <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+                  <EvidenceDialogTab bookingData={bookingData} />
+                </ScrollArea>
+              </TabsContent>
+            )}
+          </Tabs>
         )}
 
         <DialogFooter>

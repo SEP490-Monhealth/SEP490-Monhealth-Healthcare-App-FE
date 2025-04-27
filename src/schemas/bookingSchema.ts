@@ -21,7 +21,35 @@ export const bookingSchema = z.object({
     .string()
     .nonempty({ message: "Thời gian kết thúc không được để trống" }),
 
+  meetingUrl: z
+    .string()
+    .refine(
+      (url) => {
+        try {
+          const normalizedUrl = url.startsWith("http") ? url : `https://${url}`
+          const domain = new URL(normalizedUrl).hostname
+          return domain === "meet.google.com"
+        } catch {
+          return false
+        }
+      },
+      { message: "URL phải là đường dẫn Google Meet" }
+    )
+    .refine(
+      (url) => {
+        return /^(https:\/\/)?meet\.google\.com\/([a-z0-9]{3}-[a-z0-9]{4}-[a-z0-9]{3}|[a-z0-9]{10,})$/.test(
+          url
+        )
+      },
+      { message: "Định dạng URL Google Meet không đúng" }
+    ),
+
   notes: z.string().optional(),
+
+  evidenceUrls: z
+    .array(z.string().nonempty("Đường dẫn hình ảnh không hợp lệ"))
+    .min(1, { message: "Cần ít nhất một hình ảnh" }),
+    
   cancellationReason: z.string().optional(),
 
   isReviewed: z.boolean().default(false),
