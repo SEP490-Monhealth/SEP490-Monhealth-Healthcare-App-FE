@@ -39,12 +39,10 @@ function Topbar() {
           <DropdownMenuTrigger asChild className="cursor-pointer">
             <Avatar className="size-9">
               <AvatarImage
-                src={
-                  "https://firebasestorage.googleapis.com/v0/b/diamoondb-1412.appspot.com/o/Monhealth%2Ftests%2Fangrycat.jpg?alt=media&token=542becf5-173f-47c2-951b-b9f79578fa60"
-                }
-                alt={getInitials("Van Huu Toan")}
+                src={"../../../../public/images/sep490-monhealth-logo.png"}
+                alt={getInitials("Monhealth")}
               />
-              <AvatarFallback>{getInitials("Van Huu Toan")}</AvatarFallback>
+              <AvatarFallback>{getInitials("Monhealth")}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           {/* <DropdownMenuContent align="end">
