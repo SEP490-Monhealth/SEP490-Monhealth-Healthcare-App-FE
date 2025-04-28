@@ -16,7 +16,6 @@ import { Label } from "@/components/globals/atoms/label"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
-import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
 import {
   TransactionStatusEnum,
@@ -122,14 +121,14 @@ function TransactionDetailDialog({
                 />
               </div>
 
-              {dataInfo && (
+              {/* {dataInfo && (
                 <div>
                   <UserInformationCard
                     role={dataInfo.role}
                     userData={dataInfo.userData}
                   />
                 </div>
-              )}
+              )} */}
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                 <div className="col-span-2 space-y-2">
