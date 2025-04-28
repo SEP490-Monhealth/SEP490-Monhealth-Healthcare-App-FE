@@ -16,6 +16,7 @@ import { Label } from "@/components/globals/atoms/label"
 
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
+import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
 import {
   TransactionStatusEnum,
@@ -61,6 +62,11 @@ function TransactionDetailDialog({
     transactionData?.status || TransactionStatusEnum.Pending
   )
 
+  const userInfo =
+    transactionData?.type === TransactionTypeEnum.Fee
+      ? { role: "Member", user: transactionData?.member }
+      : { role: "Consultant", user: transactionData?.consultant }
+
   const handleCompleteEarning = async () => {
     await completeTransaction({
       transactionId: transactionData?.transactionId || ""
@@ -77,20 +83,6 @@ function TransactionDetailDialog({
 
   const isLoading = isTransactionLoading
   const hasError = transactionError
-
-  // const validMember =
-  //   transactionData?.member &&
-  //   Object.values(transactionData.member).some((value) => value != null)
-
-  // const validConsultant =
-  //   transactionData?.consultant &&
-  //   Object.values(transactionData.consultant).some((value) => value != null)
-
-  // const dataInfo = validMember
-  //   ? { role: "Member", userData: transactionData.member }
-  //   : validConsultant
-  //     ? { role: "Consultant", userData: transactionData.consultant }
-  //     : null
 
   return (
     <>
@@ -121,14 +113,12 @@ function TransactionDetailDialog({
                 />
               </div>
 
-              {/* {dataInfo && (
-                <div>
-                  <UserInformationCard
-                    role={dataInfo.role}
-                    userData={dataInfo.userData}
-                  />
-                </div>
-              )} */}
+              {userInfo?.user && (
+                <UserInformationCard
+                  role={userInfo.role}
+                  userData={userInfo.user}
+                />
+              )}
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                 <div className="col-span-2 space-y-2">

@@ -6,6 +6,7 @@ import { ReportType } from "@/schemas/reportSchema"
 
 import {
   approveReport,
+  fetchReportByBookingId,
   fetchReportById,
   fetchReports,
   rejectReport
@@ -60,3 +61,11 @@ export const useRejectReport = () => {
     }
   })
 }
+
+export const useReportByBookingId = (bookingId: string) =>
+  useQuery<ReportType[], Error>({
+    queryKey: ["report-booking", bookingId],
+    queryFn: () => fetchReportByBookingId(bookingId),
+    enabled: !!bookingId,
+    staleTime: 1000 * 60 * 5
+  })

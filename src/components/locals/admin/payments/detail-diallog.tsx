@@ -87,7 +87,7 @@ function PaymentDetailDialog({
 
             <div>
               <UserInformationCard
-                role="member"
+                role="Member"
                 userData={transactionData.member}
               />
             </div>
