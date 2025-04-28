@@ -155,12 +155,10 @@ function WithdrawalRequestDetailDialog({
                 />
               </div>
 
-              <div>
-                <UserInformationCard
-                  role="Consultant"
-                  userData={withdrawalRequestData.consultant}
-                />
-              </div>
+              <UserInformationCard
+                role="Consultant"
+                userData={withdrawalRequestData.consultant}
+              />
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                 <div className="space-y-2">
@@ -224,12 +222,13 @@ function WithdrawalRequestDetailDialog({
 
           <DialogFooter>
             <div className="flex w-full justify-between">
-              {withdrawalRequestData?.status !==
-                WithdrawalRequestStatusEnum.Approved && (
-                <Button variant="outline" onClick={onClose}>
-                  Đóng
-                </Button>
-              )}
+              {withdrawalRequestData &&
+                withdrawalRequestData?.status !==
+                  WithdrawalRequestStatusEnum.Approved && (
+                  <Button variant="outline" onClick={onClose}>
+                    Đóng
+                  </Button>
+                )}
 
               {withdrawalRequestData?.status ===
                 WithdrawalRequestStatusEnum.Pending && (

@@ -2,11 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 
 import { ReviewType } from "@/schemas/reviewSchema"
 
-import {
-  fetchReviewByBookingId,
-  fetchReviewById,
-  fetchReviews
-} from "@/services/reviewService"
+import { fetchReviewById, fetchReviews } from "@/services/reviewService"
 
 interface ReviewsResponse {
   totalPages: number
@@ -31,13 +27,5 @@ export const useReviewById = (reviewId: string) =>
     queryKey: ["review", reviewId],
     queryFn: () => fetchReviewById(reviewId),
     enabled: !!reviewId,
-    staleTime: 1000 * 60 * 5
-  })
-
-export const useReviewByBookingId = (bookingId: string) =>
-  useQuery<ReviewType[], Error>({
-    queryKey: ["review-booking", bookingId],
-    queryFn: () => fetchReviewByBookingId(bookingId),
-    enabled: !!bookingId,
     staleTime: 1000 * 60 * 5
   })

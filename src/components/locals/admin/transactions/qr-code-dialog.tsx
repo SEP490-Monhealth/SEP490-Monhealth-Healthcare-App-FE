@@ -104,8 +104,8 @@ function QrCodeDialog({ isOpen, onClose, transactionId }: QrCodeDialogProps) {
         open={openConfirmComplete}
         onOpenChange={handleCloseConfirmComplete}
         onConfirm={handleCompletePayment}
-        title="Xác nhận hoàn tất thanh toán"
-        description="Bạn có chắc chắn đã hoàn tất thanh toán không?"
+        title="Xác nhận hoàn thành"
+        description="Bạn có chắc chắn đã hoàn thành thanh toán giao dịch này?"
       />
     </>
   )

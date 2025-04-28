@@ -128,10 +128,11 @@ function ReportDetailDialog({
         )}
 
         <DialogFooter>
-          <div className={"flex w-full items-end justify-between"}>
+          <div className="flex w-full items-end justify-between">
             <Button variant="outline" onClick={onClose}>
               Đóng
             </Button>
+
             {reportData?.status === ReportStatusEnum.Pending && (
               <div className="space-x-4">
                 <Button
@@ -145,7 +146,7 @@ function ReportDetailDialog({
                   variant="default"
                   onClick={() => handleActionReport("approve")}
                 >
-                  Phê duyệt
+                  Xác nhận
                 </Button>
               </div>
             )}
@@ -157,8 +158,8 @@ function ReportDetailDialog({
         open={openAlert}
         onOpenChange={handleCloseAlert}
         onConfirm={handleConfirm}
-        title={"Xác nhận báo cáo"}
-        description={`Bạn có chắc chắn muốn ${typeAction === "approve" ? "phê duyệt" : "từ chối"}  báo cáo này?`}
+        title={`${typeAction === "approve" ? "Xác nhận" : "Từ chối"} báo cáo`}
+        description={`Bạn có chắc chắn muốn ${typeAction === "approve" ? "xác nhận" : "từ chối"}  báo cáo này?`}
       />
     </Dialog>
   )

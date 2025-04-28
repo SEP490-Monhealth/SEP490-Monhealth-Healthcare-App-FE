@@ -42,12 +42,10 @@ function DetailTabDialog({ consultantData }: DetailTabDialogProps) {
         />
       </div>
 
-      <div>
-        <UserInformationCard
-          role="Consultant"
-          userData={consultantInformationData}
-        />
-      </div>
+      <UserInformationCard
+        role="Consultant"
+        userData={consultantInformationData}
+      />
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
         <div className="space-y-2">

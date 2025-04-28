@@ -48,6 +48,7 @@ function BookingDetailDialog({
 
   const isLoading = isBookingLoading
   const hasError = bookingError
+  const isCompleted = bookingData?.status === BookingStatusEnum.Completed
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -65,7 +66,7 @@ function BookingDetailDialog({
           <ErrorDialog
             message={bookingError?.message || "Không thể tải dữ liệu."}
           />
-        ) : (
+        ) : isCompleted ? (
           <Tabs defaultValue="booking-information">
             <TabsList className="h-auto w-full rounded-none border-b bg-transparent p-0">
               <TabsTrigger
@@ -75,14 +76,12 @@ function BookingDetailDialog({
                 Thông tin
               </TabsTrigger>
 
-              {bookingData.status === BookingStatusEnum.Completed && (
-                <TabsTrigger
-                  value="evidence-information"
-                  className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-                >
-                  Hình ảnh
-                </TabsTrigger>
-              )}
+              <TabsTrigger
+                value="booking-evidence"
+                className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              >
+                Hình ảnh
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="booking-information" className="mt-2 w-full">
@@ -90,14 +89,17 @@ function BookingDetailDialog({
                 <BookingTabDialog bookingData={bookingData} />
               </ScrollArea>
             </TabsContent>
-            {bookingData.status === BookingStatusEnum.Completed && (
-              <TabsContent value="evidence-information" className="mt-2 w-full">
-                <ScrollArea className="h-[60vh] overflow-hidden pr-4">
-                  <EvidenceDialogTab bookingData={bookingData} />
-                </ScrollArea>
-              </TabsContent>
-            )}
+
+            <TabsContent value="booking-evidence" className="mt-2 w-full">
+              <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+                <EvidenceDialogTab evidenceUrls={bookingData.evidenceUrls} />
+              </ScrollArea>
+            </TabsContent>
           </Tabs>
+        ) : (
+          <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+            <BookingTabDialog bookingData={bookingData} />
+          </ScrollArea>
         )}
 
         <DialogFooter>

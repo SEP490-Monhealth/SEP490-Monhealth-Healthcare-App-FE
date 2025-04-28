@@ -8,19 +8,17 @@ import {
   CarouselItem
 } from "@/components/globals/atoms/carousel"
 
-import { BookingType } from "@/schemas/bookingSchema"
-
 interface EvidenceTabDialogProps {
-  bookingData: BookingType
+  evidenceUrls: string[]
 }
 
-function EvidenceDialogTab({ bookingData }: EvidenceTabDialogProps) {
+function EvidenceDialogTab({ evidenceUrls }: EvidenceTabDialogProps) {
   return (
-    <Carousel className="h-full w-full">
+    <Carousel>
       <CarouselContent>
-        {bookingData.evidenceUrls.map((imageUrl, index) => (
-          <CarouselItem key={index} className="h-full w-full">
-            <div className="border-border flex h-full w-full items-center justify-center border">
+        {evidenceUrls.map((imageUrl, index) => (
+          <CarouselItem key={index}>
+            <div className="border-border flex items-center justify-center border">
               <Image
                 src={imageUrl}
                 alt={`evidence-${index}`}

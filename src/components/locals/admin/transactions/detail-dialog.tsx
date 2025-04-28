@@ -214,11 +214,12 @@ function TransactionDetailDialog({
 
           <DialogFooter>
             <div className="flex w-full justify-between">
-              {transactionData?.status !== TransactionStatusEnum.Completed && (
-                <Button variant="outline" onClick={onClose}>
-                  Đóng
-                </Button>
-              )}
+              {transactionData &&
+                transactionData?.status !== TransactionStatusEnum.Completed && (
+                  <Button variant="outline" onClick={onClose}>
+                    Đóng
+                  </Button>
+                )}
 
               {transactionData?.status !== TransactionStatusEnum.Completed && (
                 <>

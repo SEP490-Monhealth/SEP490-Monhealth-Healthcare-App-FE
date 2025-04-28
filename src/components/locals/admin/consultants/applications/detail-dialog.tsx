@@ -32,7 +32,7 @@ import {
   useVerifyConsultant
 } from "@/hooks/useConsultant"
 
-import CertificateTabDialog from "./certificate-tab-dialog"
+import CertificateTabDialog from "../certificate-tab-dialog"
 import DetailTabDialog from "./detail-tab-dialog"
 
 interface ConsultantDetailDialogProps {
@@ -190,16 +190,8 @@ function ConsultantApplicationDetailDialog({
         open={openAlert}
         onOpenChange={handleCloseAlert}
         onConfirm={handleConfirm}
-        title={
-          alertType === "verify"
-            ? "Xác nhận chấp nhận chuyên viên"
-            : "Xác nhận từ chối chuyên viên"
-        }
-        description={
-          alertType === "verify"
-            ? "Bạn có chắc chắn muốn xác nhận chuyên viên này không?"
-            : "Bạn có chắc chắn muốn từ chối chuyên viên này không?"
-        }
+        title={`${alertType === "verify" ? "Xác nhận" : "Từ chối"} chuyên viên`}
+        description={`Bạn có chắc chắn muốn ${alertType === "verify" ? "Xác nhận" : "Từ chối"} chuyên viên này?`}
       />
     </>
   )

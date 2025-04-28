@@ -74,11 +74,11 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
       </div>
 
       <div className="col-span-2 space-y-2">
-        <Label htmlFor="meetingUrl">Link meet</Label>
+        <Label htmlFor="meetingUrl">Link phòng họp</Label>
         <Input
           id="meetingUrl"
           type="text"
-          value={bookingData.meetingUrl || "--"}
+          value={bookingData.meetingUrl}
           readOnly
         />
       </div>

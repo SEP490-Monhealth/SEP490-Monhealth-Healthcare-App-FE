@@ -55,6 +55,7 @@ function RejectDialog({ isOpen, onClose, onReject }: RejectDialogProps) {
           <Button variant="outline" onClick={onClose}>
             Huỷ
           </Button>
+
           <Button variant="destructive" onClick={handleReject}>
             Xác nhận
           </Button>

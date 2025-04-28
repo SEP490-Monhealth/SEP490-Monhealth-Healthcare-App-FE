@@ -174,10 +174,13 @@ function ExceptionDetailDialog({
         )}
 
         <DialogFooter>
-          <div className={"flex w-full items-end justify-between"}>
-            <Button variant="outline" onClick={onClose}>
-              Đóng
-            </Button>
+          <div className="flex w-full items-end justify-between">
+            {scheduleExceptionData && (
+              <Button variant="outline" onClick={onClose}>
+                Đóng
+              </Button>
+            )}
+
             {scheduleExceptionData?.status ===
               ScheduleExceptionStatusEnum.Pending && (
               <div className="space-x-4">
@@ -192,7 +195,7 @@ function ExceptionDetailDialog({
                   variant="default"
                   onClick={() => handleActionReport("approve")}
                 >
-                  Phê duyệt
+                  Xác nhận
                 </Button>
               </div>
             )}
@@ -204,8 +207,8 @@ function ExceptionDetailDialog({
         open={openAlert}
         onOpenChange={handleCloseAlert}
         onConfirm={handleConfirm}
-        title={"Xác nhận lịch nghỉ"}
-        description={`Bạn có chắc chắn muốn ${alertType === "approve" ? "phê duyệt" : "từ chối"}  lịch nghỉ này?`}
+        title={`${alertType === "approve" ? "Xác nhận" : "Từ chối"} lịch nghỉ`}
+        description={`Bạn có chắc chắn muốn ${alertType === "approve" ? "xác nhận" : "từ chối"}  lịch nghỉ này?`}
       />
     </Dialog>
   )

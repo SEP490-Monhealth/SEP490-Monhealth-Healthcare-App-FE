@@ -85,12 +85,10 @@ function PaymentDetailDialog({
               />
             </div>
 
-            <div>
-              <UserInformationCard
-                role="Member"
-                userData={transactionData.member}
-              />
-            </div>
+            <UserInformationCard
+              role="Member"
+              userData={transactionData.member}
+            />
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-4">
               <div className="col-span-2 space-y-2">
@@ -165,9 +163,11 @@ function PaymentDetailDialog({
         )}
 
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
-            Đóng
-          </Button>
+          {transactionData && (
+            <Button variant="outline" onClick={onClose}>
+              Đóng
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

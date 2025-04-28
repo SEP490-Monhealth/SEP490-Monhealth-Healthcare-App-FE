@@ -72,9 +72,7 @@ function ReviewDetailDialog({
               />
             </div>
 
-            <div>
-              <UserInformationCard role="Member" userData={reviewData.member} />
-            </div>
+            <UserInformationCard role="Member" userData={reviewData.member} />
 
             <div className="grid grid-cols-6 gap-x-6 gap-y-4">
               <div className="col-span-2 space-y-2">

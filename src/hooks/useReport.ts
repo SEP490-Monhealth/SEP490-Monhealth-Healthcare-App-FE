@@ -38,6 +38,14 @@ export const useReportById = (reportId: string) =>
     staleTime: 1000 * 60 * 5
   })
 
+export const useReportByBookingId = (bookingId: string) =>
+  useQuery<ReportType[], Error>({
+    queryKey: ["report-booking", bookingId],
+    queryFn: () => fetchReportByBookingId(bookingId),
+    enabled: !!bookingId,
+    staleTime: 1000 * 60 * 5
+  })
+
 export const useApproveReport = () => {
   const queryClient = useQueryClient()
 
@@ -61,11 +69,3 @@ export const useRejectReport = () => {
     }
   })
 }
-
-export const useReportByBookingId = (bookingId: string) =>
-  useQuery<ReportType[], Error>({
-    queryKey: ["report-booking", bookingId],
-    queryFn: () => fetchReportByBookingId(bookingId),
-    enabled: !!bookingId,
-    staleTime: 1000 * 60 * 5
-  })

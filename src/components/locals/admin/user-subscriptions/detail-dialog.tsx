@@ -98,6 +98,7 @@ function UserSubscriptionDetailDialog({
                     readOnly
                   />
                 </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="remainingBookings">Số lần đặt lịch</Label>
                   <Input
