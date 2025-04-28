@@ -34,6 +34,8 @@ function UserSubscriptionPage() {
   const subscription = searchParams.get("subscription") || ""
   const search = searchParams.get("search") || ""
   const status = searchParams.get("status") || ""
+  const sort = "createdAt"
+  const order = "desc"
 
   const statusParam =
     status && !isNaN(Number(status)) ? Number(status) : undefined
@@ -55,8 +57,8 @@ function UserSubscriptionPage() {
     limit,
     subscription,
     debouncedSearch,
-    undefined,
-    undefined,
+    sort,
+    order,
     statusParam
   )
 

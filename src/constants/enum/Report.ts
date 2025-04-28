@@ -16,7 +16,7 @@ const reportStatusMap: Record<ReportStatusEnum, EnumMeta> = {
     color: "#ca8a04" // yellow 600
   },
   [ReportStatusEnum.Approved]: {
-    label: "Đã duyệt",
+    label: "Đã xác nhận",
     color: "#16a34a" // green 600
   },
   [ReportStatusEnum.Rejected]: {

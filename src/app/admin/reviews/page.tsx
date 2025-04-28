@@ -49,11 +49,11 @@ function ReviewPage() {
       name: "rating",
       label: "Đánh giá",
       options: [
-        { value: String(1), label: "(1) ⭐" },
-        { value: String(2), label: "(2) ⭐⭐" },
-        { value: String(3), label: "(3) ⭐⭐⭐" },
-        { value: String(4), label: "(4) ⭐⭐⭐⭐" },
-        { value: String(5), label: "(5) ⭐⭐⭐⭐⭐" }
+        { value: String(1), label: "1 ⭐" },
+        { value: String(2), label: "2 ⭐⭐" },
+        { value: String(3), label: "3 ⭐⭐⭐" },
+        { value: String(4), label: "4 ⭐⭐⭐⭐" },
+        { value: String(5), label: "5 ⭐⭐⭐⭐⭐" }
       ],
       value: rating !== undefined ? String(rating) : "",
       onChange: (value: string) => updateParams("rating", value)

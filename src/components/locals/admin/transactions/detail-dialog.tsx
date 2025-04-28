@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
+import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 import UserInformationCard from "@/components/globals/molecules/user-information-card"
@@ -46,6 +47,7 @@ function TransactionDetailDialog({
   transactionId
 }: TransactionDetailDialogProps) {
   const [openQrCodeModal, setOpenQrCodeModal] = useState<boolean>(false)
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
 
   const { mutate: completeTransaction } = useCompleteTransaction()
 
@@ -62,11 +64,6 @@ function TransactionDetailDialog({
     transactionData?.status || TransactionStatusEnum.Pending
   )
 
-  const userInfo =
-    transactionData?.type === TransactionTypeEnum.Fee
-      ? { role: "Member", user: transactionData?.member }
-      : { role: "Consultant", user: transactionData?.consultant }
-
   const handleCompleteEarning = async () => {
     await completeTransaction({
       transactionId: transactionData?.transactionId || ""
@@ -81,8 +78,21 @@ function TransactionDetailDialog({
     setOpenQrCodeModal(false)
   }
 
+  const handleOpenAlert = () => {
+    setOpenAlert(true)
+  }
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false)
+  }
+
   const isLoading = isTransactionLoading
   const hasError = transactionError
+
+  const userInfo =
+    transactionData?.type === TransactionTypeEnum.Fee
+      ? { role: "Member", user: transactionData?.member }
+      : { role: "Consultant", user: transactionData?.consultant }
 
   return (
     <>
@@ -224,9 +234,11 @@ function TransactionDetailDialog({
               {transactionData?.status !== TransactionStatusEnum.Completed && (
                 <>
                   {(transactionData?.type === TransactionTypeEnum.Earning ||
-                    transactionData?.type === TransactionTypeEnum.Bonus) && (
-                    <Button onClick={handleCompleteEarning}>Hoàn thành</Button>
-                  )}
+                    transactionData?.type === TransactionTypeEnum.Bonus) &&
+                    transactionData?.status !==
+                      TransactionStatusEnum.Failed && (
+                      <Button onClick={handleOpenAlert}>Hoàn thành</Button>
+                    )}
 
                   {transactionData?.type === TransactionTypeEnum.Withdrawal && (
                     <Button onClick={handleOpenQrCodeModal}>Thanh toán</Button>
@@ -241,6 +253,14 @@ function TransactionDetailDialog({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <ConfirmAlertDialog
+        open={openAlert}
+        onOpenChange={handleCloseAlert}
+        onConfirm={handleCompleteEarning}
+        title="Xác nhận chấp nhận lịch hẹn"
+        description="Bạn có chắc chắn muốn chấp nhận lịch hẹn này không?"
+      />
 
       {transactionId && (
         <QrCodeDialog

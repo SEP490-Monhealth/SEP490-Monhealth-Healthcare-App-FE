@@ -58,7 +58,7 @@ function ReportPage() {
       options: [
         { value: String(ReportStatusEnum.Pending), label: "Chờ xác nhận" },
         { value: String(ReportStatusEnum.Approved), label: "Đã xác nhận" },
-        { value: String(ReportStatusEnum.Rejected), label: "Đẫ từ chối" }
+        { value: String(ReportStatusEnum.Rejected), label: "Đã từ chối" }
       ],
       value: status !== undefined ? String(status) : "",
       onChange: (value: string) => updateParams("status", value)
