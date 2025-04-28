@@ -78,19 +78,19 @@ function TransactionDetailDialog({
   const isLoading = isTransactionLoading
   const hasError = transactionError
 
-  const validMember =
-    transactionData?.member &&
-    Object.values(transactionData.member).some((value) => value != null)
+  // const validMember =
+  //   transactionData?.member &&
+  //   Object.values(transactionData.member).some((value) => value != null)
 
-  const validConsultant =
-    transactionData?.consultant &&
-    Object.values(transactionData.consultant).some((value) => value != null)
+  // const validConsultant =
+  //   transactionData?.consultant &&
+  //   Object.values(transactionData.consultant).some((value) => value != null)
 
-  const dataInfo = validMember
-    ? { role: "Member", userData: transactionData.member }
-    : validConsultant
-      ? { role: "Consultant", userData: transactionData.consultant }
-      : null
+  // const dataInfo = validMember
+  //   ? { role: "Member", userData: transactionData.member }
+  //   : validConsultant
+  //     ? { role: "Consultant", userData: transactionData.consultant }
+  //     : null
 
   return (
     <>
