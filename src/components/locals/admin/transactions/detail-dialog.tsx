@@ -64,6 +64,11 @@ function TransactionDetailDialog({
     transactionData?.status || TransactionStatusEnum.Pending
   )
 
+  const userInfo =
+    transactionData?.type === TransactionTypeEnum.Fee
+      ? { role: "Member", user: transactionData?.member }
+      : { role: "Consultant", user: transactionData?.consultant }
+
   const handleCompleteEarning = async () => {
     await completeTransaction({
       transactionId: transactionData?.transactionId || ""
@@ -88,11 +93,6 @@ function TransactionDetailDialog({
 
   const isLoading = isTransactionLoading
   const hasError = transactionError
-
-  const userInfo =
-    transactionData?.type === TransactionTypeEnum.Fee
-      ? { role: "Member", user: transactionData?.member }
-      : { role: "Consultant", user: transactionData?.consultant }
 
   return (
     <>

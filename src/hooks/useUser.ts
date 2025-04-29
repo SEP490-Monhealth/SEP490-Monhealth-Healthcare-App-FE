@@ -22,11 +22,13 @@ export const useUsers = (
   role?: string,
   sort?: string,
   order?: string,
-  status?: boolean
+  status?: boolean,
+  admin?: boolean
 ) =>
   useQuery<UsersResponse, Error>({
-    queryKey: ["users", page, limit, search, role, sort, order, status],
-    queryFn: () => fetchUsers(page, limit, search, role, sort, order, status),
+    queryKey: ["users", page, limit, search, role, sort, order, status, admin],
+    queryFn: () =>
+      fetchUsers(page, limit, search, role, sort, order, status, admin),
     staleTime: 1000 * 60 * 5
   })
 

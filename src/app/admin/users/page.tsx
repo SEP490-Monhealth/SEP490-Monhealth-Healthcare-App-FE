@@ -59,7 +59,8 @@ function UserPage() {
     role,
     undefined,
     undefined,
-    parsedStatus
+    parsedStatus,
+    true
   )
 
   const totalPages = Math.ceil((usersData?.totalItems || 1) / limit)

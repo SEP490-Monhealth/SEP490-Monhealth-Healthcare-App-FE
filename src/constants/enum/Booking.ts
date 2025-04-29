@@ -16,7 +16,7 @@ const bookingStatusMap: Record<BookingStatusEnum, EnumMeta> = {
     color: "#ca8a04" // yellow 600
   },
   [BookingStatusEnum.Completed]: {
-    label: "Hoàn thành",
+    label: "Đã hoàn thành",
     color: "#3b82f6" // blue 500
   },
   [BookingStatusEnum.Cancelled]: {
