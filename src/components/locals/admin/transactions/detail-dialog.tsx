@@ -11,29 +11,32 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/globals/atoms/dialog"
-import { Input } from "@/components/globals/atoms/input"
-import { Label } from "@/components/globals/atoms/label"
+import { ScrollArea } from "@/components/globals/atoms/scroll-area"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
+} from "@/components/globals/atoms/tabs"
 
 import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
-import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
 import {
   TransactionStatusEnum,
-  TransactionTypeEnum,
-  getTransactionStatusMeta,
-  getTransactionTypeMeta
+  TransactionTypeEnum
 } from "@/constants/enum/Transaction"
 
+import { useBookingById } from "@/hooks/useBooking"
 import {
   useCompleteTransaction,
   useTransactionById
 } from "@/hooks/useTransaction"
 
-import { formatCurrency, formatDateTime } from "@/utils/formatters"
-
+import BookingTabDialog from "./booking-tab-dialog"
 import QrCodeDialog from "./qr-code-dialog"
+import TransactionTabDialog from "./transaction-tab-dialog"
 
 interface TransactionDetailDialogProps {
   isOpen: boolean
@@ -57,17 +60,11 @@ function TransactionDetailDialog({
     error: transactionError
   } = useTransactionById(transactionId || "")
 
-  const { label: transactionTypeLabel } = getTransactionTypeMeta(
-    transactionData?.type || TransactionTypeEnum.Earning
-  )
-  const { label: transactionStatusLabel } = getTransactionStatusMeta(
-    transactionData?.status || TransactionStatusEnum.Pending
-  )
-
-  const userInfo =
-    transactionData?.type === TransactionTypeEnum.Fee
-      ? { role: "Member", user: transactionData?.member }
-      : { role: "Consultant", user: transactionData?.consultant }
+  const {
+    data: bookingData,
+    isLoading: isBookingLoading,
+    error: bookingError
+  } = useBookingById(transactionData?.bookingId || "")
 
   const handleCompleteEarning = async () => {
     await completeTransaction({
@@ -91,8 +88,8 @@ function TransactionDetailDialog({
     setOpenAlert(false)
   }
 
-  const isLoading = isTransactionLoading
-  const hasError = transactionError
+  const isLoading = isTransactionLoading || isBookingLoading
+  const hasError = transactionError || bookingError
 
   return (
     <>
@@ -112,143 +109,65 @@ function TransactionDetailDialog({
               message={transactionError?.message || "Không thể tải dữ liệu."}
             />
           ) : (
-            <div className="flex flex-col gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="transactionId">Mã giao dịch</Label>
-                <Input
-                  id="transactionId"
-                  type="text"
-                  value={transactionData.transactionId}
-                  readOnly
-                />
-              </div>
+            <Tabs defaultValue="transaction-detail">
+              <TabsList className="h-auto w-full rounded-none border-b bg-transparent p-0">
+                <TabsTrigger
+                  value="transaction-detail"
+                  className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                >
+                  Thông tin
+                </TabsTrigger>
 
-              {userInfo?.user && (
-                <UserInformationCard
-                  role={userInfo.role}
-                  userData={userInfo.user}
-                />
+                {transactionData.type === TransactionTypeEnum.Earning && (
+                  <TabsTrigger
+                    value="booking-detail"
+                    className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                  >
+                    Lịch hẹn
+                  </TabsTrigger>
+                )}
+              </TabsList>
+
+              <TabsContent value="transaction-detail" className="mt-2 w-full">
+                <ScrollArea className="h-[55vh] overflow-hidden pr-4">
+                  <TransactionTabDialog transactionData={transactionData} />
+                </ScrollArea>
+              </TabsContent>
+
+              {transactionData.type === TransactionTypeEnum.Earning && (
+                <TabsContent value="booking-detail" className="mt-2 w-full">
+                  <ScrollArea className="h-[55vh] overflow-hidden pr-4">
+                    {bookingData && (
+                      <BookingTabDialog bookingData={bookingData} />
+                    )}
+                  </ScrollArea>
+                </TabsContent>
               )}
-
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                <div className="col-span-2 space-y-2">
-                  <Label htmlFor="description">Mô tả</Label>
-                  <Input
-                    id="description"
-                    type="text"
-                    value={transactionData.description}
-                    readOnly
-                  />
-                </div>
-
-                <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="price">Số tiền</Label>
-
-                    <div className="relative">
-                      <Input
-                        id="price"
-                        type="text"
-                        value={formatCurrency(transactionData.amount)}
-                        readOnly
-                      />
-                      <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
-                        VND
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="type">Loại giao dịch</Label>
-                    <Input
-                      id="type"
-                      type="text"
-                      value={transactionTypeLabel}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="status">Trạng thái</Label>
-                    <Input
-                      id="status"
-                      type="text"
-                      value={transactionStatusLabel}
-                      readOnly
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="createdAt">Ngày tạo</Label>
-                  <Input
-                    id="createdAt"
-                    type="text"
-                    value={formatDateTime(transactionData.createdAt)}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="createdBy">Người tạo</Label>
-                  <Input
-                    id="createdBy"
-                    type="text"
-                    value={transactionData.createdBy || "--"}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="updatedAt">Ngày cập nhật</Label>
-                  <Input
-                    id="updatedAt"
-                    type="text"
-                    value={formatDateTime(transactionData.updatedAt)}
-                    readOnly
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="updatedBy">Người cập nhật</Label>
-                  <Input
-                    id="updatedBy"
-                    type="text"
-                    value={transactionData.updatedBy || "--"}
-                    readOnly
-                  />
-                </div>
-              </div>
-            </div>
+            </Tabs>
           )}
 
           <DialogFooter>
-            <div className="flex w-full justify-between">
-              {transactionData &&
-                transactionData?.status !== TransactionStatusEnum.Completed && (
-                  <Button variant="outline" onClick={onClose}>
-                    Đóng
-                  </Button>
+            {transactionData?.status === TransactionStatusEnum.Pending && (
+              <div className="flex w-full justify-between">
+                <Button variant="outline" onClick={onClose}>
+                  Đóng
+                </Button>
+
+                {(transactionData?.type === TransactionTypeEnum.Earning ||
+                  transactionData?.type === TransactionTypeEnum.Bonus) && (
+                  <Button onClick={handleOpenAlert}>Hoàn thành</Button>
                 )}
 
-              {transactionData?.status !== TransactionStatusEnum.Completed && (
-                <>
-                  {(transactionData?.type === TransactionTypeEnum.Earning ||
-                    transactionData?.type === TransactionTypeEnum.Bonus) &&
-                    transactionData?.status !==
-                      TransactionStatusEnum.Failed && (
-                      <Button onClick={handleOpenAlert}>Hoàn thành</Button>
-                    )}
+                {transactionData?.type === TransactionTypeEnum.Withdrawal && (
+                  <Button onClick={handleOpenQrCodeModal}>Thanh toán</Button>
+                )}
+              </div>
+            )}
 
-                  {transactionData?.type === TransactionTypeEnum.Withdrawal && (
-                    <Button onClick={handleOpenQrCodeModal}>Thanh toán</Button>
-                  )}
-                </>
-              )}
-            </div>
-
-            {transactionData?.status === TransactionStatusEnum.Completed && (
-              <Button onClick={onClose}>Đóng</Button>
+            {transactionData?.status != TransactionStatusEnum.Pending && (
+              <Button variant="default" onClick={onClose}>
+                Đóng
+              </Button>
             )}
           </DialogFooter>
         </DialogContent>
@@ -259,7 +178,7 @@ function TransactionDetailDialog({
         onOpenChange={handleCloseAlert}
         onConfirm={handleCompleteEarning}
         title="Xác nhận chấp nhận lịch hẹn"
-        description="Bạn có chắc chắn muốn chấp nhận lịch hẹn này không?"
+        description={`${bookingData?.isReviewed ? "Bạn có muốn chấp nhận " : "Lịch hẹn này chưa được đánh giá. Bạn có muốn chấp nhận"} lịch hẹn này không?`}
       />
 
       {transactionId && (
