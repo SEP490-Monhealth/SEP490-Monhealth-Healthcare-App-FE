@@ -101,7 +101,7 @@ export const approveReport = async (
   reportId: string | undefined
 ): Promise<void> => {
   try {
-    const response = await monAPI.patch(`/reports/${reportId}/approved`)
+    const response = await monAPI.patch(`/reports/${reportId}/approve`)
 
     const { success, message } = response.data
 
@@ -128,7 +128,7 @@ export const rejectReport = async (
   reportId: string | undefined
 ): Promise<void> => {
   try {
-    const response = await monAPI.patch(`/reports/${reportId}/rejected`)
+    const response = await monAPI.patch(`/reports/${reportId}/reject`)
 
     const { success, message } = response.data
 

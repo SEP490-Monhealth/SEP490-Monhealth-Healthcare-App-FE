@@ -109,7 +109,7 @@ export const completeTransaction = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(
-      `/transactions/${transactionId}/completed`
+      `/transactions/${transactionId}/complete`
     )
 
     const { success, message } = response.data

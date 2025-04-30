@@ -75,7 +75,7 @@ export const approveScheduleException = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(
-      `/schedule-exceptions/${scheduleExceptionId}/approved`
+      `/schedule-exceptions/${scheduleExceptionId}/approve`
     )
 
     const { success, message } = response.data
@@ -104,7 +104,7 @@ export const rejectScheduleException = async (
 ): Promise<string> => {
   try {
     const response = await monAPI.patch(
-      `/schedule-exceptions/${scheduleExceptionId}/rejected`
+      `/schedule-exceptions/${scheduleExceptionId}/reject`
     )
 
     const { success, message } = response.data
