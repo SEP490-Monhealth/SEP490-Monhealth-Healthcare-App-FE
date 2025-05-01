@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 
 import Image from "next/image"
@@ -27,6 +29,7 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
   const { label: bookingStatusLabel } = getBookingStatusMeta(
     bookingData?.status || BookingStatusEnum.Booked
   )
+
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="col-span-2 space-y-2">
@@ -71,7 +74,7 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
         <Input
           id="isReviewed"
           type="text"
-          value={bookingData.isReviewed ? "Đã nhận xét" : "Chưa nhận xét"}
+          value={bookingData.isReviewed ? "Đã đánh giá" : "Chưa đánh giá"}
           readOnly
         />
       </div>
@@ -87,7 +90,7 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
       </div>
 
       <div className="col-span-2 space-y-2">
-        <Label htmlFor="evidenceUrls">Hình ảnh bằng chứng</Label>
+        <Label htmlFor="evidenceUrls">Hình ảnh</Label>
         <Carousel>
           <CarouselContent>
             {bookingData.evidenceUrls.map((imageUrl, index) => (

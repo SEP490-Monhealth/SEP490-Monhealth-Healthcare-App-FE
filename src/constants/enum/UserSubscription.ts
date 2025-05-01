@@ -15,7 +15,7 @@ const userSubscriptionStatusMap: Record<UserSubscriptionStatus, EnumMeta> = {
     color: "#16a34a" // green 600
   },
   [UserSubscriptionStatus.Expired]: {
-    label: "Đã hết hạn",
+    label: "Dừng hoạt động",
     color: "#ef4444" // red 500
   }
 }

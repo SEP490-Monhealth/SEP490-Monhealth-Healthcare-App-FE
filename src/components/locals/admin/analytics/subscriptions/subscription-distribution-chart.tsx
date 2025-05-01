@@ -53,7 +53,7 @@ function SubscriptionDistributionChart({
               <div key={`${item.subscription}-${index}`} className="space-y-1">
                 <div className="flex justify-between">
                   <span>{item.subscription}</span>
-                  <span>{percentage}%</span>
+                  <span>{percentage.toFixed()}%</span>
                 </div>
                 <Progress value={percentage} />
               </div>

@@ -120,7 +120,7 @@ function TransactionDetailDialog({
 
                 {transactionData.type === TransactionTypeEnum.Earning && (
                   <TabsTrigger
-                    value="booking-detail"
+                    value="transaction-booking"
                     className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
                   >
                     Lịch hẹn
@@ -135,7 +135,10 @@ function TransactionDetailDialog({
               </TabsContent>
 
               {transactionData.type === TransactionTypeEnum.Earning && (
-                <TabsContent value="booking-detail" className="mt-2 w-full">
+                <TabsContent
+                  value="transaction-booking"
+                  className="mt-2 w-full"
+                >
                   <ScrollArea className="h-[55vh] overflow-hidden pr-4">
                     {bookingData && (
                       <BookingTabDialog bookingData={bookingData} />
