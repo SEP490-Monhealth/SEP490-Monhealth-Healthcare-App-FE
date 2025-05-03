@@ -36,7 +36,9 @@ function UserInformationCard({ role, userData }: UserInformationCardProps) {
           </Avatar>
 
           <div className="absolute right-2 bottom-2">
-            <Badge variant="secondary">{role}</Badge>
+            <Badge variant="secondary" className="border-primary border">
+              {role}
+            </Badge>
           </div>
         </div>
 

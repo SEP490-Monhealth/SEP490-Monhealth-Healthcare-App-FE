@@ -5,7 +5,8 @@ import { EnumMeta } from "@/configs/enum"
 export enum BookingStatusEnum {
   Booked,
   Completed,
-  Cancelled
+  Cancelled,
+  Reported
 }
 
 export const BookingStatusSchemaEnum = z.nativeEnum(BookingStatusEnum)
@@ -16,12 +17,16 @@ const bookingStatusMap: Record<BookingStatusEnum, EnumMeta> = {
     color: "#ca8a04" // yellow 600
   },
   [BookingStatusEnum.Completed]: {
-    label: "Đã hoàn thành",
+    label: "Hoàn thành",
     color: "#3b82f6" // blue 500
   },
   [BookingStatusEnum.Cancelled]: {
     label: "Đã hủy",
     color: "#ef4444" // red 500
+  },
+  [BookingStatusEnum.Reported]: {
+    label: "Báo cáo",
+    color: "#ef4444"
   }
 }
 

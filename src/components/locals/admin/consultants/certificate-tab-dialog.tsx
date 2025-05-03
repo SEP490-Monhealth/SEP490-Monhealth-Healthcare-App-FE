@@ -69,6 +69,16 @@ function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
       </div>
 
       <div className="space-y-2">
+        <Label htmlFor="isVerified">Trạng thái</Label>
+        <Input
+          id="isVerified"
+          type="text"
+          value={certificateData.isVerified ? "Xác thực" : "Chưa xác thực"}
+          readOnly
+        />
+      </div>
+
+      <div className="space-y-2">
         <Label htmlFor="issueDate">Ngày cấp</Label>
         <Input
           id="issueDate"
@@ -84,16 +94,6 @@ function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
           id="expiryDate"
           type="text"
           value={formatDate(certificateData.expiryDate || "--")}
-          readOnly
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="isVerified">Trạng thái</Label>
-        <Input
-          id="isVerified"
-          type="text"
-          value={certificateData.isVerified ? "Xác thực" : "Chưa xác thực"}
           readOnly
         />
       </div>
