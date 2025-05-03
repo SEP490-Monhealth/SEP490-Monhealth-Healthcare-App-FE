@@ -5,8 +5,6 @@ import React from "react"
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
-import { getGenderMeta } from "@/constants/enum/Metric"
-
 import { MetricType } from "@/schemas/metricSchema"
 
 import { formatDate, roundIfDecimal } from "@/utils/formatters"
@@ -16,25 +14,8 @@ interface UserMetricTabDialogProps {
 }
 
 function UserMetricTabDialog({ metricData }: UserMetricTabDialogProps) {
-  const { label } = getGenderMeta(metricData.gender)
-
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="dateOfBirth">Ngày sinh</Label>
-        <Input
-          id="dateOfBirth"
-          type="text"
-          value={formatDate(metricData?.dateOfBirth || "")}
-          readOnly
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="gender">Giới tính</Label>
-        <Input id="gender" type="text" value={label} readOnly />
-      </div>
-
       <div className="space-y-2">
         <Label htmlFor="height">Chiều cao</Label>
         <Input id="height" type="number" value={metricData.height} readOnly />

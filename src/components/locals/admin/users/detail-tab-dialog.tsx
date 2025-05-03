@@ -7,21 +7,30 @@ import { Label } from "@/components/globals/atoms/label"
 
 import UserInformationCard from "@/components/globals/molecules/user-information-card"
 
+import { getGenderMeta } from "@/constants/enum/Metric"
+
+import { MetricType } from "@/schemas/metricSchema"
 import { UserType } from "@/schemas/userSchema"
 
 import { formatDate } from "@/utils/formatters"
 
 interface UserDetailTabDialogProps {
   userData: UserType
+  metricData: MetricType
 }
 
-function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
+function UserDetailTabDialog({
+  userData,
+  metricData
+}: UserDetailTabDialogProps) {
   const userInformationData = {
     email: userData.email,
     phoneNumber: userData.phoneNumber,
     fullName: userData.fullName,
     avatarUrl: userData.avatarUrl
   }
+
+  const { label: genderLabel } = getGenderMeta(metricData.gender)
 
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -35,6 +44,21 @@ function UserDetailTabDialog({ userData }: UserDetailTabDialogProps) {
           role={userData.role}
           userData={userInformationData}
         />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="dateOfBirth">Ngày sinh</Label>
+        <Input
+          id="dateOfBirth"
+          type="text"
+          value={formatDate(metricData?.dateOfBirth || "")}
+          readOnly
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="gender">Giới tính</Label>
+        <Input id="gender" type="text" value={genderLabel} readOnly />
       </div>
 
       <div className="col-span-2 space-y-2">

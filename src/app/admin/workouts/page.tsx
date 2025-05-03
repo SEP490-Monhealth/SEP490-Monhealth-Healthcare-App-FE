@@ -164,7 +164,6 @@ function WorkoutPage() {
         setLimit={(newLimit) => updateParams("limit", newLimit)}
         filters={filters}
         onClearAllFilters={handleClearAllFilters}
-        addNewButton
       />
 
       <WorkoutDetailDialog

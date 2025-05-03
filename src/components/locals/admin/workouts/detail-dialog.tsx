@@ -94,7 +94,7 @@ function WorkoutDetailDialog({
             </TabsContent>
 
             <TabsContent value="workout-exercises" className="mt-2 w-full">
-              <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+              <ScrollArea className="h-[60vh] overflow-hidden">
                 {exercisesData && (
                   <WorkoutExerciseTabDialog exercisesData={exercisesData} />
                 )}

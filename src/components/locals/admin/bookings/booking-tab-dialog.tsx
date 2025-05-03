@@ -26,7 +26,7 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
   )
 
   return (
-    <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+    <div className="grid grid-cols-2 gap-x-6 gap-y-4 pr-4 pb-2 pl-1">
       <div className="col-span-2 space-y-2">
         <Label htmlFor="bookingId">Mã lịch hẹn</Label>
         <Input
@@ -66,21 +66,21 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
       </div>
 
       <div className="col-span-2 space-y-2">
-        <Label htmlFor="notes">Ghi chú (nếu có)</Label>
-        <Input
-          id="notes"
-          type="text"
-          value={bookingData.notes || "--"}
-          readOnly
-        />
-      </div>
-
-      <div className="col-span-2 space-y-2">
         <Label htmlFor="meetingUrl">Link phòng họp</Label>
         <Input
           id="meetingUrl"
           type="text"
           value={bookingData.meetingUrl}
+          readOnly
+        />
+      </div>
+
+      <div className="col-span-2 space-y-2">
+        <Label htmlFor="notes">Ghi chú (nếu có)</Label>
+        <Input
+          id="notes"
+          type="text"
+          value={bookingData.notes || "--"}
           readOnly
         />
       </div>

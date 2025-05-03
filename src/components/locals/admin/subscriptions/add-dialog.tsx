@@ -100,7 +100,7 @@ function AddSubscriptionDialog({
 
           <div>
             <div className="space-y-2">
-              <Label htmlFor="description">Mô tả gói đăng ký</Label>
+              <Label htmlFor="description">Mô tả</Label>
               <Textarea
                 id="description"
                 rows={6}
@@ -119,13 +119,19 @@ function AddSubscriptionDialog({
           <div className="grid grid-cols-3 gap-x-6">
             <div>
               <div className="space-y-2">
-                <Label htmlFor="price">Giá tiền (VND)</Label>
-                <Input
-                  id="price"
-                  type="number"
-                  placeholder="Nhập giá tiền đăng ký"
-                  {...register("price", { valueAsNumber: true })}
-                />
+                <Label htmlFor="price">Giá</Label>
+
+                <div className="relative">
+                  <Input
+                    id="price"
+                    type="number"
+                    placeholder="Nhập giá gói đăng ký"
+                    {...register("price", { valueAsNumber: true })}
+                  />
+                  <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                    VND
+                  </span>
+                </div>
               </div>
 
               {errors.price && (
@@ -138,12 +144,18 @@ function AddSubscriptionDialog({
             <div>
               <div className="space-y-2">
                 <Label htmlFor="durationDays">Thời gian hiệu lực (Ngày)</Label>
-                <Input
-                  id="durationDays"
-                  type="number"
-                  placeholder="Nhập số ngày"
-                  {...register("durationDays", { valueAsNumber: true })}
-                />
+
+                <div className="relative">
+                  <Input
+                    id="durationDays"
+                    type="number"
+                    placeholder="Nhập số ngày"
+                    {...register("durationDays", { valueAsNumber: true })}
+                  />
+                  <span className="text-muted-foreground pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-sm peer-disabled:opacity-50">
+                    ngày
+                  </span>
+                </div>
               </div>
 
               {errors.durationDays && (
@@ -174,7 +186,7 @@ function AddSubscriptionDialog({
 
           <div>
             <div className="space-y-2">
-              <Label htmlFor="features">Tính năng gói đăng ký</Label>
+              <Label htmlFor="features">Tính năng</Label>
               <Textarea
                 id="features"
                 rows={6}

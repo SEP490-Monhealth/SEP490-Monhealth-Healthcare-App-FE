@@ -87,11 +87,11 @@ function UserSubscriptionPage() {
       options: [
         {
           value: String(UserSubscriptionStatus.Active),
-          label: "Đang hoạt động"
+          label: "Hoạt động"
         },
         {
           value: String(UserSubscriptionStatus.Expired),
-          label: "Hết hạn"
+          label: "Ngừng hoạt động"
         }
       ],
       value: status !== undefined ? String(status) : "",

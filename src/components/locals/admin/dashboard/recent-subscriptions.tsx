@@ -220,7 +220,9 @@ function RecentSubscriptions() {
                         subscription.status === 0 ? "default" : "destructive"
                       }
                     >
-                      {subscription.status === 0 ? "Hoạt động" : "Hết hạn"}
+                      {subscription.status === 0
+                        ? "Hoạt động"
+                        : "Ngừng hoạt động"}
                     </Badge>
                   </TableCell>
                 </TableRow>

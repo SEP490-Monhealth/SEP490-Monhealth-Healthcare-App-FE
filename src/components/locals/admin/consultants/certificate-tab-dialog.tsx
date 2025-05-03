@@ -27,7 +27,7 @@ function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
         <Carousel>
           <CarouselContent>
             {certificateData.imageUrls.map((imageUrl, index) => (
-              <CarouselItem key={index} className="h-64 w-full">
+              <CarouselItem key={index}>
                 <div className="border-border flex items-center justify-center border">
                   <Image
                     src={imageUrl}
@@ -93,7 +93,7 @@ function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
         <Input
           id="isVerified"
           type="text"
-          value={certificateData.isVerified ? "Xác thực" : "Chưa xác thực"}
+          value={certificateData.isVerified ? "Đã xác thực" : "Chờ xác thực"}
           readOnly
         />
       </div>

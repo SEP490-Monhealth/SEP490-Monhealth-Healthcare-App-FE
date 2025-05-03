@@ -144,7 +144,7 @@ function ConsultantApplicationDetailDialog({
               </TabsList>
 
               <TabsContent value="consultant-detail" className="mt-2 w-full">
-                <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+                <ScrollArea className="h-[60vh] overflow-hidden">
                   <DetailTabDialog consultantData={consultantData} />
                 </ScrollArea>
               </TabsContent>

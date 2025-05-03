@@ -116,7 +116,7 @@ function ReportDetailDialog({
             </TabsList>
 
             <TabsContent value="user-information" className="mt-2 w-full">
-              <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+              <ScrollArea className="h-[60vh] overflow-hidden">
                 <MemberTabDialog reportData={reportData} />
               </ScrollArea>
             </TabsContent>

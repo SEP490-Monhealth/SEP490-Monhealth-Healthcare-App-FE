@@ -39,13 +39,18 @@ function Topbar() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild className="cursor-pointer">
-            <Avatar className="size-9">
-              <AvatarImage
-                src={"../../../../public/images/sep490-monhealth-logo.png"}
-                alt={getInitials("Monhealth")}
-              />
-              <AvatarFallback>{getInitials("Monhealth")}</AvatarFallback>
-            </Avatar>
+            <div className="relative">
+              <Avatar className="size-9">
+                <AvatarImage
+                  src={"../../../../public/images/sep490-monhealth-logo.png"}
+                  alt={getInitials("Monhealth")}
+                />
+                <AvatarFallback>{getInitials("Monhealth")}</AvatarFallback>
+              </Avatar>
+              <span className="border-background absolute -end-0.5 -bottom-0.5 size-3 rounded-full border-2 bg-emerald-500">
+                <span className="sr-only">Online</span>
+              </span>
+            </div>
           </DropdownMenuTrigger>
           {/* <DropdownMenuContent align="end">
             <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>

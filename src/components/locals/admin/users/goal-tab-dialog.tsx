@@ -22,7 +22,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="space-y-2">
-        <Label htmlFor="type">Loại mục tiêu</Label>
+        <Label htmlFor="type">Mục tiêu</Label>
         <Input id="type" type="text" value={goalTypeLabel} readOnly />
       </div>
 
@@ -47,7 +47,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="caloriesGoal">Calories</Label>
+        <Label htmlFor="caloriesGoal">Năng lượng</Label>
         <Input
           id="caloriesGoal"
           type="number"
@@ -57,7 +57,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="proteinGoal">Protein</Label>
+        <Label htmlFor="proteinGoal">Chất đạm</Label>
         <Input
           id="proteinGoal"
           type="number"
@@ -67,7 +67,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="carbsGoal">Carbohydrate</Label>
+        <Label htmlFor="carbsGoal">Tinh bột</Label>
         <Input
           id="carbsGoal"
           type="number"
@@ -127,7 +127,7 @@ function UserGoalTabDialog({ goalData }: UserGoalTabDialogProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="caloriesBurnedGoal">Calories đốt</Label>
+        <Label htmlFor="caloriesBurnedGoal">Năng lượng đốt</Label>
         <Input
           id="caloriesBurnedGoal"
           type="number"

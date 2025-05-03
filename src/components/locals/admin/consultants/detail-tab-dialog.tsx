@@ -33,7 +33,7 @@ function ConsultantDetailTabDialog({
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pr-4 pb-2 pl-1">
       <div className="space-y-2">
         <Label htmlFor="consultantId">Mã chuyên viên</Label>
         <Input
@@ -80,28 +80,6 @@ function ConsultantDetailTabDialog({
       </div>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="status">Trạng thái</Label>
-          <Input
-            id="status"
-            type="text"
-            value={consultantData.status ? "Hoạt động" : "Ngừng hoạt động"}
-            readOnly
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="verificationStatus">Xác thực</Label>
-          <Input
-            id="verificationStatus"
-            type="text"
-            value={consultantVerificationLabel}
-            readOnly
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-x-6 gap-y-4">
         <div className="col-span-2 space-y-2">
           <Label htmlFor="bio">Mô tả ngắn</Label>
           <Textarea id="bio" rows={6} value={consultantData.bio} readOnly />
@@ -137,6 +115,26 @@ function ConsultantDetailTabDialog({
               readOnly
             />
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="status">Trạng thái</Label>
+          <Input
+            id="status"
+            type="text"
+            value={consultantData.status ? "Hoạt động" : "Ngừng hoạt động"}
+            readOnly
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="verificationStatus">Xác thực</Label>
+          <Input
+            id="verificationStatus"
+            type="text"
+            value={consultantVerificationLabel}
+            readOnly
+          />
         </div>
 
         <div className="space-y-2">

@@ -16,7 +16,7 @@ function WorkoutExerciseTabDialog({
   exercisesData
 }: WorkoutExerciseTabDialogProps) {
   return (
-    <div className="mb-1 space-y-6">
+    <div className="space-y-6 pr-4 pb-2 pl-1">
       <div className="space-y-4">
         <Label>Bài tập khởi động</Label>
         {exercisesData.warmup && exercisesData.warmup.length > 0 ? (

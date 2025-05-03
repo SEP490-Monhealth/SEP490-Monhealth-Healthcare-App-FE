@@ -85,19 +85,19 @@ function BookingDetailDialog({
             </TabsList>
 
             <TabsContent value="booking-information" className="mt-2 w-full">
-              <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+              <ScrollArea className="h-[60vh] overflow-hidden">
                 <BookingTabDialog bookingData={bookingData} />
               </ScrollArea>
             </TabsContent>
 
             <TabsContent value="booking-evidence" className="mt-2 w-full">
-              <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+              <ScrollArea className="h-[60vh] overflow-hidden">
                 <EvidenceDialogTab evidenceUrls={bookingData.evidenceUrls} />
               </ScrollArea>
             </TabsContent>
           </Tabs>
         ) : (
-          <ScrollArea className="h-[60vh] overflow-hidden pr-4">
+          <ScrollArea className="h-[60vh] overflow-hidden">
             <BookingTabDialog bookingData={bookingData} />
           </ScrollArea>
         )}

@@ -161,6 +161,16 @@ function WithdrawalRequestDetailDialog({
               />
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                <div className="col-span-2 space-y-2">
+                  <Label htmlFor="description">Mô tả</Label>
+                  <Input
+                    id="description"
+                    type="text"
+                    value={withdrawalRequestData.description}
+                    readOnly
+                  />
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="price">Số tiền</Label>
 
@@ -183,16 +193,6 @@ function WithdrawalRequestDetailDialog({
                     id="status"
                     type="text"
                     value={withdrawalStatusLabel}
-                    readOnly
-                  />
-                </div>
-
-                <div className="col-span-2 space-y-2">
-                  <Label htmlFor="description">Mô tả</Label>
-                  <Input
-                    id="description"
-                    type="text"
-                    value={withdrawalRequestData.description}
                     readOnly
                   />
                 </div>

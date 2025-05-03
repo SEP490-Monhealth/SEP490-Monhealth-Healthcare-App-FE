@@ -167,7 +167,7 @@ function SubscriptionDetailDialog({
             </div>
 
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="description">Mô tả gói đăng ký</Label>
+              <Label htmlFor="description">Mô tả</Label>
 
               {!isEdit ? (
                 <Input

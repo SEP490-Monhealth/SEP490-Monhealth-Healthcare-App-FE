@@ -108,7 +108,12 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
             </TabsList>
 
             <TabsContent value="user-detail" className="mt-2 w-full">
-              <UserDetailTabDialog userData={userData} />
+              {currentMetric && (
+                <UserDetailTabDialog
+                  userData={userData}
+                  metricData={currentMetric}
+                />
+              )}
             </TabsContent>
 
             {userData.role != "Admin" && (

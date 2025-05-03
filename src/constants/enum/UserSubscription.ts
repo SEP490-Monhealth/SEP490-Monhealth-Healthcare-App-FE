@@ -11,11 +11,11 @@ export const UserSubscriptionSchemaEnum = z.nativeEnum(UserSubscriptionStatus)
 
 const userSubscriptionStatusMap: Record<UserSubscriptionStatus, EnumMeta> = {
   [UserSubscriptionStatus.Active]: {
-    label: "Đang hoạt động",
+    label: "Hoạt động",
     color: "#16a34a" // green 600
   },
   [UserSubscriptionStatus.Expired]: {
-    label: "Dừng hoạt động",
+    label: "Ngừng hoạt động",
     color: "#ef4444" // red 500
   }
 }
