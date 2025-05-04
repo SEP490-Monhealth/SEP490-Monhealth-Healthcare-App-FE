@@ -1,15 +1,11 @@
 import React from "react"
 
-import { FieldErrors, UseFormRegister } from "react-hook-form"
-
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
-import { CreateFoodNutritionInfoType } from "@/schemas/foodSchema"
-
 interface FoodAddNutritionTabDialogProps {
-  register: UseFormRegister<CreateFoodNutritionInfoType>
-  errors: FieldErrors<CreateFoodNutritionInfoType>
+  register: any
+  errors: any
 }
 
 function FoodAddNutritionTabDialog({

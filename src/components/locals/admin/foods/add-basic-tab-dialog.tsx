@@ -2,13 +2,6 @@
 
 import React from "react"
 
-import {
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch
-} from "react-hook-form"
-
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 import MultipleSelector, {
@@ -35,13 +28,11 @@ import {
 
 import { useCategories } from "@/hooks/useCategory"
 
-import { CreateFoodBasicInfoType } from "@/schemas/foodSchema"
-
 interface FoodAddBasicTabDialogProps {
-  register: UseFormRegister<CreateFoodBasicInfoType>
-  setValue: UseFormSetValue<CreateFoodBasicInfoType>
-  watch: UseFormWatch<CreateFoodBasicInfoType>
-  errors: FieldErrors<CreateFoodBasicInfoType>
+  register: any
+  setValue: any
+  watch: any
+  errors: any
 }
 
 function FoodAddBasicTabDialog({

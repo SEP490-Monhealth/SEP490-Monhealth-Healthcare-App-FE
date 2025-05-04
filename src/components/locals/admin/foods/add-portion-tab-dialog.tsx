@@ -1,7 +1,5 @@
 import React from "react"
 
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form"
-
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 import {
@@ -14,12 +12,10 @@ import {
   SelectValue
 } from "@/components/globals/atoms/select"
 
-import { CreateFoodPortionInfoType } from "@/schemas/foodSchema"
-
 interface FoodAddPortionTabDialogProps {
-  register: UseFormRegister<CreateFoodPortionInfoType>
-  setValue: UseFormSetValue<CreateFoodPortionInfoType>
-  errors: FieldErrors<CreateFoodPortionInfoType>
+  register: any
+  setValue: any
+  errors: any
 }
 
 function FoodAddPortionTabDialog({
