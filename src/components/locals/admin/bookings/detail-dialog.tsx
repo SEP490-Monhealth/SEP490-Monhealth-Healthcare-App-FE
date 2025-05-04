@@ -48,7 +48,9 @@ function BookingDetailDialog({
 
   const isLoading = isBookingLoading
   const hasError = bookingError
-  const isCompleted = bookingData?.status === BookingStatusEnum.Completed
+  const isCompleted =
+    bookingData?.status === BookingStatusEnum.Completed ||
+    bookingData?.status === BookingStatusEnum.Reported
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

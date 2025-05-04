@@ -23,6 +23,7 @@ import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dia
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
 
+import { BookingStatusEnum } from "@/constants/enum/Booking"
 import {
   TransactionStatusEnum,
   TransactionTypeEnum
@@ -91,6 +92,14 @@ function TransactionDetailDialog({
   const isLoading = isTransactionLoading || isBookingLoading
   const hasError = transactionError || bookingError
 
+  const descriptionDialog = `${
+    bookingData?.status === BookingStatusEnum.Reported
+      ? "Lịch hẹn này đã bị báo cáo. Bạn có muốn chấp nhận"
+      : bookingData?.isReviewed
+        ? "Bạn có muốn chấp nhận"
+        : "Lịch hẹn này chưa được đánh giá. Bạn có muốn chấp nhận"
+  } lịch hẹn này không?`
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
@@ -108,7 +117,7 @@ function TransactionDetailDialog({
             <ErrorDialog
               message={transactionError?.message || "Không thể tải dữ liệu."}
             />
-          ) : (
+          ) : transactionData.type === TransactionTypeEnum.Earning ? (
             <Tabs defaultValue="transaction-detail">
               <TabsList className="h-auto w-full rounded-none border-b bg-transparent p-0">
                 <TabsTrigger
@@ -118,14 +127,12 @@ function TransactionDetailDialog({
                   Thông tin
                 </TabsTrigger>
 
-                {transactionData.type === TransactionTypeEnum.Earning && (
-                  <TabsTrigger
-                    value="transaction-booking"
-                    className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-                  >
-                    Lịch hẹn
-                  </TabsTrigger>
-                )}
+                <TabsTrigger
+                  value="transaction-booking"
+                  className="data-[state=active]:after:bg-primary relative rounded-none py-2 after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                >
+                  Lịch hẹn
+                </TabsTrigger>
               </TabsList>
 
               <TabsContent value="transaction-detail" className="mt-2 w-full">
@@ -134,19 +141,18 @@ function TransactionDetailDialog({
                 </ScrollArea>
               </TabsContent>
 
-              {transactionData.type === TransactionTypeEnum.Earning && (
-                <TabsContent
-                  value="transaction-booking"
-                  className="mt-2 w-full"
-                >
-                  <ScrollArea className="h-[55vh] overflow-hidden pr-4">
-                    {bookingData && (
-                      <BookingTabDialog bookingData={bookingData} />
-                    )}
-                  </ScrollArea>
-                </TabsContent>
-              )}
+              <TabsContent value="transaction-booking" className="mt-2 w-full">
+                <ScrollArea className="h-[55vh] overflow-hidden pr-4">
+                  {bookingData && (
+                    <BookingTabDialog bookingData={bookingData} />
+                  )}
+                </ScrollArea>
+              </TabsContent>
             </Tabs>
+          ) : (
+            <ScrollArea className="h-[55vh] overflow-hidden pr-4">
+              <TransactionTabDialog transactionData={transactionData} />
+            </ScrollArea>
           )}
 
           <DialogFooter>
@@ -181,7 +187,7 @@ function TransactionDetailDialog({
         onOpenChange={handleCloseAlert}
         onConfirm={handleCompleteEarning}
         title="Xác nhận chấp nhận lịch hẹn"
-        description={`${bookingData?.isReviewed ? "Bạn có muốn chấp nhận " : "Lịch hẹn này chưa được đánh giá. Bạn có muốn chấp nhận"} lịch hẹn này không?`}
+        description={descriptionDialog}
       />
 
       {transactionId && (
