@@ -94,11 +94,11 @@ function TransactionDetailDialog({
 
   const descriptionDialog = `${
     bookingData?.status === BookingStatusEnum.Reported
-      ? "Lịch hẹn này đã bị báo cáo. Bạn có muốn chấp nhận"
+      ? "Lịch hẹn này đã bị báo cáo."
       : bookingData?.isReviewed
-        ? "Bạn có muốn chấp nhận"
-        : "Lịch hẹn này chưa được đánh giá. Bạn có muốn chấp nhận"
-  } lịch hẹn này không?`
+        ? ""
+        : "Lịch hẹn này chưa được đánh giá."
+  } Bạn có muốn chấp nhận lịch hẹn này không?`
 
   return (
     <>

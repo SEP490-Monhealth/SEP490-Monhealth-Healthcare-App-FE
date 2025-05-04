@@ -46,11 +46,12 @@ function BookingDetailDialog({
     error: bookingError
   } = useBookingById(bookingId || "")
 
-  const isLoading = isBookingLoading
-  const hasError = bookingError
   const isCompleted =
     bookingData?.status === BookingStatusEnum.Completed ||
     bookingData?.status === BookingStatusEnum.Reported
+
+  const isLoading = isBookingLoading
+  const hasError = bookingError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
