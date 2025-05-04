@@ -36,9 +36,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const fetchUserData = useCallback(async () => {
     try {
       const response = await monAPI.get("/auth/me")
-      setUser(response.data.user)
+      setUser(response.data.data)
       setIsAuthenticated(true)
-      return response.data.user
+      return response.data.data
     } catch (error) {
       console.error("Failed to fetch user data:", error)
       throw error

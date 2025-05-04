@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { FoodType } from "@/schemas/foodSchema"
+import { CreateFoodType, FoodType } from "@/schemas/foodSchema"
 
-import { fetchFoodById, fetchFoods } from "@/services/foodService"
+import { addFood, fetchFoodById, fetchFoods } from "@/services/foodService"
 
 interface FoodsResponse {
   totalPages: number
@@ -42,3 +42,14 @@ export const useFoodById = (foodId: string) =>
     enabled: !!foodId,
     staleTime: 1000 * 60 * 5
   })
+
+export const useAddFood = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<string, Error, CreateFoodType>({
+    mutationFn: addFood,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["foods"] })
+    }
+  })
+}

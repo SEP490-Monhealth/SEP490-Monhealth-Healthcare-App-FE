@@ -8,8 +8,11 @@ import { DataTable } from "@/components/globals/atoms/data-table"
 
 import { DataTableFilterProps } from "@/components/globals/molecules/data-table-filter"
 
+import AddFoodDialog from "@/components/locals/admin/foods/add-dialog"
 import { createColumns } from "@/components/locals/admin/foods/columns"
 import FoodDetailDialog from "@/components/locals/admin/foods/detail-dialog"
+
+import { useAuth } from "@/contexts/AuthContext"
 
 import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
@@ -33,6 +36,9 @@ function FoodPage() {
   const searchParams = useSearchParams()
   const { updateParams, clearAllFilters } = useUpdateParams()
 
+  const { user } = useAuth()
+  const userId = user?.userId || ""
+
   const page = Number(searchParams.get("page")) || 1
   const limit = Number(searchParams.get("limit")) || 10
   const search = searchParams.get("search") || ""
@@ -45,6 +51,7 @@ function FoodPage() {
 
   const [selectedFood, setSelectedFood] = useState<string | null>(null)
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState<boolean>(false)
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState<boolean>(false)
 
   const parsedIsPublic = parseBooleanParam(isPublic)
   const parsedStatus = parseBooleanParam(status)
@@ -126,6 +133,15 @@ function FoodPage() {
     setTimeout(() => setSelectedFood(null), 300)
   }
 
+  const handleAddFood = () => {
+    setIsAddDialogOpen(true)
+  }
+
+  const handleCloseAddDialog = () => {
+    setIsAddDialogOpen(false)
+    setTimeout(() => setSelectedFood(null), 300)
+  }
+
   const handleViewPortion = (foodId: string) => {
     router.push(`/admin/foods/${foodId}/portions`)
   }
@@ -156,12 +172,19 @@ function FoodPage() {
         filters={filters}
         onClearAllFilters={handleClearAllFilters}
         addNewButton
+        onAddNew={handleAddFood}
       />
 
       <FoodDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
         foodId={selectedFood}
+      />
+
+      <AddFoodDialog
+        isOpen={isAddDialogOpen}
+        onClose={handleCloseAddDialog}
+        userId={userId}
       />
     </div>
   )

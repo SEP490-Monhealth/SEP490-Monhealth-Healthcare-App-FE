@@ -42,7 +42,7 @@ function Topbar() {
             <div className="relative">
               <Avatar className="size-9">
                 <AvatarImage
-                  src={"../../../../public/images/sep490-monhealth-logo.png"}
+                  src={"../images/sep490-monhealth-logo.png"}
                   alt={getInitials("Monhealth")}
                 />
                 <AvatarFallback>{getInitials("Monhealth")}</AvatarFallback>

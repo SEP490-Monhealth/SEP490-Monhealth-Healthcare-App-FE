@@ -3,7 +3,7 @@ import { toast } from "sonner"
 
 import monAPI from "@/lib/monAPI"
 
-import { FoodType } from "@/schemas/foodSchema"
+import { CreateFoodType, FoodType } from "@/schemas/foodSchema"
 
 interface FoodsResponse {
   totalPages: number
@@ -61,6 +61,30 @@ export const fetchFoodById = async (foodId: string): Promise<FoodType> => {
     if (axios.isAxiosError(error)) {
       const errorMessage =
         error.response?.data?.message || "Failed to fetch food"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
+  }
+}
+
+export const addFood = async (newData: CreateFoodType): Promise<string> => {
+  try {
+    const response = await monAPI.post("/foods/admin", newData)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to add food")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data?.message || "Failed to add food"
       toast.error(errorMessage)
       throw new Error(errorMessage)
     }
