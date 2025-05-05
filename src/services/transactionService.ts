@@ -132,3 +132,30 @@ export const completeTransaction = async (
     throw new Error("An unknown error occurred")
   }
 }
+
+export const failTransaction = async (
+  transactionId: string
+): Promise<string> => {
+  try {
+    const response = await monAPI.patch(`/transactions/${transactionId}/fail`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update transaction")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update transaction"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
+  }
+}
