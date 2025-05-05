@@ -10,10 +10,15 @@ export const useUpdateParams = () => {
   const updateParams = useCallback(
     (key: string, value: string | number | boolean | undefined | null) => {
       const params = new URLSearchParams(searchParams.toString())
+
       if (value !== null && value !== undefined && value !== "") {
         params.set(key, String(value))
       } else {
         params.delete(key)
+      }
+
+      if (key !== "page") {
+        params.set("page", "1")
       }
       router.push(`${pathname}?${params.toString()}`, { scroll: false })
     },
@@ -25,6 +30,8 @@ export const useUpdateParams = () => {
       const params = new URLSearchParams(searchParams.toString())
 
       paramsToClear.forEach((param) => params.delete(param))
+
+      params.set("page", "1")
 
       router.push(`${pathname}?${params.toString()}`, { scroll: false })
     },

@@ -50,7 +50,7 @@ export const createColumns = (
     accessorKey: "subscriptionId",
     meta: { title: "Mã gói đăng ký" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã món ăn" />
+      <DataTableColumnHeader column={column} title="Mã thức ăn" />
     )
   },
   {

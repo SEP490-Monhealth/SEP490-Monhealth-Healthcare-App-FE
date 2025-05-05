@@ -2,7 +2,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { CreateFoodType, FoodType } from "@/schemas/foodSchema"
 
-import { addFood, fetchFoodById, fetchFoods } from "@/services/foodService"
+import {
+  addFood,
+  fetchFoodById,
+  fetchFoods,
+  updateFoodStatus
+} from "@/services/foodService"
 
 interface FoodsResponse {
   totalPages: number
@@ -50,6 +55,18 @@ export const useAddFood = () => {
     mutationFn: addFood,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["foods"] })
+    }
+  })
+}
+
+export const useFoodStatus = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<void, Error, { foodId: string }>({
+    mutationFn: ({ foodId }) => updateFoodStatus(foodId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["foods"] })
+      queryClient.invalidateQueries({ queryKey: ["food"] })
     }
   })
 }

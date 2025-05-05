@@ -48,7 +48,7 @@ const transactionStatusMap: Record<TransactionStatusEnum, EnumMeta> = {
     color: "#f97316" // orange 500
   },
   [TransactionStatusEnum.Completed]: {
-    label: "Đã hoàn thành",
+    label: "Hoàn thành",
     color: "#3b82f6" // blue 500
   },
   [TransactionStatusEnum.Failed]: {

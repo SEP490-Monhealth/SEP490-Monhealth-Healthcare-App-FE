@@ -150,15 +150,15 @@ function FoodAddBasicTabDialog({
 
       <div>
         <div className="space-y-2">
-          <Label htmlFor="dishType">Loại món ăn</Label>
+          <Label htmlFor="dishType">Loại thức ăn</Label>
           <MultipleSelector
             value={selectedDishTypes}
             defaultOptions={dishTypeOptions}
-            placeholder="Chọn loại món ăn"
+            placeholder="Chọn loại thức ăn"
             hidePlaceholderWhenSelected
             onChange={handleDishTypeChange}
             commandProps={{
-              label: "Chọn loại món ăn"
+              label: "Chọn loại thức ăn"
             }}
             emptyIndicator={
               <p className="text-center text-sm">Không tìm thấy kết quả</p>

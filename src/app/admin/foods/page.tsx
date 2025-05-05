@@ -16,7 +16,7 @@ import { useAuth } from "@/contexts/AuthContext"
 
 import { useCategories } from "@/hooks/useCategory"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useFoods } from "@/hooks/useFood"
+import { useFoodStatus, useFoods } from "@/hooks/useFood"
 import { useUpdateParams } from "@/hooks/useUpdateParams"
 
 import { parseBooleanParam } from "@/utils/helpers"
@@ -55,6 +55,8 @@ function FoodPage() {
 
   const parsedIsPublic = parseBooleanParam(isPublic)
   const parsedStatus = parseBooleanParam(status)
+
+  const { mutate: updateFoodStatus } = useFoodStatus()
 
   const {
     data: categoriesData,
@@ -128,6 +130,10 @@ function FoodPage() {
     setIsDetailDialogOpen(true)
   }
 
+  const handleUpdateStatus = (foodId: string) => {
+    updateFoodStatus({ foodId })
+  }
+
   const handleCloseDetailDialog = () => {
     setIsDetailDialogOpen(false)
     setTimeout(() => setSelectedFood(null), 300)
@@ -148,6 +154,7 @@ function FoodPage() {
 
   const columns = createColumns({
     onViewDetail: handleViewDetail,
+    onUpdateStatus: handleUpdateStatus,
     onViewPortion: handleViewPortion
   })
 
@@ -163,7 +170,7 @@ function FoodPage() {
         visibility={DEFAULT_VISIBILITY}
         search={searchTerm}
         setSearch={setSearchTerm}
-        placeholder="Tìm kiếm món ăn..."
+        placeholder="Tìm kiếm thức ăn..."
         page={page}
         setPage={(newPage) => updateParams("page", newPage)}
         totalPages={totalPages}

@@ -28,12 +28,12 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="space-y-2">
-        <Label htmlFor="foodId">Mã món ăn</Label>
+        <Label htmlFor="foodId">Mã thức ăn</Label>
         <Input id="foodId" type="text" value={foodData.foodId} readOnly />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="name">Tên món ăn</Label>
+        <Label htmlFor="name">Tên thức ăn</Label>
         <Input id="name" type="text" value={foodData.name} readOnly />
       </div>
 
@@ -60,7 +60,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="dishType">Loại món ăn</Label>
+            <Label htmlFor="dishType">Loại thức ăn</Label>
             <Input
               id="dishType"
               type="text"

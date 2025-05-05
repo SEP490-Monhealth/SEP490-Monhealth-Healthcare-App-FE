@@ -93,3 +93,28 @@ export const addFood = async (newData: CreateFoodType): Promise<string> => {
     throw new Error("An unknown error occurred")
   }
 }
+
+export const updateFoodStatus = async (foodId: string): Promise<void> => {
+  try {
+    const response = await monAPI.patch(`/foods/${foodId}/status`)
+
+    const { success, message } = response.data
+
+    if (!success) {
+      throw new Error(message || "Failed to update food status")
+    }
+
+    toast.success(message)
+    return message
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const errorMessage =
+        error.response?.data?.message || "Failed to update food status"
+      toast.error(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    toast.error("An unknown error occurred")
+    throw new Error("An unknown error occurred")
+  }
+}

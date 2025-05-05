@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 
 import {
   ColumnDef,
@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table"
-import { Plus } from "lucide-react"
+import { Plus, X } from "lucide-react"
 
 import { Input } from "@/components/globals/atoms/input"
 import {
@@ -70,6 +70,8 @@ export function DataTable<TData, TValue>({
   addNewButton,
   onAddNew
 }: DataTableProps<TData, TValue>) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] =
@@ -95,16 +97,35 @@ export function DataTable<TData, TValue>({
     }
   })
 
+  const handleClearInput = () => {
+    setSearch("")
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }
+
   return (
     <div>
       <div className="mb-2 flex items-center py-4">
         <div className="flex gap-4">
-          <Input
-            placeholder={placeholder}
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            className="w-md"
-          />
+          <div className="relative">
+            <Input
+              placeholder={placeholder}
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              className="w-md"
+            />
+
+            {search && (
+              <button
+                className="text-muted-foreground/80 hover:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md transition-[color,box-shadow] outline-none focus:z-10 focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label="Clear input"
+                onClick={handleClearInput}
+              >
+                <X size={16} aria-hidden="true" />
+              </button>
+            )}
+          </div>
 
           {filters.length === 1 ? (
             <DataTableFilter

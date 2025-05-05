@@ -53,9 +53,9 @@ function FoodDetailDialog({ isOpen, onClose, foodId }: FoodDetailDialogProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="min-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Chi tiết món ăn</DialogTitle>
+          <DialogTitle>Chi tiết thức ăn</DialogTitle>
           <DialogDescription>
-            Xem thông tin chi tiết của món ăn.
+            Xem thông tin chi tiết của thức ăn.
           </DialogDescription>
         </DialogHeader>
 

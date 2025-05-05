@@ -1,20 +1,11 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Ban, Circle, Copy, Eye, MoreHorizontal, Utensils } from "lucide-react"
 
 import { Badge } from "@/components/globals/atoms/badge"
-import { Button } from "@/components/globals/atoms/button"
 import { Checkbox } from "@/components/globals/atoms/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger
-} from "@/components/globals/atoms/dropdown-menu"
-import { Separator } from "@/components/globals/atoms/separator"
 
+import DataTableActionsCell from "@/components/globals/molecules/data-table-action-cell"
 import DataTableColumnHeader from "@/components/globals/molecules/data-table-column-header"
 import DataTableDate from "@/components/globals/molecules/data-table-date"
 import DataTableCellDescription from "@/components/globals/molecules/data-table-description-cell"
@@ -24,6 +15,7 @@ import { FoodType } from "@/schemas/foodSchema"
 export type ColumnActionsHandlers = {
   onViewDetail: (foodId: string) => void
   onViewPortion: (foodId: string) => void
+  onUpdateStatus: (userId: string) => void
 }
 
 export const createColumns = (
@@ -55,23 +47,23 @@ export const createColumns = (
   },
   {
     accessorKey: "foodId",
-    meta: { title: "Mã món ăn" },
+    meta: { title: "Mã thức ăn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Mã món ăn" />
+      <DataTableColumnHeader column={column} title="Mã thức ăn" />
     )
   },
   {
     accessorKey: "name",
-    meta: { title: "Tên món ăn" },
+    meta: { title: "Tên thức ăn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tên món ăn" />
+      <DataTableColumnHeader column={column} title="Tên thức ăn" />
     )
   },
   {
     accessorKey: "category",
-    meta: { title: "Loại món ăn" },
+    meta: { title: "Loại thức ăn" },
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Loại món ăn" />
+      <DataTableColumnHeader column={column} title="Loại thức ăn" />
     )
   },
   {
@@ -168,56 +160,17 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const foodData = row.original
-      const isActive = foodData.status
 
       return (
-        <div className="flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(foodData.foodId)}
-              >
-                <Copy className="h-4 w-4" />
-                Sao chép mã
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handlers.onViewDetail(foodData.foodId)}
-              >
-                <Eye className="h-4 w-4" />
-                Xem chi tiết
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handlers.onViewPortion(foodData.foodId)}
-              >
-                <Utensils className="h-4 w-4" />
-                Xem khẩu phần
-              </DropdownMenuItem>
-
-              <Separator />
-
-              <DropdownMenuItem variant={isActive ? "destructive" : "default"}>
-                {isActive ? (
-                  <>
-                    <Ban className="h-4 w-4" />
-                    Ngừng hoạt động
-                  </>
-                ) : (
-                  <>
-                    <Circle className="h-4 w-4" />
-                    Kích hoạt
-                  </>
-                )}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <DataTableActionsCell
+          id={foodData.foodId}
+          isActive={foodData.status}
+          onViewDetail={handlers.onViewDetail}
+          onUpdateStatus={(foodId) => handlers.onUpdateStatus?.(foodId)}
+          getConfirmDescription={(isActive) =>
+            `Bạn có chắc muốn ${isActive ? "ngừng hoạt động" : "kích hoạt"} thức ăn này?`
+          }
+        />
       )
     },
     enableSorting: false,

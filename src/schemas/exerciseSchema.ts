@@ -14,8 +14,8 @@ export const workoutExerciseSchema = z.object({
 
   instructions: z
     .string()
-    .nonempty({ message: "Hướng dẫn món ăn không được để trống" })
-    .min(10, { message: "Hướng dẫn món ăn phải có ít nhất 10 ký tự" }),
+    .nonempty({ message: "Hướng dẫn thức ăn không được để trống" })
+    .min(10, { message: "Hướng dẫn thức ăn phải có ít nhất 10 ký tự" }),
 
   duration: z.number().optional(),
   reps: z.number().optional(),
@@ -46,8 +46,8 @@ const exerciseSchema = z.object({
     .max(50, { message: "Tên bài tập không được quá 50 ký tự" }),
   instructions: z
     .string()
-    .nonempty({ message: "Hướng dẫn món ăn không được để trống" })
-    .min(10, { message: "Hướng dẫn món ăn phải có ít nhất 10 ký tự" }),
+    .nonempty({ message: "Hướng dẫn thức ăn không được để trống" })
+    .min(10, { message: "Hướng dẫn thức ăn phải có ít nhất 10 ký tự" }),
   caloriesPerMinute: z
     .number()
     .min(1, { message: "Số calories đốt phải lớn hơn hoặc bằng 1" }),
