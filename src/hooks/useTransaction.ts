@@ -12,6 +12,7 @@ import {
 
 import {
   completeTransaction,
+  failTransaction,
   fetchTransactionById,
   fetchTransactionQrCodeById,
   fetchTransactions
@@ -57,6 +58,18 @@ export const useCompleteTransaction = () => {
 
   return useMutation<string, Error, { transactionId: string }>({
     mutationFn: ({ transactionId }) => completeTransaction(transactionId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"] })
+      queryClient.invalidateQueries({ queryKey: ["transaction"] })
+    }
+  })
+}
+
+export const useFailTransaction = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation<string, Error, { transactionId: string }>({
+    mutationFn: ({ transactionId }) => failTransaction(transactionId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] })
       queryClient.invalidateQueries({ queryKey: ["transaction"] })

@@ -32,6 +32,7 @@ import {
 import { useBookingById } from "@/hooks/useBooking"
 import {
   useCompleteTransaction,
+  useFailTransaction,
   useTransactionById
 } from "@/hooks/useTransaction"
 
@@ -53,7 +54,10 @@ function TransactionDetailDialog({
   const [openQrCodeModal, setOpenQrCodeModal] = useState<boolean>(false)
   const [openAlert, setOpenAlert] = useState<boolean>(false)
 
+  const [typeAction, setTypeAction] = useState<"complete" | "fail">()
+
   const { mutate: completeTransaction } = useCompleteTransaction()
+  const { mutate: failTransaction } = useFailTransaction()
 
   const {
     data: transactionData,
@@ -73,6 +77,12 @@ function TransactionDetailDialog({
     })
   }
 
+  const handleFailEarning = async () => {
+    await failTransaction({
+      transactionId: transactionData?.transactionId || ""
+    })
+  }
+
   const handleOpenQrCodeModal = () => {
     setOpenQrCodeModal(true)
   }
@@ -81,24 +91,30 @@ function TransactionDetailDialog({
     setOpenQrCodeModal(false)
   }
 
-  const handleOpenAlert = () => {
+  const handleOpenAlert = (type: "complete" | "fail") => {
+    setTypeAction(type)
     setOpenAlert(true)
   }
 
   const handleCloseAlert = () => {
+    setTypeAction(undefined)
     setOpenAlert(false)
   }
 
   const isLoading = isTransactionLoading || isBookingLoading
   const hasError = transactionError || bookingError
 
+  const titleDialog = `${typeAction === "complete" ? "Xác nhận chấp nhận lịch hẹn" : "Xác nhận từ chối lịch hẹn"}`
+
   const descriptionDialog = `${
-    bookingData?.status === BookingStatusEnum.Reported
-      ? "Lịch hẹn này đã bị báo cáo."
-      : bookingData?.isReviewed
-        ? ""
-        : "Lịch hẹn này chưa được đánh giá."
-  } Bạn có muốn chấp nhận lịch hẹn này không?`
+    typeAction === "complete"
+      ? bookingData?.status === BookingStatusEnum.Reported
+        ? "Lịch hẹn này đã bị báo cáo. Bạn có muốn chấp nhận lịch hẹn này không?"
+        : bookingData?.isReviewed
+          ? "Bạn có muốn chấp nhận lịch hẹn này không?"
+          : "Lịch hẹn này chưa được đánh giá. Bạn có muốn chấp nhận lịch hẹn này không?"
+      : "Bạn có muốn từ chối lịch hẹn này của chuyên viên không?"
+  } `
 
   return (
     <>
@@ -162,9 +178,24 @@ function TransactionDetailDialog({
                   Đóng
                 </Button>
 
-                {(transactionData?.type === TransactionTypeEnum.Earning ||
-                  transactionData?.type === TransactionTypeEnum.Bonus) && (
-                  <Button onClick={handleOpenAlert}>Hoàn thành</Button>
+                {transactionData.type === TransactionTypeEnum.Earning && (
+                  <div className="space-x-4">
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleOpenAlert("fail")}
+                    >
+                      Từ chối
+                    </Button>
+                    <Button onClick={() => handleOpenAlert("complete")}>
+                      Hoàn thành
+                    </Button>
+                  </div>
+                )}
+
+                {transactionData?.type === TransactionTypeEnum.Bonus && (
+                  <Button onClick={() => handleOpenAlert("complete")}>
+                    Hoàn thành
+                  </Button>
                 )}
 
                 {transactionData?.type === TransactionTypeEnum.Withdrawal && (
@@ -185,8 +216,10 @@ function TransactionDetailDialog({
       <ConfirmAlertDialog
         open={openAlert}
         onOpenChange={handleCloseAlert}
-        onConfirm={handleCompleteEarning}
-        title="Xác nhận chấp nhận lịch hẹn"
+        onConfirm={
+          typeAction === "complete" ? handleCompleteEarning : handleFailEarning
+        }
+        title={titleDialog}
         description={descriptionDialog}
       />
 
