@@ -15,22 +15,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from "../atoms/dropdown-menu"
+import TopBarBreadcrumb from "../molecules/top-bar-breadcrumb"
 
 function Topbar() {
-  return (
-    <div className="sticky top-0 z-50 flex items-center justify-between bg-white px-6 py-2 shadow-sm">
-      <h3 className="text-primary text-lg font-semibold select-none">SEP490</h3>
+  const userName = "Monhealth"
 
-      <div className="flex items-center gap-6">
+  return (
+    <div className="flex h-16 items-center justify-between border-b px-4">
+      <div className="flex-1">
+        <TopBarBreadcrumb />
+      </div>
+
+      <div className="flex items-center gap-4">
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="cursor-pointer">
-            <Button variant="outline" size="icon" className="rounded-full">
-              <Bell />
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Bell className="h-5 w-5" />
+              <span className="sr-only">Notifications</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Thông báo</DropdownMenuLabel>
-
             <DropdownMenuItem>
               Notifications will be displayed here.
             </DropdownMenuItem>
@@ -38,42 +43,22 @@ function Topbar() {
         </DropdownMenu>
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild className="cursor-pointer">
-            <div className="relative">
-              <Avatar className="size-9">
-                <AvatarImage
-                  src={"../images/sep490-monhealth-logo.png"}
-                  alt={getInitials("Monhealth")}
-                />
-                <AvatarFallback>{getInitials("Monhealth")}</AvatarFallback>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="/avatar.png" alt={userName} />
+                <AvatarFallback>{getInitials(userName)}</AvatarFallback>
               </Avatar>
-              <span className="border-background absolute -end-0.5 -bottom-0.5 size-3 rounded-full border-2 bg-emerald-500">
-                <span className="sr-only">Online</span>
-              </span>
-            </div>
+            </Button>
           </DropdownMenuTrigger>
-          {/* <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end">
             <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
-
-            <DropdownMenuItem>
-              <User className="h-4 w-4" />
-              Xem hồ sơ
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="h-4 w-4" />
-              Cài đặt
-            </DropdownMenuItem>
-
-            <Separator />
-
-            <DropdownMenuItem
-              variant="destructive"
-              onClick={() => console.log("Đăng xuất")}
-            >
-              <LogOut className="h-4 w-4" />
+            <DropdownMenuItem>Xem hồ sơ</DropdownMenuItem>
+            <DropdownMenuItem>Cài đặt</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => console.log("Đăng xuất")}>
               Đăng xuất
             </DropdownMenuItem>
-          </DropdownMenuContent> */}
+          </DropdownMenuContent>
         </DropdownMenu>
       </div>
     </div>

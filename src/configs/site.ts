@@ -62,7 +62,7 @@ export const sidebarItems: SidebarItem[] = [
     ]
   },
   {
-    title: "Lịch hẹn",
+    title: "Đặt lịch",
     path: "#",
     icon: Calendar,
     children: [
