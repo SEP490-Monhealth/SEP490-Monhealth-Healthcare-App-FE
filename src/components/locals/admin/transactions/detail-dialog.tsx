@@ -52,9 +52,8 @@ function TransactionDetailDialog({
   transactionId
 }: TransactionDetailDialogProps) {
   const [openQrCodeModal, setOpenQrCodeModal] = useState<boolean>(false)
-  const [openAlert, setOpenAlert] = useState<boolean>(false)
-
   const [typeAction, setTypeAction] = useState<"complete" | "fail">()
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
 
   const { mutate: completeTransaction } = useCompleteTransaction()
   const { mutate: failTransaction } = useFailTransaction()
@@ -71,13 +70,13 @@ function TransactionDetailDialog({
     error: bookingError
   } = useBookingById(transactionData?.bookingId || "")
 
-  const handleCompleteEarning = async () => {
+  const handleCompleteTransactionEarning = async () => {
     await completeTransaction({
       transactionId: transactionData?.transactionId || ""
     })
   }
 
-  const handleFailEarning = async () => {
+  const handleFailTransactionEarning = async () => {
     await failTransaction({
       transactionId: transactionData?.transactionId || ""
     })
@@ -104,17 +103,23 @@ function TransactionDetailDialog({
   const isLoading = isTransactionLoading || isBookingLoading
   const hasError = transactionError || bookingError
 
-  const titleDialog = `${typeAction === "complete" ? "Xác nhận chấp nhận lịch hẹn" : "Xác nhận từ chối lịch hẹn"}`
-
-  const descriptionDialog = `${
+  const titleDialog =
     typeAction === "complete"
-      ? bookingData?.status === BookingStatusEnum.Reported
-        ? "Lịch hẹn này đã bị báo cáo. Bạn có muốn chấp nhận lịch hẹn này không?"
-        : bookingData?.isReviewed
-          ? "Bạn có muốn chấp nhận lịch hẹn này không?"
-          : "Lịch hẹn này chưa được đánh giá. Bạn có muốn chấp nhận lịch hẹn này không?"
-      : "Bạn có muốn từ chối lịch hẹn này của chuyên viên không?"
-  } `
+      ? "Xác nhận chấp nhận giao dịch"
+      : "Xác nhận từ chối giao dịch"
+
+  const descriptionDialog =
+    typeAction === "complete"
+      ? (() => {
+          if (bookingData?.status === BookingStatusEnum.Reported) {
+            return "Giao dịch này đã bị báo cáo. Bạn có muốn chấp nhận giao dịch này không?"
+          }
+          if (bookingData?.isReviewed) {
+            return "Bạn có muốn chấp nhận giao dịch này không?"
+          }
+          return "Giao dịch này chưa được đánh giá. Bạn có muốn chấp nhận giao dịch này không?"
+        })()
+      : "Bạn có muốn từ chối giao dịch này của chuyên viên không?"
 
   return (
     <>
@@ -217,7 +222,9 @@ function TransactionDetailDialog({
         open={openAlert}
         onOpenChange={handleCloseAlert}
         onConfirm={
-          typeAction === "complete" ? handleCompleteEarning : handleFailEarning
+          typeAction === "complete"
+            ? handleCompleteTransactionEarning
+            : handleFailTransactionEarning
         }
         title={titleDialog}
         description={descriptionDialog}

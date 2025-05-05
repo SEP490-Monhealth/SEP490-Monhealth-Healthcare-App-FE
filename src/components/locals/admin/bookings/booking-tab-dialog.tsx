@@ -113,8 +113,8 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
                     )}
                   >
                     <Check
-                      className="stroke-emerald-500"
                       size={16}
+                      className="stroke-emerald-500"
                       aria-hidden="true"
                     />
                   </div>

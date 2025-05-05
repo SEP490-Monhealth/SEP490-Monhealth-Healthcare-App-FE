@@ -23,6 +23,7 @@ const DEFAULT_VISIBILITY = {
   bookingId: false,
   cancellationReason: false,
   createdBy: false,
+  updatedAt: false,
   updatedBy: false
 }
 

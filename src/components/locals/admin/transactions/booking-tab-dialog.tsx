@@ -37,6 +37,7 @@ interface BookingTabDialogProps {
 
 function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
   const inputRef = useRef<HTMLInputElement>(null)
+
   const [copied, setCopied] = useState<boolean>(false)
 
   const { label: bookingStatusLabel } = getBookingStatusMeta(
@@ -50,6 +51,7 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
       setTimeout(() => setCopied(false), 1500)
     }
   }
+
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="col-span-2 space-y-2">
@@ -125,8 +127,8 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
                     )}
                   >
                     <Check
-                      className="stroke-emerald-500"
                       size={16}
+                      className="stroke-emerald-500"
                       aria-hidden="true"
                     />
                   </div>

@@ -115,7 +115,7 @@ export const completeTransaction = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw new Error(message || "Failed to update transaction")
+      throw new Error(message || "Failed to complete transaction")
     }
 
     toast.success(message)
@@ -123,7 +123,7 @@ export const completeTransaction = async (
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
-        error.response?.data?.message || "Failed to update transaction"
+        error.response?.data?.message || "Failed to complete transaction"
       toast.error(errorMessage)
       throw new Error(errorMessage)
     }
@@ -142,7 +142,7 @@ export const failTransaction = async (
     const { success, message } = response.data
 
     if (!success) {
-      throw new Error(message || "Failed to update transaction")
+      throw new Error(message || "Failed to fail transaction")
     }
 
     toast.success(message)
@@ -150,7 +150,7 @@ export const failTransaction = async (
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
-        error.response?.data?.message || "Failed to update transaction"
+        error.response?.data?.message || "Failed to fail transaction"
       toast.error(errorMessage)
       throw new Error(errorMessage)
     }
