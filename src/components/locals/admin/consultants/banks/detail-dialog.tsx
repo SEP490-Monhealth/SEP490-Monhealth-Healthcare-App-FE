@@ -63,10 +63,10 @@ function ConsultantBankDetailDialog({
             <div className="col-span-2 space-y-2">
               <Label htmlFor="consultantBankId">Mã ngân hàng</Label>
               <Input
+                disabled
                 id="consultantBankId"
                 type="text"
                 value={consultantBank.consultantBankId}
-                readOnly
               />
             </div>
 

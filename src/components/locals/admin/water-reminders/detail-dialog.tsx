@@ -62,10 +62,10 @@ function WaterReminderDetailDialog({
             <div className="space-y-2">
               <Label htmlFor="waterReminderId">Mã nhắc nhở</Label>
               <Input
+                disabled
                 id="waterReminderId"
                 type="text"
                 value={waterReminderData.waterReminderId}
-                readOnly
               />
             </div>
 

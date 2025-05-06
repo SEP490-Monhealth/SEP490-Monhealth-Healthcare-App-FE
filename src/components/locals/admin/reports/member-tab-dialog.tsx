@@ -30,7 +30,7 @@ function MemberTabDialog({ reportData }: MemberTabDialogProps) {
     <div className="grid grid-cols-2 gap-x-6 gap-y-4 pr-4 pb-2 pl-1">
       <div className="col-span-2 space-y-2">
         <Label htmlFor="reportId">Mã báo cáo</Label>
-        <Input id="reportId" type="text" value={reportData.reportId} readOnly />
+        <Input disabled id="reportId" type="text" value={reportData.reportId} />
       </div>
 
       <div className="col-span-2">

@@ -34,10 +34,10 @@ function WorkoutDetailTabDialog({ workoutData }: WorkoutDetailTabDialogProps) {
       <div className="space-y-2">
         <Label htmlFor="workoutId">Mã bộ bài tập</Label>
         <Input
+          disabled
           id="workoutId"
           type="text"
           value={workoutData.workoutId}
-          readOnly
         />
       </div>
 

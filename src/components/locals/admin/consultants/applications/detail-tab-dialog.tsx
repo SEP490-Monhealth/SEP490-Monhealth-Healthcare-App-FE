@@ -35,10 +35,10 @@ function DetailTabDialog({ consultantData }: DetailTabDialogProps) {
       <div className="space-y-2">
         <Label htmlFor="consultantId">Mã chuyên viên</Label>
         <Input
+          disabled
           id="consultantId"
           type="text"
           value={consultantData.consultantId}
-          readOnly
         />
       </div>
 
