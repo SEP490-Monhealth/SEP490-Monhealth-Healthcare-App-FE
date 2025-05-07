@@ -77,7 +77,7 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
     setIsLoading(true)
 
     const finalData = data
-    console.log(JSON.stringify(finalData, null, 2))
+    // console.log(JSON.stringify(finalData, null, 2))
 
     try {
       await addCategory(finalData, {

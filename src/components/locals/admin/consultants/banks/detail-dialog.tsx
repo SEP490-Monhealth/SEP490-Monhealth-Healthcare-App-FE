@@ -39,8 +39,6 @@ function ConsultantBankDetailDialog({
     error: consultantBankError
   } = useConsultantBankById(consultantBankId || "")
 
-  console.log(JSON.stringify(consultantBankData, null, 2))
-
   const isLoading = isConsultantBankLoading
   const hasError = consultantBankError
 
