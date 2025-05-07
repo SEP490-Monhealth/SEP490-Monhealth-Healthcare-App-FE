@@ -34,17 +34,19 @@ function ConsultantBankDetailDialog({
   consultantBankId
 }: ConsultantBankDetailDialogProps) {
   const {
-    data: consultantBank,
+    data: consultantBankData,
     isLoading: isConsultantBankLoading,
     error: consultantBankError
   } = useConsultantBankById(consultantBankId || "")
+
+  console.log(JSON.stringify(consultantBankData, null, 2))
 
   const isLoading = isConsultantBankLoading
   const hasError = consultantBankError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-w-[500px]">
+      <DialogContent className="min-w-[700px]">
         <DialogHeader>
           <DialogTitle>Chi tiết ngân hàng</DialogTitle>
           <DialogDescription>
@@ -54,7 +56,7 @@ function ConsultantBankDetailDialog({
 
         {isLoading ? (
           <LoadingDialog />
-        ) : hasError || !consultantBank ? (
+        ) : hasError || !consultantBankData ? (
           <ErrorDialog
             message={consultantBankError?.message || "Không thể tải dữ liệu."}
           />
@@ -65,14 +67,14 @@ function ConsultantBankDetailDialog({
               <Input
                 id="consultantBankId"
                 type="text"
-                value={consultantBank.consultantBankId}
+                value={consultantBankData.consultantBankId}
                 readOnly
               />
             </div>
 
             <div className="col-span-2 space-y-2">
               <Label htmlFor="bank">Ngân hàng</Label>
-              <BankInformationCard consultantBankData={consultantBank} />
+              <BankInformationCard consultantBankData={consultantBankData} />
             </div>
 
             <div className="space-y-2">
@@ -80,7 +82,7 @@ function ConsultantBankDetailDialog({
               <Input
                 id="createdAt"
                 type="text"
-                value={formatDate(consultantBank.createdAt)}
+                value={formatDate(consultantBankData.createdAt)}
                 readOnly
               />
             </div>
@@ -90,7 +92,7 @@ function ConsultantBankDetailDialog({
               <Input
                 id="updatedAt"
                 type="text"
-                value={formatDate(consultantBank.updatedAt)}
+                value={formatDate(consultantBankData.updatedAt)}
                 readOnly
               />
             </div>
@@ -98,7 +100,9 @@ function ConsultantBankDetailDialog({
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
+          <Button variant="outline" onClick={onClose}>
+            Đóng
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

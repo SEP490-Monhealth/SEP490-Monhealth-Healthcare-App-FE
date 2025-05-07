@@ -26,19 +26,20 @@ import {
 interface QrCodeDialogProps {
   isOpen: boolean
   onClose: () => void
-  transactionId: string
+  transactionId: string | null
 }
 
 function QrCodeDialog({ isOpen, onClose, transactionId }: QrCodeDialogProps) {
   const [openConfirmComplete, setOpenConfirmComplete] = useState<boolean>(false)
 
-  const { mutate: completeTransaction } = useCompleteTransaction()
+  const { mutate: completeTransaction, isPending: isCompleting } =
+    useCompleteTransaction()
 
   const {
     data: qrCodeData,
     isLoading: isQrCodeLoading,
     error: qrCodeError
-  } = useTransactionQrCodeById(isOpen ? transactionId : "")
+  } = useTransactionQrCodeById(isOpen && transactionId ? transactionId : "")
 
   const handleOpenConfirmComplete = () => {
     setOpenConfirmComplete(true)
@@ -49,11 +50,12 @@ function QrCodeDialog({ isOpen, onClose, transactionId }: QrCodeDialogProps) {
   }
 
   const handleCompletePayment = () => {
+    if (!transactionId) return
+
     completeTransaction(
       { transactionId },
       {
         onSuccess: () => {
-          setOpenConfirmComplete(false)
           onClose()
         }
       }
@@ -89,12 +91,8 @@ function QrCodeDialog({ isOpen, onClose, transactionId }: QrCodeDialogProps) {
           )}
 
           <DialogFooter>
-            <Button
-              variant="default"
-              onClick={handleOpenConfirmComplete}
-              disabled={isQrCodeLoading || !qrCodeData}
-            >
-              Hoàn thành
+            <Button disabled={isCompleting} onClick={handleOpenConfirmComplete}>
+              {isCompleting ? "Đang hoàn thành..." : "Hoàn thành"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -105,7 +103,7 @@ function QrCodeDialog({ isOpen, onClose, transactionId }: QrCodeDialogProps) {
         onOpenChange={handleCloseConfirmComplete}
         onConfirm={handleCompletePayment}
         title="Xác nhận hoàn thành"
-        description="Bạn có chắc chắn đã hoàn thành thanh toán giao dịch này?"
+        description="Bạn có chắc chắn đã hoàn thành thanh toán giao dịch này"
       />
     </>
   )

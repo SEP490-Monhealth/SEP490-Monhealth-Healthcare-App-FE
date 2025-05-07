@@ -46,17 +46,20 @@ interface TransactionDetailDialogProps {
   transactionId: string | null
 }
 
+type AlertType = "complete" | "fail" | null
+
 function TransactionDetailDialog({
   isOpen,
   onClose,
   transactionId
 }: TransactionDetailDialogProps) {
-  const [openQrCodeModal, setOpenQrCodeModal] = useState<boolean>(false)
-  const [typeAction, setTypeAction] = useState<"complete" | "fail">()
+  const [alertType, setAlertType] = useState<AlertType>()
   const [openAlert, setOpenAlert] = useState<boolean>(false)
+  const [openQrCodeModal, setOpenQrCodeModal] = useState<boolean>(false)
 
-  const { mutate: completeTransaction } = useCompleteTransaction()
-  const { mutate: failTransaction } = useFailTransaction()
+  const { mutate: completeTransaction, isPending: isCompleting } =
+    useCompleteTransaction()
+  const { mutate: failTransaction, isPending: isFailing } = useFailTransaction()
 
   const {
     data: transactionData,
@@ -70,16 +73,32 @@ function TransactionDetailDialog({
     error: bookingError
   } = useBookingById(transactionData?.bookingId || "")
 
+  const isProcessing = isCompleting || isFailing
+
   const handleCompleteTransactionEarning = async () => {
-    await completeTransaction({
-      transactionId: transactionData?.transactionId || ""
-    })
+    await completeTransaction(
+      {
+        transactionId: transactionData?.transactionId || ""
+      },
+      {
+        onSuccess: () => {
+          onClose()
+        }
+      }
+    )
   }
 
   const handleFailTransactionEarning = async () => {
-    await failTransaction({
-      transactionId: transactionData?.transactionId || ""
-    })
+    await failTransaction(
+      {
+        transactionId: transactionData?.transactionId || ""
+      },
+      {
+        onSuccess: () => {
+          onClose()
+        }
+      }
+    )
   }
 
   const handleOpenQrCodeModal = () => {
@@ -90,13 +109,13 @@ function TransactionDetailDialog({
     setOpenQrCodeModal(false)
   }
 
-  const handleOpenAlert = (type: "complete" | "fail") => {
-    setTypeAction(type)
+  const handleOpenAlert = (type: AlertType) => {
+    setAlertType(type)
     setOpenAlert(true)
   }
 
   const handleCloseAlert = () => {
-    setTypeAction(undefined)
+    setAlertType(undefined)
     setOpenAlert(false)
   }
 
@@ -104,22 +123,22 @@ function TransactionDetailDialog({
   const hasError = transactionError || bookingError
 
   const titleDialog =
-    typeAction === "complete"
-      ? "Xác nhận chấp nhận giao dịch"
+    alertType === "complete"
+      ? "Xác nhận hoàn thành giao dịch"
       : "Xác nhận từ chối giao dịch"
 
   const descriptionDialog =
-    typeAction === "complete"
+    alertType === "complete"
       ? (() => {
           if (bookingData?.status === BookingStatusEnum.Reported) {
-            return "Giao dịch này đã bị báo cáo. Bạn có muốn chấp nhận giao dịch này không?"
+            return "Lịch hẹn này đã bị báo cáo. Bạn có chắc chắn muốn hoàn thành giao dịch này?"
           }
           if (bookingData?.isReviewed) {
-            return "Bạn có muốn chấp nhận giao dịch này không?"
+            return "Bạn có chắc chắn muốn hoàn thành giao dịch này?"
           }
-          return "Giao dịch này chưa được đánh giá. Bạn có muốn chấp nhận giao dịch này không?"
+          return "Lịch hẹn này chưa được đánh giá. Bạn có chắc chắn muốn hoàn thành giao dịch này?"
         })()
-      : "Bạn có muốn từ chối giao dịch này của chuyên viên không?"
+      : "Bạn có chắc chắn muốn từ chối giao dịch này?"
 
   return (
     <>
@@ -186,20 +205,27 @@ function TransactionDetailDialog({
                 {transactionData.type === TransactionTypeEnum.Earning && (
                   <div className="space-x-4">
                     <Button
+                      disabled={isProcessing}
                       variant="destructive"
                       onClick={() => handleOpenAlert("fail")}
                     >
-                      Từ chối
+                      {isFailing ? "Đang từ chối..." : "Từ chối"}
                     </Button>
-                    <Button onClick={() => handleOpenAlert("complete")}>
-                      Hoàn thành
+                    <Button
+                      disabled={isProcessing}
+                      onClick={() => handleOpenAlert("complete")}
+                    >
+                      {isCompleting ? "Đang hoàn thành..." : "Hoàn thành"}
                     </Button>
                   </div>
                 )}
 
                 {transactionData?.type === TransactionTypeEnum.Bonus && (
-                  <Button onClick={() => handleOpenAlert("complete")}>
-                    Hoàn thành
+                  <Button
+                    disabled={isProcessing}
+                    onClick={() => handleOpenAlert("complete")}
+                  >
+                    {isCompleting ? "Đang hoàn thành..." : "Hoàn thành"}
                   </Button>
                 )}
 
@@ -222,7 +248,7 @@ function TransactionDetailDialog({
         open={openAlert}
         onOpenChange={handleCloseAlert}
         onConfirm={
-          typeAction === "complete"
+          alertType === "complete"
             ? handleCompleteTransactionEarning
             : handleFailTransactionEarning
         }

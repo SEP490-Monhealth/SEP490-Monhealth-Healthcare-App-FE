@@ -22,7 +22,7 @@ interface CertificateTabDialogProps {
 
 function CertificateTabDialog({ certificateData }: CertificateTabDialogProps) {
   return (
-    <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+    <div className="grid grid-cols-2 gap-x-6 gap-y-4 pr-4 pb-2 pl-1">
       <div className="col-span-2">
         <Carousel>
           <CarouselContent>

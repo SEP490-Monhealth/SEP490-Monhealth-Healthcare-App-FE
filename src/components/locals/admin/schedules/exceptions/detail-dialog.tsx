@@ -38,16 +38,20 @@ interface ExceptionDetailDialogProps {
   scheduleExceptionId: string | null
 }
 
+type AlertType = "approve" | "reject" | null
+
 function ExceptionDetailDialog({
   isOpen,
   onClose,
   scheduleExceptionId
 }: ExceptionDetailDialogProps) {
+  const [alertType, setAlertType] = useState<AlertType>()
   const [openAlert, setOpenAlert] = useState<boolean>(false)
-  const [alertType, setAlertType] = useState<"approve" | "reject">()
 
-  const { mutate: approveScheduleException } = useApproveScheduleException()
-  const { mutate: rejectScheduleException } = useRejectScheduleException()
+  const { mutate: approveScheduleException, isPending: isApproving } =
+    useApproveScheduleException()
+  const { mutate: rejectScheduleException, isPending: isRejecting } =
+    useRejectScheduleException()
 
   const {
     data: scheduleExceptionData,
@@ -55,30 +59,49 @@ function ExceptionDetailDialog({
     error: scheduleExceptionError
   } = useScheduleExceptionById(scheduleExceptionId || "")
 
+  const isProcessing = isApproving || isRejecting
+
   const { label: scheduleExceptionStatusLabel } =
     getScheduleExceptionStatusMeta(
       scheduleExceptionData?.status || ScheduleExceptionStatusEnum.Pending
     )
 
-  const handleActionReport = (type: "approve" | "reject") => {
+  const handleActionReport = (type: AlertType) => {
     setAlertType(type)
     setOpenAlert(true)
   }
 
   const handleCloseAlert = () => {
+    setAlertType(null)
     setOpenAlert(false)
   }
 
   const handleConfirm = async () => {
     if (alertType === "approve") {
-      await approveScheduleException({
-        scheduleExceptionId: scheduleExceptionData?.scheduleExceptionId || ""
-      })
-    } else {
-      await rejectScheduleException({
-        scheduleExceptionId: scheduleExceptionData?.scheduleExceptionId || ""
-      })
+      await approveScheduleException(
+        {
+          scheduleExceptionId: scheduleExceptionData?.scheduleExceptionId || ""
+        },
+        {
+          onSuccess: () => {
+            onClose()
+          }
+        }
+      )
+    } else if (alertType === "reject") {
+      await rejectScheduleException(
+        {
+          scheduleExceptionId: scheduleExceptionData?.scheduleExceptionId || ""
+        },
+        {
+          onSuccess: () => {
+            onClose()
+          }
+        }
+      )
     }
+
+    handleCloseAlert()
   }
 
   const isLoading = isScheduleExceptionLoading
@@ -114,7 +137,8 @@ function ExceptionDetailDialog({
               />
             </div>
 
-            <div className="col-span-2">
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="">Chuyên viên</Label>
               <UserInformationCard
                 role="Consultant"
                 userData={scheduleExceptionData.consultant}
@@ -176,7 +200,11 @@ function ExceptionDetailDialog({
         <DialogFooter>
           <div className="flex w-full items-end justify-between">
             {scheduleExceptionData && (
-              <Button variant="outline" onClick={onClose}>
+              <Button
+                disabled={isProcessing}
+                variant="outline"
+                onClick={onClose}
+              >
                 Đóng
               </Button>
             )}
@@ -185,17 +213,18 @@ function ExceptionDetailDialog({
               ScheduleExceptionStatusEnum.Pending && (
               <div className="space-x-4">
                 <Button
+                  disabled={isProcessing}
                   variant="destructive"
                   onClick={() => handleActionReport("reject")}
                 >
-                  Từ chối
+                  {isRejecting ? "Đang từ chối..." : "Từ chối"}
                 </Button>
 
                 <Button
-                  variant="default"
+                  disabled={isProcessing}
                   onClick={() => handleActionReport("approve")}
                 >
-                  Xác nhận
+                  {isApproving ? "Đang xác nhận..." : "Xác nhận"}
                 </Button>
               </div>
             )}
@@ -208,7 +237,7 @@ function ExceptionDetailDialog({
         onOpenChange={handleCloseAlert}
         onConfirm={handleConfirm}
         title={`${alertType === "approve" ? "Xác nhận" : "Từ chối"} lịch nghỉ`}
-        description={`Bạn có chắc chắn muốn ${alertType === "approve" ? "xác nhận" : "từ chối"}  lịch nghỉ này?`}
+        description={`Bạn có chắc chắn muốn ${alertType === "approve" ? "xác nhận" : "từ chối"} lịch nghỉ này?`}
       />
     </Dialog>
   )

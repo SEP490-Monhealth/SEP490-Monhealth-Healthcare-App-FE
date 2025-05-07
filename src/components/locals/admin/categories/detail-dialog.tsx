@@ -92,11 +92,11 @@ function CategoryDetailDialog({
     setIsLoadingSave(true)
 
     const finalData = data
-    console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+    // console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
     try {
       await updateCategory(
-        { categoryId: categoryId || "", updatedData: data },
+        { categoryId: categoryId || "", updatedData: finalData },
         {
           onSuccess: () => {
             setIsEdit(false)
@@ -294,28 +294,31 @@ function CategoryDetailDialog({
 
         <DialogFooter>
           <div className="flex w-full justify-between">
+            <Button variant="outline" onClick={onClose}>
+              Đóng
+            </Button>
+
             {!isEdit ? (
-              <Button variant={"outline"} onClick={handleEdit}>
-                Chỉnh sửa
-              </Button>
+              <Button onClick={handleEdit}>Chỉnh sửa</Button>
             ) : (
               <div className="space-x-4">
-                <Button variant={"outline"} onClick={handleCancelEdit}>
+                <Button
+                  disabled={isLoadingSave}
+                  variant="outline"
+                  onClick={handleCancelEdit}
+                >
                   Hủy
                 </Button>
 
                 <Button
                   type="submit"
                   disabled={isLoadingSave}
-                  variant={"default"}
                   onClick={handleSubmit(onSubmit)}
                 >
                   {isLoadingSave ? "Đang cập nhật..." : "Cập nhật"}
                 </Button>
               </div>
             )}
-
-            <Button onClick={onClose}>Đóng</Button>
           </div>
         </DialogFooter>
       </DialogContent>

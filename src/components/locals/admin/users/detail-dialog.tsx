@@ -133,7 +133,7 @@ function UserDetailDialog({ isOpen, onClose, userId }: UserDetailDialogProps) {
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
+          <Button variant="outline" onClick={onClose}>Đóng</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

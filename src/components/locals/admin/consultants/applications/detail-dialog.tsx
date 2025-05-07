@@ -38,7 +38,7 @@ import DetailTabDialog from "./detail-tab-dialog"
 interface ConsultantDetailDialogProps {
   isOpen: boolean
   onClose: () => void
-  consultantId: string | undefined
+  consultantId: string | null
 }
 
 type AlertType = "verify" | "reject" | null
@@ -48,6 +48,14 @@ function ConsultantApplicationDetailDialog({
   onClose,
   consultantId
 }: ConsultantDetailDialogProps) {
+  const [alertType, setAlertType] = useState<AlertType>(null)
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
+
+  const { mutate: verifyConsultant, isPending: isVerifying } =
+    useVerifyConsultant()
+  const { mutate: rejectConsultant, isPending: isRejecting } =
+    useRejectConsultant()
+
   const {
     data: consultantData,
     isLoading: isConsultantLoading,
@@ -62,14 +70,7 @@ function ConsultantApplicationDetailDialog({
 
   const currentCertificate = certificateData?.[0]
 
-  const isLoading = isConsultantLoading || isCertificateLoading
-  const hasError = consultantError || certificateError
-
-  const { mutate: verifyConsultant } = useVerifyConsultant()
-  const { mutate: rejectConsultant } = useRejectConsultant()
-
-  const [alertType, setAlertType] = useState<AlertType>(null)
-  const [openAlert, setOpenAlert] = useState<boolean>(false)
+  const isProcessing = isVerifying || isRejecting
 
   const openConfirmDialog = (type: AlertType) => {
     setAlertType(type)
@@ -103,8 +104,12 @@ function ConsultantApplicationDetailDialog({
         }
       )
     }
+
     handleCloseAlert()
   }
+
+  const isLoading = isConsultantLoading || isCertificateLoading
+  const hasError = consultantError || certificateError
 
   return (
     <>
@@ -154,7 +159,11 @@ function ConsultantApplicationDetailDialog({
                 className="mt-2 w-full"
               >
                 {currentCertificate && (
-                  <CertificateTabDialog certificateData={currentCertificate} />
+                  <ScrollArea className="h-[60vh] overflow-hidden">
+                    <CertificateTabDialog
+                      certificateData={currentCertificate}
+                    />
+                  </ScrollArea>
                 )}
               </TabsContent>
             </Tabs>
@@ -162,7 +171,11 @@ function ConsultantApplicationDetailDialog({
 
           <DialogFooter>
             <div className="flex w-full justify-between">
-              <Button variant="outline" onClick={onClose}>
+              <Button
+                disabled={isProcessing}
+                variant="outline"
+                onClick={onClose}
+              >
                 Đóng
               </Button>
 
@@ -170,14 +183,18 @@ function ConsultantApplicationDetailDialog({
                 VerificationStatusEnum.Pending && (
                 <div className="space-x-4">
                   <Button
+                    disabled={isProcessing}
                     variant="destructive"
                     onClick={() => openConfirmDialog("reject")}
                   >
-                    Từ chối
+                    {isRejecting ? "Đang từ chối..." : "Từ chối"}
                   </Button>
 
-                  <Button onClick={() => openConfirmDialog("verify")}>
-                    Xác nhận
+                  <Button
+                    disabled={isProcessing}
+                    onClick={() => openConfirmDialog("verify")}
+                  >
+                    {isVerifying ? "Đang xác nhận..." : "Xác nhận"}
                   </Button>
                 </div>
               )}

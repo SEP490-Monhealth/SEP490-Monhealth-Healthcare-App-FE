@@ -40,47 +40,63 @@ interface ReportDetailDialogProps {
   reportId: string | null
 }
 
+type AlertType = "approve" | "reject" | null
+
 function ReportDetailDialog({
   isOpen,
   onClose,
   reportId
 }: ReportDetailDialogProps) {
+  const [alertType, setAlertType] = useState<AlertType>()
+  const [openAlert, setOpenAlert] = useState<boolean>(false)
+
+  const { mutate: approveReport, isPending: isApproving } = useApproveReport()
+  const { mutate: rejectReport, isPending: isRejecting } = useRejectReport()
+
   const {
     data: reportData,
     isLoading: isReportLoading,
     error: reportError
   } = useReportById(reportId || "")
 
-  const { mutate: approveReport } = useApproveReport()
-  const { mutate: rejectReport } = useRejectReport()
+  const isProcessing = isApproving || isRejecting
 
-  const [openAlert, setOpenAlert] = useState<boolean>(false)
-
-  const [typeAction, setTypeAction] = useState<"approve" | "reject">()
-
-  const isLoading = isReportLoading
-  const hasError = reportError
-
-  const handleActionReport = (type: "approve" | "reject") => {
-    setTypeAction(type)
+  const handleActionReport = (type: AlertType) => {
+    setAlertType(type)
     setOpenAlert(true)
   }
 
   const handleCloseAlert = () => {
+    setAlertType(null)
     setOpenAlert(false)
   }
 
   const handleConfirm = async () => {
-    if (typeAction === "approve") {
-      await approveReport({
-        reportId: reportData?.reportId || ""
-      })
-    } else {
-      await rejectReport({
-        reportId: reportData?.reportId || ""
-      })
+    if (alertType === "approve") {
+      await approveReport(
+        { reportId },
+        {
+          onSuccess: () => {
+            onClose()
+          }
+        }
+      )
+    } else if (alertType === "reject") {
+      await rejectReport(
+        { reportId },
+        {
+          onSuccess: () => {
+            onClose()
+          }
+        }
+      )
     }
+
+    handleCloseAlert()
   }
+
+  const isLoading = isReportLoading
+  const hasError = reportError
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -129,24 +145,25 @@ function ReportDetailDialog({
 
         <DialogFooter>
           <div className="flex w-full items-end justify-between">
-            <Button variant="outline" onClick={onClose}>
+            <Button disabled={isProcessing} variant="outline" onClick={onClose}>
               Đóng
             </Button>
 
             {reportData?.status === ReportStatusEnum.Pending && (
               <div className="space-x-4">
                 <Button
+                  disabled={isProcessing}
                   variant="destructive"
                   onClick={() => handleActionReport("reject")}
                 >
-                  Từ chối
+                  {isRejecting ? "Đang từ chối..." : "Từ chối"}
                 </Button>
 
                 <Button
-                  variant="default"
+                  disabled={isProcessing}
                   onClick={() => handleActionReport("approve")}
                 >
-                  Xác nhận
+                  {isApproving ? "Đang xác nhận..." : "Xác nhận"}
                 </Button>
               </div>
             )}
@@ -158,8 +175,8 @@ function ReportDetailDialog({
         open={openAlert}
         onOpenChange={handleCloseAlert}
         onConfirm={handleConfirm}
-        title={`${typeAction === "approve" ? "Xác nhận" : "Từ chối"} báo cáo`}
-        description={`Bạn có chắc chắn muốn ${typeAction === "approve" ? "xác nhận" : "từ chối"}  báo cáo này?`}
+        title={`${alertType === "approve" ? "Xác nhận" : "Từ chối"} báo cáo`}
+        description={`Bạn có chắc chắn muốn ${alertType === "approve" ? "xác nhận" : "từ chối"} báo cáo này?`}
       />
     </Dialog>
   )

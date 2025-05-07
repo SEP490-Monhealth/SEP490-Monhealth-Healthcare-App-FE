@@ -18,9 +18,15 @@ interface RejectDialogProps {
   isOpen: boolean
   onClose: () => void
   onReject: (reason: string) => void
+  isSubmitting?: boolean
 }
 
-function RejectDialog({ isOpen, onClose, onReject }: RejectDialogProps) {
+function RejectDialog({
+  isOpen,
+  onClose,
+  onReject,
+  isSubmitting = false
+}: RejectDialogProps) {
   const [rejectReason, setRejectReason] = useState<string>("")
 
   const handleReject = () => {
@@ -52,12 +58,12 @@ function RejectDialog({ isOpen, onClose, onReject }: RejectDialogProps) {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
+          <Button disabled={isSubmitting} variant="outline" onClick={onClose}>
             Huỷ
           </Button>
 
-          <Button variant="destructive" onClick={handleReject}>
-            Xác nhận
+          <Button disabled={isSubmitting} onClick={handleReject}>
+            {isSubmitting ? "Đang xác nhận..." : "Xác nhận"}
           </Button>
         </DialogFooter>
       </DialogContent>

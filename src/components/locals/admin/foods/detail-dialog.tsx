@@ -97,7 +97,9 @@ function FoodDetailDialog({ isOpen, onClose, foodId }: FoodDetailDialogProps) {
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
+          <Button variant="outline" onClick={onClose}>
+            Đóng
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
