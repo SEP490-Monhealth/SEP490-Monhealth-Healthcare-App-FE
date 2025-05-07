@@ -77,7 +77,7 @@ function TransactionPage() {
         },
         {
           value: String(TransactionTypeEnum.Fee),
-          label: "Phí"
+          label: "Thanh toán"
         },
         {
           value: String(TransactionTypeEnum.Bonus),

@@ -171,11 +171,7 @@ function AddCategoryDialog({ isOpen, onClose }: AddCategoryDialogProps) {
           </div>
         </div>
 
-        <DialogFooter className="space-x-4">
-          <Button variant="secondary" size="lg" onClick={onClose}>
-            Hủy
-          </Button>
-
+        <DialogFooter>
           <Button
             type="submit"
             disabled={isLoading}

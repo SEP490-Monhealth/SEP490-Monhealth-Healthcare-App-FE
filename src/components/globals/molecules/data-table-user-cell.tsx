@@ -18,10 +18,7 @@ function DataTableCellUser({ user }: DataTableCellUserProps) {
   return (
     <div className="flex items-center gap-4">
       <Avatar>
-        <AvatarImage
-          src={user.avatarUrl || ""}
-          alt={getInitials(user.fullName)}
-        />
+        <AvatarImage src={user.avatarUrl} alt={getInitials(user.fullName)} />
         <AvatarFallback>{getInitials(user.fullName)}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col">

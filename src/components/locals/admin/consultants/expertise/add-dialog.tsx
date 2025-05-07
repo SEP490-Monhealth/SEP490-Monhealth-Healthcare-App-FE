@@ -53,11 +53,10 @@ function AddExpertiseDialog({ isOpen, onClose }: AddExpertiseDialogProps) {
 
     try {
       const finalData = data
-      console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+      // console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
       await addExpertise(finalData, {
         onSuccess: () => {
-          onClose()
           reset()
         }
       })

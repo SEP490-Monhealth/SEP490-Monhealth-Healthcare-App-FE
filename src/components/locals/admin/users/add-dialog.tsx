@@ -29,11 +29,7 @@ import { Switch } from "@/components/globals/atoms/switch"
 
 import { useAddUser } from "@/hooks/useUser"
 
-import {
-  CreateUserType,
-  createUserSchema,
-  roles
-} from "@/schemas/userSchema"
+import { CreateUserType, createUserSchema, roles } from "@/schemas/userSchema"
 
 interface AddUserDialogProps {
   isOpen: boolean
@@ -53,15 +49,15 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
     reset,
     formState: { errors }
   } = useForm<CreateUserType>({
-    resolver: zodResolver(createUserSchema),
-    defaultValues: {
-      fullName: "Van Huu Toan",
-      email: "vanhuutoan27@gmail.com",
-      phoneNumber: "0792766979",
-      avatarUrl: "",
-      role: roles[0],
-      status: isActive
-    }
+    resolver: zodResolver(createUserSchema)
+    // defaultValues: {
+    //   fullName: "Van Huu Toan",
+    //   email: "vanhuutoan27@gmail.com",
+    //   phoneNumber: "0792766979",
+    //   avatarUrl: "",
+    //   role: roles[0],
+    //   status: isActive
+    // }
   })
 
   const onSubmit = async (data: CreateUserType) => {
@@ -69,7 +65,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
 
     try {
       const finalData = data
-      console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+      // console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
       await addUser(finalData, {
         onSuccess: () => {
@@ -230,11 +226,7 @@ function AddUserDialog({ isOpen, onClose }: AddUserDialogProps) {
           </div>
         </div>
 
-        <DialogFooter className="space-x-4">
-          <Button variant="secondary" size="lg" onClick={onClose}>
-            Hủy
-          </Button>
-
+        <DialogFooter>
           <Button
             type="submit"
             disabled={isLoading}

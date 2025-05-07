@@ -118,7 +118,7 @@ function ConsultantApplicationPage() {
       <ApplicationDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={handleCloseDetailDialog}
-        consultantId={selectedConsultant || ""}
+        consultantId={selectedConsultant}
       />
     </div>
   )

@@ -51,7 +51,7 @@ function SignInPage() {
 
     try {
       const finalData = data
-      console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+      // console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
       login(finalData.email, finalData.password)
       router.push("/admin/dashboard")

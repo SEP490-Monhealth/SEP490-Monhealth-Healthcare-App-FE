@@ -60,7 +60,7 @@ function WithdrawalRequestPage() {
       options: [
         {
           value: String(WithdrawalRequestStatusEnum.Pending),
-          label: "Đang xử lý"
+          label: "Chờ xử lý"
         },
         {
           value: String(WithdrawalRequestStatusEnum.Approved),
@@ -68,7 +68,7 @@ function WithdrawalRequestPage() {
         },
         {
           value: String(WithdrawalRequestStatusEnum.Rejected),
-          label: "Hoàn trả"
+          label: "Đã từ chối"
         }
       ],
       value: status !== undefined ? String(status) : "",

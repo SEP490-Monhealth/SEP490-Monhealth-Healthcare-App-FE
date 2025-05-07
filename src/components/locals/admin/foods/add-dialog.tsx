@@ -232,7 +232,6 @@ function AddFoodDialog({ isOpen, onClose, userId }: AddFoodDialogProps) {
 
       await addFood(finalData, {
         onSuccess: () => {
-          onClose()
           reset()
         }
       })
@@ -244,8 +243,8 @@ function AddFoodDialog({ isOpen, onClose, userId }: AddFoodDialogProps) {
   }
 
   const handleDialogClose = () => {
-    reset()
     onClose()
+    reset()
   }
 
   const StepComponent = currentStepData.component

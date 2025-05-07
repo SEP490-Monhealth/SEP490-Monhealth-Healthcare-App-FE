@@ -66,7 +66,7 @@ function AddWaterReminderDialog({
 
     try {
       const finalData = data
-      console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
+      // console.log("Dữ liệu gửi đi:", JSON.stringify(finalData, null, 2))
 
       await addWaterReminder(finalData, {
         onSuccess: () => {
@@ -155,11 +155,7 @@ function AddWaterReminderDialog({
           </div>
         </div>
 
-        <DialogFooter className="space-x-4">
-          <Button variant="secondary" size="lg" onClick={onClose}>
-            Hủy
-          </Button>
-
+        <DialogFooter>
           <Button
             type="submit"
             disabled={isLoading}

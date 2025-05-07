@@ -20,7 +20,7 @@ function DataTableCellBank({ bank }: DataTableCellBankProps) {
   return (
     <div className="flex items-center gap-4">
       <Avatar>
-        <AvatarImage src={bank.logoUrl || ""} alt={bank.shortName} />
+        <AvatarImage src={bank.logoUrl} alt={bank.shortName} />
         <AvatarFallback>{getInitials(bank.name)}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col">
