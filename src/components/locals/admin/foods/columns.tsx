@@ -166,6 +166,7 @@ export const createColumns = (
           id={foodData.foodId}
           isActive={foodData.status}
           onViewDetail={handlers.onViewDetail}
+          onViewPortion={handlers.onViewPortion}
           onUpdateStatus={(foodId) => handlers.onUpdateStatus?.(foodId)}
           getConfirmDescription={(isActive) =>
             `Bạn có chắc muốn ${isActive ? "ngừng hoạt động" : "kích hoạt"} thức ăn này?`

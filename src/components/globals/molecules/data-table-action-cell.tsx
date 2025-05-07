@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-import { Ban, Circle, Copy, Eye, MoreHorizontal } from "lucide-react"
+import { Ban, Circle, Copy, Eye, MoreHorizontal, Utensils } from "lucide-react"
 
 import { Button } from "@/components/globals/atoms/button"
 import {
@@ -20,6 +20,7 @@ interface DataTableActionsCellProps {
   id: string
   isActive: boolean
   onViewDetail: (id: string) => void
+  onViewPortion?: (id: string) => void
   onUpdateStatus: (id: string) => void
   copyLabel?: string
   viewLabel?: string
@@ -33,6 +34,7 @@ const DataTableActionsCell = ({
   id,
   isActive,
   onViewDetail,
+  onViewPortion,
   onUpdateStatus,
   copyLabel = "Sao chép mã",
   viewLabel = "Xem chi tiết",
@@ -77,6 +79,12 @@ const DataTableActionsCell = ({
             <Eye className="h-4 w-4" />
             {viewLabel}
           </DropdownMenuItem>
+          {onViewPortion && (
+            <DropdownMenuItem onClick={() => onViewPortion(id)}>
+              <Utensils className="h-4 w-4" />
+              Xem khẩu phần
+            </DropdownMenuItem>
+          )}
           <Separator />
           <DropdownMenuItem
             variant={isActive ? "destructive" : "default"}

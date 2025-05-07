@@ -206,7 +206,7 @@ function FoodAddBasicTabDialog({
           <Label htmlFor="description">Mô tả</Label>
           <Textarea
             id="description"
-            rows={4}
+            rows={6}
             placeholder="Nhập mô tả thức ăn"
             {...register("description")}
           />
