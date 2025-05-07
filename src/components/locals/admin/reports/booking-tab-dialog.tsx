@@ -20,10 +20,10 @@ function BookingTabDialog({ reportData }: UserTabDialogProps) {
       <div className="space-y-2">
         <Label htmlFor="bookingId">Mã lịch hẹn</Label>
         <Input
+          disabled
           id="bookingId"
           type="text"
           value={reportData.bookingId}
-          readOnly
         />
       </div>
 

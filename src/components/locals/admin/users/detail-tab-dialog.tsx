@@ -36,7 +36,7 @@ function UserDetailTabDialog({
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="col-span-2 space-y-2">
         <Label htmlFor="userId">Mã người dùng</Label>
-        <Input id="userId" type="text" value={userData.userId} readOnly />
+        <Input disabled id="userId" type="text" value={userData.userId} />
       </div>
 
       <div className="col-span-2 space-y-2">

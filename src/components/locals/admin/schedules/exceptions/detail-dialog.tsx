@@ -130,10 +130,10 @@ function ExceptionDetailDialog({
             <div className="col-span-2 space-y-2">
               <Label htmlFor="scheduleExceptionId">Mã lịch nghỉ</Label>
               <Input
+                disabled
                 id="scheduleExceptionId"
                 type="text"
                 value={scheduleExceptionData.scheduleExceptionId}
-                readOnly
               />
             </div>
 

@@ -145,10 +145,10 @@ function WithdrawalRequestDetailDialog({
               <div className="space-y-2">
                 <Label htmlFor="withdrawalRequestId">Mã yêu cầu</Label>
                 <Input
+                  disabled
                   id="withdrawalRequestId"
                   type="text"
                   value={withdrawalRequestData.withdrawalRequestId}
-                  readOnly
                 />
               </div>
 

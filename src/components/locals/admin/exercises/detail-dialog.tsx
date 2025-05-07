@@ -124,10 +124,10 @@ function ExerciseDetailDialog({
             <div className="space-y-2">
               <Label htmlFor="exerciseId">Mã bài tập</Label>
               <Input
+                disabled
                 id="exerciseId"
                 type="text"
                 value={exerciseData.exerciseId}
-                readOnly
               />
             </div>
 

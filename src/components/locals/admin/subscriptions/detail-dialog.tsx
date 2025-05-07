@@ -130,10 +130,10 @@ function SubscriptionDetailDialog({
             <div className="space-y-2">
               <Label htmlFor="subscriptionId">Mã gói đăng ký</Label>
               <Input
+                disabled
                 id="subscriptionId"
                 type="text"
                 value={subscriptionData.subscriptionId}
-                readOnly
               />
             </div>
 

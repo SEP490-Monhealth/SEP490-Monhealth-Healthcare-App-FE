@@ -65,10 +65,10 @@ function ReviewDetailDialog({
             <div className="space-y-2">
               <Label htmlFor="reviewId">Mã đánh giá</Label>
               <Input
+                disabled
                 id="reviewId"
                 type="text"
                 value={reviewData.reviewId}
-                readOnly
               />
             </div>
 

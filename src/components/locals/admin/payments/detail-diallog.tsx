@@ -78,10 +78,10 @@ function PaymentDetailDialog({
             <div className="space-y-2">
               <Label htmlFor="transactionId">Mã giao dịch</Label>
               <Input
+                disabled
                 id="transactionId"
                 type="text"
                 value={transactionData.transactionId}
-                readOnly
               />
             </div>
 

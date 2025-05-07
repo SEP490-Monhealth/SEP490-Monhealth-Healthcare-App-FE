@@ -73,10 +73,10 @@ function UserSubscriptionDetailDialog({
               <Label htmlFor="userSubscriptionId">Mã đăng ký gói</Label>
 
               <Input
+                disabled
                 id="userSubscriptionId"
                 type="text"
                 value={subscriptionData.userSubscriptionId}
-                readOnly
               />
             </div>
 

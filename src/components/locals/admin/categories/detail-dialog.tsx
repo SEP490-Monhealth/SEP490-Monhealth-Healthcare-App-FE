@@ -142,10 +142,10 @@ function CategoryDetailDialog({
             <div className="col-span-2 space-y-2">
               <Label htmlFor="categoryId">Mã danh mục</Label>
               <Input
+                disabled
                 id="categoryId"
                 type="text"
                 value={categoryData.categoryId}
-                readOnly
               />
             </div>
 

@@ -123,10 +123,10 @@ function AllergyDetailDialog({
             <div className="space-y-2">
               <Label htmlFor="allergyId">Mã dị ứng</Label>
               <Input
+                disabled
                 id="allergyId"
                 type="text"
                 value={allergyData.allergyId}
-                readOnly
               />
             </div>
 

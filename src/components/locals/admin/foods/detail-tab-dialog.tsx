@@ -29,7 +29,7 @@ function FoodDetailTabDialog({ foodData }: FoodDetailTabDialogProps) {
     <div className="grid grid-cols-2 gap-x-6 gap-y-4">
       <div className="space-y-2">
         <Label htmlFor="foodId">Mã thức ăn</Label>
-        <Input id="foodId" type="text" value={foodData.foodId} readOnly />
+        <Input disabled id="foodId" type="text" value={foodData.foodId} />
       </div>
 
       <div className="space-y-2">
