@@ -39,7 +39,8 @@ function UserDetailTabDialog({
         <Input id="userId" type="text" value={userData.userId} readOnly />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 space-y-2">
+        <Label htmlFor="">Người dùng</Label>
         <UserInformationCard
           role={userData.role}
           userData={userInformationData}

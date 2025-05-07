@@ -42,10 +42,13 @@ function DetailTabDialog({ consultantData }: DetailTabDialogProps) {
         />
       </div>
 
-      <UserInformationCard
-        role="Consultant"
-        userData={consultantInformationData}
-      />
+      <div className="space-y-2">
+        <Label htmlFor="">Chuyên viên</Label>
+        <UserInformationCard
+          role="Consultant"
+          userData={consultantInformationData}
+        />
+      </div>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
         <div className="space-y-2">

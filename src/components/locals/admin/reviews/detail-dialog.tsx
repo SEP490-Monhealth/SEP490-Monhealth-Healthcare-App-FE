@@ -72,7 +72,10 @@ function ReviewDetailDialog({
               />
             </div>
 
-            <UserInformationCard role="Member" userData={reviewData.member} />
+            <div className="space-y-2">
+              <Label htmlFor="">Người dùng</Label>
+              <UserInformationCard role="Member" userData={reviewData.member} />
+            </div>
 
             <div className="grid grid-cols-6 gap-x-6 gap-y-4">
               <div className="col-span-2 space-y-2">
@@ -114,7 +117,9 @@ function ReviewDetailDialog({
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
+          <Button variant="outline" onClick={onClose}>
+            Đóng
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -59,11 +59,13 @@ function BookingTabDialog({ bookingData }: BookingTabDialogProps) {
         />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 space-y-2">
+        <Label htmlFor="">Người dùng</Label>
         <UserInformationCard role="Member" userData={bookingData.member} />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 space-y-2">
+        <Label htmlFor="">Chuyên viên</Label>
         <UserInformationCard
           role="Consultant"
           userData={bookingData.consultant}

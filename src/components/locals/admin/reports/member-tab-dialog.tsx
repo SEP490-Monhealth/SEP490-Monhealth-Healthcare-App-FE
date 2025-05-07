@@ -33,18 +33,20 @@ function MemberTabDialog({ reportData }: MemberTabDialogProps) {
         <Input id="reportId" type="text" value={reportData.reportId} readOnly />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 space-y-2">
+        <Label htmlFor="">Người dùng</Label>
         <UserInformationCard role="Member" userData={reportData.member} />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 space-y-2">
+        <Label htmlFor="">Chuyên viên</Label>
         <UserInformationCard
           role="Consultant"
           userData={reportData.consultant}
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="col-span-2 space-y-2">
         <Label htmlFor="reason">Lý do</Label>
         <Input id="reason" value={reportData.reason} readOnly />
       </div>

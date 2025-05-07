@@ -44,7 +44,8 @@ function ConsultantDetailTabDialog({
         />
       </div>
 
-      <div>
+      <div className="space-y-2">
+        <Label htmlFor="">Chuyên viên</Label>
         <UserInformationCard
           role="Consultant"
           userData={consultantInformationData}

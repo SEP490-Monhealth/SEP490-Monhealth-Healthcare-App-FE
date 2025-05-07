@@ -85,10 +85,13 @@ function PaymentDetailDialog({
               />
             </div>
 
-            <UserInformationCard
-              role="Member"
-              userData={transactionData.member}
-            />
+            <div className="space-y-2">
+              <Label htmlFor="">Người dùng</Label>
+              <UserInformationCard
+                role="Member"
+                userData={transactionData.member}
+              />
+            </div>
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-4">
               <div className="col-span-2 space-y-2">
@@ -103,6 +106,16 @@ function PaymentDetailDialog({
 
               <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
                 <div className="space-y-2">
+                  <Label htmlFor="type">Loại giao dịch</Label>
+                  <Input
+                    id="type"
+                    type="text"
+                    value={transactionTypeLabel}
+                    readOnly
+                  />
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="price">Số tiền</Label>
 
                   <div className="relative">
@@ -116,16 +129,6 @@ function PaymentDetailDialog({
                       VND
                     </span>
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="type">Loại giao dịch</Label>
-                  <Input
-                    id="type"
-                    type="text"
-                    value={transactionTypeLabel}
-                    readOnly
-                  />
                 </div>
 
                 <div className="space-y-2">
@@ -163,11 +166,9 @@ function PaymentDetailDialog({
         )}
 
         <DialogFooter>
-          {transactionData && (
-            <Button variant="outline" onClick={onClose}>
-              Đóng
-            </Button>
-          )}
+          <Button variant="outline" onClick={onClose}>
+            Đóng
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

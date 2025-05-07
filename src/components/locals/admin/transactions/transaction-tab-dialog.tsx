@@ -48,7 +48,12 @@ function TransactionTabDialog({ transactionData }: TransactionTabDialogProps) {
       </div>
 
       {userInfo?.user && (
-        <UserInformationCard role={userInfo.role} userData={userInfo.user} />
+        <div className="space-y-2">
+          <Label htmlFor="">
+            {userInfo.role === "Member" ? "Người dùng" : "Chuyên viên"}
+          </Label>
+          <UserInformationCard role={userInfo.role} userData={userInfo.user} />
+        </div>
       )}
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-4">
@@ -64,6 +69,16 @@ function TransactionTabDialog({ transactionData }: TransactionTabDialogProps) {
 
         <div className="col-span-2 grid grid-cols-3 gap-x-6 gap-y-4">
           <div className="space-y-2">
+            <Label htmlFor="type">Loại giao dịch</Label>
+            <Input
+              id="type"
+              type="text"
+              value={transactionTypeLabel}
+              readOnly
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="price">Số tiền</Label>
 
             <div className="relative">
@@ -77,16 +92,6 @@ function TransactionTabDialog({ transactionData }: TransactionTabDialogProps) {
                 VND
               </span>
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="type">Loại giao dịch</Label>
-            <Input
-              id="type"
-              type="text"
-              value={transactionTypeLabel}
-              readOnly
-            />
           </div>
 
           <div className="space-y-2">

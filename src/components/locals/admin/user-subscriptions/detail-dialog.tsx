@@ -81,7 +81,8 @@ function UserSubscriptionDetailDialog({
             </div>
 
             <div className="col-span-2 flex flex-col gap-4">
-              <div className="col-span-2">
+              <div className="space-y-2">
+                <Label htmlFor="">Người dùng</Label>
                 <UserInformationCard
                   role="Member"
                   userData={subscriptionData.member}
@@ -164,7 +165,9 @@ function UserSubscriptionDetailDialog({
         )}
 
         <DialogFooter>
-          <Button onClick={onClose}>Đóng</Button>
+          <Button variant="outline" onClick={onClose}>
+            Đóng
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
