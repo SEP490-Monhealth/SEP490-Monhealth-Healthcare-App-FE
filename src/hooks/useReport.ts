@@ -49,7 +49,7 @@ export const useReportByBookingId = (bookingId: string) =>
 export const useApproveReport = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { reportId: string | undefined }>({
+  return useMutation<void, Error, { reportId: string }>({
     mutationFn: ({ reportId }) => approveReport(reportId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] })
@@ -61,7 +61,7 @@ export const useApproveReport = () => {
 export const useRejectReport = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { reportId: string | undefined }>({
+  return useMutation<void, Error, { reportId: string }>({
     mutationFn: ({ reportId }) => rejectReport(reportId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] })

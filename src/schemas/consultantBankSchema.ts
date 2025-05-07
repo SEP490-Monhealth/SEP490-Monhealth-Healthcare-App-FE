@@ -27,4 +27,9 @@ export const consultantBankSchema = z.object({
   ...timestampFields
 })
 
+export const consultantBankInfoSchema = consultantBankSchema.pick({
+  number: true,
+  name: true
+})
+
 export type ConsultantBankType = z.infer<typeof consultantBankSchema>

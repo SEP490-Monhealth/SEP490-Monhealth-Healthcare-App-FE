@@ -49,7 +49,7 @@ export const useConsultants = (
     staleTime: 1000 * 60 * 5
   })
 
-export const useConsultantById = (consultantId: string | undefined) =>
+export const useConsultantById = (consultantId: string) =>
   useQuery<ConsultantType, Error>({
     queryKey: ["consultant", consultantId],
     queryFn: () => fetchConsultantById(consultantId),
@@ -60,7 +60,7 @@ export const useConsultantById = (consultantId: string | undefined) =>
 export const useVerifyConsultant = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { consultantId: string | undefined }>({
+  return useMutation<void, Error, { consultantId: string }>({
     mutationFn: ({ consultantId }) => verifyConsultant(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })
@@ -72,7 +72,7 @@ export const useVerifyConsultant = () => {
 export const useRejectConsultant = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { consultantId: string | undefined }>({
+  return useMutation<void, Error, { consultantId: string }>({
     mutationFn: ({ consultantId }) => rejectConsultant(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })
@@ -84,7 +84,7 @@ export const useRejectConsultant = () => {
 export const useConsultantStatus = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<void, Error, { consultantId: string | undefined }>({
+  return useMutation<void, Error, { consultantId: string }>({
     mutationFn: ({ consultantId }) => updateConsultantStatus(consultantId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["consultants"] })

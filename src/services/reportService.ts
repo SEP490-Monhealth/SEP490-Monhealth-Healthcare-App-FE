@@ -97,9 +97,7 @@ export const fetchReportByBookingId = async (
   }
 }
 
-export const approveReport = async (
-  reportId: string | undefined
-): Promise<void> => {
+export const approveReport = async (reportId: string): Promise<void> => {
   try {
     const response = await monAPI.patch(`/reports/${reportId}/approve`)
 
@@ -124,9 +122,7 @@ export const approveReport = async (
   }
 }
 
-export const rejectReport = async (
-  reportId: string | undefined
-): Promise<void> => {
+export const rejectReport = async (reportId: string): Promise<void> => {
   try {
     const response = await monAPI.patch(`/reports/${reportId}/reject`)
 

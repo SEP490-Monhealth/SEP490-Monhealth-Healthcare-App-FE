@@ -47,7 +47,7 @@ export const fetchConsultants = async (
 }
 
 export const fetchConsultantById = async (
-  consultantId: string | undefined
+  consultantId: string
 ): Promise<ConsultantType> => {
   try {
     const response = await monAPI.get(`/consultants/${consultantId}`)
@@ -72,9 +72,7 @@ export const fetchConsultantById = async (
   }
 }
 
-export const verifyConsultant = async (
-  consultantId: string | undefined
-): Promise<void> => {
+export const verifyConsultant = async (consultantId: string): Promise<void> => {
   try {
     const response = await monAPI.patch(`/consultants/${consultantId}/verify`)
 
@@ -99,9 +97,7 @@ export const verifyConsultant = async (
   }
 }
 
-export const rejectConsultant = async (
-  consultantId: string | undefined
-): Promise<void> => {
+export const rejectConsultant = async (consultantId: string): Promise<void> => {
   try {
     const response = await monAPI.patch(`/consultants/${consultantId}/reject`)
 
@@ -127,7 +123,7 @@ export const rejectConsultant = async (
 }
 
 export const updateConsultantStatus = async (
-  consultantId: string | undefined
+  consultantId: string
 ): Promise<void> => {
   try {
     const response = await monAPI.patch(`/consultants/${consultantId}/status`)

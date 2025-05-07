@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/globals/atoms/input"
 import { Label } from "@/components/globals/atoms/label"
 
+import BankInformationCard from "@/components/globals/molecules/bank-information-card"
 import ConfirmAlertDialog from "@/components/globals/molecules/confirm-alert-dialog"
 import ErrorDialog from "@/components/globals/molecules/error-dialog"
 import LoadingDialog from "@/components/globals/molecules/loading-dialog"
@@ -40,25 +41,21 @@ interface WithdrawalRequestDetailDialogProps {
   withdrawalRequestId: string | null
 }
 
+type AlertType = "approve" | null
+
 function WithdrawalRequestDetailDialog({
   isOpen,
   onClose,
   withdrawalRequestId
 }: WithdrawalRequestDetailDialogProps) {
+  const [alertType, setAlertType] = useState<AlertType>()
   const [openAlert, setOpenAlert] = useState<boolean>(false)
   const [openRejectDialog, setOpenRejectDialog] = useState<boolean>(false)
-  const [alertContent, setAlertContent] = useState<{
-    title: string
-    description: string
-    onConfirm: () => void
-  }>({
-    title: "",
-    description: "",
-    onConfirm: () => {}
-  })
 
-  const { mutate: approveWithdrawalRequest } = useApproveWithdrawalRequest()
-  const { mutate: rejectWithdrawalRequest } = useRejectWithdrawalRequest()
+  const { mutate: approveWithdrawalRequest, isPending: isApproving } =
+    useApproveWithdrawalRequest()
+  const { mutate: rejectWithdrawalRequest, isPending: isRejecting } =
+    useRejectWithdrawalRequest()
 
   const {
     data: withdrawalRequestData,
@@ -66,56 +63,53 @@ function WithdrawalRequestDetailDialog({
     error: withdrawalRequestError
   } = useWithdrawalRequestById(withdrawalRequestId || "")
 
+  const isProcessing = isApproving || isRejecting
+
   const { label: withdrawalStatusLabel } = getWithdrawalRequestStatusMeta(
     withdrawalRequestData?.status || WithdrawalRequestStatusEnum.Pending
   )
 
-  const handleOpenAlert = (action: "approve" | "reject") => {
-    if (action === "approve") {
-      setAlertContent({
-        title: "Xác nhận chấp nhận yêu cầu",
-        description: "Bạn có chắc chắn muốn chấp nhận yêu cầu này không?",
-        onConfirm: handleApprove
-      })
-    } else if (action === "reject") {
-      setAlertContent({
-        title: "Xác nhận từ chối yêu cầu",
-        description: "Bạn có chắc chắn muốn từ chối yêu cầu này không?",
-        onConfirm: () => {
-          setOpenAlert(false)
-          setOpenRejectDialog(true)
-        }
-      })
-    }
+  const consultantBankInfoCard = {
+    ...withdrawalRequestData?.consultantBank,
+    bank: withdrawalRequestData?.bank
+  }
 
+  const openConfirmDialog = (type: AlertType) => {
+    setAlertType(type)
     setOpenAlert(true)
   }
 
+  const handleOpenRejectDialog = () => {
+    setOpenRejectDialog(true)
+  }
+
   const handleCloseAlert = () => {
+    setAlertType(null)
     setOpenAlert(false)
   }
 
-  const handleApprove = () => {
-    if (!withdrawalRequestId) return
+  const handleConfirm = () => {
+    if (!withdrawalRequestId || !alertType) return
 
-    approveWithdrawalRequest(
-      { withdrawalRequestId },
-      {
-        onSuccess: () => {
-          setOpenAlert(false)
+    if (alertType === "approve") {
+      approveWithdrawalRequest(
+        { withdrawalRequestId },
+        {
+          onSuccess: () => {
+            onClose()
+          }
         }
-      }
-    )
+      )
+    }
+
+    handleCloseAlert()
   }
 
-  const handleReject = (reason: string) => {
+  const handleRejectWithdrawal = (reason: string) => {
     if (!withdrawalRequestId) return
 
     rejectWithdrawalRequest(
-      {
-        withdrawalRequestId,
-        reason
-      },
+      { withdrawalRequestId, reason },
       {
         onSuccess: () => {
           onClose()
@@ -123,6 +117,9 @@ function WithdrawalRequestDetailDialog({
       }
     )
   }
+
+  const isLoading = isWithdrawalRequestLoading
+  const hasError = withdrawalRequestError
 
   return (
     <>
@@ -135,9 +132,9 @@ function WithdrawalRequestDetailDialog({
             </DialogDescription>
           </DialogHeader>
 
-          {isWithdrawalRequestLoading ? (
+          {isLoading ? (
             <LoadingDialog />
-          ) : withdrawalRequestError || !withdrawalRequestData ? (
+          ) : hasError || !withdrawalRequestData ? (
             <ErrorDialog
               message={
                 withdrawalRequestError?.message || "Không thể tải dữ liệu."
@@ -155,10 +152,21 @@ function WithdrawalRequestDetailDialog({
                 />
               </div>
 
-              <UserInformationCard
-                role="Consultant"
-                userData={withdrawalRequestData.consultant}
-              />
+              <div className="space-y-2">
+                <Label htmlFor="">Chuyên viên</Label>
+                <UserInformationCard
+                  role="Consultant"
+                  userData={withdrawalRequestData.consultant}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="bank">Ngân hàng</Label>
+                <BankInformationCard
+                  // @ts-expect-error thua
+                  consultantBankData={consultantBankInfoCard}
+                />
+              </div>
 
               <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                 <div className="col-span-2 space-y-2">
@@ -221,44 +229,33 @@ function WithdrawalRequestDetailDialog({
           )}
 
           <DialogFooter>
-            <div className="flex w-full justify-between">
-              {withdrawalRequestData &&
-                withdrawalRequestData?.status !==
-                  WithdrawalRequestStatusEnum.Approved && (
-                  <Button variant="outline" onClick={onClose}>
-                    Đóng
-                  </Button>
-                )}
+            <div
+              className={`flex w-full ${withdrawalRequestData?.status === WithdrawalRequestStatusEnum.Pending ? "justify-between" : "justify-end"}`}
+            >
+              <Button variant="outline" onClick={onClose}>
+                Đóng
+              </Button>
 
               {withdrawalRequestData?.status ===
                 WithdrawalRequestStatusEnum.Pending && (
                 <div className="space-x-4">
                   <Button
+                    disabled={isProcessing}
                     variant="destructive"
-                    onClick={() => handleOpenAlert("reject")}
-                    disabled={
-                      isWithdrawalRequestLoading || !withdrawalRequestData
-                    }
+                    onClick={handleOpenRejectDialog}
                   >
-                    Từ chối
+                    {isRejecting ? "Đang từ chối..." : "Từ chối"}
                   </Button>
 
                   <Button
-                    onClick={() => handleOpenAlert("approve")}
-                    disabled={
-                      isWithdrawalRequestLoading || !withdrawalRequestData
-                    }
+                    disabled={isProcessing}
+                    onClick={() => openConfirmDialog("approve")}
                   >
-                    Chấp nhận
+                    {isApproving ? "Đang chấp nhận..." : "Chấp nhận"}
                   </Button>
                 </div>
               )}
             </div>
-
-            {withdrawalRequestData?.status ===
-              WithdrawalRequestStatusEnum.Approved && (
-              <Button onClick={onClose}>Đóng</Button>
-            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -266,15 +263,16 @@ function WithdrawalRequestDetailDialog({
       <ConfirmAlertDialog
         open={openAlert}
         onOpenChange={handleCloseAlert}
-        onConfirm={alertContent.onConfirm}
-        title={alertContent.title}
-        description={alertContent.description}
+        onConfirm={handleConfirm}
+        title="Chấp nhận yêu cầu"
+        description="Bạn có chắc chắn muốn chấp nhận yêu cầu này?"
       />
 
       <RejectDialog
         isOpen={openRejectDialog}
         onClose={() => setOpenRejectDialog(false)}
-        onReject={handleReject}
+        onReject={handleRejectWithdrawal}
+        isSubmitting={isRejecting}
       />
     </>
   )

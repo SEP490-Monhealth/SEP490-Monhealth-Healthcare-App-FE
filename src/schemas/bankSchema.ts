@@ -26,4 +26,10 @@ export const bankSchema = z.object({
   ...auditFields
 })
 
+export const bankInfoSchema = bankSchema.pick({
+  name: true,
+  shortName: true,
+  logoUrl: true
+})
+
 export type BankType = z.infer<typeof bankSchema>
