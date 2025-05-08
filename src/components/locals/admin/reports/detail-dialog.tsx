@@ -72,6 +72,8 @@ function ReportDetailDialog({
   }
 
   const handleConfirm = async () => {
+    if (!reportId) return
+
     if (alertType === "approve") {
       await approveReport(
         { reportId },
